@@ -1,0 +1,61 @@
+{
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontSize": 15,
+  "editor.tabSize": 2,
+  // python
+  "[python]": {
+      "editor.tabsize": 4
+  },
+  "explorer.compactFolders": false,
+  "editor.bracketPairColorization.enabled": true,
+  "workbench.colorTheme": "Vim Dark Soft",
+  "code-runner.runInTerminal": true,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "workbench.startupEditor": "none",
+  "liveServer.settings.CustomBrowser": "chrome",
+  "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "code-runner.executorMap": {
+      "cpp": "g++ -std=c++17 -Wall $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt"
+  },
+  "vim.insertModeKeyBindings": [
+      {
+          "before": [
+              "j",
+              "k"
+          ],
+          "after": [
+              "<Esc>"
+          ]
+      },
+  ],
+  "database-client.autoSync": true,
+  "files.associations": {
+      "**/*.html": "html",
+      "**/templates/**/*.html": "django-html",
+      "**/templates/**/*": "django-txt",
+      "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  "emmet.includeLanguages": {
+      "django-html": "html"
+  },
+  "[django-html]": {
+      "editor.autoClosingBrackets": "always"
+  },
+  "explorer.fileNesting.patterns": {
+      "*.ts": "${capture}.js",
+      "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+      "*.jsx": "${capture}.js",
+      "*.tsx": "${capture}.ts",
+      "tsconfig.json": "tsconfig.*.json",
+      "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock",
+      "*.sqlite": "${capture}.${extname}-*",
+      "*.db": "${capture}.${extname}-*",
+      "*.sqlite3": "${capture}.${extname}-*",
+      "*.db3": "${capture}.${extname}-*",
+      "*.sdb": "${capture}.${extname}-*",
+      "*.s3db": "${capture}.${extname}-*"
+  },
+  "git.openRepositoryInParentFolders": "always",
+  "terminal.integrated.fontSize": 13,
+  "editor.detectIndentation": false
+}
