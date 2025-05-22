@@ -288,6 +288,20 @@ router.beforeEach(async (to, from, next) => {
   }
   
   next()
+
+// 예시 1: 로그인하지 않고 /timeline 접근 시도
+// 1. to.meta.requiresAuth = true
+// 2. authStore.isAuthenticated = false  
+// 3. 결과: /auth?redirect=/timeline 으로 이동
+
+// 예시 2: 로그인한 상태에서 /auth 접근 시도  
+// 1. to.meta.requiresGuest = true
+// 2. authStore.isAuthenticated = true
+// 3. 결과: /timeline 으로 이동
+
+// 예시 3: 정상적인 접근
+// 1. 조건에 해당하지 않음
+// 2. next() 호출되어 정상 이동
 })
 
 export default router
