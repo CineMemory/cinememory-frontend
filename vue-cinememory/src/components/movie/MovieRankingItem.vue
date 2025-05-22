@@ -110,7 +110,8 @@ const getPosterUrl = (posterPath) => {
 const handleClick = () => {
   if (props.clickable) {
     emit('click', props.movie)
-    router.push(`/movie/${props.movie.id}`)
+    // 임시로 더미 페이지로 이동
+    console.log('영화 클릭:', props.movie.title)
   }
 }
 
@@ -126,14 +127,15 @@ const handleImageError = (event) => {
   gap: 16px;
   padding: 12px 16px;
   background-color: transparent;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   cursor: pointer;
   transition: all 0.2s ease;
   height: 56px;
+  font-family: 'Pretendard-Regular', sans-serif;
 }
 
 .movie-ranking-item:hover {
-  background-color: rgba(156, 148, 144, 0.1);
+  background-color: var(--color-main-opacity-20);
 }
 
 .movie-ranking-item__rank {
@@ -144,14 +146,14 @@ const handleImageError = (event) => {
   justify-content: center;
   font-size: 19px;
   font-weight: 700;
-  color: #f7f5f3;
+  color: var(--color-text);
   flex-shrink: 0;
 }
 
 .movie-ranking-item__divider {
   width: 8px;
   height: 1px;
-  background-color: #ffb700;
+  background-color: var(--color-main);
   flex-shrink: 0;
 }
 
@@ -166,7 +168,7 @@ const handleImageError = (event) => {
 .movie-ranking-item__title {
   font-size: 15px;
   font-weight: 400;
-  color: #f7f5f3;
+  color: var(--color-text);
   margin: 0;
   line-height: 1.6;
   overflow: hidden;
@@ -179,7 +181,7 @@ const handleImageError = (event) => {
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #9c9490;
+  color: var(--color-highlight-text);
 }
 
 .movie-ranking-item__year {
@@ -205,7 +207,7 @@ const handleImageError = (event) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #a8cc8c 0%, #5d7c47 100%);
+  background: var(--gradient-rating-good);
   border-radius: 2px;
 }
 
@@ -222,24 +224,24 @@ const handleImageError = (event) => {
 .movie-ranking-item__score {
   font-size: 15px;
   font-weight: 600;
-  color: #8fad88;
+  color: var(--color-rating-good-text);
   line-height: 1.6;
 }
 
 .movie-ranking-item__percent {
   font-size: 12px;
   font-weight: 600;
-  color: #8fad88;
+  color: var(--color-rating-good-text);
   line-height: 2;
 }
 
 .movie-ranking-item__poster {
   width: 42px;
   height: 56px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   overflow: hidden;
   flex-shrink: 0;
-  background-color: #6b645f;
+  background-color: var(--color-inactive-icon);
 }
 
 .movie-ranking-item__poster-image {
@@ -254,7 +256,7 @@ const handleImageError = (event) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9c9490;
+  color: var(--color-highlight-text);
 }
 
 /* 반응형 */
