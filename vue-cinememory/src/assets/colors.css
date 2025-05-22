@@ -1,0 +1,66 @@
+/* 🎬 씨네메모리 컬러 시스템 */
+:root {
+  /* 🎨 메인 컬러셋 */
+  --color-background: #0c0b0a;
+  --color-search-box: #2a2520;
+  --color-text: #f7f5f3;
+  --color-alert: #ff3838;
+  --color-warning: #ff3838;
+  --color-main: #ffb700;
+  --color-card-background: #242018;
+  --color-highlight-background: #242018;
+  --color-highlight-text: #9c9490;
+  --color-inactive-icon: #6b645f;
+  --color-inactive-text: #4d453f;
+
+  /* 📊 평점 컬러 시스템 (골든나이트 톤) */
+  --color-rating-good-text: #8FAD88;
+  --color-rating-bad-text: #C67B5C;
+  
+  /* 평점 아이콘 그라데이션 */
+  --gradient-rating-good: linear-gradient(135deg, #A8CC8C 0%, #5D7C47 100%);
+  --gradient-rating-bad: linear-gradient(135deg, #E89A7B 0%, #A0442C 100%);
+  
+  /* 개별 그라데이션 컬러 */
+  --color-rating-good-light: #A8CC8C;
+  --color-rating-good-dark: #5D7C47;
+  --color-rating-bad-light: #E89A7B;
+  --color-rating-bad-dark: #A0442C;
+
+  /* 🎭 아이콘 컬러 시스템 (골드 계열) */
+  --color-gold-main: #FFD700;
+  --color-gold-medium: #FFB700;
+  --color-gold-dark: #E6A000;
+  --color-gold-antique: #B8860B;
+  --color-gold-deep: #8B7500;
+
+  /* 💫 추가 유틸리티 컬러 */
+  --color-success: var(--color-rating-good-text);
+  --color-error: var(--color-alert);
+  --color-primary: var(--color-main);
+  --color-secondary: var(--color-highlight-text);
+  
+  /* 🌙 투명도 변형 */
+  --color-background-opacity-50: rgba(12, 11, 10, 0.5);
+  --color-background-opacity-80: rgba(12, 11, 10, 0.8);
+  --color-card-background-opacity-50: rgba(36, 32, 24, 0.5);
+  --color-card-background-opacity-80: rgba(36, 32, 24, 0.8);
+  --color-main-opacity-20: rgba(255, 183, 0, 0.2);
+  --color-main-opacity-50: rgba(255, 183, 0, 0.5);
+
+  /* 🎨 그림자 시스템 */
+  --shadow-card: 0 4px 6px var(--color-background-opacity-50);
+  --shadow-modal: 0 10px 25px var(--color-background-opacity-80);
+  --shadow-button: 0 2px 4px var(--color-background-opacity-50);
+  
+  /* 📏 간격 시스템 (보너스) */
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 12px;
+  --border-radius-full: 50%;
+
+  /* 🎯 테두리 컬러 */
+  --border-color-default: var(--color-inactive-icon);
+  --border-color-focus: var(--color-main);
+  --border-color-error: var(--color-alert);
+}

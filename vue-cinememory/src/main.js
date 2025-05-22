@@ -4,6 +4,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import './assets/fonts.css' // font 추가
+import './assets/colors.css' // color 추가
 
 const app = createApp(App)
 
