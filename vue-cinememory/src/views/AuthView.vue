@@ -1,9 +1,6 @@
 <!-- 인증 페이지 (로그인, 회원가입) -->
-<template>
-</template>
+<template></template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style scoped>
-</style>
+<style scoped></style>

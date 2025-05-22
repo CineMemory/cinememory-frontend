@@ -1,9 +1,6 @@
 <!-- 개인 타임라인 페이지 -->
-<template>
-</template>
+<template></template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style scoped>
-</style>
+<style scoped></style>
