@@ -2,8 +2,12 @@
 <template>
   <section class="home-search-section">
     <div class="home-search-section__container">
-      <div class="home-search-section__logo" @click="goHome">
-        <BaseIcon name="home" class="home-search-section__logo-icon" />
+      <div
+        class="home-search-section__logo"
+        @click="goHome">
+        <BaseIcon
+          name="home"
+          class="home-search-section__logo-icon" />
       </div>
       <div
         class="home-search-section__search-box"
