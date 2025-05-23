@@ -43,6 +43,23 @@ const routes = [
     meta: {
       title: '검색 결과 | 씨네메모리'
     }
+  },
+  // 영화 상세 페이지
+  {
+    path: '/movie/:id',
+    name: 'MovieDetail',
+    component: () => import('@/views/MovieDetailView.vue'),
+    meta: {
+      title: '영화 상세 | 씨네메모리'
+    }
+  },
+  {
+    path: '/person/:id',
+    name: 'PersonDetail',
+    component: () => import('@/views/PersonDetailView.vue'),
+    meta: {
+      title: '인물 상세 | 씨네메모리'
+    }
   }
 ]
 
