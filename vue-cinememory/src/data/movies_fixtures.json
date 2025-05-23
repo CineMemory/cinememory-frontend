@@ -4,18 +4,58 @@
     "pk": 429,
     "fields": {
       "title": "석양의 무법자",
-      "directors": [
-        4385
-      ],
-      "actors": [
-        190,
-        3265,
-        4078,
-        5813,
-        5814
-      ],
+      "overview": "미국의 남북전쟁이 한창인 때, 블론디는 멕시코인 총잡이 투코와 함께 동업 중이다. 블론디는 현상범 투코를 잡아 현상금을 받고, 투코가 교수형을 당하는 순간 구해주는 역할. 한편 세텐자라 불리우는 범죄자는 엄청나 돈이 묻힌 비밀장소를 추적 중이다. 그런데, 투코와 실랑이를 벌이던 블론디는 돈이 묻힌 장소를 죽어가는 사람에게 듣게 되고, 결국 둘은 돈을 찾아 나서는데...",
+      "tagline": "",
       "release_date": "1966-12-22",
-      "poster_url": "https://image.tmdb.org/t/p/w500/s7qPuoj4liolAtmx9vcL6AyaZzR.jpg"
+      "status": "Released",
+      "voteAverage": 8.462,
+      "popularity": 12.2172,
+      "runtime": 161,
+      "genres": [
+        "서부"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/s7qPuoj4liolAtmx9vcL6AyaZzR.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/x4biAVdPVCghBlsVIzB6NmbghIz.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 190,
+          "name": "클린트 이스트우드",
+          "character": "Blondie",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8TwdCfeOZH7ucRlfLZ6wObxa7cO.jpg"
+        },
+        {
+          "actor_id": 3265,
+          "name": "일라이 월릭",
+          "character": "Tuco Ramirez",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/gR13hoE24B072GrxwNPzSRKBulJ.jpg"
+        },
+        {
+          "actor_id": 4078,
+          "name": "리 밴클리프",
+          "character": "Sentenza / Angel Eyes",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yQc5wjNCdRZzPp5E2wRPRYsEq9a.jpg"
+        },
+        {
+          "actor_id": 5813,
+          "name": "Aldo Giuffrè",
+          "character": "Alcoholic Union Captain",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/aT6eECl1R3YGYL4KatyIQrq0zG8.jpg"
+        },
+        {
+          "actor_id": 5814,
+          "name": "Luigi Pistilli",
+          "character": "Father Pablo Ramirez",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bH5vmD2CMBHzJyBe0P0bL6iTUNL.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -23,18 +63,59 @@
     "pk": 335,
     "fields": {
       "title": "옛날 옛적 서부에서",
-      "directors": [
-        4385
-      ],
-      "actors": [
-        4959,
-        4958,
-        4765,
-        4960,
-        4961
-      ],
+      "overview": "프랭크가 보낸 세명의 총잡이가 기차역에서 누군가를 기다린다. 드디어 그들이 기다리던 한 남자가 하모니카를 불며 기차역에 도착하고, 그들 세 총잡이는 모두 이름 없는 그 남자의 총에 쓰러진다. 한편, 프랭크와 그 부하들은 아일랜드 출신인 맥베인 일가를 잔인하게 살해하는데, 뉴올리언즈에서 이제 막 도착한 맥베인의 새 아내 질로서는 황망할 수밖에 없다. 두 사람은 한달 전 이미 결혼을 한 상태였다.  다시 뉴올리언즈로 돌아가려던 질은 마음을 고쳐먹고 맥베인과 아이들의 시체만 있는 그 집에서 혼자 생활을 시작한다.",
+      "tagline": "스파게티 웨스턴 장르를 총정리한 걸작",
       "release_date": "1968-12-21",
-      "poster_url": "https://image.tmdb.org/t/p/w500/3MPqF2iK6ZBoagnB5H1pjImHpHc.jpg"
+      "status": "Released",
+      "voteAverage": 8.282,
+      "popularity": 8.6442,
+      "runtime": 166,
+      "genres": [
+        "드라마",
+        "서부"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/3MPqF2iK6ZBoagnB5H1pjImHpHc.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/26SUDI2iKhZTIKcU4ZzezTH1G15.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 4959,
+          "name": "클라우디아 카르디날레",
+          "character": "Jill",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/m7iyqSEMHI1qmKx7ml4HmVyG0BC.jpg"
+        },
+        {
+          "actor_id": 4958,
+          "name": "헨리 폰다",
+          "character": "Frank",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6wXWsqSXF3wCsGcwVqiszy6RX9X.jpg"
+        },
+        {
+          "actor_id": 4765,
+          "name": "Jason Robards",
+          "character": "'Cheyenne'",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9y0HAtWWBkB02gVzh8QDdz6UYZH.jpg"
+        },
+        {
+          "actor_id": 4960,
+          "name": "찰스 브론슨",
+          "character": "'Harmonica'",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8LoFmQmUzBaoGef8pY7M2urSCk.jpg"
+        },
+        {
+          "actor_id": 4961,
+          "name": "가브리엘레 페르제티",
+          "character": "Morton",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/usiGcuBhMrSK8VnMHFKV6zDFrhj.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -42,18 +123,201 @@
     "pk": 871,
     "fields": {
       "title": "혹성탈출",
-      "directors": [
-        13265
-      ],
-      "actors": [
-        10017,
-        7505,
-        10539,
-        12023,
-        6577
-      ],
+      "overview": "지구 시각 2673년 3월 26일, 삭막해진 세상에 모든 미련을 버린 테일러 일행을 태운 우주선이 1년 6개월만에 어느 행성의 바다에 불시착한다. 그들은 이곳이 지구에서 320광년 떨어져 있고, 오리온좌의 태양 주위를 돌고 있는 어느 이름 모를 행성으로 추측한다.  행성의 생명체 유무를 위해 사막 위의 긴나긴 탐사 여행을 하던 그들은 곧 원시인의 무리를 발견하지만, 곧 말을 타고 총을 쏘아대는 원숭이들 무리에 쫓기게 된다. 이 행성은 바로 원숭이들의 지배 하에 있었고, 인간의 모습과 거의 비슷한 원시인들은 야생 동물처럼 살고 있었다.",
+      "tagline": "비극을 경고하기 위한 비극",
       "release_date": "1968-02-07",
-      "poster_url": "https://image.tmdb.org/t/p/w500/2r9iKnlSYEk4daQadsXfcjHfIjQ.jpg"
+      "status": "Released",
+      "voteAverage": 7.645,
+      "popularity": 7.6188,
+      "runtime": 100,
+      "genres": [
+        "SF",
+        "모험",
+        "드라마",
+        "액션"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/2r9iKnlSYEk4daQadsXfcjHfIjQ.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/gmJOXle5QeOOVFEYOVBOkmIJUWV.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 10017,
+          "name": "찰턴 헤스턴",
+          "character": "George Taylor",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mJabHWZrjlFiF8U8Bbr8lSFtLX6.jpg"
+        },
+        {
+          "actor_id": 7505,
+          "name": "Roddy McDowall",
+          "character": "Cornelius",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mGO0pDPi5p91k2Og09HTf270rxL.jpg"
+        },
+        {
+          "actor_id": 10539,
+          "name": "Kim Hunter",
+          "character": "Zira",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/knu87rUxQVZ65Plp6BgoyasAHOT.jpg"
+        },
+        {
+          "actor_id": 12023,
+          "name": "Maurice Evans",
+          "character": "Dr. Zaius",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/l5IKeUtuLMMb2oMj7VMOGFRgYK3.jpg"
+        },
+        {
+          "actor_id": 6577,
+          "name": "James Whitmore",
+          "character": "President of the Assembly",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nYMAbkfwFIgKK84vnLoQctI6vHg.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1709,
+        "name": "혹성탈출 오리지널 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/keo1Vvsh1gbY7G7QqCzFGy4DVTP.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/gmJOXle5QeOOVFEYOVBOkmIJUWV.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 62,
+    "fields": {
+      "title": "2001 스페이스 오디세이",
+      "overview": "인류에게 문명의 지혜를 가르쳐 준 검은 돌기둥의 정체를 밝히기 위해서 디스커버리호의 선장 보우만과 승무원 풀은 목성을 향해서 날아간다. 하지만 평온하던 디스커버리호에 갑자기 재난이 찾아온다. 우주선 내부에서 일어난 재난은 컴퓨터 HAL이 반란을 일으킨 것. HAL은 풀을 우주선 밖으로 던져버리고, 보우만까지도 모선 밖으로 끌어내지만 그는 필사의 노력으로 HAL을 제압한다. 보우만은 마침내 목성 궤도에서 문제의 검은 돌기둥을 발견하지만, 그 순간 우주의 급류에 휘말리게 된다. 보우만은 지구로의 귀환을 위해 노력하고, 신비한 시간의 흐름을 경험하는데...",
+      "tagline": "SF 영화의 새로운 시대를 연 명작",
+      "release_date": "1968-04-02",
+      "status": "Released",
+      "voteAverage": 8.064,
+      "popularity": 8.3232,
+      "runtime": 149,
+      "genres": [
+        "SF",
+        "미스터리",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/2qJjH5mYNlGPdVrPqfEq1J6Mgb4.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/w5IDXtifKntw0ajv2co7jFlTQDM.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 245,
+          "name": "Keir Dullea",
+          "character": "Dr. David Bowman",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5QyrGWxujX8XA3Ny3M8D18TWupi.jpg"
+        },
+        {
+          "actor_id": 246,
+          "name": "Gary Lockwood",
+          "character": "Dr. Frank Poole",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1tfGE7RW8GgCLEFFJUXETq9Td1T.jpg"
+        },
+        {
+          "actor_id": 247,
+          "name": "William Sylvester",
+          "character": "Dr. Heywood Floyd",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/hLKCepT9tGqFV1I62eigHZma3hd.jpg"
+        },
+        {
+          "actor_id": 253,
+          "name": "Douglas Rain",
+          "character": "HAL 9000 (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wCjNcbW1u9cYc7jzlV5FPKqXGNF.jpg"
+        },
+        {
+          "actor_id": 248,
+          "name": "Daniel Richter",
+          "character": "Moonwatcher",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cq8Fprv33RgYPwu39cGx6fxk5Qp.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 4438,
+        "name": "스페이스 오딧세이 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/bxQaNDuSLCllnMSQ0ZLg7e6HrMW.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mGeBxBuhU7yx2Ga4U2ST4reEDeb.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 539,
+    "fields": {
+      "title": "싸이코",
+      "overview": "마리온 크레인은 그녀의 애인 샘과 결혼하길 원하지만 샘은 빚을 갚을 때까지 기다리라고 말한다. 그래서 그녀는 자신이 다니고 있는 회사 사장이 은행에 입금하라고 맡긴 돈을 들고 도망친다. 도주 첫날 밤 묵게 된 도로변의 낡은 모텔 주인인 노만 베이츠는 그녀에게 친절하게 대해주며 자신은 모텔 바로 뒤쪽 저택에서 몸이 불편한 어머니와 함께 살고 있다고 말한다. 잠자리에 들기 전 마리온이 샤워를 하는 도중, 난데없이 검은 형상이 욕실에 나타나고 마리온은 실종된다. 마리온을 찾기 위해 그녀의 언니 릴라와 샘, 그리고 보험회사 측에서 고용한 탐정 등 세 사람이 추적에 나서는데...",
+      "tagline": "그들은 알게 될 거야, 난 파리 한 마리도 해치지 못하는 사람이란 걸",
+      "release_date": "1960-06-22",
+      "status": "Released",
+      "voteAverage": 8.422,
+      "popularity": 8.6009,
+      "runtime": 109,
+      "genres": [
+        "공포",
+        "스릴러",
+        "미스터리"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/vC3P8hH4r3I3fHiRFa1kj6yzeaN.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/uif5fUshJrXyyDzfpzp1DLw3N0S.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 7301,
+          "name": "안소니 퍼킨스",
+          "character": "Norman Bates",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7FipKwmg2woHNvt5ATeXLBirHXs.jpg"
+        },
+        {
+          "actor_id": 7302,
+          "name": "자넷 리",
+          "character": "Marion Crane",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2dv9IqJEx31RSoH7xAHlJZXF5uB.jpg"
+        },
+        {
+          "actor_id": 7303,
+          "name": "베라 마일스",
+          "character": "Lila Crane",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ke0e0i8RkzGfTixKk6nuh6HuQkz.jpg"
+        },
+        {
+          "actor_id": 7304,
+          "name": "John Gavin",
+          "character": "Sam Loomis",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/n8vlG1PRtNzv6vlwjTNK7UnoKr0.jpg"
+        },
+        {
+          "actor_id": 1936,
+          "name": "마틴 발삼",
+          "character": "Private Det. Milton Arbogast",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2j4LJJfTPQtvnjp8LfSGOvWFATO.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 119674,
+        "name": "싸이코 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/2cFhmOImIv5VPbc2ieLRPCFacAh.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/qawcCCyJNcdOpDRuXo5aJJycecY.jpg"
+      }
     }
   },
   {
@@ -61,18 +325,65 @@
     "pk": 238,
     "fields": {
       "title": "대부",
-      "directors": [
-        1776
-      ],
-      "actors": [
-        3084,
-        1158,
-        3085,
-        3087,
-        3086
-      ],
+      "overview": "시실리에서 이민온 뒤, 정치권까지 영향력을 미치는 거물로 자리잡은 돈 꼴레오네는 갖가지 고민을 호소하는 사람들의 문제를 해결해주며 대부라 불리운다. 한편 솔로소라는 인물은 꼴레오네가와 라이벌인 탓타리아 패밀리와 손잡고 새로운 마약 사업을 제안한다. 돈 꼴레오네가 마약 사업에 참여하지 않기로 하자, 돈 꼴레오네를 저격해 그는 중상을 입고 사경을 헤매게 된다. 그 뒤, 돈 꼴레오네의 아들 소니는 조직력을 총 동원해 다른 패밀리들과 피를 부르는 전쟁을 시작하는데... 가족의 사업과 상관없이 대학에 진학한 뒤 인텔리로 지내왔던 막내 아들 마이클은 아버지가 총격을 당한 뒤, 아버지를 구하기 위해 위험천만한 협상 자리에 나선다.",
+      "tagline": "영화사상 최고의 걸작",
       "release_date": "1972-03-14",
-      "poster_url": "https://image.tmdb.org/t/p/w500/I1fkNd5CeJGv56mhrTDoOeMc2r.jpg"
+      "status": "Released",
+      "voteAverage": 8.686,
+      "popularity": 33.2112,
+      "runtime": 175,
+      "genres": [
+        "드라마",
+        "범죄"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/I1fkNd5CeJGv56mhrTDoOeMc2r.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/tmU7GeKVybMWFButWEGl2M4GeiP.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3084,
+          "name": "말론 브란도",
+          "character": "Don Vito Corleone",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vklkhX4QlRKnEG8ylhWzoBdcuev.jpg"
+        },
+        {
+          "actor_id": 1158,
+          "name": "알 파치노",
+          "character": "Michael Corleone",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2dGBb1fOcNdZjtQToVPFxXjm4ke.jpg"
+        },
+        {
+          "actor_id": 3085,
+          "name": "제임스 칸",
+          "character": "Sonny Corleone",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/v3flJtQEyczxENi29yJyvnN6LVt.jpg"
+        },
+        {
+          "actor_id": 3087,
+          "name": "로버트 듀발",
+          "character": "Tom Hagen",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ybMmK25h4IVtfE7qrnlVp47RQlh.jpg"
+        },
+        {
+          "actor_id": 3086,
+          "name": "Richard S. Castellano",
+          "character": "Clemenza",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1vr75BdHWret81vuSJ3ugiCBkxw.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 230,
+        "name": "대부 시리즈",
+        "overview": "뉴욕 마피아 가문인 콜레오네 패밀리의 가족사를 중심으로 펼쳐지는 프랜시스 포드 코폴라 감독의 갱스터영화. 1972년에 첫 작품이 개봉해 1974년에 속편, 1990년에 세 번째 작품이 개봉되었다. 이탈리아에서 맨손으로 미국 땅을 밟아 뉴욕 최대의 범죄조직을 키워낸 대부 비토 콜레오네와 아버지 뒤를 이어 마피아 보스가 된 마이클 콜레오네의 삶을 통해 아메리칸드림의 흥망성쇠를 은유적으로 표현해 낸, 미국 영화사를 대표하는 걸작으로 평가받는다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/zVb22YOMgljCEYbXlvCvEiN4VwT.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mDMCET9Ens5ANvZAWRpluBsMAtS.jpg"
+      }
     }
   },
   {
@@ -80,18 +391,66 @@
     "pk": 11,
     "fields": {
       "title": "스타워즈 에피소드 4: 새로운 희망",
-      "directors": [
-        1
-      ],
-      "actors": [
-        2,
-        3,
-        4,
-        5,
-        12248
-      ],
+      "overview": "공화국이 붕괴하고 제국이 수립된 뒤 20년, 제다이 기사단은 전멸하고 강력한 제국군의 횡포에 은하계는 공포에 휩싸여 있다. 그러던 중 공화국 재건을 노리는 반란군이 제국군의 비밀병기 데스스타 설계도를 훔쳐 달아나고 제국군은 이를 쫓는다. 하지만 결국 제국의 손에 붙잡히게 된 그들은 드로이드 R2-D2에 설계도를 넣어서 R2의 친구 C-3PO와 탈출시키는 데 성공하고, 두 드로이드 콤비는 타투인의 시골 마을에서 숙부와 함께 살고 있던 청년 루크 스카이워커에게 오게 되는데...",
+      "tagline": "아주 오래 전 멀고 먼 은하계에서...",
       "release_date": "1977-05-25",
-      "poster_url": "https://image.tmdb.org/t/p/w500/7XFfURIFCJxN1mfBg0SAjk5yGzg.jpg"
+      "status": "Released",
+      "voteAverage": 8.205,
+      "popularity": 27.321,
+      "runtime": 121,
+      "genres": [
+        "모험",
+        "액션",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/7XFfURIFCJxN1mfBg0SAjk5yGzg.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/2w4xG178RpB4MDAIfTkqAuSJzec.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 2,
+          "name": "마크 해밀",
+          "character": "Luke Skywalker",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2ZulC2Ccq1yv3pemusks6Zlfy2s.jpg"
+        },
+        {
+          "actor_id": 3,
+          "name": "해리슨 포드",
+          "character": "Han Solo",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zVnHagUvXkR2StdOtquEwsiwSVt.jpg"
+        },
+        {
+          "actor_id": 4,
+          "name": "캐리 피셔",
+          "character": "Princess Leia Organa",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/awb4UqzT6meD3JiQlraIzAqcRtH.jpg"
+        },
+        {
+          "actor_id": 5,
+          "name": "피터 커싱",
+          "character": "Grand Moff Tarkin",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/if5g03wn6uvHx7F6FxXHLebKc0q.jpg"
+        },
+        {
+          "actor_id": 12248,
+          "name": "앨릭 기니스",
+          "character": "Obi-Wan \"Ben\" Kenobi",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/gplGgl6XERpvYdluiwY8GlxSdpi.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 10,
+        "name": "스타워즈 시리즈",
+        "overview": "오래전 멀고 먼 은하계에...",
+        "poster_path": "https://image.tmdb.org/t/p/w500/aSrMJYmQX8kpF26LijkCsYhBMvm.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/zZDkgOmFMVYpGAkR9Tkxw0CRnxX.jpg"
+      }
     }
   },
   {
@@ -99,18 +458,65 @@
     "pk": 348,
     "fields": {
       "title": "에이리언",
-      "directors": [
-        578
-      ],
-      "actors": [
-        4139,
-        10205,
-        5047,
-        5048,
-        5049
-      ],
+      "overview": "2122년, 2천만톤의 광물과 7명의 승무원을 태우고 지구로 귀환중인 화물선 노스트로모호의 메인 컴퓨터 마더는 어떤 위성에서 나오는 알 수 없는 신호를 포착하게 된다. 마더에 의해 동면중 깨어난 승무원들은 이 신호를 조사하기 위해 혹성 LA-426에 착륙한다. 이들 중엔 2등 항해사인 엘렌 리플리도 있다. 혹성에서 정체 불명의 우주선을 발견한 그들은 탐사에 나서지만, 우주선은 이미 오래전에 파괴되어 썩고 있었으며 승무원들은 모두 미이라로 변해 있다. 사고 원인을 찾기 위해 좀 더 안으로 들어간 조사반은 여기저기 계란 모양의 물체가 있는 산란실을 발견하는데...",
+      "tagline": "우주에서는 아무도 당신의 비명소리를 들을 수 없다",
       "release_date": "1979-05-25",
-      "poster_url": "https://image.tmdb.org/t/p/w500/k3m1RdlYUlCx51PxxNMlmbm7QSk.jpg"
+      "status": "Released",
+      "voteAverage": 8.164,
+      "popularity": 20.0465,
+      "runtime": 117,
+      "genres": [
+        "공포",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/k3m1RdlYUlCx51PxxNMlmbm7QSk.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/hdHIjZxq3SWFqpAz4NFhdbud0iz.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 4139,
+          "name": "Tom Skerritt",
+          "character": "Dallas",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xP2BNCa5NixphQOpFCl44B0HWgW.jpg"
+        },
+        {
+          "actor_id": 10205,
+          "name": "시고니 위버",
+          "character": "Ripley",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wTSnfktNBLd6kwQxgvkqYw6vEon.jpg"
+        },
+        {
+          "actor_id": 5047,
+          "name": "Veronica Cartwright",
+          "character": "Lambert",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wIqQnSU4HJLYS2JE4S6jjyb2jMP.jpg"
+        },
+        {
+          "actor_id": 5048,
+          "name": "해리 딘 스탠턴",
+          "character": "Brett",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/197UiLVdxPOv8196sqmUpJzOQB5.jpg"
+        },
+        {
+          "actor_id": 5049,
+          "name": "존 허트",
+          "character": "Kane",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bjNSzt1d7uK3q5PbtFXUJrRt4qg.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8091,
+        "name": "에이리언 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/gWFHIY77cRVoBRGERwMHqpD27gc.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/6X42JnSMdo3dPAswOHUuvebdTq7.jpg"
+      }
     }
   },
   {
@@ -118,18 +524,258 @@
     "pk": 240,
     "fields": {
       "title": "대부 2",
-      "directors": [
-        1776
-      ],
-      "actors": [
-        1158,
-        3087,
-        3092,
-        380,
-        3096
-      ],
+      "overview": "아버지의 장례식 도중에 맏아들 파올로가 총에 맞아 죽고, 비토(로버트 드니로)는 겨우 도망쳐 미국으로 건너온다. 대부로 성장한 후 비토는 다시 치치오를 찾아 복수를 한다. 새롭게 등장한 젊은 대부 마이클(알 파치노)은 본거지를 라스베가스로 옮기고 가족의 사업을 가능한 합법적인 것으로 바꾸려고 애쓴다. 그런 과중 중에 자신을 제거하려는 음모를 알게되고 그는 냉혹하고 신속하게 반대파들을 제거, 조직을 더욱 확대해 나간다. 이를 위해 마이클은 배신한 형마저 죽이고, 일 때문에 아내와 헤어지는 등 인간적으로는 계속 외로워져 가는데...",
+      "tagline": "대부가 암시하고 예고한 모든 것",
       "release_date": "1974-12-20",
-      "poster_url": "https://image.tmdb.org/t/p/w500/bhqvqYuAgrTGwyNAmMR0ZVmjXel.jpg"
+      "status": "Released",
+      "voteAverage": 8.57,
+      "popularity": 15.1058,
+      "runtime": 202,
+      "genres": [
+        "드라마",
+        "범죄"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/bhqvqYuAgrTGwyNAmMR0ZVmjXel.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/kGzFbGhp99zva6oZODW5atUtnqi.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1158,
+          "name": "알 파치노",
+          "character": "Don Michael Corleone",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2dGBb1fOcNdZjtQToVPFxXjm4ke.jpg"
+        },
+        {
+          "actor_id": 3087,
+          "name": "로버트 듀발",
+          "character": "Tom Hagen",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ybMmK25h4IVtfE7qrnlVp47RQlh.jpg"
+        },
+        {
+          "actor_id": 3092,
+          "name": "다이앤 키튼",
+          "character": "Kay Corleone",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/A8B3BsFgbmw2WEmJuQX38qeU9eR.jpg"
+        },
+        {
+          "actor_id": 380,
+          "name": "로버트 드 니로",
+          "character": "Vito Corleone",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cT8htcckIuyI1Lqwt1CvD02ynTh.jpg"
+        },
+        {
+          "actor_id": 3096,
+          "name": "존 카제일",
+          "character": "Frederico 'Fredo' Corleone",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7uKBc2BVbLlAiHuSdfioe1OUnCX.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 230,
+        "name": "대부 시리즈",
+        "overview": "뉴욕 마피아 가문인 콜레오네 패밀리의 가족사를 중심으로 펼쳐지는 프랜시스 포드 코폴라 감독의 갱스터영화. 1972년에 첫 작품이 개봉해 1974년에 속편, 1990년에 세 번째 작품이 개봉되었다. 이탈리아에서 맨손으로 미국 땅을 밟아 뉴욕 최대의 범죄조직을 키워낸 대부 비토 콜레오네와 아버지 뒤를 이어 마피아 보스가 된 마이클 콜레오네의 삶을 통해 아메리칸드림의 흥망성쇠를 은유적으로 표현해 낸, 미국 영화사를 대표하는 걸작으로 평가받는다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/zVb22YOMgljCEYbXlvCvEiN4VwT.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mDMCET9Ens5ANvZAWRpluBsMAtS.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 103,
+    "fields": {
+      "title": "택시 드라이버",
+      "overview": "트래비스는 베트남전에서 귀환한 후 불면증에 시달리며 사회에 적응하지 못하고 있다. 그래서 그는 택시 운전기사로 일하며 뉴욕의 밤거리를 다니며 타락한 사회를 보고 자신이 직접 이 악들을 제거하려고 마음 먹는다. 어느 날 트래비스는 우연히 12살 짜리 창녀 아이리스를 만나게 되고 그녀의 인생을 구하려 하지만 그녀는 집으로 돌아가길 꺼려 한다. 자신은 아무 것도 할 수 없다는 생각에 무기력해진 트래비스는 4개의 권총을 구입하고 상원의원 팔렌타인을 저격하러 나선다. 하지만 엉뚱하게도 사창가에서 피비린내 나는 총격전을 벌인 끝에 아이리스를 묶어두고 있던 포주 스포츠를 살해하고 마는데...",
+      "tagline": "연약한 영웅의 강한 메시지",
+      "release_date": "1976-02-09",
+      "status": "Released",
+      "voteAverage": 8.134,
+      "popularity": 13.8227,
+      "runtime": 114,
+      "genres": [
+        "범죄",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/nJFKg6pyfmkLKttiLQKQuLZBLKH.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/6aoyUbvu0419XLKLIMoH0TkEicH.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 380,
+          "name": "로버트 드 니로",
+          "character": "Travis Bickle",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cT8htcckIuyI1Lqwt1CvD02ynTh.jpg"
+        },
+        {
+          "actor_id": 1038,
+          "name": "조디 포스터",
+          "character": "Iris",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/resiaRfWvj4N84TgJi9DPOafCpq.jpg"
+        },
+        {
+          "actor_id": 1036,
+          "name": "Cybill Shepherd",
+          "character": "Betsy",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ci20y6ilSmiw759cUwQVheOqNaD.jpg"
+        },
+        {
+          "actor_id": 1037,
+          "name": "하비 카이텔",
+          "character": "Sport",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7P30hza1neYWW3r7rSQOC736K2Z.jpg"
+        },
+        {
+          "actor_id": 1039,
+          "name": "Peter Boyle",
+          "character": "Wizard",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6TapQmC46mPDYrwm67tyJaEM97I.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 578,
+    "fields": {
+      "title": "죠스",
+      "overview": "뉴 잉글랜드의 작은 해안 피서지 애미티(Amity). 아주 평화로운 바닷가 마을로, 우정이란 뜻을 가진 이 마을은 전형적인 작은 바닷가 마을이다. 이곳은 여름 피서객들을 상대로 하는 것이 마을 수입의 전부다. 여름이 되어 막 해수욕장이 개장하기에 앞서 한 무리의 젊은이들이 한밤의 백사장에서 캠프파이어를 하며 젊음을 불태우고 있다. 이때 한 여자가 옷을 하나씩 벗어 던지면 모래밭을 달려가더니 바다로 헤엄쳐 들어간다. 달빛 아래 바다. 하지만 그 여자는 갑자기 무언가에 물리기라도 한 것처럼 바닷물 속으로 빨려 들어가더니 사라져버린다.  다음날, 바닷물을 싫어하는 도시 출신의 브로디 경찰서장이 전화를 받는다. 여자의 시체가 발견되었다는 것. 악어나 상어에게 묻어 뜯긴 게 분명한 그 시체는 찢겨져 있었고, 그는 즉시 해안을 폐쇄한다. 하지만, 마을의 책임자인 시장은 이 마을은 피서객들로 돈을 버는 곳이데 어떻게 하려고 그러느냐면서, 해안 경비를 강화하고, 감시 속에서 여름 해수욕장을 개장시킨다.  하지만 결국 일은 터지고, 한 소년이 상어의 습격을 받게 된다. 이제 이 마을은 상어의 공포에 휩싸이게 된다. 상어에 현상금이 붙자 상어사냥꾼들이 몰려든다. 하지만 다들 별볼 일 없이 그저 상금만 노리고 온 사람들이다. 그러나 그중에 두 명의 전문가가 찾아온다. 바로 상어 박사인 마틴 후퍼와 이 마을의 어부이자 카리스마 넘치는 퀸터 선장이 그들이다. 결국 브로디 서장과 퀸터 선장, 매트 박사는 배를 타고 바다로 나가 상어 사냥에 나서는데...",
+      "tagline": "",
+      "release_date": "1975-06-20",
+      "status": "Released",
+      "voteAverage": 7.666,
+      "popularity": 12.3602,
+      "runtime": 124,
+      "genres": [
+        "공포",
+        "스릴러",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/nRSaeJUXuXFYOQNRSsLvBLmZa48.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/3nYlM34QhzdtAvWRV5bN4nLtnTc.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 6355,
+          "name": "로이 슈나이더",
+          "character": "Brody",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/y0MTwkCm5fIKjM1xH90tZbjAHql.jpg"
+        },
+        {
+          "actor_id": 8606,
+          "name": "Robert Shaw",
+          "character": "Quint",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bU4IJ4J1mgrriRTdQ4BOemoHvtt.jpg"
+        },
+        {
+          "actor_id": 3037,
+          "name": "리처드 드라이퍼스",
+          "character": "Hooper",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/q2BPu6zWwFtnzQfpl4fgbKqURXM.jpg"
+        },
+        {
+          "actor_id": 8607,
+          "name": "Lorraine Gary",
+          "character": "Ellen Brody",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6JKNdZopypnFnD9xSSlDs6YTHMC.jpg"
+        },
+        {
+          "actor_id": 8608,
+          "name": "Murray Hamilton",
+          "character": "Vaughn",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kEAXyzRQ5POdciTjAUjRW4lIslj.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 2366,
+        "name": "죠스 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/fgraZdDCvAtBr0MHczmL6raonHd.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/1e2QvI2u7Q4d2admK6Xw0AjLjVp.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 621,
+    "fields": {
+      "title": "그리스",
+      "overview": "1950년대말, 캘리포니아에 있는 한 고등학교. 대니 주코(Danny Zuko: 존 트라볼타 분)와 샌디 올슨(Sandy Olsen: 올리비아 뉴튼 존 분)은 여름 방학 때 해변에서 우연히 알게 된 사이로 바캉스 시즌이 끝나자 두 사람은 기약없이 작별하지만 대니가 다니는 고등학교에 샌디가 전학해 오면서 뜻밖의 재회가 이루어진다. 내심 기뻤던 대니지만 학교의 서클인 티버즈의 리더인 그가 어느 특정한 여자에게 가까이 하면 친구들의 빈촉을 살까봐 이러지도 저러지도 못한다.  이런 대니의 마음을 모른는 샌디는 오해를 해 스포츠에 만능인 톰과 친하게 지낸다. 이에 쇼크를 받은 대니는 샌디에게 용서를 빌어 가까스로 샌디의 마음을 되돌려 놓는다. 바야흐로 학교의 최대 행사인 댄스 파티가 열리자 대니와 샌디는 한조가 되어 출전, 결승전까지 진출하지만 티버즈의 라이벌인 스코피언스의 리더인 차차의 방해로 우승을 놓친다. 화가 난 샌디에게 야외 극장에서 대니는 자기의 반지를 빼주며 샌디의 마음을 바꾸지만 샌디의 몸을 강요한게 그녀를 더 토라지게 만들고 말았다.  드디어 티버즈와 숙적인 스콜피온스 간에 카레이스로 결판을 내는 날이다. '선더로드 경주'라는 이름의 이 시합에서 차차는 비겁한 수단으로 골탕을 먹이지만 이를 잘 피해 대니가 이기는데 이를 가슴조이며 지켜보던 샌디는 대니의 품에 안긴다. 이윽고 고등학교 졸업식이 왔다. 졸업 파티가 성대하게 벌어지고 정장을 하고 머리에다 그리이스를 발라 의젓해진 대니와 샌디는 빨간 승용차를 타고 다정하게 교문을 나선다. 축하무드가 절정을 이루며 뒤를 따르는 동창생들.",
+      "tagline": "",
+      "release_date": "1978-06-16",
+      "status": "Released",
+      "voteAverage": 7.379,
+      "popularity": 11.0065,
+      "runtime": 110,
+      "genres": [
+        "로맨스",
+        "코미디"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/czVhhAaSBFpakur7U8pOIDV9NUG.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/koSWhCzMJfJOramu4KD0ZZifqpi.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 8892,
+          "name": "올리비아 뉴턴존",
+          "character": "Sandy Olsson",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/pPgHm4ToBirjWcuOTrEMxS82stP.jpg"
+        },
+        {
+          "actor_id": 8891,
+          "name": "존 트래볼타",
+          "character": "Danny Zuko",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ap8eEYfBKTLixmVVpRlq4NslDD5.jpg"
+        },
+        {
+          "actor_id": 8893,
+          "name": "스토커드 채닝",
+          "character": "Betty Rizzo",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/qAYBGvapAnnhpoZuYFyoqetncs5.jpg"
+        },
+        {
+          "actor_id": 8894,
+          "name": "Jeff Conaway",
+          "character": "Kenickie Murdoch",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5LSFAaWqppiYSJmikXciybmuFat.jpg"
+        },
+        {
+          "actor_id": 8896,
+          "name": "Barry Pearl",
+          "character": "Doody",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ang7UrtaCGX6tSkJe6ZiDoMB6kF.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 86083,
+        "name": "그리스 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/62v1i4awvS1LZ9Eaqig9J5xZ6kC.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/95ASlSlkBSILVLrZA69P0OdniP5.jpg"
+      }
     }
   },
   {
@@ -137,18 +783,65 @@
     "pk": 744,
     "fields": {
       "title": "탑건",
-      "directors": [
-        893
-      ],
-      "actors": [
-        500,
-        11084,
-        5576,
-        11085,
-        4139
-      ],
+      "overview": "해군 최신예 전투기인 F-14기를 모는 젊은 조종사 매버릭 대위는 훌륭한 전투기 조종사였던 아버지를 둔 패기만만한 파일럿 청년. 솜씨가 거칠기로 소문난 그는 탑 건 훈련학교에 입학하면서 인생의 전환을 맞게 된다. 가장 큰 변화는 항공물리학을 강의하는 여교관 찰리와 사랑에 빠진 것. 하지만 매버릭이 조종하던 F-14 전투기가 비행 훈련 도중 그만 제트 기류에 빠지면서 엔진 고장을 일으키고, 이때 함께 탈출을 시도하던 구즈가 사망하는 사고가 발생하고 마는데...",
+      "tagline": "젊은이의 로망, 열정, 성공 스토리",
       "release_date": "1986-05-16",
-      "poster_url": "https://image.tmdb.org/t/p/w500/9DVdYFqGXdMPLgIfqQxNpUWz266.jpg"
+      "status": "Released",
+      "voteAverage": 7.059,
+      "popularity": 20.8055,
+      "runtime": 110,
+      "genres": [
+        "액션",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/9DVdYFqGXdMPLgIfqQxNpUWz266.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/jILeJ60zPpIjjJHGSmIeY4eO30t.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 500,
+          "name": "톰 크루즈",
+          "character": "Maverick",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eOh4ubpOm2Igdg0QH2ghj0mFtC.jpg"
+        },
+        {
+          "actor_id": 11084,
+          "name": "켈리 맥길리스",
+          "character": "Charlie",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/150q3jC4YF1pzSCRe29Kn12W9Ao.jpg"
+        },
+        {
+          "actor_id": 5576,
+          "name": "발 킬머",
+          "character": "Ice",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/sWH9jTD0bC5gWhhceUlzfNiNup0.jpg"
+        },
+        {
+          "actor_id": 11085,
+          "name": "Anthony Edwards",
+          "character": "Goose",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/rP88gP87pa3je6Viem3081tESIV.jpg"
+        },
+        {
+          "actor_id": 4139,
+          "name": "Tom Skerritt",
+          "character": "Viper",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xP2BNCa5NixphQOpFCl44B0HWgW.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 531330,
+        "name": "탑건 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/wtpIx0Gsra1IGHH8af5kNK90Xy8.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/9MGm0XT04ob99MyGQfMT7I8y3UE.jpg"
+      }
     }
   },
   {
@@ -156,18 +849,60 @@
     "pk": 111,
     "fields": {
       "title": "스카페이스",
-      "directors": [
-        1150
-      ],
-      "actors": [
-        1158,
-        1159,
-        1160,
-        1161,
-        1162
-      ],
+      "overview": "1980년 5월 쿠바가 마리엘 항을 개항하여 반카스트로 지지자들이 미국 플로리다에 입항한다. 토니 몬타나와 마니리베라도 이민 수용소로 보내진다. 3개월 후 마니가 수용소에 있는 레벤가라는 자를 살해해 주면 신분증을 입수해 주겠다는 일을 받아 수용소에 폭동을 일으켜 레벤가를 암살한다. 접시닦이로 근근히 살아가던 토니는 프랭크의 부하로부터 콜롬비아 마약상과의 거래일을 맡았다가 위험천만한 위기를 넘긴다. 그 사건을 계기로, 토니는 프랭크의 신임을 얻고 그의 부하가 되지만, 수 개월 후 결국 자신을 없애려는 프랭크를 죽이고 조직을 장악, 보스 자리에 오르는데...",
+      "tagline": "세상은 당신의 것입니다",
       "release_date": "1983-12-09",
-      "poster_url": "https://image.tmdb.org/t/p/w500/zx7sXrMISbs8RI4URbjPyKocRgP.jpg"
+      "status": "Released",
+      "voteAverage": 8.2,
+      "popularity": 16.429,
+      "runtime": 170,
+      "genres": [
+        "액션",
+        "범죄",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/zx7sXrMISbs8RI4URbjPyKocRgP.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/1qM2BYNE11Viby8ImC9LC00DgDr.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1158,
+          "name": "알 파치노",
+          "character": "Tony Montana",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2dGBb1fOcNdZjtQToVPFxXjm4ke.jpg"
+        },
+        {
+          "actor_id": 1159,
+          "name": "스티븐 바우어",
+          "character": "Manny Ray",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bdBfcd6cFKYPdWfeJ6X7tCpuKfu.jpg"
+        },
+        {
+          "actor_id": 1160,
+          "name": "미셸 파이퍼",
+          "character": "Elvira",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/oGUmQBU87QXAsnaGleYaAjAXSlj.jpg"
+        },
+        {
+          "actor_id": 1161,
+          "name": "메리 엘리자베스 매스트란토니오",
+          "character": "Gina",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vbZ1E557K5oj34xLHR5ErO8wPCi.jpg"
+        },
+        {
+          "actor_id": 1162,
+          "name": "Robert Loggia",
+          "character": "Frank Lopez",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mRSUgJnfprCNw83pyVfpfW7ryfK.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -175,18 +910,66 @@
     "pk": 218,
     "fields": {
       "title": "터미네이터",
-      "directors": [
-        2710
-      ],
-      "actors": [
-        1100,
-        2712,
-        2713,
-        1818,
-        2714
-      ],
+      "overview": "1997년, 인간이 만든 인공지능 컴퓨터 전략 방어 네트워크가 스스로의 지능을 갖추고는 인류를 핵전쟁의 참화을 일으켜 30억이라는 인류를 잿더미 속에 묻어버린다. 그리고 남은 인간들은 기계의 지배를 받아 시체를 처리하는 일 등에 동원된다. 이때 비상한 지휘력과 작전으로 인간들을 이끌던 사령관 존 코너는 반기계 연합을 구성, 기계와의 전쟁을 시작하면서 상황은 반전된다. 이에 기계는 존 코너의 탄생 자체를 막기 위해 2029년의 어느 날 타임머신에 터미네이터를 태워서 1984년의 L.A로 보내게 된다.",
+      "tagline": "너의 미래는 그의 손안에 있다",
       "release_date": "1984-10-26",
-      "poster_url": "https://image.tmdb.org/t/p/w500/sez4xWeylbYQqiI8HIgnciTP7MY.jpg"
+      "status": "Released",
+      "voteAverage": 7.665,
+      "popularity": 18.1686,
+      "runtime": 108,
+      "genres": [
+        "액션",
+        "스릴러",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/sez4xWeylbYQqiI8HIgnciTP7MY.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/ffdqHMWkh1h9MABwIfbfRJhgFW6.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1100,
+          "name": "아널드 슈워제네거",
+          "character": "Terminator",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2marNcjIfCUE5Z2HyrcEiJHPbsA.jpg"
+        },
+        {
+          "actor_id": 2712,
+          "name": "마이클 빈",
+          "character": "Kyle Reese",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9oFLsADWQm2TvU8XzLIzBbjdMkU.jpg"
+        },
+        {
+          "actor_id": 2713,
+          "name": "린다 해밀턴",
+          "character": "Sarah Connor",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7FNn9Z5xkRS9EFbGL2tpmpph9xV.jpg"
+        },
+        {
+          "actor_id": 1818,
+          "name": "Paul Winfield",
+          "character": "Traxler",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6NLUJEFJCJ2Hog1ZOz4K2iyDvMZ.jpg"
+        },
+        {
+          "actor_id": 2714,
+          "name": "랜스 헨릭슨",
+          "character": "Vukovich",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1PkFmD5HdjmRa2DumtwINnnAjTH.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 528,
+        "name": "터미네이터 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/kpZxdNsAV7qTdTLwKM5NLqa7GEo.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/jz9usvWv5DrQGtjauEU4KSzgb8M.jpg"
+      }
     }
   },
   {
@@ -194,18 +977,454 @@
     "pk": 105,
     "fields": {
       "title": "빽 투 더 퓨쳐",
-      "directors": [
-        24
-      ],
-      "actors": [
-        521,
-        1062,
-        1064,
-        1063,
-        1066
-      ],
+      "overview": "마티 맥플라이(마이클 J. 폭스)는 평범한 고등학생이다. 그런데 평소 친하게 지내던 괴상한 발명가 에메트 브라운 박사(크리스토퍼 로이드)가 스포츠카 드로리안을 개조해 타임머신을 만들고, 뜻밖의 사고로 브라운 박사가 테러범들에게 총을 맞고 위험해진 상황에서 마티는 30년 전으로 가게 된다. 극장 간판에는 2류 배우인 로널드 레이건이 보이고 청년인 아버지와 어머니를 보게 된다. 젊은 아버진 멍청하고, 어머니는 미래의 아들인 마티를 좋아해 야단이다. 마티가 미래로 가는 것을 도와 줄 사람은 30년 전인 젊은 브라운 박사뿐인데...",
+      "tagline": "과거로!",
       "release_date": "1985-07-03",
-      "poster_url": "https://image.tmdb.org/t/p/w500/7gGicAJdHRzaUd6qLjH5bSW4Cgi.jpg"
+      "status": "Released",
+      "voteAverage": 8.32,
+      "popularity": 15.726,
+      "runtime": 120,
+      "genres": [
+        "모험",
+        "코미디",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/7gGicAJdHRzaUd6qLjH5bSW4Cgi.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/yz8QL8WFD8yj0LA5zIlNOgcHvZK.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 521,
+          "name": "마이클 J. 폭스",
+          "character": "Marty McFly",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2JB4FMgQmnhbBlQ4SxWFN9EIVDi.jpg"
+        },
+        {
+          "actor_id": 1062,
+          "name": "크리스토퍼 로이드",
+          "character": "Emmett Brown",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nxVjpyb3UrfbPZnEyDNlQVlFAs5.jpg"
+        },
+        {
+          "actor_id": 1064,
+          "name": "크리스핀 글로버",
+          "character": "George McFly",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/imBnLpSXvg61qDDdEfvL6R4ITKt.jpg"
+        },
+        {
+          "actor_id": 1063,
+          "name": "리 톰슨",
+          "character": "Lorraine Baines",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/85E9NTEfkRdUdK4kTrrnk5of25w.jpg"
+        },
+        {
+          "actor_id": 1066,
+          "name": "클로디아 웰즈",
+          "character": "Jennifer Parker",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2VOsPvoV2vmEUd1O2KjW3kcN8JD.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 264,
+        "name": "빽 투 더 퓨쳐 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/5Xsu2o5IsZRuuxCEVZ9nVve21FP.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/c9C9Pg2QctyjZHRmS0P8rZg1OTA.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 106,
+    "fields": {
+      "title": "프레데터",
+      "overview": "더치와 특수부대 동료들은 CIA와 계약을 맺어 중앙 아메리카 정글에서 게릴라들에게 붙잡힌 조종사를 구하러 간다. 임무는 순조롭게 진행되었으나 그들은 귀환 도중 무언가로 부터 공격을 받는다. 보이지 않는 적은 정글 속에 숨어서 그들의 사체를 전리품으로 수집해간다.  이 외계 괴물은 더치의 동료들을 하나씩 죽이면서 유희를 벌이는데...",
+      "tagline": "",
+      "release_date": "1987-06-12",
+      "status": "Released",
+      "voteAverage": 7.535,
+      "popularity": 15.3169,
+      "runtime": 107,
+      "genres": [
+        "SF",
+        "액션",
+        "모험",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/AjYcJsuiqW4sHFEmh5SVSy5PswH.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/YL3GPOiDcNraIJOVDCZsoOBoDy.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1100,
+          "name": "아널드 슈워제네거",
+          "character": "Major Alan \"Dutch\" Schaefer",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2marNcjIfCUE5Z2HyrcEiJHPbsA.jpg"
+        },
+        {
+          "actor_id": 1101,
+          "name": "칼 웨더스",
+          "character": "Al Dillon",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2yyZqXiO5yw8QhFVph9dJDHi7zF.jpg"
+        },
+        {
+          "actor_id": 1109,
+          "name": "Kevin Peter Hall",
+          "character": "The Predator / Helicopter Pilot",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wdW2sUAQPonZcQo8oDY1j60h7DP.jpg"
+        },
+        {
+          "actor_id": 1102,
+          "name": "Elpidia Carrillo",
+          "character": "Anna Gonsalves",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/rlshxarDI8lbXNqTgvKhVlFzTZM.jpg"
+        },
+        {
+          "actor_id": 1103,
+          "name": "Bill Duke",
+          "character": "Mac Eliot",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/hZrYPwer5PeK77OEILkNWHVb3ss.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 399,
+        "name": "프레데터 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/mm2t5dd1QFxtX6X56Z9U5ucsIb1.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/u1CTqTYRUVyLwlEd1z1VJrVBp0J.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 8689,
+    "fields": {
+      "title": "홀로코스트",
+      "overview": "네명의 기록영화팀이 아마존 오지의 비밀을 필름에 담기 위해 출발하지만, 두달이 지나도록 소식이 없다. 그들을 후원했던 방송국에서는 구조대를 특파하고 아마존에 도착한 구조대는 기록영화팀의 참혹한 죽음의 소식과 함께 그들이 남긴 필름을 가지고 돌아온다.  필름을 현상한 방송국에서는 이 필름을 방영하면 높은 시청률을 이끌어 낼 수 있을 것이라 생각하고 시사를 하지만 그 내용의 참혹함에 놀라 결국 필름을 소각시켜 버린다.  '지옥으로 가는 길'이란 제목이 붙어있는 그 필름에는 기록영화팀이 원시의 생활 속에서 차츰 잔인한 본능을 드러내고 평화롭게 살고 있던 원주민들을 잔인하게 살해하는 모습이 담겨있었는데...",
+      "tagline": "",
+      "release_date": "1980-02-07",
+      "status": "Released",
+      "voteAverage": 6.3,
+      "popularity": 13.1149,
+      "runtime": 96,
+      "genres": [
+        "공포"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/sGUuLvKOf6JlBFtPDVWFIlvLjeO.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/i7oL4aodmX5aXw8s9dpAYRjHMLF.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 55648,
+          "name": "Robert Kerman",
+          "character": "Professor Harold Monroe",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kjQ8g1UBn4l1T8flT4qZ9OwbE2k.jpg"
+        },
+        {
+          "actor_id": 55652,
+          "name": "Francesca Ciardi",
+          "character": "Faye Daniels",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/slZvL8ENq49hJ2iYPMNBXqyoJNa.jpg"
+        },
+        {
+          "actor_id": 55649,
+          "name": "Perry Pirkanen",
+          "character": "Jack Anders",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eORErZN5A7cyhLxbYXBpzgqpHjG.jpg"
+        },
+        {
+          "actor_id": 55650,
+          "name": "Luca Barbareschi",
+          "character": "Mark Tomaso",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/fREMNtoQqVWLA8hG3JbqD9ALxvP.jpg"
+        },
+        {
+          "actor_id": 55651,
+          "name": "Salvatore Basile",
+          "character": "Chaco Losojos",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mdzJ4alJL6kIxMx8WO5nGGGXt8D.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 694,
+    "fields": {
+      "title": "샤이닝",
+      "overview": "소설가인 잭 토랜스는 콜로라도 산맥에 있는 오버룩 호텔의 관리인으로 취직한다. 다음 시즌 준비를 하는 이곳은 겨울 동안 폐쇄되기 때문에 토랜스의 가족들만 호텔에 머물게 된다. 갑자기 몰아친 폭설로 잭과 아내 웬디와 아들과 함께 호텔에 고립되고, 투시와 텔레파시 능력이 있는 잭의 아들 대니는 호텔에 유령이 있으며 유령들이 천천히 아버지를 미치게 하고 있음을 알게 된다. 잭은 과거에 스스로 자신의 아내와 두 딸을 죽인 이곳의 예전 관리인 그레이디의 유령을 만난다. 과거에 있었던 살인사건의 악령에 휘말린 잭은 호텔을 공포의 도가니로 몰아가는데...",
+      "tagline": "당신을 해치지 않아, 그냥 머리통을 부숴버리기만 할 거야",
+      "release_date": "1980-05-23",
+      "status": "Released",
+      "voteAverage": 8.212,
+      "popularity": 14.3179,
+      "runtime": 144,
+      "genres": [
+        "공포",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/e3pxD5asVzFMcH3UvmGxolZ7wS.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/mmd1HnuvAzFc4iuVJcnBrhDNEKr.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 514,
+          "name": "잭 니콜슨",
+          "character": "Jack Torrance",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/hBHcQIEa6P48HQAlLZkh0eKSSkG.jpg"
+        },
+        {
+          "actor_id": 10409,
+          "name": "셜리 듀발",
+          "character": "Wendy Torrance",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6lG3fmyhXatvyAG4X9WxwMWoPUS.jpg"
+        },
+        {
+          "actor_id": 10410,
+          "name": "대니 로이드",
+          "character": "Danny",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5pEmugZ6m25RB0cXbL4t5D4kZAO.jpg"
+        },
+        {
+          "actor_id": 7077,
+          "name": "스캣맨 크로더스",
+          "character": "Hallorann",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jf2ooubjE5tjBJwDI9Nla0M57m2.jpg"
+        },
+        {
+          "actor_id": 10411,
+          "name": "베리 넬슨",
+          "character": "Ullman",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/fSrHmvOxZJbeKpNM0uWGvha1aK9.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 530064,
+        "name": "샤이닝 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/iic9YD6zyz2mWIoHVaFy34N0MxX.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/8L2bt7OWxrVhZPrFPkyZW4rEXzq.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 1885,
+    "fields": {
+      "title": "베스트 키드",
+      "overview": "다니엘(Daniel Larusso : 랄프 마치오 분)은 모친 루실르가 직장을 옮기는 바람에 캘리포니아의 소도시로 이사를 간다. 이사간 다음날, 비치 파티에서 앨리(Ali Mills : 엘리자베스 슈 분)라는 여자 친구를 사귀게 되는데 그녀의 애인이었던 자니(Johnny Lawrence : 윌리암 자브카 분)의 멤버들로부터 폭행을 당한다. 이웃집의 일본계 주민, 미야기(Miyagi : 팻 모리타 분)만이 다니엘을 위로해 준다.  괴로운 나날 속에 댄스 파티에서 또 폭행을 당하는 다니엘을 미야기가 당수로 구출하고 '18세이하 당수 대회'의 대결로 우열을 가리자고 쟈니와 그 멤버에게 제의, 협약을 맺는다. 다니엘의 피나는 훈련 속에 대회의 날이 다가오는데...",
+      "tagline": "",
+      "release_date": "1984-06-22",
+      "status": "Released",
+      "voteAverage": 7.202,
+      "popularity": 11.0072,
+      "runtime": 126,
+      "genres": [
+        "액션",
+        "모험",
+        "드라마",
+        "가족"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/yxsCYGpPIkicWmallcBqPylHmqF.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/5iMAyVYs4rnQKQ9HDdmuqlb0VtS.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 2877,
+          "name": "랄프 마치오",
+          "character": "Daniel LaRusso",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/AoqqL9UlyPrcTLnpzbQvKXPvXrz.jpg"
+        },
+        {
+          "actor_id": 23915,
+          "name": "Pat Morita",
+          "character": "Mr. Miyagi",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dwnjbEvhKRanS5xTaI1NkZ98aM9.jpg"
+        },
+        {
+          "actor_id": 1951,
+          "name": "엘리자베스 슈",
+          "character": "Ali Mills",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/A1eCMPRBBrJ1vb6qGk7OrAmTA5l.jpg"
+        },
+        {
+          "actor_id": 56124,
+          "name": "윌리엄 자브카",
+          "character": "Johnny Lawrence",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/AoTxNif6Kv5KtIk3YdfQUxLrLeR.jpg"
+        },
+        {
+          "actor_id": 56117,
+          "name": "Martin Kove",
+          "character": "John Kreese",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vKfS55g6rqldWekNdy4JifuJQsw.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8580,
+        "name": "베스트 키드 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/7tuwH4tZZy4BHe7mivXmmSYg3kx.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/wVG4aeLvlDmjAA9voP87u2qdEWv.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 85,
+    "fields": {
+      "title": "인디아나 존스: 레이더스",
+      "overview": "1936년 남아메리카. 인디아나 존스 박사는 험난한 밀림 지대를 헤치고 독거미와 온갖 부비트랩을 뚫고서 고대 문명의 동굴에 보관된 보물을 손에 넣는데 성공하지만, 마지막 순간 악덕 고고학자 벨로크에게 빼앗기고 만다.  대학으로 돌아온 인디에게 정보국 사람들이 찾아온다. 정부로부터 성서에 나오는 성궤를 찾으라는 명령을 받는은 인디는 단서를 하나하나 찾아가며 성궤의 행방을 추적해 나간다. 그런데 나치군들도 역시 전쟁에 가지고 나가기만 하면 모든 전쟁에서 승리를 거둘 수 있는 무서운 힘을 지닌 성궤를 찾아나서는데...",
+      "tagline": "인디아나 존스, 그 전설의 시작",
+      "release_date": "1981-06-12",
+      "status": "Released",
+      "voteAverage": 7.923,
+      "popularity": 11.5342,
+      "runtime": 115,
+      "genres": [
+        "모험",
+        "액션"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/xB8nOHHz8bmuM3GoW3gFttUvEks.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/ueDw7djPgKPZfph0vC43aD2EMyF.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3,
+          "name": "해리슨 포드",
+          "character": "Indiana Jones",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zVnHagUvXkR2StdOtquEwsiwSVt.jpg"
+        },
+        {
+          "actor_id": 650,
+          "name": "캐런 앨런",
+          "character": "Marion Ravenwood",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eJszpndpRzrXbSlz7RUlApoTykn.jpg"
+        },
+        {
+          "actor_id": 652,
+          "name": "Paul Freeman",
+          "character": "Dr. René Belloq",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mLDHLughdhSe6AqsklX0Zhjk9Rx.jpg"
+        },
+        {
+          "actor_id": 655,
+          "name": "존 라이스 데이비스",
+          "character": "Sallah",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bfn4WvhGo2QKYtv5ynk7tKu7NnL.jpg"
+        },
+        {
+          "actor_id": 653,
+          "name": "Ronald Lacey",
+          "character": "Major Arnold Toht",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wrFU5EkxKIq0TpEBuKXzcRAld73.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 84,
+        "name": "인디아나 존스 시리즈",
+        "overview": "《인디아나 존스》는 스티븐 스필버그가 1981년에 처음 제작한 일련의 모험영화인 동시에 영화의 주인공이다. 가공의 인물인 고고학자 인디아나 존스의 모험을 다루었다. 영화 도입부에 파라마운트의 로고가 마터호른이나 마터호른을 조각한 징 등으로 오버랩이 되면서 영화가 시작된다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/8MX4W27wOI5Hapk7pyWnMmHrC4a.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/6kh59mZizZsttZPR0HAdXk6Ve2n.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 8392,
+    "fields": {
+      "title": "이웃집 토토로",
+      "overview": "1955년 일본의 아름다운 시골 마을, 상냥하고 의젓한 11살 사츠키와 장난꾸러기에 호기심 많은 4살의 메이 는 사이좋은 자매로 아빠와 함께 도시를 떠나 시골로 이사온다. 자상한 아빠 쿠사카베타츠오는 도쿄에서 대학 연구원이며, 입원 중이지만 따뜻한 미소를 잃지 않는 엄마가 있다. 곧 퇴원하실 엄마를 공기가 맑은 곳에서 맞이하기 위해서다. 숲 한복판에 금방이라도 쓰러질 것처럼 낡은 집을 보며 자매는 새로운 환경에 대한 호기심으로 잔뜩 들뜬다. 그러던 어느 날 사츠키가 학교에 간 동안 메이는 숲에서 정령을 만나다. 메이는 그 정령에게 토토로란 이름을 붙여주는데...",
+      "tagline": "행복이 기적처럼 쏟아진다",
+      "release_date": "1988-04-16",
+      "status": "Released",
+      "voteAverage": 8.07,
+      "popularity": 11.1303,
+      "runtime": 87,
+      "genres": [
+        "판타지",
+        "애니메이션",
+        "가족"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/c9zCkL0rTkNQ1HB9cmeFIqbkS50.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/6O1mOoTXuc1WqjKd2R7MFQHZ7Eb.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 55662,
+          "name": "히다카 노리코",
+          "character": "Satsuki Kusakabe (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/43OuwsjqGf7JxpFpUvB75OdDDXQ.jpg"
+        },
+        {
+          "actor_id": 55664,
+          "name": "사카모토 치카",
+          "character": "Mei Kusakabe (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lIIwnLmcgGpifpRflBq0kLW9EpK.jpg"
+        },
+        {
+          "actor_id": 55663,
+          "name": "타카기 히토시",
+          "character": "Totoro (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lQWkgAGIdJ3Q93xI95ke6LZfzHW.jpg"
+        },
+        {
+          "actor_id": 55665,
+          "name": "糸井重里",
+          "character": "Tatsuo Kusakabe (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2V17CMIcxb6JEHT5Qp3FKdlHUoE.jpg"
+        },
+        {
+          "actor_id": 613,
+          "name": "시마모토 스미",
+          "character": "Yasuko Kusakabe (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eCw8GSp5cmye3xgzm2cvv2KmWX4.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -213,18 +1432,66 @@
     "pk": 954,
     "fields": {
       "title": "미션 임파서블",
-      "directors": [
-        1150
-      ],
-      "actors": [
-        500,
-        10127,
-        4885,
-        15319,
-        1003
-      ],
+      "overview": "동유럽 첩보원들의 비밀 명단을 훔쳐 무기상에 팔아 넘기려는 음모를 막기 위해 짐 펠프스가 이끄는 CIA 최고의 팀 미션 임파서블이 투입된다. 그러나 대사관 파티에 잠입하여 동료들과 함께 작전을 수행하던 중 팀의 리더였던 이단 헌트만이 구사일생으로 혼자 살아 남는다. 곧 이어 본부에 연락을 취한 헌트는 이번 작전이 CIA 내에 침투한 이중간첩의 체포작전이라는 것과 자신이 범인으로 지목된 것을 알고 재빨리 피신한다. 그는 자신을 함정에 빠뜨리고 동료들을 살해한 진짜 범인을 찾기 위해 나선다. 마침내 그는 컴퓨터의 접속암호를 풀어 무기 밀매상인 맥스와 연락을 취하는데...",
+      "tagline": "불가능을 기대하라",
       "release_date": "1996-05-22",
-      "poster_url": "https://image.tmdb.org/t/p/w500/e7ABYg2KnI0QBBYSrLYiTljtmpd.jpg"
+      "status": "Released",
+      "voteAverage": 6.998,
+      "popularity": 46.1066,
+      "runtime": 110,
+      "genres": [
+        "모험",
+        "액션",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/e7ABYg2KnI0QBBYSrLYiTljtmpd.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/sra8XnL96OyLHENcglmZJg6HA8z.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 500,
+          "name": "톰 크루즈",
+          "character": "Ethan Hunt",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eOh4ubpOm2Igdg0QH2ghj0mFtC.jpg"
+        },
+        {
+          "actor_id": 10127,
+          "name": "존 보이트",
+          "character": "Jim Phelps",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/g3jSSM8xqbRRJmvHM1GTZx8jmup.jpg"
+        },
+        {
+          "actor_id": 4885,
+          "name": "엠마누엘 베아르",
+          "character": "Claire",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yPEWzvYnPsOy2BSDgMrhrQsIh0N.jpg"
+        },
+        {
+          "actor_id": 15319,
+          "name": "헨리 처니",
+          "character": "Kittridge",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zOWZzRmliKf9032IOOq0a3jXhVv.jpg"
+        },
+        {
+          "actor_id": 1003,
+          "name": "장 르노",
+          "character": "Krieger",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/mw0EZJYz3kiFq9fNxsML773gotF.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 87359,
+        "name": "미션 임파서블 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/jPrAjeK4APOhPSrHrLqSmXF2Z8a.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mroWh717g0Ah2c0rrPGW6f3EWMM.jpg"
+      }
     }
   },
   {
@@ -232,18 +1499,59 @@
     "pk": 597,
     "fields": {
       "title": "타이타닉",
-      "directors": [
-        2710
-      ],
-      "actors": [
-        6193,
-        204,
-        1954,
-        8534,
-        3713
-      ],
+      "overview": "\"내 인생의 가장 큰 행운은 당신을 만난 거야\" 우연한 기회로 티켓을 구해 타이타닉호에 올라탄 자유로운 영혼을 가진 화가 ‘잭’(레오나르도 디카프리오)은 막강한 재력의 약혼자와 함께 1등실에 승선한 ‘로즈’(케이트 윈슬렛)에게 한눈에 반한다. 진실한 사랑을 꿈꾸던 ‘로즈’ 또한 생애 처음 황홀한 감정에 휩싸이고, 둘은 운명 같은 사랑에 빠지는데… 가장 차가운 곳에서 피어난 뜨거운 사랑! 영원히 가라앉지 않는 세기의 사랑이 펼쳐진다!",
+      "tagline": "차가운 바닷물 속에 잠든 러브 스토리",
       "release_date": "1997-11-18",
-      "poster_url": "https://image.tmdb.org/t/p/w500/132KjhVrWUqKFVfMAKKNkherytA.jpg"
+      "status": "Released",
+      "voteAverage": 7.906,
+      "popularity": 31.1822,
+      "runtime": 194,
+      "genres": [
+        "드라마",
+        "로맨스"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/132KjhVrWUqKFVfMAKKNkherytA.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/sCzcYW9h55WcesOqA12cgEr9Exw.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 6193,
+          "name": "레오나르도 디카프리오",
+          "character": "Jack Dawson",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg"
+        },
+        {
+          "actor_id": 204,
+          "name": "케이트 윈슬렛",
+          "character": "Rose DeWitt Bukater",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cPRq7uH3PIFcHilP15BrMKunink.jpg"
+        },
+        {
+          "actor_id": 1954,
+          "name": "빌리 제인",
+          "character": "Cal Hockley",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wr4fuwLzQvW1G0MS7cmQ3ObFjvL.jpg"
+        },
+        {
+          "actor_id": 8534,
+          "name": "캐시 베이츠",
+          "character": "Molly Brown",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zZG6oNiut8SRGhL37whbKvocK6W.jpg"
+        },
+        {
+          "actor_id": 3713,
+          "name": "프랜시스 피셔",
+          "character": "Ruth DeWitt Bukater",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/3iNDgd54IIj8g8hGqhhUjM6TeWd.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -251,18 +1559,59 @@
     "pk": 278,
     "fields": {
       "title": "쇼생크 탈출",
-      "directors": [
-        4027
-      ],
-      "actors": [
-        504,
-        192,
-        4029,
-        6573,
-        6574
-      ],
+      "overview": "촉망받는 은행 간부 앤디 듀프레인은 아내와 그녀의 정부를 살해했다는 누명을 쓴다. 주변의 증언과 살해 현장의 그럴듯한 증거들로 그는 종신형을 선고받고 악질범들만 수용한다는 지옥같은 교도소 쇼생크로 향한다. 인간 말종 쓰레기들만 모인 그곳에서 그는 이루 말할 수 없는 억압과 짐승보다 못한 취급을 당한다. 그러던 어느 날, 간수의 세금을 면제받게 해 준 덕분에 그는 일약 교도소의 비공식 회계사로 일하게 된다. 그 와중에 교도소 소장은 죄수들을 이리저리 부리면서 검은 돈을 긁어 모으고 앤디는 이 돈을 세탁하여 불려주면서 그의 돈을 관리하는데...",
+      "tagline": "두려움은 너를 죄수로 가두고 희망은 너를 자유롭게 하리라",
       "release_date": "1994-09-23",
-      "poster_url": "https://image.tmdb.org/t/p/w500/oAt6OtpwYCdJI76AVtVKW1eorYx.jpg"
+      "status": "Released",
+      "voteAverage": 8.71,
+      "popularity": 33.229,
+      "runtime": 142,
+      "genres": [
+        "드라마",
+        "범죄"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/oAt6OtpwYCdJI76AVtVKW1eorYx.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 504,
+          "name": "팀 로빈스",
+          "character": "Andy Dufresne",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/djLVFETFTvPyVUdrd7aLVykobof.jpg"
+        },
+        {
+          "actor_id": 192,
+          "name": "모건 프리먼",
+          "character": "Ellis Boyd 'Red' Redding",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jPsLqiYGSofU4s6BjrxnefMfabb.jpg"
+        },
+        {
+          "actor_id": 4029,
+          "name": "밥 건턴",
+          "character": "Warden Norton",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ulbVvuBToBN3aCGcV028hwO0MOP.jpg"
+        },
+        {
+          "actor_id": 6573,
+          "name": "윌리엄 새들러",
+          "character": "Heywood",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/rWeb2kjYCA7V9MC9kRwRpm57YoY.jpg"
+        },
+        {
+          "actor_id": 6574,
+          "name": "클랜시 브라운",
+          "character": "Captain Byron T. Hadley",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xjg0ZIxP0tFcEQCTeRgKxNtLdpe.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -270,19 +1619,65 @@
     "pk": 603,
     "fields": {
       "title": "매트릭스",
-      "directors": [
-        9340,
-        9339
-      ],
-      "actors": [
-        6384,
-        2975,
-        530,
-        1331,
-        9364
-      ],
+      "overview": "인간의 기억마저 AI에 의해 입력되고 삭제되는 세상, 진짜보다 더 진짜 같은 가상 현실 매트릭스. 그 속에서 진정한 현실을 인식할 수 없게 재배되는 인간들. 그 매트릭스를 빠져 나오면서 AI에게 가장 위험한 인물이 된 모피어스는 몇 안 되는 동료들과 함께 기계와의 전쟁 전후의의 폐허를 떠돌며 인류를 구할 마지막 영웅을 찾아 헤맨다. 마침내 모피어스는 낮에는 평범한 회사원 앤더슨으로, 밤에는 해커로 활동하는 청년 네오를 그로 지목한다. 모피어스의 지시대로 그를 만나게 된 네오는 두개의 알약 중 하나를 고르는 선택을 하게 되는데...",
+      "tagline": "서기 2199년, 인공지능 AI에 의해 인류가 재배되고 있다",
       "release_date": "1999-03-31",
-      "poster_url": "https://image.tmdb.org/t/p/w500/fxBxoXFAYKWde6lKzXxSusn18Av.jpg"
+      "status": "Released",
+      "voteAverage": 8.226,
+      "popularity": 29.4557,
+      "runtime": 136,
+      "genres": [
+        "액션",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/fxBxoXFAYKWde6lKzXxSusn18Av.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/icmmSD4vTTDKOq2vvdulafOGw93.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 6384,
+          "name": "키아누 리브스",
+          "character": "Neo",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg"
+        },
+        {
+          "actor_id": 2975,
+          "name": "로렌스 피시번",
+          "character": "Morpheus",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2GbXERENPpl5MmlqOLlPVaVtifD.jpg"
+        },
+        {
+          "actor_id": 530,
+          "name": "캐리 앤 모스",
+          "character": "Trinity",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xD4jTA3KmVp5Rq3aHcymL9DUGjD.jpg"
+        },
+        {
+          "actor_id": 1331,
+          "name": "휴고 위빙",
+          "character": "Agent Smith",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/t4ScpYIHlXVD41scEyiGdQDYflX.jpg"
+        },
+        {
+          "actor_id": 9364,
+          "name": "Gloria Foster",
+          "character": "Oracle",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/AriGXtC9fjBOia9Zr8CZjn4o3rx.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 2344,
+        "name": "매트릭스 시리즈",
+        "overview": "인간의 기억을 지배하는 가상현실, 매트릭스 2199년. 인공 두뇌를 가진 컴퓨터(AI: Artificial Intelligence)가 지배하는 세계에서 인간을 가축처럼 인공 자궁(인큐베이터)에서 재배해 에너지 원으로 활용하는 끔찍한 시대다. AI에 의해 뇌세포에 ‘매트릭스’라는 프로그램(내용은 1999년의 가상현실)을 입력 당한 인간은, 매트릭스 프로그램에 따라 평생 1999년의 가상 현실을 살아간다. 프로그램 안에 있는 동안 인간의 뇌는 AI의 철저한 통제를 받는다. 인간이 보고 느끼는 것들은 항상 그들의 검색 엔진에 노출되어 있고, 인간의 기억 또한 그들에 의해 입력되고 삭제된다. 그러나, 이러한 가상 현실 속에서 진정한 현실을 인식할 수 있는 인간은 없다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/sztnVGXOw9JfLMDECg72P1K9jER.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/bRm2DEgUiYciDw3myHuYFInD7la.jpg"
+      }
     }
   },
   {
@@ -290,18 +1685,375 @@
     "pk": 550,
     "fields": {
       "title": "파이트 클럽",
-      "directors": [
-        7467
-      ],
-      "actors": [
-        819,
-        287,
-        1283,
-        7470,
-        7499
-      ],
+      "overview": "자동차 회사의 리콜 심사관으로 일하는 주인공은 일상의 무료함과 공허함 속에서 늘 새로운 탈출을 꿈꾼다. 그는 비행기에서 자신을 비누 제조업자라고 소개하는 타일러 더든을 만난다. 집에 돌아온 주인공은 아파트가 누군가에 의해 폭파되었음을 발견하고, 타일러에게 도움을 청해 함께 생활하게 된다. 어느 날 밤 타일러는 주인공에게 자신을 때려달라고 부탁한다. 사람은 싸워봐야 진정한 자신을 알 수 있다는 것이다. 결국 이들은 매주 토요일 밤 술집 지하에서 맨주먹으로 격투를 벌이는 파이트 클럽을 결성하기에 이르는데...",
+      "tagline": "믿어왔던 상식과 규칙에 통렬한 카운터를 날리는 스타일리시 액션 무비!",
       "release_date": "1999-10-15",
-      "poster_url": "https://image.tmdb.org/t/p/w500/uEsdm0noLfmkcVrZlyyuXp9e5I7.jpg"
+      "status": "Released",
+      "voteAverage": 8.438,
+      "popularity": 24.0884,
+      "runtime": 139,
+      "genres": [
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/uEsdm0noLfmkcVrZlyyuXp9e5I7.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/xRyINp9KfMLVjRiO5nCsoRDdvvF.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 819,
+          "name": "에드워드 노튼",
+          "character": "Narrator",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg"
+        },
+        {
+          "actor_id": 287,
+          "name": "브래드 피트",
+          "character": "Tyler Durden",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cckcYc2v0yh1tc9QjRelptcOBko.jpg"
+        },
+        {
+          "actor_id": 1283,
+          "name": "헬레나 본햄 카터",
+          "character": "Marla Singer",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/hJMbNSPJ2PCahsP3rNEU39C8GWU.jpg"
+        },
+        {
+          "actor_id": 7470,
+          "name": "Meat Loaf",
+          "character": "Robert Paulson",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7gKLR1u46OB8WJ6m06LemNBCMx6.jpg"
+        },
+        {
+          "actor_id": 7499,
+          "name": "자레드 레토",
+          "character": "Angel Face",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ca3x0OfIKbJppZh8S1Alx3GfUZO.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 13,
+    "fields": {
+      "title": "포레스트 검프",
+      "overview": "불편한 다리, 남들보다 조금 떨어지는 지능을 가진 포레스트 검프는 헌신적인 어머니의 보살핌과 첫사랑 제니와의 만남으로 편견과 괴롭힘 속에서도 따뜻한 마음을 지니고 성장한다. 또래들의 괴롭힘을 피해 도망치던 포레스트는 누구보다 빠르게 달릴 수 있는 자신의 재능을 깨닫는다. 그의 재능을 알아 본 대학에서 그를 미식축구 선수로 발탁하고, 졸업 후에도 뛰어난 신체능력으로 군에 들어가 무공훈장을 수여받는 등 탄탄한 인생 가도에 오르게 된 포레스트. 하지만 어머니가 병에 걸려 죽음을 맞이하고, 첫사랑 제니 역시 그의 곁을 떠나가며 다시 한 번 인생의 전환점을 맞이하게 되는데...",
+      "tagline": "인생은 초콜릿 상자와 같은 거야. 네가 무엇을 고를지 아무도 모른단다",
+      "release_date": "1994-06-23",
+      "status": "Released",
+      "voteAverage": 8.468,
+      "popularity": 22.3631,
+      "runtime": 142,
+      "genres": [
+        "코미디",
+        "드라마",
+        "로맨스"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/iraQz6gdAe8JL45QcBifM1UhQ38.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/tlEFuIlaxRPXIYVHXbOSAMCfWqk.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 31,
+          "name": "톰 행크스",
+          "character": "Forrest Gump",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eKF1sGJRrZJbfBG1KirPt1cfNd3.jpg"
+        },
+        {
+          "actor_id": 32,
+          "name": "로빈 라이트",
+          "character": "Jenny Curran",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/d3rIv0y2p0jMsQ7ViR7O1606NZa.jpg"
+        },
+        {
+          "actor_id": 33,
+          "name": "게리 시나이즈",
+          "character": "Lieutenant Dan Taylor",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/olRjiV8ZhBixQiTvrGwXhpVXxsV.jpg"
+        },
+        {
+          "actor_id": 35,
+          "name": "샐리 필드",
+          "character": "Mrs. Gump",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5fBK36MdmdwQQMuP0W70rXADXih.jpg"
+        },
+        {
+          "actor_id": 34,
+          "name": "Mykelti Williamson",
+          "character": "Bubba Blue",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dR16zD9AjnHWbeN5OVmJWE0vSax.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 862,
+    "fields": {
+      "title": "토이 스토리",
+      "overview": "카우보이 인형 우디는 꼬마 주인인 앤디의 가장 사랑받는 장난감이다. 그러나 어느날 버즈라는 새로운 장난감이 등장한다.  버즈는 최신형 장난감으로 레이저 빔 등의 첨단장비를 갖추고 있으나, 버즈는 자신이 장난감임을 인식하지 못하고 자신이 우주에서 온 전사이며 자신이 갖춘 장비로 하늘을 날 수 있다고 믿고 있다. 버즈의 허상을 상처받지 않고 인식시켜 주려는 우디와 친구들. 그러나 뜻밖의 사고가 일어난다. 옆집 개에게 버즈가 납치당하고 이런 버즈를 구하기 위해 우디와 친구들은 구조대를 조직해 버즈를 구하러 가는데...",
+      "tagline": "장난감과 좋은 친구가 되자",
+      "release_date": "1995-11-22",
+      "status": "Released",
+      "voteAverage": 7.968,
+      "popularity": 21.8546,
+      "runtime": 81,
+      "genres": [
+        "애니메이션",
+        "모험",
+        "가족",
+        "코미디"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/5ELwzkC7QY9vug20AvRFOXBzLbG.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/3Rfvhy1Nl6sSGJwyjb0QiZzZYlB.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 31,
+          "name": "톰 행크스",
+          "character": "Woody (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eKF1sGJRrZJbfBG1KirPt1cfNd3.jpg"
+        },
+        {
+          "actor_id": 12898,
+          "name": "팀 앨런",
+          "character": "Buzz Lightyear (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/woWhZzFILVhYMAvsPL171HjMY0y.jpg"
+        },
+        {
+          "actor_id": 7167,
+          "name": "Don Rickles",
+          "character": "Mr. Potato Head (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/iJLQV4dcbTUgxlWJakjDldzlMXS.jpg"
+        },
+        {
+          "actor_id": 12899,
+          "name": "Jim Varney",
+          "character": "Slinky Dog (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zvBFmvKUrPvE6FW35O3RP4i1ZPp.jpg"
+        },
+        {
+          "actor_id": 12900,
+          "name": "월리스 숀",
+          "character": "Rex (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wVaM1WlFKDce4esThwL4XtNLhOe.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 10194,
+        "name": "토이 스토리 시리즈",
+        "overview": "토이 스토리 시리즈는 픽사가 제작하고 월트 디즈니 컴퍼니가 배급을 담당한  3D 애니메이션 시리즈이다. 장난감이 나오는 애니메이션이라서 겉만 보고 유치하다고 생각하는 사람들이 많지만 픽사 작품들 중에서도 손에 꼽히는 명작으로 평가되며, 각 편마다 뚜렷한 철학과 주제가 담겨있다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rki5qLuwb0xnnE9seehxO9TlLhW.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/hApclyB9NEZEQujAVajzi5iWE4a.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 37165,
+    "fields": {
+      "title": "트루먼 쇼",
+      "overview": "트루먼 버뱅크는 작고 조용한 섬마을에 사는 평범한 세일즈맨이다. 그런 그가 자신의 삶에 대해 의문을 갖기 시작한 것은 평소와 다름없이 평범한 어느 날, 갑자기 하늘에서 촬영용 조명등이 떨어지고, 어렸을 적 자신이 익사를 직접 목격했던 아버지가 살아오고, 또 누군가에 의해 끌려가는 등 상식 밖의 일들이 벌어지고 나서부터였다. 평생을 그다지 신경쓰지 않고 지냈던 일상이었지만 주변을 보니 이상한 일이 너무 많았다. 결국 자신이 특별한 상황에 놓여있다는 확신을 하게된 트루먼은 첫사랑 실비아의 모든 것이 다 거짓라는 말을 되새기며 일상으로부터 탈출을 결심하게 되는데...",
+      "tagline": "미디어와 대중의 관음 폭력을 고발한다",
+      "release_date": "1998-06-04",
+      "status": "Released",
+      "voteAverage": 8.147,
+      "popularity": 19.4019,
+      "runtime": 103,
+      "genres": [
+        "코미디",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/AsUv4pFf1UQuOLKf7nYUXgmgCNf.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/aCHn2TXYJfzPXQKA6r9mKPbMlUB.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 206,
+          "name": "짐 캐리",
+          "character": "Truman Burbank",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/u0AqTz6Y7GHPCHINS01P7gPvDSb.jpg"
+        },
+        {
+          "actor_id": 350,
+          "name": "로라 리니",
+          "character": "Meryl Burbank / Hannah Gill",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yIopIq7l7eIvjoQqnZJkpdQEvds.jpg"
+        },
+        {
+          "actor_id": 11315,
+          "name": "Noah Emmerich",
+          "character": "Marlon / Louis Coltrane",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/qwPPHYWJ3a9yRwFXicbbHsf60Nm.jpg"
+        },
+        {
+          "actor_id": 11317,
+          "name": "나타샤 맥켈혼",
+          "character": "Lauren Garland / Sylvia",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9pxaoasotR1pdCXYSfN1pkm0geO.jpg"
+        },
+        {
+          "actor_id": 11318,
+          "name": "홀랜드 테일러",
+          "character": "Angela Montclair / Alanis Montclair",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jt9yFB3nLfZQ0c1DcnvvcfA11gB.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 8587,
+    "fields": {
+      "title": "라이온 킹",
+      "overview": "아프리카의 평화로운 왕국 프라이드랜드. 이곳을 다스리는 사자 무파사의 아들 심바가 태어난다. 왕의 동생 스카는 자신이 왕위를 차지하기 위해 하이에나들과 결탁하여 무파사를 죽이고 심바에게 죄를 뒤집어 씌워 멀리 내쫓는다. 간신히 목숨을 건진 심바는 유쾌한 미어캣 티몬과 멧돼지 품바와 함께 생활하며 어른이 된다. 어느 날 심바는 옛 친구 날라를 만나 프라이드랜드가 파괴되고 있다는 소식을 듣게 된다. 하지만 자신이 저지른 실수 때문에 고향으로 돌아가기를 거부하는 심바. 결국 아버지의 가르침과 자신의 운명을 깨달은 심바는 스카와 하이에나들을 물리치고 평화를 되찾기 위해 왕국으로 돌아가는데...",
+      "tagline": "아름다우며 장엄한 디즈니 최고의 명작.",
+      "release_date": "1994-06-15",
+      "status": "Released",
+      "voteAverage": 8.258,
+      "popularity": 18.6288,
+      "runtime": 89,
+      "genres": [
+        "가족",
+        "애니메이션",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/9Y048zYw66TWvpUtsiNK0uReiVX.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/wXsQvli6tWqja51pYxXNG1LFIGV.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 4756,
+          "name": "매튜 브로더릭",
+          "character": "Simba (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8jO89WNvQRTFUrgXuIGOiTRwbYg.jpg"
+        },
+        {
+          "actor_id": 20005,
+          "name": "Moira Kelly",
+          "character": "Nala (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/3yQRnGSfbPWQDInZHTzzXsrAhUR.jpg"
+        },
+        {
+          "actor_id": 78729,
+          "name": "네이선 레인",
+          "character": "Timon (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nEYS0KO1qVO3y0RAt8V8pFxnPb7.jpg"
+        },
+        {
+          "actor_id": 69415,
+          "name": "Ernie Sabella",
+          "character": "Pumbaa (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dBit6gkZfxXqdxO0Ic8CsnLpxyQ.jpg"
+        },
+        {
+          "actor_id": 15152,
+          "name": "제임스 얼 존스",
+          "character": "Mufasa (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/oqMPIsXrl9SZkRfIKN08eFROmH6.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 94032,
+        "name": "라이온 킹 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/oG1heUs503GV6xBnFhgyYTGWm05.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/A9IEaj9cPAwEgFnTmteB70oxgJY.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 807,
+    "fields": {
+      "title": "세븐",
+      "overview": "은퇴를 7일 앞둔 관록의 형사 윌리엄 소머셋(모건 프리먼)과 새로 전근 온 신참내기 형사 밀스(브래드 피트)가 팀이 된 바로 다음날, 강압에 의해 위가 찢어질 때까지 먹다가 죽은 초고도 비만 남자와 역시 강압에 의해 식칼로 자기 살을 베어내 죽은 악덕 변호사의 사건과 마주한다. 식탐, 탐욕, 그리고 나태, 분노, 교만, 욕정, 시기. 소머셋은 현장에 남은 흔적들로 단테의 신곡과 쵸서의 캔터베리 서사시를 근거로 한 기나긴 연쇄 살인이 시작되었음을 직감하고 성서의 7가지 죄악을 따라 발생하는 사건들을 추적하기 시작하는데...",
+      "tagline": "계획적인 시나리오, 벗어날 수 없는 트릭",
+      "release_date": "1995-09-22",
+      "status": "Released",
+      "voteAverage": 8.376,
+      "popularity": 19.1125,
+      "runtime": 127,
+      "genres": [
+        "범죄",
+        "미스터리",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/izzk8dbmrLowcoGbFaebqJvzyXg.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/p1PLSI5Nw2krGxD7X4ulul1tDAk.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 192,
+          "name": "모건 프리먼",
+          "character": "Somerset",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jPsLqiYGSofU4s6BjrxnefMfabb.jpg"
+        },
+        {
+          "actor_id": 287,
+          "name": "브래드 피트",
+          "character": "Mills",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cckcYc2v0yh1tc9QjRelptcOBko.jpg"
+        },
+        {
+          "actor_id": 12052,
+          "name": "기네스 팰트로",
+          "character": "Tracy",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kvk2UXWO45pQWlbErtotK3npHNP.jpg"
+        },
+        {
+          "actor_id": 12055,
+          "name": "존 카시니",
+          "character": "Officer Davis",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kn2Rtn0I8ivCR7ydZTY74XUBh1K.jpg"
+        },
+        {
+          "actor_id": 30487,
+          "name": "피터 크롬비",
+          "character": "Dr. O'Neill",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/pMvhE1wwQo3eTSp4vwq8Hb22CwN.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -309,18 +2061,64 @@
     "pk": 9532,
     "fields": {
       "title": "데스티네이션",
-      "directors": [
-        57134
-      ],
-      "actors": [
-        50398,
-        17303,
-        43442,
-        58392,
-        43774
-      ],
+      "overview": "알렉스 브라우닝은 그의 고등학교 불어반 친구들과 파리로 출발하려는 순간, 비행기안에서 강렬한 환영을 경험하게 된다. 바로 비행기가 출발과 동시에 폭발하는 모습을 생생하게 본 것. 그는 모두 곧 비행기에서 내릴 것을 주장하고, 한차례 혼란이 있은 후에 알렉스를 포함한 7명이 비행기에서 내리게 된다. 공항 라운지로 돌아왔을 때, 알렉스와 그의 친구인 빌리와 토드, 알렉스를 본능적으로 따른 클레어, 알렉스를 비웃음거리로 만들려는 카터와 그녀의 여자친구 테리, 그리고 학생보호를 위하여 비행기에서 내린 류턴 선생까지 7명의 사람들은 엄청난 비행기 폭발을 직접 목격한다. 하지만 사건후 오히려 생존자들은 알렉스의 무시무시한 예지력에 공포를 느끼고, 또한 FBI는 그에게 의혹의 눈초리를 보낸다. 스스로 혼란에 빠진 알렉스는 어찌되었든 그를 비롯한 생존자들이 쉽게 말해서 자신들에게 다가온 죽음의 운명을 속였고, 이러한 자신들의 운명이 오래가지 못함을 알게 된다. 하지만 클레어를 제외한 생존자중 누구도 알렉스를 믿지않고, 이들에게 죽음의 사신이 다가온다.",
+      "tagline": "바꾸려 하지마라! 죽음은 예정대로 움직인다!",
       "release_date": "2000-03-17",
-      "poster_url": "https://image.tmdb.org/t/p/w500/kPqTDpKN3lkteEV1OegqpZ6GHL6.jpg"
+      "status": "Released",
+      "voteAverage": 6.615,
+      "popularity": 89.1441,
+      "runtime": 98,
+      "genres": [
+        "공포"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/kPqTDpKN3lkteEV1OegqpZ6GHL6.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/6KDLAU9OnA0FhXP1av8jqavCGG9.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 50398,
+          "name": "Devon Sawa",
+          "character": "Alex Browning",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yvMbpZ0UFQ1IBwlWm8quCA6fNc5.jpg"
+        },
+        {
+          "actor_id": 17303,
+          "name": "알리 라터",
+          "character": "Clear Rivers",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2HOlaSd30yBCrr366GfPG2PF6D8.jpg"
+        },
+        {
+          "actor_id": 43442,
+          "name": "Kerr Smith",
+          "character": "Carter Horton",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2XHffxdkDVhaETNi6ajSntQ40du.jpg"
+        },
+        {
+          "actor_id": 58392,
+          "name": "Kristen Cloke",
+          "character": "Valerie Lewton",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9MTNs9kMX6OTR6SJwMkwG3EVTsN.jpg"
+        },
+        {
+          "actor_id": 43774,
+          "name": "Daniel Roebuck",
+          "character": "Agent Weine",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/y40aX3SdvUZwE7feNq77UMg3zge.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8864,
+        "name": "파이널 데스티네이션 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nr4MXTXK2in9gxYhFMQGni66KRJ.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/y3aWOInifbGKXM34KjtcMITrZRZ.jpg"
+      }
     }
   },
   {
@@ -328,18 +2126,65 @@
     "pk": 9358,
     "fields": {
       "title": "데스티네이션 2",
-      "directors": [
-        4755
-      ],
-      "actors": [
-        17303,
-        17236,
-        57428,
-        33293,
-        58374
-      ],
+      "overview": "친구들과 주말여행을 떠나던 킴벌리는 고속도로 연쇄 충돌 사고로 자신을 포함한 많은 사람들이 끔찍하게 죽는 환상을 보게 된다. 환상에서 본 조짐들은 하나하나 현실이 되고 공포에 질린 그녀는 다른 차들의 국도 진입을 막지만 아무도 그 말을 믿으려 하지 않는다. 하지만 예견했던 대형 사고가 실제로 일어나자 이를 지켜보던 사람들은 경악을 금치 못한다. 안도의 한숨도 잠시, 화염에 휩싸인 트럭이 킴벌리의 차를 덮치면서 그녀를 제외한 친구들은 모두 목숨을 잃게 되는데.  단지 이것이 시작일 뿐이라는 것을 직감한 킴벌리는 이번 사고가 1년 전 180기 폭발사고의 생존자들이 겪은 죽음과 연관되어 있음을 알게 되고 180기 사고의 유일한 생존자 클레어를 찾아가 도움을 구한다. 킴벌리와 클레어, 그리고 나머지 생존자들은 다시 시작된 죽음의 맞서 그 해답을 찾으려 하지만 전혀 다른 법칙과 예상치 못한 방법으로 다가오는 죽음은 그들을 더욱 공포에 떨게 만든다 .점점 빠르게 다가오는 공포의 검은 그림자. 과연 그들은 죽음과의 숨막히는 게임에서 살아 남을 수 있을 것인가?",
+      "tagline": "아직도 살아있는가!",
       "release_date": "2003-01-31",
-      "poster_url": "https://image.tmdb.org/t/p/w500/3OdyCaz3tRJhY4JeZwHd0nG6jNw.jpg"
+      "status": "Released",
+      "voteAverage": 6.3,
+      "popularity": 57.4889,
+      "runtime": 90,
+      "genres": [
+        "공포",
+        "미스터리"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/3OdyCaz3tRJhY4JeZwHd0nG6jNw.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/tKnmfO5lAyu8hpTZMyMaI4lhZpJ.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 17303,
+          "name": "알리 라터",
+          "character": "Clear Rivers",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2HOlaSd30yBCrr366GfPG2PF6D8.jpg"
+        },
+        {
+          "actor_id": 17236,
+          "name": "A. J. Cook",
+          "character": "Kimberly Corman",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/tvEjGDQVuu7jiOvWXwEU6tEE7NW.jpg"
+        },
+        {
+          "actor_id": 57428,
+          "name": "Michael Landes",
+          "character": "Thomas Burke",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/2EdaNaUQdWi7Vi0pLNaS9Ys9fVi.jpg"
+        },
+        {
+          "actor_id": 33293,
+          "name": "David Paetkau",
+          "character": "Evan Lewis",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/c2LHO9ERSk8D5SW4vgRvgS9sSmb.jpg"
+        },
+        {
+          "actor_id": 58374,
+          "name": "James Kirk",
+          "character": "Tim Carpenter",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wgkCnBOX3anKMQ3vkDMcB4qVE2y.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8864,
+        "name": "파이널 데스티네이션 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nr4MXTXK2in9gxYhFMQGni66KRJ.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/y3aWOInifbGKXM34KjtcMITrZRZ.jpg"
+      }
     }
   },
   {
@@ -347,18 +2192,67 @@
     "pk": 7451,
     "fields": {
       "title": "트리플 엑스",
-      "directors": [
-        18878
-      ],
-      "actors": [
-        12835,
-        18514,
-        20982,
-        2231,
-        53347
-      ],
+      "overview": "싸이렌이 온 거리를 울려 퍼지며 요란한 추격씬이 벌어지는 도중 한 녀석이 콜벳를 몰고 다리를 돌진, 200미터 높이에서 자동차 번지를 시도한다. 짜릿한 곡예를 선보인 후 낙하산을 펴고 유유히 사라지는 녀석의 이름은 '젠더 케이지'. 인터넷에 생방송된 이 장면은 전세계 네티즌들에게 열렬한 환호를 받는다. 또 한 번의 멋진 프로젝트로 영웅 대접을 받는 젠더 케이지. 그러나 파티가 무르익을 무렵, 갑자기 들이닥친 특수부대는 그에게 신경 안정제를 쏜 후 잠들게 한다. 깨어난 곳은 알 수 없는 레스토랑. 어리둥절한 그 곳은 갑자기 강도들의 침입장으로 돌변하고, 단숨에 상황을 정리해버린 그에게 기븐스가 축하 인사를 전한다. 미국 비밀첩보국 NSA의 1차 테스트를 통과한 것. 이후 또 다시 잠에서 깨어난 곳은 비행기 안. 2번째 테스트로 콜럼비아 마약 밀매상의 아지트에 던져진 젠더 케이지. 때마침 콜럼비아 정부와 마약상들의 충돌로 아수라장이 된 그곳에서 살아남기 위한 치열한 전쟁이 펼쳐지는데...  상황종료 후 유유히 나타난 기븐스는 NSA의 테스트를 유일하게 통과한 그에게 비밀요원이 되어줄 것을 부탁한다. 단 그렇지 않을 경우는 감옥행뿐이라는 단서를 둔다. 젠더 케이지의 코드명은 트리플 X. 첫번째 임무지는 비밀요원의 무덤이라는 별칭을 가지고 있는 도시 프라하. 이제 얼떨결에 비밀요원이 되어버린 트리플 X의 위험한 여정이 시작되는데.",
+      "tagline": "",
       "release_date": "2002-08-09",
-      "poster_url": "https://image.tmdb.org/t/p/w500/xeEw3eLeSFmJgXZzmF2Efww0q3s.jpg"
+      "status": "Released",
+      "voteAverage": 5.9,
+      "popularity": 54.0601,
+      "runtime": 124,
+      "genres": [
+        "액션",
+        "모험",
+        "스릴러",
+        "범죄"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/xeEw3eLeSFmJgXZzmF2Efww0q3s.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/qwK9soQmmJ7kRdjLZVXblw3g7AQ.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 12835,
+          "name": "빈 디젤",
+          "character": "Xander Cage",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nZdVry7lnUkE24PnXakok9okvL4.jpg"
+        },
+        {
+          "actor_id": 18514,
+          "name": "아시아 아르젠토",
+          "character": "Yelena",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dYbYNxMnqhNyAJyrPU7e2C9jcRz.jpg"
+        },
+        {
+          "actor_id": 20982,
+          "name": "마튼 초카스",
+          "character": "Yorgi",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/gmeUY7FR0bFLdu7Ma5kvpH3Gt6B.jpg"
+        },
+        {
+          "actor_id": 2231,
+          "name": "사무엘 L. 잭슨",
+          "character": "Agent Augustus Gibbons",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/AiAYAqwpM5xmiFrAIeQvUXDCVvo.jpg"
+        },
+        {
+          "actor_id": 53347,
+          "name": "Michael Roof",
+          "character": "Agent Toby Lee Shavers",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/qhP35tsTTuAPUFcKYMGOxaw1s4j.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 52785,
+        "name": "트리플 엑스 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/s13xGJSH3eEWPjSjDvI1iCqkwVg.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/jSfCi0onZRDxbeg2dPJgB5iAoxX.jpg"
+      }
     }
   },
   {
@@ -366,19 +2260,66 @@
     "pk": 11544,
     "fields": {
       "title": "릴로 & 스티치",
-      "directors": [
-        66193,
-        69797
-      ],
-      "actors": [
-        1580,
-        66193,
-        13445,
-        28010,
-        58955
-      ],
+      "overview": "하와이 섬에서 언니 나니와 함께 사는 외톨이 소녀 릴로는 엘비스 프레슬리의 노래를 즐기고 훌라춤을 추며 씩씩하게 하루하루를 살아가는 사랑스런 아이. 늘 친구 하나 만들기가 소원이었던 릴로는 동물보호소에서 스티치를 만나게 되자 그를 집으로 데려간다. 릴로에겐 그저 귀여울 뿐인 강아지로 보이지만 사실 스티치는 투로 행성의 실험용 외계 생명체. 은하계 감옥으로 끌려가던 중 도망치다가 그만 지구에 불시착한 것이다. 투로 행성의 스티치 추격대가 지구로 날아오고 스티치는 갖은 꾀로 그들의 추적을 피해다닌다.",
+      "tagline": "전세계를 뒤흔들 스타 탄생",
       "release_date": "2002-06-21",
-      "poster_url": "https://image.tmdb.org/t/p/w500/3Ila1FBT3IUeSvD1PCuxMJphHt0.jpg"
+      "status": "Released",
+      "voteAverage": 7.541,
+      "popularity": 67.0913,
+      "runtime": 85,
+      "genres": [
+        "애니메이션",
+        "가족",
+        "코미디"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/3Ila1FBT3IUeSvD1PCuxMJphHt0.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/w102m4HoCP5uxhW8Yh7Hv7QShix.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1580,
+          "name": "Daveigh Chase",
+          "character": "Lilo (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/3PVQPEc6nXNX2eoW2UbsfVikc7H.jpg"
+        },
+        {
+          "actor_id": 66193,
+          "name": "크리스 샌더스",
+          "character": "Stitch (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6CtrIOCxggJ5eIAWeFQqd4Hs9FP.jpg"
+        },
+        {
+          "actor_id": 13445,
+          "name": "Tia Carrere",
+          "character": "Nani (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/rnHioNQkSmBAMgEBseu9bu6vw9l.jpg"
+        },
+        {
+          "actor_id": 28010,
+          "name": "David Ogden Stiers",
+          "character": "Jumba (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/cgCTQt3RZVkhkusG77l4HwHEH6A.jpg"
+        },
+        {
+          "actor_id": 58955,
+          "name": "Kevin McDonald",
+          "character": "Pleakley (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ymwrW99x9gyN0zeRkqavt3lZMa9.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 97461,
+        "name": "릴로와 스티치 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/bstyyXaLinnYwoyvo5HaDceJN07.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/2bQIDuinsMUXjcBZq8hbyPxjhvz.jpg"
+      }
     }
   },
   {
@@ -386,18 +2327,401 @@
     "pk": 9286,
     "fields": {
       "title": "파이널 데스티네이션",
-      "directors": [
-        57134
-      ],
-      "actors": [
-        17628,
-        57136,
-        20176,
-        57137,
-        37700
-      ],
+      "overview": "고등학교 졸업을 앞두고 인생의 황금기를 즐기고 있는 웬디. 웬디는 친구들과 함께 졸업 기념으로 놀이공원에 놀러 가기로 한다. 놀이공원의 하이라이트 롤러코스터에 타려는 순간, 웬디는 갑자기 불길한 예감에 휩싸인다. 남자친구인 제이슨은 신경과민이라며 그녀를 안심시키지만, 롤러코스터에 앉아 안전벨트가 내려오자마자 자신과 친구들 모두가 탄 롤러코스터가 끔찍한 사고로 전복되는 장면이 웬디의 눈앞에 생생히 스쳐간다.  롤러코스터가 출발하기 직전 이 섬뜩한 환상에서 깬 웬디는 겁에 질려 열차에서 내리려 하고 그녀의 옆자리에 앉아있던 케빈도 이런 웬디를 보고 따라 내리게 된다. 두 사람을 겁쟁이라고 놀리는 같은 반 친구 루이스. 말싸움은 주먹다짐으로 번지고 롤러코스터가 아수라장이 되자 이들은 모두 열차에서 쫓겨나고 만다. 어수선한 가운데 롤러코스터가 출발하고, 이를 지켜보던 웬디의 눈앞에서 그녀의 악몽 같은 예감은 현실로 드러난다. 엄청난 속도로 질주하던 롤러코스터가 탈선해 사람들이 모두 땅으로 곤두박질친 것. 하지만 이건 시작에 불과하다!",
+      "tagline": "멈출 수 있는가? 죽음을 부르는 7개의 징후",
       "release_date": "2006-02-09",
-      "poster_url": "https://image.tmdb.org/t/p/w500/gGSZPvotlWff9CE2eqNTBkzxIYl.jpg"
+      "status": "Released",
+      "voteAverage": 6.119,
+      "popularity": 51.335,
+      "runtime": 92,
+      "genres": [
+        "공포",
+        "미스터리"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/gGSZPvotlWff9CE2eqNTBkzxIYl.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/nSV1NIAK0Sp5dM1oiobtqbJ8Jrv.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 17628,
+          "name": "메리 엘리자베스 윈스테드",
+          "character": "Wendy Christensen",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/i1RjhPH8XypvR0W7zKCLrFxph4D.jpg"
+        },
+        {
+          "actor_id": 57136,
+          "name": "Ryan Merriman",
+          "character": "Kevin Fischer",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/a0UG62yrO9BXl7udxPNASUfnGIU.jpg"
+        },
+        {
+          "actor_id": 20176,
+          "name": "Kris Lemche",
+          "character": "Ian McKinley",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5GTujRHh4fql56kkHVrxehwJGn1.jpg"
+        },
+        {
+          "actor_id": 57137,
+          "name": "Alexz Johnson",
+          "character": "Erin",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1CWCPr0o12s2ybLvcBqZ3XFzLUr.jpg"
+        },
+        {
+          "actor_id": 37700,
+          "name": "Sam Easton",
+          "character": "Frankie Cheeks",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eH00eOGTQOYk3xVwPjlA5y4mSpd.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8864,
+        "name": "파이널 데스티네이션 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nr4MXTXK2in9gxYhFMQGni66KRJ.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/y3aWOInifbGKXM34KjtcMITrZRZ.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 19912,
+    "fields": {
+      "title": "파이널 데스티네이션 4",
+      "overview": "자동차 레이싱 대회 관중석에 앉아있던 닉은 갑자기 불길한 전조를 본다. 레이싱 카들이 연쇄 충돌을 일으켜 날아온 파편에 친구들이 죽고 무너진 건물이 자기를 덮치는 끔찍한 환상! 악몽에서 깨어난 닉이 친구들을 끌고 경기장을 막 빠져 나온 찰나, 닉의 환상은 현실로 이어진다. 닉과 친구들은 아슬아슬하게 죽음을 피하지만 이는 시작에 불과했다. 불길한 죽음의 환상은 계속해서 닉을 찾아오고, 사고에서 살아남은 사람들은 갈수록 끔찍한 방법으로 차례차례 죽음을 맞는다. 닉은 친구들의 죽음을 막으려 하지만 자신도 마지막 운명에 이르기 전에 다시 한번 죽음에서 벗어날 방법을 찾아야만 한다!",
+      "tagline": "죽음과 맞서라!",
+      "release_date": "2009-08-26",
+      "status": "Released",
+      "voteAverage": 5.604,
+      "popularity": 51.4545,
+      "runtime": 82,
+      "genres": [
+        "공포",
+        "미스터리"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/pRckgFI7EhfrkyXgczs93erGWEo.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/vMaKc5PwdKIIBt5q7JQjfgyESYT.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 94421,
+          "name": "Bobby Campo",
+          "character": "Nick",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6ART3lx7kJEC3vNJBKqILCKKOuM.jpg"
+        },
+        {
+          "actor_id": 94423,
+          "name": "샨텔 반샌튼",
+          "character": "Lori",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/x7mkiPiSoZVeFexFoEZQR6blrla.jpg"
+        },
+        {
+          "actor_id": 84076,
+          "name": "Nick Zano",
+          "character": "Hunt",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/t47PZJOUehQV4RFOEXoszMiOEjx.jpg"
+        },
+        {
+          "actor_id": 94424,
+          "name": "Haley Webb",
+          "character": "Janet",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/tKMPyfje7LEQDFaNNMW1vQQ0fvE.jpg"
+        },
+        {
+          "actor_id": 34,
+          "name": "Mykelti Williamson",
+          "character": "George",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dR16zD9AjnHWbeN5OVmJWE0vSax.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8864,
+        "name": "파이널 데스티네이션 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nr4MXTXK2in9gxYhFMQGni66KRJ.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/y3aWOInifbGKXM34KjtcMITrZRZ.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 808,
+    "fields": {
+      "title": "슈렉",
+      "overview": "성 밖 늪지대에 사는 엄청나게 못생기고 무지무지 큰 괴물 슈렉. 지저분한 진흙으로 샤워를 즐기고 동화책은 화장실 휴지 삼아 쓰는 그는 혼자만의 시간을 즐긴다.  그러던 어느 날, 자신만의 고요한 안식처에 백설공주, 신데렐라, 빗자루를 타고 다니는 마녀, 피리부는 아저씨, 피터팬, 피노키오 등등.. 동화속의 주인공들이 모두 쳐들어온다. 그 중에서도 가장 귀찮은 건 쉴새없이 떠들어대는 당나귀 덩키. 알고보니 얼굴이 몸의 반을 차지하는 1m도 안되는 숏다리 파콰드영주가 동화속의 주인공들을 다 쫓아낸것. 결국 슈렉은 파콰드영주와 담판을 지으러 떠난다.  하지만 일은 이상하게 꼬여 결국 파콰드영주 대신 불뿜는 용의 성에 갇힌 피오나 공주를 구하러 떠나게 되는데..",
+      "tagline": "2001년 여름, 가장 재미있는 상상이 세상을 움직인다!",
+      "release_date": "2001-05-18",
+      "status": "Released",
+      "voteAverage": 7.752,
+      "popularity": 28.9151,
+      "runtime": 90,
+      "genres": [
+        "애니메이션",
+        "코미디",
+        "판타지",
+        "모험",
+        "가족"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/hABnmgdAU3u6Nu61b9GUGaOseVl.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/sRvXNDItGlWCqtO3j6wks52FmbD.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 12073,
+          "name": "마이크 마이어스",
+          "character": "Shrek / Blind Mouse (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/gjfDl52Kk02MPgUYFjs9bOy33OY.jpg"
+        },
+        {
+          "actor_id": 776,
+          "name": "에디 머피",
+          "character": "Donkey (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/qgjMfefsKwSYsyCaIX46uyOXIpy.jpg"
+        },
+        {
+          "actor_id": 6941,
+          "name": "카메론 디아즈",
+          "character": "Princess Fiona (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/d4f4cQ9EiYuvNMjT1IB2h06KoRx.jpg"
+        },
+        {
+          "actor_id": 12074,
+          "name": "존 리스고",
+          "character": "Lord Farquaad (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8Y1sjBdnVR483S8PrnAQzlESwhx.jpg"
+        },
+        {
+          "actor_id": 1925,
+          "name": "뱅상 카셀",
+          "character": "Monsieur Hood (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/KxzpJXyzVnqfouInWLypAND0gL.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 2150,
+        "name": "슈렉 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/qNHZMe92A7Pyl46qUH29hVOtbSK.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/lhsd1zCsq5UquvcNalmhuddV3tI.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 155,
+    "fields": {
+      "title": "다크 나이트",
+      "overview": "범죄와 부정부패를 제거하여 고담시를 지키려는 배트맨. 그는 짐 고든 형사와 패기 넘치는 고담시 지방 검사 하비 덴트와 함께 도시를 범죄 조직으로부터 영원히 구원하고자 한다. 세 명의 의기투합으로 위기에 처한 악당들이 모인 자리에 보라색 양복을 입고 얼굴에 짙게 화장을 한 괴이한 존재가 나타나 배트맨을 죽이자는 사상 초유의 제안을 한다. 그는 바로 어떠한 룰도, 목적도 없는 사상 최악의 악당 미치광이 살인광대 조커. 배트맨을 죽이고 고담시를 끝장내버리기 위한 조커의 광기 어린 행각에 도시는 혼란에 빠지는데...",
+      "tagline": "이 도시에 정의는 죽었다",
+      "release_date": "2008-07-16",
+      "status": "Released",
+      "voteAverage": 8.52,
+      "popularity": 27.7164,
+      "runtime": 152,
+      "genres": [
+        "드라마",
+        "액션",
+        "범죄",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/f6dNinWX8rBM79JXKcShkfSh2oA.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/plDp52MirFHc2PMJRMNWoG0kfr3.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3894,
+          "name": "크리스찬 베일",
+          "character": "Bruce Wayne",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg"
+        },
+        {
+          "actor_id": 1810,
+          "name": "히스 레저",
+          "character": "Joker",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5Y9HnYYa9jF4NunY9lSgJGjSe8E.jpg"
+        },
+        {
+          "actor_id": 6383,
+          "name": "에런 엑하트",
+          "character": "Harvey Dent",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/u5JjnRMr9zKEVvOP7k3F6gdcwT6.jpg"
+        },
+        {
+          "actor_id": 3895,
+          "name": "마이클 케인",
+          "character": "Alfred",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg"
+        },
+        {
+          "actor_id": 1579,
+          "name": "메기 질렌할",
+          "character": "Rachel",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vsfkWdYWmA9CpzMHTJzrFxlDnEZ.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 263,
+        "name": "다크 나이트 시리즈",
+        "overview": "다크 나이트 시리즈는 배트맨 실사영화 시리즈를 리부트한 배트맨 비긴즈, 다크 나이트, 다크 나이트 라이즈로 구성된 3부작으로 크리스토퍼 놀란 감독이 연출했다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/ogyw5LTmL53dVxsppcy8Dlm30Fu.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/xyhrCEdB4XRkelfVsqXeUZ6rLHi.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 671,
+    "fields": {
+      "title": "해리 포터와 마법사의 돌",
+      "overview": "해리 포터는 위압적인 버논 숙부와 냉담한 이모 페투니아, 욕심 많고 버릇없는 사촌 더즐리 밑에서 갖은 구박을 견디며 계단 밑 벽장에서 생활한다. 이모네 식구들 역시 해리와의 동거가 불편하기는 마찬가지. 이모 페투니아에겐 해리가 이상한 언니 부부에 관한 기억을 떠올리게 만드는 달갑지 않은 존재다. 11살 생일이 며칠 앞으로 다가왔지만 한번도 생일파티를 치르거나 제대로 된 생일선물을 받아 본 적이 없는 해리로서는 특별히 신날 것도 기대 할 것도 없다. 11살 생일을 며칠 앞둔 어느 날 해리에게 초록색 잉크로 쓰여진 한 통의 편지가 배달된다. 그 편지의 내용은 다름 아닌 해리의 11살 생일을 맞이하여 호그와트에서 보낸 입학 초대장이었다. 그리고 해리의 생일을 축하하러 온 거인 해그리드는 해리가 모르고 있었던 해리의 진정한 정체를 알려주는데...",
+      "tagline": "마법이 시작된다",
+      "release_date": "2001-11-16",
+      "status": "Released",
+      "voteAverage": 7.902,
+      "popularity": 28.4548,
+      "runtime": 152,
+      "genres": [
+        "모험",
+        "판타지"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/unEtC8uWn2lcQLnwKG9PZJX0h0c.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/bfh9Z3Ghz4FOJAfLOAhmc3ccnHU.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 10980,
+          "name": "다니엘 래드클리프",
+          "character": "Harry Potter",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/iPg0J9UzAlPj1fLEJNllpW9IhGe.jpg"
+        },
+        {
+          "actor_id": 10989,
+          "name": "루퍼트 그린트",
+          "character": "Ron Weasley",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/q2KZZ0ltTEl7Sf8volNFV1JDEP4.jpg"
+        },
+        {
+          "actor_id": 10990,
+          "name": "엠마 왓슨",
+          "character": "Hermione Granger",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/A14lLCZYDhfYdBa0fFRpwMDiwRN.jpg"
+        },
+        {
+          "actor_id": 194,
+          "name": "리처드 해리스",
+          "character": "Albus Dumbledore",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lCvcVMuxrg1f5A8OMqY9AqkkcZR.jpg"
+        },
+        {
+          "actor_id": 10993,
+          "name": "톰 펠튼",
+          "character": "Draco Malfoy",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/4fO0PjiBbNFEnYLPe55xUUP7Wgf.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1241,
+        "name": "해리 포터 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/s4hXqX1VyWMc2ctJRuNBDB7YNJ3.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/kmEsQL2vOTA0jnM28fXS45Ky8kX.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 120,
+    "fields": {
+      "title": "반지의 제왕: 반지 원정대",
+      "overview": "호빗이라 불리우는 난장이 종족 중의 한 명인 프로도는 자신의 삼촌에게서 우연히 절대 반지를 물려받게 되고, 마법사 간달프를 통해서 절대반지가 사우론의 손에 들어가면 악의 세력이 세상을 지배하게 된다는 것을 알게 된다. 하지만 절대반지를 영원히 파괴할 수 있는 유일한 방법은 반지가 만들어진 불의 산의 용암에 그것을 던져 넣는 길 뿐이다. 마침내 프로도와 그의 친구들, 엘프족인 레골라스, 난장이족 김리, 두명의 인간 전사 아라곤과 보로미르, 그리고 마법사 간달프로 구성된 반지 원정대가 길고도 험난한 여정을 떠나게 되는데...",
+      "tagline": "마지막 반지를 차지하는 자, 모든 힘을 지배하게 될 것이다",
+      "release_date": "2001-12-18",
+      "status": "Released",
+      "voteAverage": 8.421,
+      "popularity": 30.0872,
+      "runtime": 227,
+      "genres": [
+        "모험",
+        "판타지",
+        "액션"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/r18JdjImbWDRwkbVDIzWoLQqkCo.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/x2RS3uTcsJJ9IfjNPcgDmukoEcQ.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 109,
+          "name": "일라이저 우드",
+          "character": "Frodo",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7UKRbJBNG7mxBl2QQc5XsAh6F8B.jpg"
+        },
+        {
+          "actor_id": 1327,
+          "name": "이안 맥켈런",
+          "character": "Gandalf",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5cnnnpnJG6TiYUSS7qgJheUZgnv.jpg"
+        },
+        {
+          "actor_id": 110,
+          "name": "비고 모텐슨",
+          "character": "Aragorn",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg"
+        },
+        {
+          "actor_id": 1328,
+          "name": "숀 애스틴",
+          "character": "Sam",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ywH1VvdwqlcnuwUVr0pV0HUZJQA.jpg"
+        },
+        {
+          "actor_id": 65,
+          "name": "이안 홈",
+          "character": "Bilbo",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9YbuYOqOmYwReBAj9Hh6z7DWwhH.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 119,
+        "name": "반지의 제왕 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/44BCXU0RfYNBSsbWHvtC4kZMHyk.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/bccR2CGTWVVSZAG0yqmy3DIvhTX.jpg"
+      }
     }
   },
   {
@@ -405,18 +2729,65 @@
     "pk": 55779,
     "fields": {
       "title": "파이널 데스티네이션 5",
-      "directors": [
-        93214
-      ],
-      "actors": [
-        37059,
-        131820,
-        1223185,
-        223124,
-        103389
-      ],
+      "overview": "1박 2일의 워크숍을 떠나는 버스 안에서 다리가 붕괴되는 끔찍한 사고로 자신과 동료들을 비롯해 수많은 이들이 죽는 환영을 본 샘. 곧이어 거짓말처럼 실제로 사고가 재현되고, 혼란 속에서 최대한 많은 사람들을 구해낸다. 그러나 그들은 죽었어야 하는 운명! 어김없이 찾아온 사신과의 싸움을 시작한 그들은 마침내 “타인의 생명을 이용하면 살아날 수 있다”는 달라진 죽음의 규칙을 찾아 내는데…",
+      "tagline": "아직도 살아있는가? 죽음의 규칙이 달라졌다!",
       "release_date": "2011-08-12",
-      "poster_url": "https://image.tmdb.org/t/p/w500/5sRZVerkpfZmyBqgma6v0qMlvUA.jpg"
+      "status": "Released",
+      "voteAverage": 6.123,
+      "popularity": 78.011,
+      "runtime": 91,
+      "genres": [
+        "공포",
+        "미스터리"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/5sRZVerkpfZmyBqgma6v0qMlvUA.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/zhFOEVvwyJjGsAqf31FF3H9OXlH.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 37059,
+          "name": "Nicholas D'Agosto",
+          "character": "Sam",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/pKLIlotHTzciDyaDxAMUACjxNLS.jpg"
+        },
+        {
+          "actor_id": 131820,
+          "name": "Emma Bell",
+          "character": "Molly",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nWsmC9JQcg27WcD7X9MxCAMWEox.jpg"
+        },
+        {
+          "actor_id": 1223185,
+          "name": "Miles Fisher",
+          "character": "Peter Friedkin",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/shf8LrQ1hmXut0PoYjNHjFuOwqk.jpg"
+        },
+        {
+          "actor_id": 223124,
+          "name": "Ellen Wroe",
+          "character": "Candice Hooper",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/qF0w43ICIOceZgXjFaFU2XvV1JJ.jpg"
+        },
+        {
+          "actor_id": 103389,
+          "name": "Jacqueline MacInnes Wood",
+          "character": "Olivia Castle",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6N6au8CFrBK8OMqcRc3E5ox6Umy.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 8864,
+        "name": "파이널 데스티네이션 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/nr4MXTXK2in9gxYhFMQGni66KRJ.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/y3aWOInifbGKXM34KjtcMITrZRZ.jpg"
+      }
     }
   },
   {
@@ -424,18 +2795,60 @@
     "pk": 157336,
     "fields": {
       "title": "인터스텔라",
-      "directors": [
-        525
-      ],
-      "actors": [
-        10297,
-        1813,
-        3895,
-        83002,
-        1893
-      ],
+      "overview": "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다. 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다. 거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부. 이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데...",
+      "tagline": "우린 답을 찾을 것이다, 늘 그랬듯이",
       "release_date": "2014-11-05",
-      "poster_url": "https://image.tmdb.org/t/p/w500/evoEi8SBSvIIEveM3V6nCJ6vKj8.jpg"
+      "status": "Released",
+      "voteAverage": 8.455,
+      "popularity": 35.3042,
+      "runtime": 169,
+      "genres": [
+        "모험",
+        "드라마",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/evoEi8SBSvIIEveM3V6nCJ6vKj8.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/l33oR0mnvf20avWyIMxW02EtQxn.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 10297,
+          "name": "매튜 매커너히",
+          "character": "Cooper",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lCySuYjhXix3FzQdS4oceDDrXKI.jpg"
+        },
+        {
+          "actor_id": 1813,
+          "name": "앤 해서웨이",
+          "character": "Brand",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/s6tflSD20MGz04ZR2R1lZvhmC4Y.jpg"
+        },
+        {
+          "actor_id": 3895,
+          "name": "마이클 케인",
+          "character": "Professor Brand",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg"
+        },
+        {
+          "actor_id": 83002,
+          "name": "제시카 차스테인",
+          "character": "Murph",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xRvRzxiiHhgUErl0yf9w8WariRE.jpg"
+        },
+        {
+          "actor_id": 1893,
+          "name": "케이시 애플렉",
+          "character": "Tom",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/7Sn4vA1l9KHIXDT1PH1luSV25KA.jpg"
+        }
+      ],
+      "belongsToCollection": null
     }
   },
   {
@@ -443,18 +2856,65 @@
     "pk": 138843,
     "fields": {
       "title": "컨저링",
-      "directors": [
-        2127
-      ],
-      "actors": [
-        17178,
-        21657,
-        3127,
-        17402,
-        851784
-      ],
+      "overview": "1971년 로드 아일랜드, 해리스빌. 페론 가족은 꿈에 그리던 새 집으로 이사를 간다. 물론 1863년에 그 집에서 일어난 끔찍한 살인 사건을 전혀 몰랐다. 또한 그 이후에 일어난 많은 무서운 사건에 대해서도 알지 못했다. 이 가족은 그 집에서 겪은 일이 너무 무서워서 한 마디라도 외부에 언급하는 것을 거절했었다. 지금까지는…",
+      "tagline": "믿을 수 없겠지만… 이것은 실화다!",
       "release_date": "2013-07-18",
-      "poster_url": "https://image.tmdb.org/t/p/w500/pWpTToZ32bG09PaZ1rvYG5mpOyV.jpg"
+      "status": "Released",
+      "voteAverage": 7.541,
+      "popularity": 33.223,
+      "runtime": 112,
+      "genres": [
+        "공포",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/pWpTToZ32bG09PaZ1rvYG5mpOyV.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/mXndmCbpvlqnD6po0EMfxEZcUSn.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 17178,
+          "name": "패트릭 윌슨",
+          "character": "Ed Warren",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/tc1ezEfIY8BhCy85svOUDtpBFPt.jpg"
+        },
+        {
+          "actor_id": 21657,
+          "name": "베라 파미가",
+          "character": "Lorraine Warren",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg"
+        },
+        {
+          "actor_id": 3127,
+          "name": "Lili Taylor",
+          "character": "Carolyn Perron",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kP1tZLv3IclVldzeG9OINJXXxlU.jpg"
+        },
+        {
+          "actor_id": 17402,
+          "name": "론 리빙스턴",
+          "character": "Roger Perron",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/pr5CjWnkaf5WKTIYh8wtNufjmyb.jpg"
+        },
+        {
+          "actor_id": 851784,
+          "name": "맥켄지 포이",
+          "character": "Cindy Perron",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/gW9BdiA9eooBWa5bzHWkV7rbTa8.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 313086,
+        "name": "컨저링 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/z5VKhNSQKQyxm0co68HAkCqHnmX.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/kHZaX0vuhZdbuq0WKU3BpA9WIQ0.jpg"
+      }
     }
   },
   {
@@ -462,18 +2922,66 @@
     "pk": 24428,
     "fields": {
       "title": "어벤져스",
-      "directors": [
-        12891
-      ],
-      "actors": [
-        3223,
-        16828,
-        103,
-        74568,
-        1245
-      ],
+      "overview": "에너지원 큐브를 이용한 적의 등장으로 인류가 위험에 처하자 국제평화유지기구인 쉴드의 국장 닉 퓨리는 어벤져스 작전을 위해 전 세계에 흩어져 있던 슈퍼히어로들을 찾아나선다. 아이언맨부터 토르, 헐크, 캡틴 아메리카는 물론, 쉴드의 요원인 블랙 위도우, 호크 아이까지, 최고의 슈퍼히어로들이 어벤져스의 멤버로 모이게 되지만, 각기 개성이 강한 이들의 만남은 예상치 못한 방향으로 흘러가는데...",
+      "tagline": "최강의 슈퍼히어로들이 모였다.",
       "release_date": "2012-04-25",
-      "poster_url": "https://image.tmdb.org/t/p/w500/krgjV3rJtBcEpQehODKXNCt6uFL.jpg"
+      "status": "Released",
+      "voteAverage": 7.75,
+      "popularity": 35.1093,
+      "runtime": 142,
+      "genres": [
+        "SF",
+        "액션",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/krgjV3rJtBcEpQehODKXNCt6uFL.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/gHLs7Fy3DzLmLsD4lmfqL55KGcl.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3223,
+          "name": "로버트 다우니 주니어",
+          "character": "Tony Stark / Iron Man",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg"
+        },
+        {
+          "actor_id": 16828,
+          "name": "크리스 에반스",
+          "character": "Steve Rogers / Captain America",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/3bOGNsHlrswhyW79uvIHH1V43JI.jpg"
+        },
+        {
+          "actor_id": 103,
+          "name": "마크 러팔로",
+          "character": "Bruce Banner / The Hulk",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5GilHMOt5PAQh6rlUKZzGmaKEI7.jpg"
+        },
+        {
+          "actor_id": 74568,
+          "name": "크리스 헴스워스",
+          "character": "Thor",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg"
+        },
+        {
+          "actor_id": 1245,
+          "name": "스칼렛 요한슨",
+          "character": "Natasha Romanoff / Black Widow",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6NsMbJXRlDZuDzatN2akFdGuTvx.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 86311,
+        "name": "어벤져스 시리즈",
+        "overview": "어벤져스 시리즈는 마블 코믹스의 슈퍼 히어로 집단 어벤져스의 활약을 영화화 한 시리즈이다. 1, 2편은 조스 웨던이, 3, 4편은 루소 형제가 감독을 맡았다. 현재까지 마블 시네마틱 유니버스의 유일하게 4부작으로 개봉된 시리즈이다",
+        "poster_path": "https://image.tmdb.org/t/p/w500/5LkXlUPrRuhMAeVugr1xXcsZbV8.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/zuW6fOiusv4X9nnW3paHGfXcSll.jpg"
+      }
     }
   },
   {
@@ -481,19 +2989,395 @@
     "pk": 299536,
     "fields": {
       "title": "어벤져스: 인피니티 워",
-      "directors": [
-        19271,
-        19272
-      ],
-      "actors": [
-        3223,
-        16828,
-        74568,
-        16851,
-        103
-      ],
+      "overview": "타노스는 6개의 인피니티 스톤을 획득해 신으로 군림하려 한다. 그것은 곧 인류의 절반을 학살해 우주의 균형을 맞추겠다는 뜻. 타노스는 닥터 스트레인지가 소유한 타임 스톤, 비전의 이마에 박혀 있는 마인드 스톤을 차지하기 위해 지구를 침략한다. 아이언맨과 스파이더맨은 가디언즈 오브 갤럭시의 멤버들과 타노스를 상대한다. 지구에선 캡틴 아메리카, 완다, 블랙 위도우, 블랙 팬서 등이 비전을 지키기 위해 뭉친다.",
+      "tagline": "영화의 역사를 뒤바꿀 마블의 클라이맥스!",
       "release_date": "2018-04-25",
-      "poster_url": "https://image.tmdb.org/t/p/w500/kmP6viwzcEkZeoi1LaVcQemcvZh.jpg"
+      "status": "Released",
+      "voteAverage": 8.236,
+      "popularity": 32.1283,
+      "runtime": 149,
+      "genres": [
+        "모험",
+        "액션",
+        "SF"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/kmP6viwzcEkZeoi1LaVcQemcvZh.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/mDfJG3LC3Dqb67AZ52x3Z0jU0uB.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3223,
+          "name": "로버트 다우니 주니어",
+          "character": "Tony Stark / Iron Man",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg"
+        },
+        {
+          "actor_id": 16828,
+          "name": "크리스 에반스",
+          "character": "Steve Rogers / Captain America",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/3bOGNsHlrswhyW79uvIHH1V43JI.jpg"
+        },
+        {
+          "actor_id": 74568,
+          "name": "크리스 헴스워스",
+          "character": "Thor",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg"
+        },
+        {
+          "actor_id": 16851,
+          "name": "조쉬 브롤린",
+          "character": "Thanos",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg"
+        },
+        {
+          "actor_id": 103,
+          "name": "마크 러팔로",
+          "character": "Bruce Banner / Hulk",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5GilHMOt5PAQh6rlUKZzGmaKEI7.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 86311,
+        "name": "어벤져스 시리즈",
+        "overview": "어벤져스 시리즈는 마블 코믹스의 슈퍼 히어로 집단 어벤져스의 활약을 영화화 한 시리즈이다. 1, 2편은 조스 웨던이, 3, 4편은 루소 형제가 감독을 맡았다. 현재까지 마블 시네마틱 유니버스의 유일하게 4부작으로 개봉된 시리즈이다",
+        "poster_path": "https://image.tmdb.org/t/p/w500/5LkXlUPrRuhMAeVugr1xXcsZbV8.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/zuW6fOiusv4X9nnW3paHGfXcSll.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 353081,
+    "fields": {
+      "title": "미션 임파서블: 폴아웃",
+      "overview": "에단 헌트는 세계를 위협하는 테러 조직 신디케이트의 수장 솔로몬 레인을 우여곡절 끝에 체포했지만, 그의 잔당들은 여전히 세계 각지에서 테러를 일삼는다. 에단 헌트와 그의 팀은 테러조직의 핵무기 소지를 막기 위해 미션에 착수한다. 에단 헌트는 작전 수행 중 예상치 못한 결단을 내리게 되고, 중앙정보국 CIA는 그를 견제하기 위해 상급 요원 어거스트 워커를 파견한다. 최악의 테러 위기와 라이벌의 출현 속, 팀이 행한 모든 선의의 선택들이 최악의 결과로 돌아오면서 미션은 점점 더 예측할 수 없는 상황으로 치닫게 되는데...",
+      "tagline": "예측 할 수 없는 미션, 피할 수 없는 선택",
+      "release_date": "2018-07-13",
+      "status": "Released",
+      "voteAverage": 7.4,
+      "popularity": 33.0906,
+      "runtime": 147,
+      "genres": [
+        "액션",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/u8gdbmvbypmVmoCJyPkBiJyvAvv.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/aw4FOsWr2FY373nKSxbpNi3fz4F.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 500,
+          "name": "톰 크루즈",
+          "character": "Ethan Hunt",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eOh4ubpOm2Igdg0QH2ghj0mFtC.jpg"
+        },
+        {
+          "actor_id": 73968,
+          "name": "헨리 카빌",
+          "character": "August Walker",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg"
+        },
+        {
+          "actor_id": 10182,
+          "name": "빙 레임스",
+          "character": "Luther Stickell",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/4gpLVNKPZlVucc4fT2fSZ7DksTK.jpg"
+        },
+        {
+          "actor_id": 11108,
+          "name": "사이먼 페그",
+          "character": "Benji Dunn",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jw8bEEoTOithyNf0qxu4Zt1yaKp.jpg"
+        },
+        {
+          "actor_id": 933238,
+          "name": "레베카 퍼거슨",
+          "character": "Ilsa Faust",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lJloTOheuQSirSLXNA3JHsrMNfH.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 87359,
+        "name": "미션 임파서블 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/jPrAjeK4APOhPSrHrLqSmXF2Z8a.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mroWh717g0Ah2c0rrPGW6f3EWMM.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 56292,
+    "fields": {
+      "title": "미션 임파서블: 고스트 프로토콜",
+      "overview": "러시아 크렘린 궁 폭발 테러 사건에 연루되며 사상 초유의 존립 위기를 맞게 된 IMF. 국가적 분쟁을 피하기 위해 미 정부는 IMF 조직에 대해 고스트 프로토콜을 발동하고, 조직의 과거도 정체도 모두 지워버린다. 순식간에 국제 테러리스트가 되어 버린 특수 비밀요원 이단 헌트는 자신과 조직의 명예를 되찾기 위해 지상 최대의 불가능한 미션을 다시 시작한다. 누구도 좀처럼 믿지 않는 그이지만, 이번만큼은 현재 의지할 수 있는 유일한 동료 세 명과 함께 새로운 팀을 이뤄 임무에 나선다. 그들의 임무는 소련과 미국을 이간질해 핵전쟁을 일으키려는 매드사이언티스트를 막는 것인데...",
+      "tagline": "불가능한 미션이 다시 시작된다!",
+      "release_date": "2011-12-07",
+      "status": "Released",
+      "voteAverage": 7.096,
+      "popularity": 30.3989,
+      "runtime": 132,
+      "genres": [
+        "액션",
+        "스릴러",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/krNypFiKeGThhLSYhvMNVSezEua.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/ih4lZkUpmSE7AP3maymiO72xJ1z.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 500,
+          "name": "톰 크루즈",
+          "character": "Ethan Hunt",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eOh4ubpOm2Igdg0QH2ghj0mFtC.jpg"
+        },
+        {
+          "actor_id": 52851,
+          "name": "폴라 패튼",
+          "character": "Jane",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/6slgkfmRRfTSIG3NIJdbVoDHWeL.jpg"
+        },
+        {
+          "actor_id": 11108,
+          "name": "사이먼 페그",
+          "character": "Benji",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jw8bEEoTOithyNf0qxu4Zt1yaKp.jpg"
+        },
+        {
+          "actor_id": 17604,
+          "name": "제레미 레너",
+          "character": "Brandt",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yB84D1neTYXfWBaV0QOE9RF2VCu.jpg"
+        },
+        {
+          "actor_id": 6283,
+          "name": "미카엘 니크비스트",
+          "character": "Hendricks",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/d9nGt8MloJwosRbGp10gaeHExcZ.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 87359,
+        "name": "미션 임파서블 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/jPrAjeK4APOhPSrHrLqSmXF2Z8a.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mroWh717g0Ah2c0rrPGW6f3EWMM.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 302946,
+    "fields": {
+      "title": "어카운턴트",
+      "overview": "크리스찬 울프(벤 애플렉)는 동네 상점에서 혼자 ZZZ 공인회계사 사무소를 운영하는 회계사다. 언뜻 보기에 평범한 회계사 같지만 크리스찬을 찾는 고객에는 두 종류가 있다. 하나는 동네 주민이고 다른 하나는 거물급 범죄자들이다. 범죄자들을 고객으로 상대하며 때때로 크리스찬은 킬러의 역할을 맡기도 한다. 크리스찬이 새로 수임한 업무는 자금 횡령 의혹이 있는 벤처기업의 재무 조사. 처음 횡령 의혹을 제기한 사내 회계사 다나(안나 켄드릭)와 크리스찬은 점차 횡령보다 더 복잡한 사건이 배후에 있음을 깨닫는다. 한편 재무부 범죄전담반은 크리스찬이 여러 범죄 사건에 연루된 인물이라는 사실을 발견하고 조사를 요청하는데...",
+      "tagline": "악당의 회계사, 그를 잘못 건드렸다",
+      "release_date": "2016-10-13",
+      "status": "Released",
+      "voteAverage": 7.11,
+      "popularity": 27.8722,
+      "runtime": 128,
+      "genres": [
+        "범죄",
+        "스릴러",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/f6SW5VjX2w1lPwzswCsm6XbvlAS.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/dTGECn8He16tZeBHQTLf6rVydE8.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 880,
+          "name": "벤 애플렉",
+          "character": "Christian Wolff",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/aTcqu8cI4wMohU17xTdqmXKTGrw.jpg"
+        },
+        {
+          "actor_id": 182272,
+          "name": "Cynthia Addai-Robinson",
+          "character": "Marybeth Medina",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5eZAiWHtgiECm666CRemqMYdOlj.jpg"
+        },
+        {
+          "actor_id": 84223,
+          "name": "안나 켄드릭",
+          "character": "Dana Cummings",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/yirl6fEmeXY5xcvJw3nTcCNq9Cw.jpg"
+        },
+        {
+          "actor_id": 18999,
+          "name": "J.K. 시몬스",
+          "character": "Ray King",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ScmKoJ9eiSUOthAt1PDNLi8Fkw.jpg"
+        },
+        {
+          "actor_id": 19498,
+          "name": "존 번설",
+          "character": "Brax",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/o0t6EVkJOrFAjESDilZUlf46IbQ.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 870339,
+        "name": "어카운턴트",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/hHfiZBIxzMmkzFds6vkQEJIurIB.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/t63LZKdR5yzw9e0CEZ4xE226asn.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 27205,
+    "fields": {
+      "title": "인셉션",
+      "overview": "타인의 꿈에 들어가 생각을 훔치는 특수 보안요원 코브. 그를 이용해 라이벌 기업의 정보를 빼내고자 하는 사이토는 코브에게 생각을 훔치는 것이 아닌, 생각을 심는 ‘인셉션’ 작전을 제안한다. 성공 조건으로 국제적인 수배자가 되어있는 코브의 신분을 바꿔주겠다는 거부할 수 없는 제안을 하고, 사랑하는 아이들에게 돌아가기 위해 그 제안을 받아들인다. 최강의 팀을 구성, 표적인 피셔에게 접근해서 ‘인셉션’ 작전을 실행하지만 예기치 못한 사건들과 마주하게 되는데… 꿈 VS 현실! 시간, 규칙, 타이밍 모든 것이 완벽해야만 하는, 단 한 번도 성공한 적 없는 ‘인셉션’ 작전이 시작된다!",
+      "tagline": "생각을 훔치는 거대한 전쟁",
+      "release_date": "2010-07-15",
+      "status": "Released",
+      "voteAverage": 8.369,
+      "popularity": 25.2703,
+      "runtime": 148,
+      "genres": [
+        "액션",
+        "SF",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/zTgjeblxSLSvomt6F6UYtpiD4n7.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 6193,
+          "name": "레오나르도 디카프리오",
+          "character": "Dom Cobb",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg"
+        },
+        {
+          "actor_id": 24045,
+          "name": "조셉 고든레빗",
+          "character": "Arthur",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/fm2vDPCzT2185e8qIt8RLvDx44U.jpg"
+        },
+        {
+          "actor_id": 3899,
+          "name": "와타나베 켄",
+          "character": "Saito",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/w2t30L5Cmr34myAaUobLoSgsLfS.jpg"
+        },
+        {
+          "actor_id": 2524,
+          "name": "톰 하디",
+          "character": "Eames",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/d81K0RH8UX7tZj49tZaQhZ9ewH.jpg"
+        },
+        {
+          "actor_id": 27578,
+          "name": "엘리엇 페이지",
+          "character": "Ariadne",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eCeFgzS8dYHnMfWQT0oQitCrsSz.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 198663,
+    "fields": {
+      "title": "메이즈 러너",
+      "overview": "삭제된 기억, 거대한 미로로 둘러싸인 낯선 공간  모든 기억이 삭제된 채 의문의 장소로 보내진 토마스. 토마스는 미로에 갇힌 그곳에서 자신과 같은 상황의 사람들을 만난다. 그들은 매일 밤 살아 움직이는 미로에서 정체를 알 수 없는 죽음의 존재와 대립하며, 지옥으로부터 빠져나갈 탈출구인 지도를 완성해 나간다. 그러던 어느 날, 미로의 문이 열리고 그들은 마지막 선택의 기로에 놓이게 되는데…",
+      "tagline": "살아 남기 위해서는 뛰어야 한다!",
+      "release_date": "2014-09-10",
+      "status": "Released",
+      "voteAverage": 7.19,
+      "popularity": 25.2334,
+      "runtime": 113,
+      "genres": [
+        "액션",
+        "미스터리",
+        "SF",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/bL0bBepUCLFcCj2ATFD40FbyDEl.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/vHJlbhsXrZ5yrO2KqCbGSIU6fRX.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 527393,
+          "name": "딜런 오브라이언",
+          "character": "Thomas",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xN3GdvIlqsR838gDoblhPH0numP.jpg"
+        },
+        {
+          "actor_id": 115150,
+          "name": "카야 스코델라리오",
+          "character": "Teresa Agnes",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/iTrPnn7oS96k0iWPzNxaKCNutB6.jpg"
+        },
+        {
+          "actor_id": 78062,
+          "name": "어멜 아민",
+          "character": "Alby",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/wQ5zWlzmhvp2wG6gJiqoocEYHPJ.jpg"
+        },
+        {
+          "actor_id": 25663,
+          "name": "토머스 브로디생스터",
+          "character": "Newt",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ovfgjgaE7aAXKYaemABX6pJFwRk.jpg"
+        },
+        {
+          "actor_id": 1310760,
+          "name": "이기홍",
+          "character": "Minho",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/96zkB3e07LB1hw2segekZS1PlQb.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 295130,
+        "name": "메이즈 러너 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/beR71cbwXH0vySlTMPZo0GQ54Q9.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/9BX8MUXmOa9i7oyTMx9OmbzkLev.jpg"
+      }
     }
   },
   {
@@ -501,20 +3385,67 @@
     "pk": 1241982,
     "fields": {
       "title": "모아나 2",
-      "directors": [
-        4524084,
-        1461394,
-        1513971
-      ],
-      "actors": [
-        1564846,
-        18918,
-        4775908,
-        1868823,
-        55937
-      ],
+      "overview": "바다를 누볐던 선조들에게서 예기치 못한 부름을 받은 모아나가 마우이와 다시 만나 새로운 선원들과 함께 오랫동안 잊혀진 멀고 위험한 바다 너머로 떠나는 특별한 모험을 담은 이야기",
+      "tagline": "바다 저 너머 새로운 항해가 시작된다!",
       "release_date": "2024-11-21",
-      "poster_url": "https://image.tmdb.org/t/p/w500/hwmwTFtMbzxAWbIOp1RyyiOCyx0.jpg"
+      "status": "Released",
+      "voteAverage": 7.08,
+      "popularity": 103.0977,
+      "runtime": 100,
+      "genres": [
+        "애니메이션",
+        "모험",
+        "가족",
+        "코미디"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/hwmwTFtMbzxAWbIOp1RyyiOCyx0.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/zo8CIjJ2nfNOevqNajwMRO6Hwka.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1564846,
+          "name": "아울리이 크러발리오",
+          "character": "Moana (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/vEroqcnM2g6yY7qXDAie7hx2Cyp.jpg"
+        },
+        {
+          "actor_id": 18918,
+          "name": "드웨인 존슨",
+          "character": "Maui (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg"
+        },
+        {
+          "actor_id": 4775908,
+          "name": "Hualālai Chung",
+          "character": "Moni (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/x2g5fdHqETY9dZgL4aB0QDP0boR.jpg"
+        },
+        {
+          "actor_id": 1868823,
+          "name": "Rose Matafeo",
+          "character": "Loto (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zQa39fMjbOTIsovbh1TBTJVlToz.jpg"
+        },
+        {
+          "actor_id": 55937,
+          "name": "David Fane",
+          "character": "Kele (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/tcozyaTgAa8rRmzc5qeht0loni6.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1241984,
+        "name": "모아나 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/wuU5y8Jd5GWVcf71uv1nyoNkgwR.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/4OgaftFNqtE1UvfDDb2Eov7A5Rz.jpg"
+      }
     }
   },
   {
@@ -522,18 +3453,66 @@
     "pk": 762509,
     "fields": {
       "title": "무파사: 라이온 킹",
-      "directors": [
-        92784
-      ],
-      "actors": [
-        1763709,
-        1344361,
-        1074676,
-        107529,
-        1251835
-      ],
+      "overview": "길을 잃고 혼자가 된 새끼 사자 무파사는 광활한 야생을 떠돌던 중 왕의 혈통이자 예정된 후계자 타카와 우연히 만나게 된다. 마치 친형제처럼 끈끈한 우애를 나누며 함께 자란 무파사와 타카는 운명을 개척하기 위해 거대한 여정을 함께 떠난다. 한 치 앞을 알 수 없는 적들의 위협 속에서 두 형제의 끈끈했던 유대에 금이 가기 시작하고 예상치 못한 위기까지 맞닥뜨리게 되는데…",
+      "tagline": "하나의 왕좌, 엇갈린 운명",
       "release_date": "2024-12-18",
-      "poster_url": "https://image.tmdb.org/t/p/w500/1VUExee8iFohFTwYVi4IOArYyaM.jpg"
+      "status": "Released",
+      "voteAverage": 7.398,
+      "popularity": 84.0314,
+      "runtime": 118,
+      "genres": [
+        "모험",
+        "가족",
+        "애니메이션"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/1VUExee8iFohFTwYVi4IOArYyaM.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/oHPoF0Gzu8xwK4CtdXDaWdcuZxZ.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1763709,
+          "name": "에런 피어",
+          "character": "Mufasa (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/z2cMMZyWzv5ztT6pFdAAjB3u7CQ.jpg"
+        },
+        {
+          "actor_id": 1344361,
+          "name": "켈빈 해리슨 주니어",
+          "character": "Taka (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/uRViX11fZQGmO9p91ZH7QVh2l5y.jpg"
+        },
+        {
+          "actor_id": 1074676,
+          "name": "티파니 분",
+          "character": "Sarabi (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9LwqRFdSzxVtnutDUg98YLq0bSz.jpg"
+        },
+        {
+          "actor_id": 107529,
+          "name": "Kagiso Lediga",
+          "character": "Young Rafiki (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/nfqx3CqFVsAMelk6ry560SuN7Y0.jpg"
+        },
+        {
+          "actor_id": 1251835,
+          "name": "Preston Nyman",
+          "character": "Zazu (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eidKvLDCRw68tG3CN6fGhvHUnW.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 762512,
+        "name": "라이온 킹 (리부트) 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/dGpIRn4Nqi63JO1RlKxjcPbQSAw.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/1KeXF239BkqLChcAcF8gKl1stZz.jpg"
+      }
     }
   },
   {
@@ -541,18 +3520,67 @@
     "pk": 939243,
     "fields": {
       "title": "수퍼 소닉 3",
-      "directors": [
-        93364
-      ],
-      "actors": [
-        206,
-        222121,
-        6384,
-        17605,
-        1212864
-      ],
+      "overview": "너클즈, 테일즈와 함께 평화로운 일상을 보내던 초특급 히어로 소닉. 연구 시설에 50년간 잠들어 있던 사상 최강의 비밀 병기 \"섀도우\"가 탈주하자, 세계 수호 통합 부대(약칭 세.수.통)에 의해 극비 소집된다. 소중한 것을 잃은 분노와 복수심에 불타는 섀도우는 소닉의 초고속 스피드와 너클즈의 최강 펀치를 단 단숨에 제압해버린다. 세상을 지배하려는 닥터 로보트닉과 그의 할아버지 제럴드 박사는 섀도우의 엄청난 힘 카오스 에너지를 이용해 인류를 정복하려고 하는데…",
+      "tagline": "",
       "release_date": "2024-12-19",
-      "poster_url": "https://image.tmdb.org/t/p/w500/5ZoI48Puf5i5FwI6HOpunDuJOw0.jpg"
+      "status": "Released",
+      "voteAverage": 7.715,
+      "popularity": 73.6897,
+      "runtime": 110,
+      "genres": [
+        "액션",
+        "SF",
+        "코미디",
+        "가족"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/5ZoI48Puf5i5FwI6HOpunDuJOw0.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 206,
+          "name": "짐 캐리",
+          "character": "Ivo Robotnik / Gerald Robotnik",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/u0AqTz6Y7GHPCHINS01P7gPvDSb.jpg"
+        },
+        {
+          "actor_id": 222121,
+          "name": "벤 슈와츠",
+          "character": "Sonic (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lJVYjPj0P6uvVxNrTy4xO2645D0.jpg"
+        },
+        {
+          "actor_id": 6384,
+          "name": "키아누 리브스",
+          "character": "Shadow (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg"
+        },
+        {
+          "actor_id": 17605,
+          "name": "이드리스 엘바",
+          "character": "Knuckles (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/be1bVF7qGX91a6c5WeRPs5pKXln.jpg"
+        },
+        {
+          "actor_id": 1212864,
+          "name": "콜린 오샤우너시",
+          "character": "Tails (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/y3Kl5tCX1XD6uyL9wefTRbEXTwj.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 720879,
+        "name": "수퍼 소닉 시리즈",
+        "overview": "'수퍼 소닉'은 세상에서 가장 빠른 고슴도치가 자신의 새 집인 지구를 받아들이는 이야기다. '액션 어드벤처 코미디' 실사 영화로 소닉과 베스트 프렌드 톰이 세계 정복을 노리는 악의 천재 닥터 로보트닉의 음모로부터 지구를 지키기 위해 힘을 합친다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/trqRE8H4Or57FOuYe9QYwAq2jvG.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/ggDVF2DhqIQjJI0zUqsWMS2WTcF.jpg"
+      }
     }
   },
   {
@@ -560,18 +3588,453 @@
     "pk": 575264,
     "fields": {
       "title": "미션 임파서블: 데드 레코닝",
-      "directors": [
-        9033
-      ],
-      "actors": [
-        500,
-        39459,
-        10182,
-        11108,
-        933238
-      ],
+      "overview": "모든 인류를 위협할 새로운 무기를 추적하게 된 에단 헌트와 IMF팀은 이 무기가 인류의 미래를 통제할 수 있다는 사실을 알게 된다. 전 세계가 위태로운 상황에 처한 가운데, 이를 추적하던 에단 헌트에게 어둠의 세력까지 접근하고 마침내 미스터리하고 강력한 빌런과 마주하게 된 그는 가장 위험한 작전을 앞두고 자신이 아끼는 사람들의 생명과 중요한 임무 사이에서 선택을 해야 하는 상황에 놓이게 되는데…",
+      "tagline": "가장 위험한 작전, 그의 마지막 선택",
       "release_date": "2023-07-08",
-      "poster_url": "https://image.tmdb.org/t/p/w500/dIcLgXA6R54EZ0XPSMKW4XDNCAA.jpg"
+      "status": "Released",
+      "voteAverage": 7.534,
+      "popularity": 70.2479,
+      "runtime": 164,
+      "genres": [
+        "액션",
+        "모험",
+        "스릴러"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/dIcLgXA6R54EZ0XPSMKW4XDNCAA.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/TFTfzrkX8L7bAKUcch6qLmjpLu.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 500,
+          "name": "톰 크루즈",
+          "character": "Ethan Hunt",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/eOh4ubpOm2Igdg0QH2ghj0mFtC.jpg"
+        },
+        {
+          "actor_id": 39459,
+          "name": "헤일리 앳웰",
+          "character": "Grace",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zM53P3iVyEnRNEeotU4vCCv13II.jpg"
+        },
+        {
+          "actor_id": 10182,
+          "name": "빙 레임스",
+          "character": "Luther Stickell",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/4gpLVNKPZlVucc4fT2fSZ7DksTK.jpg"
+        },
+        {
+          "actor_id": 11108,
+          "name": "사이먼 페그",
+          "character": "Benji Dunn",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/jw8bEEoTOithyNf0qxu4Zt1yaKp.jpg"
+        },
+        {
+          "actor_id": 933238,
+          "name": "레베카 퍼거슨",
+          "character": "Ilsa Faust",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/lJloTOheuQSirSLXNA3JHsrMNfH.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 87359,
+        "name": "미션 임파서블 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/jPrAjeK4APOhPSrHrLqSmXF2Z8a.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/mroWh717g0Ah2c0rrPGW6f3EWMM.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 1252309,
+    "fields": {
+      "title": "Pídeme lo que quieras",
+      "overview": "",
+      "tagline": "",
+      "release_date": "2024-11-29",
+      "status": "Released",
+      "voteAverage": 5.988,
+      "popularity": 61.2291,
+      "runtime": 114,
+      "genres": [
+        "로맨스",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/76qnVxU2rPdVvipBN3DPQH6fVYB.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/94kQrbY3PZ97PO1mE1dwd04Hdee.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3513082,
+          "name": "가브리엘라 안드라다",
+          "character": "Judith Flores",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/h8cAdDqbDK2ayGIuxQQdNCzyCsb.jpg"
+        },
+        {
+          "actor_id": 2504043,
+          "name": "Mario Ermito",
+          "character": "Eric Zimmerman",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9HlLY9yECyYwCIaMxdaJQ5RH4FL.jpg"
+        },
+        {
+          "actor_id": 1062026,
+          "name": "Celia Freijeiro",
+          "character": "Mónica",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/l32Ys5nQptZLJFRtlVJXKbK704U.jpg"
+        },
+        {
+          "actor_id": 1144322,
+          "name": "David Solans",
+          "character": "Miguel",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/j0aKkDMqevgdXGZB8ciu9KMqE0K.jpg"
+        },
+        {
+          "actor_id": 1042729,
+          "name": "Alba Ribas",
+          "character": "Frida",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/zfASs4kqXPL7CmRWmqjJovwjfsu.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 1010581,
+    "fields": {
+      "title": "나의 잘못",
+      "overview": "노아는 남자 친구와 친구들이 있는 동네를 뒤로하고 엄마의 새 부자 남편 저택으로 이사를 가게 된다. 의붓오빠 닉과는 첫 만남부터 삐걱댔지만 곧 서로에게 이끌려 금지된 관계를 맺는다. 반항심과 고뇌로 가득 찬 그들의 인생은 송두리째 흔들리고 둘은 결국 뜨거운 사랑에 빠진다.",
+      "tagline": "",
+      "release_date": "2023-06-08",
+      "status": "Released",
+      "voteAverage": 7.809,
+      "popularity": 56.1708,
+      "runtime": 117,
+      "genres": [
+        "로맨스",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/duT8Vks5FXwDkpxoR84xb2a6VB6.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/oz4U9eA6ilYf1tyiVuGmkftdLac.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 2527414,
+          "name": "니콜 월리스",
+          "character": "Noah Morgan",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xlvq6OYCN6yQef4fpJQtwVyQxqr.jpg"
+        },
+        {
+          "actor_id": 2786960,
+          "name": "가브리엘 게바라",
+          "character": "Nick Leister",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/pviRYKEEmoPUfLYwP1VHJ6LQcRg.jpg"
+        },
+        {
+          "actor_id": 970027,
+          "name": "마르타 아사스",
+          "character": "Rafaela",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1dbeTFRCbWBt70dIGjYHKVLnpaG.jpg"
+        },
+        {
+          "actor_id": 1251336,
+          "name": "이반 산체스",
+          "character": "William Leister",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/woVz8D7t1VUKjFJnsTAdc8tyz5C.jpg"
+        },
+        {
+          "actor_id": 4105602,
+          "name": "에바 루이스",
+          "character": "Jenna",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/bcu0nmQvhxwTzh4csc4kuxJsQee.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1156666,
+        "name": "잘못 시리즈",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/fR3AsfNeAmgGCy2CMFaOjIaIuA7.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/7N9p8D39MXJDfm14zlBwW7mBh7g.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 846433,
+    "fields": {
+      "title": "인포서",
+      "overview": "마피아의 집행자로 일했던 바라쿠다가 어느날 돌아온다. 길거리 싸움판에서 유명한 젊은 남자를 영입한 에스텔은 바라쿠다에게 스트레이를 붙인다. 바라쿠다는 16살이 된 딸에게 잘해주고 싶지만 딸과 부인이 거부하고, 이내 소매치기를 하던 빌리를 챙겨주게 된다. 그러던 어느 날 빌리가 사라지고, 이상한 점을 발견한 바라쿠다는 에스텔의 심부름으로 찾아간 웹캠 공장에서 빌리를 보고 구해야겠다고 마음먹는데…",
+      "tagline": "모든 것을 걸었다!",
+      "release_date": "2022-09-22",
+      "status": "Released",
+      "voteAverage": 7.061,
+      "popularity": 53.3978,
+      "runtime": 91,
+      "genres": [
+        "액션",
+        "범죄",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/jzAW5kCRWJuBbsdFSGGcG0dj28K.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/Aqldsq65Nj1KAkQD2MzkZsAk5N5.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 3131,
+          "name": "안토니오 반데라스",
+          "character": "Cuda",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/n8YlGookYzgD3cmpMP45BYRNIoh.jpg"
+        },
+        {
+          "actor_id": 7517,
+          "name": "케이트 보스워스",
+          "character": "Estelle",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ezaM2jsyrxXWVFN1SbH3UfAgZaG.jpg"
+        },
+        {
+          "actor_id": 1375499,
+          "name": "Mojean Aria",
+          "character": "Stray",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/v5W5lpuAWSDVMokU0RKGkHDT2rj.jpg"
+        },
+        {
+          "actor_id": 2384925,
+          "name": "Alexis Ren",
+          "character": "Lexus",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xl98QKYV0XJfnioiXoeXARG2ZQQ.jpg"
+        },
+        {
+          "actor_id": 1783049,
+          "name": "Zolee Griggs",
+          "character": "Billie",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/21hpL8HI2M7r2QjEdyDsc74ts2a.jpg"
+        }
+      ],
+      "belongsToCollection": null
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 912649,
+    "fields": {
+      "title": "베놈: 라스트 댄스",
+      "overview": "환상의 케미스트리의 에디 브록과 그의 심비오트 베놈은 그들을 노리는 정체불명 존재의 추격을 피해 같이 도망을 다니게 된다. 한편 베놈의 창조자 널은 고향 행성에서부터 그들을 찾아내기 위해 지구를 침략하고 에디와 베놈은 그동안 겪어보지 못한 최악의 위기를 맞이하게 되는데…",
+      "tagline": "죽음이 갈라놓을 때까지",
+      "release_date": "2024-10-22",
+      "status": "Released",
+      "voteAverage": 6.741,
+      "popularity": 48.9502,
+      "runtime": 109,
+      "genres": [
+        "액션",
+        "SF",
+        "모험"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/ptfoRD0MmL8Ry0iBVccYbqoN9Xc.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/3V4kLQg0kSqPLctI5ziYWabAZYF.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 2524,
+          "name": "톰 하디",
+          "character": "Eddie Brock / Venom",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/d81K0RH8UX7tZj49tZaQhZ9ewH.jpg"
+        },
+        {
+          "actor_id": 5294,
+          "name": "추이텔 에지오포",
+          "character": "Strickland",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kq5DDnqqofoRI0t6ddtRlsJnNPT.jpg"
+        },
+        {
+          "actor_id": 36594,
+          "name": "주노 템플",
+          "character": "Dr. Teddy Paine",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/ntBw3aUZmIw9ObmsmvPgk1UKMd8.jpg"
+        },
+        {
+          "actor_id": 7026,
+          "name": "리스 에반스",
+          "character": "Martin",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1D670EEsbky3EtO7XLG32A09p92.jpg"
+        },
+        {
+          "actor_id": 1115,
+          "name": "스티븐 그레이엄",
+          "character": "Detective Mulligan",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1m9RWRRkQzJEAphJm9kQhMk1r1Q.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 558216,
+        "name": "베놈 시리즈",
+        "overview": "영웅과 빌런 사이의 다크 히어로 ‘베놈’ 시리즈. 베놈은 마블 코믹스 스파이더맨 시리즈에 등장하는 가공의 캐릭터로 2018년 10월 <베놈>으로 처음 영화화됐다.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/hoTLlTIohrzQ13HQVkZrDlvffuT.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/vq340s8DxA5Q209FT8PHA6CXYOx.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 1184918,
+    "fields": {
+      "title": "와일드 로봇",
+      "overview": "우연한 사고로 거대한 야생에 불시착한 로봇 로즈는 주변 동물들의 행동을 배우며 낯선 환경 속에 적응해 가던 중, 사고로 세상에 홀로 남겨진 아기 기러기 브라이트빌의 보호자가 된다. 로즈는 입력되어 있지 않은 새로운 역할과 관계에 낯선 감정을 마주하고 겨울이 오기 전에 남쪽으로 떠나야 하는 브라이트빌을 위해 동물들의 도움을 받아 이주를 위한 생존 기술을 가르쳐준다. 그러나 선천적으로 몸집이 작은 브라이트빌은 짧은 비행도 힘겨워 하는데...",
+      "tagline": "너를 통해 더 넓은 세상을 만나다",
+      "release_date": "2024-09-12",
+      "status": "Released",
+      "voteAverage": 8.318,
+      "popularity": 50.6922,
+      "runtime": 102,
+      "genres": [
+        "애니메이션",
+        "SF",
+        "가족"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/8dkuf9IuVh0VZjDTk7kAY67lU0U.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/1pmXyN3sKeYoUhu5VBZiDU4BX21.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 1267329,
+          "name": "루피타 뇽오",
+          "character": "Roz / Rummage (voice)",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/y40Wu1T742kynOqtwXASc5Qgm49.jpg"
+        },
+        {
+          "actor_id": 1253360,
+          "name": "페드로 파스칼",
+          "character": "Fink (voice)",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/9VYK7oxcqhjd5LAH6ZFJ3XzOlID.jpg"
+        },
+        {
+          "actor_id": 1538851,
+          "name": "킷 코너",
+          "character": "Brightbill (voice)",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/xjvVNB4N0p0zZSDzz5Ra8LmAzEy.jpg"
+        },
+        {
+          "actor_id": 2440,
+          "name": "빌 나이",
+          "character": "Longneck (voice)",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/acbigDOU1L1vMWAL3Wf0r8h8qLA.jpg"
+        },
+        {
+          "actor_id": 1381186,
+          "name": "스테파니 수",
+          "character": "Vontra (voice)",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/8gb3lfIHKQAGOQyeC4ynQPsCiHr.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1370345,
+        "name": "The Wild Robot Collection",
+        "overview": "",
+        "poster_path": "https://image.tmdb.org/t/p/w500/vm94OwAJdVE62BnNdrkM0aAgnEi.jpg",
+        "backdrop_path": "https://image.tmdb.org/t/p/w500/f6G8QPeod5ngQMs5Fe1O4LdphB7.jpg"
+      }
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 811941,
+    "fields": {
+      "title": "데바라",
+      "overview": "전사의 후예들이 밀수꾼으로 전락하고 말았다. 마을의 명예를 회복하려는 리더의 핏빛 대장정을 그린 영화.",
+      "tagline": "",
+      "release_date": "2024-09-26",
+      "status": "Released",
+      "voteAverage": 6.964,
+      "popularity": 48.1689,
+      "runtime": 175,
+      "genres": [
+        "액션",
+        "드라마"
+      ],
+      "isAdult": false,
+      "isVideo": false,
+      "poster_path": "https://image.tmdb.org/t/p/w500/hdpYUidbB83AfemP369W7guOIlr.jpg",
+      "backdrop_path": "https://image.tmdb.org/t/p/w500/hAQnXxOwCjgYcKRgTdYPRC8neqL.jpg",
+      "credits_cast": [
+        {
+          "actor_id": 148037,
+          "name": "N.T. Rama Rao Jr.",
+          "character": "Devara / Vara",
+          "order": 0,
+          "profile_path": "https://image.tmdb.org/t/p/w500/1FkLAFI5OJ9NMRafPd1e8Zi24tR.jpg"
+        },
+        {
+          "actor_id": 35747,
+          "name": "Saif Ali Khan",
+          "character": "Bhaira",
+          "order": 1,
+          "profile_path": "https://image.tmdb.org/t/p/w500/kzOy1DoCeLoKJ07nbYnQDObU3yY.jpg"
+        },
+        {
+          "actor_id": 89153,
+          "name": "Prakash Raj",
+          "character": "Singappa",
+          "order": 2,
+          "profile_path": "https://image.tmdb.org/t/p/w500/dJvFZOXmZdkYCOUcKTXQAhBcAoH.jpg"
+        },
+        {
+          "actor_id": 1003981,
+          "name": "శ్రీకాంత్",
+          "character": "Rayappa",
+          "order": 3,
+          "profile_path": "https://image.tmdb.org/t/p/w500/o10UQ9zvh9cOAUENybde25yrueV.jpg"
+        },
+        {
+          "actor_id": 1413865,
+          "name": "Kalaiyarasan",
+          "character": "Kunjara",
+          "order": 4,
+          "profile_path": "https://image.tmdb.org/t/p/w500/4xaAqc7EFfcJXIS23yVJb6vZhLt.jpg"
+        }
+      ],
+      "belongsToCollection": {
+        "id": 1187990,
+        "name": "దేవర Collection",
+        "overview": "",
+        "poster_path": "",
+        "backdrop_path": ""
+      }
     }
   }
 ]

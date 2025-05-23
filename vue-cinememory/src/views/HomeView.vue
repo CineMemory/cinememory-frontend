@@ -12,6 +12,12 @@
   </div>
 </template>
 
+<script setup>
+  import HomeSearchSection from '@/components/home/HomeSearchSection.vue'
+  import HomeBoxofficeSection from '@/components/home/HomeBoxofficeSection.vue'
+  import HomeNavigationSection from '@/components/home/HomeNavigationSection.vue'
+</script>
+
 <style scoped>
   .home-view {
     min-height: 100vh;
