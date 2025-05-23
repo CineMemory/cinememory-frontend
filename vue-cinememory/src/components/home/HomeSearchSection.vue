@@ -1,15 +1,7 @@
-<!-- 홈 검색 섹션 -->
+<!-- 홈 검색 섹션 (간소화 완성버전) -->
 <template>
   <section class="home-search-section">
     <div class="home-search-section__container">
-      <div
-        class="home-search-section__logo"
-        @click="goHome">
-        <BaseIcon
-          name="home"
-          class="home-search-section__logo-icon" />
-      </div>
-
       <!-- 🔍 검색 박스 - 클릭 시 입력 모드로 전환 -->
       <div
         v-if="!isInputMode"
@@ -72,7 +64,7 @@
 
   const router = useRouter()
 
-  // 반응형 데이터
+  // 검색 관련 상태
   const isInputMode = ref(false)
   const searchQuery = ref('')
   const searchInput = ref(null)
@@ -95,20 +87,17 @@
     const query = searchQuery.value.trim()
 
     if (!query) {
-      // 검색어가 없으면 입력 필드에 포커스
       searchInput.value?.focus()
       return
     }
 
     console.log('🔍 검색 실행:', query)
 
-    // 검색 결과 페이지로 이동
     router.push({
       name: 'SearchResult',
       query: { q: query }
     })
 
-    // 상태 초기화
     exitInputMode()
   }
 
@@ -117,27 +106,20 @@
     // 포커스 시 추가 동작이 필요하면 여기에
   }
 
-  // 입력 필드 블러 처리 (약간의 딜레이 후)
+  // 입력 필드 블러 처리
   const handleBlur = () => {
-    // 블러 시 바로 종료하지 않고 약간의 딜레이를 줘서
-    // 검색 버튼 클릭할 시간을 확보
     setTimeout(() => {
       if (!searchQuery.value.trim()) {
         exitInputMode()
       }
     }, 150)
   }
-
-  // 홈으로 이동
-  const goHome = () => {
-    router.push({ name: 'Home' })
-  }
 </script>
 
 <style scoped>
   .home-search-section {
     width: 100%;
-    padding: 64px 0;
+    padding: 80px 0;
     display: flex;
     justify-content: center;
     background-color: var(--color-background);
@@ -145,51 +127,33 @@
 
   .home-search-section__container {
     width: 100%;
-    max-width: 700px;
+    max-width: 1200px; /* SearchResultView와 동일한 가로폭 */
     padding: 0 24px;
     display: flex;
-    align-items: center;
+    justify-content: center;
   }
 
-  .home-search-section__logo {
-    margin-bottom: 0;
-    margin-right: 16px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .home-search-section__logo-icon {
-    width: 40px;
-    height: 40px;
-    color: var(--color-primary, #3b82f6);
-    transition: opacity 0.2s;
-  }
-
-  .home-search-section__logo-icon:hover {
-    opacity: 0.7;
-  }
-
-  /* 🔍 기본 검색 박스 (클릭 전) */
+  /* 🔍 검색 박스 및 입력 영역 */
   .home-search-section__search-box,
   .home-search-section__input-container {
-    flex: 1;
+    width: 100%;
+    max-width: 600px; /* 검색창 최대 가로폭 */
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 48px; /* 더 크게 */
     background-color: var(--color-search-box);
     border-radius: var(--border-radius-medium);
     font-family: 'Pretendard-Regular', sans-serif;
-    min-width: 0;
     transition:
       border 0.2s,
       background-color 0.2s;
   }
 
   .home-search-section__search-box {
-    border: 1px solid var(--border-color-default);
-    padding: 0 12px;
-    gap: 10px;
+    border: 1px solid var(--color-inactive-icon);
+    padding: 0 16px;
+    gap: 12px;
+    cursor: text;
   }
 
   .home-search-section__search-box:hover {
@@ -198,35 +162,28 @@
   }
 
   .home-search-section__input-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    height: 40px;
-    background-color: var(--color-search-box);
     border: 2px solid var(--border-color-focus);
-    border-radius: var(--border-radius-medium);
-    padding: 0 12px;
-    gap: 8px;
-    min-width: 0;
+    padding: 0 16px;
+    gap: 12px;
   }
 
   .home-search-section__input-wrapper {
     display: flex;
     align-items: center;
-    flex: 1 1 0%;
+    flex: 1;
     min-width: 0;
-    gap: 8px;
+    gap: 12px;
     overflow: hidden;
   }
 
   .home-search-section__input {
-    flex: 1 1 0%;
+    flex: 1;
     min-width: 0;
     background: none;
     border: none;
     outline: none;
     color: var(--color-text);
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Pretendard-Regular', sans-serif;
     line-height: 1.5;
   }
@@ -240,9 +197,9 @@
 
   .home-search-section__placeholder {
     flex: 1;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-highlight-text);
-    line-height: 2.857;
+    line-height: 1.5;
     user-select: none;
   }
 
@@ -250,73 +207,86 @@
     color: var(--color-highlight-text);
   }
 
-  /* 🔍 검색 버튼 */
-  .home-search-section__search-btn {
+  /* 🔍 검색 및 취소 버튼 */
+  .home-search-section__search-btn,
+  .home-search-section__cancel-btn {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
     border-radius: var(--border-radius-small);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s;
+    flex-shrink: 0;
   }
 
   .home-search-section__search-btn:hover {
     background-color: var(--color-main-opacity-20);
   }
 
-  .search-btn-icon {
-    width: 18px;
-    height: 18px;
-    color: var(--color-main);
-  }
-
-  /* ❌ 취소 버튼 */
-  .home-search-section__cancel-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: var(--border-radius-small);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-  }
-
   .home-search-section__cancel-btn:hover {
     background-color: var(--color-background-opacity-50);
   }
 
+  .search-btn-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-main);
+  }
+
   .cancel-btn-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     color: var(--color-inactive-text);
   }
 
   /* 반응형 */
   @media (max-width: 768px) {
     .home-search-section {
-      padding: 48px 0;
+      padding: 60px 0;
     }
 
     .home-search-section__container {
-      max-width: 100vw;
       padding: 0 16px;
+    }
+
+    .home-search-section__search-box,
+    .home-search-section__input-container {
+      height: 44px;
     }
 
     .home-search-section__placeholder,
     .home-search-section__input {
-      font-size: 13px;
+      font-size: 15px;
     }
   }
 
   @media (max-width: 480px) {
+    .home-search-section {
+      padding: 50px 0;
+    }
+
+    .home-search-section__search-box,
+    .home-search-section__input-container {
+      height: 40px;
+    }
+
     .home-search-section__placeholder,
     .home-search-section__input {
-      font-size: 12px;
+      font-size: 14px;
+    }
+
+    .home-search-section__icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .search-btn-icon,
+    .cancel-btn-icon {
+      width: 18px;
+      height: 18px;
     }
   }
 </style>

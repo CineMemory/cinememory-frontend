@@ -1,5 +1,3 @@
-@import '@/assets/colors.css'; @import '@/assets/fonts.css';
-
 <!-- 기본 버튼 -->
 <template>
   <button

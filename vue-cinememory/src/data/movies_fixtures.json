@@ -11,9 +11,7 @@
       "voteAverage": 8.462,
       "popularity": 12.2172,
       "runtime": 161,
-      "genres": [
-        "서부"
-      ],
+      "genres": ["서부"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/s7qPuoj4liolAtmx9vcL6AyaZzR.jpg",
@@ -70,10 +68,7 @@
       "voteAverage": 8.282,
       "popularity": 8.6442,
       "runtime": 166,
-      "genres": [
-        "드라마",
-        "서부"
-      ],
+      "genres": ["드라마", "서부"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/3MPqF2iK6ZBoagnB5H1pjImHpHc.jpg",
@@ -130,12 +125,7 @@
       "voteAverage": 7.645,
       "popularity": 7.6188,
       "runtime": 100,
-      "genres": [
-        "SF",
-        "모험",
-        "드라마",
-        "액션"
-      ],
+      "genres": ["SF", "모험", "드라마", "액션"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/2r9iKnlSYEk4daQadsXfcjHfIjQ.jpg",
@@ -198,11 +188,7 @@
       "voteAverage": 8.064,
       "popularity": 8.3232,
       "runtime": 149,
-      "genres": [
-        "SF",
-        "미스터리",
-        "모험"
-      ],
+      "genres": ["SF", "미스터리", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/2qJjH5mYNlGPdVrPqfEq1J6Mgb4.jpg",
@@ -265,11 +251,7 @@
       "voteAverage": 8.422,
       "popularity": 8.6009,
       "runtime": 109,
-      "genres": [
-        "공포",
-        "스릴러",
-        "미스터리"
-      ],
+      "genres": ["공포", "스릴러", "미스터리"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/vC3P8hH4r3I3fHiRFa1kj6yzeaN.jpg",
@@ -332,10 +314,7 @@
       "voteAverage": 8.686,
       "popularity": 33.2112,
       "runtime": 175,
-      "genres": [
-        "드라마",
-        "범죄"
-      ],
+      "genres": ["드라마", "범죄"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/I1fkNd5CeJGv56mhrTDoOeMc2r.jpg",
@@ -398,11 +377,7 @@
       "voteAverage": 8.205,
       "popularity": 27.321,
       "runtime": 121,
-      "genres": [
-        "모험",
-        "액션",
-        "SF"
-      ],
+      "genres": ["모험", "액션", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/7XFfURIFCJxN1mfBg0SAjk5yGzg.jpg",
@@ -465,10 +440,7 @@
       "voteAverage": 8.164,
       "popularity": 20.0465,
       "runtime": 117,
-      "genres": [
-        "공포",
-        "SF"
-      ],
+      "genres": ["공포", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/k3m1RdlYUlCx51PxxNMlmbm7QSk.jpg",
@@ -531,10 +503,7 @@
       "voteAverage": 8.57,
       "popularity": 15.1058,
       "runtime": 202,
-      "genres": [
-        "드라마",
-        "범죄"
-      ],
+      "genres": ["드라마", "범죄"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/bhqvqYuAgrTGwyNAmMR0ZVmjXel.jpg",
@@ -597,10 +566,7 @@
       "voteAverage": 8.134,
       "popularity": 13.8227,
       "runtime": 114,
-      "genres": [
-        "범죄",
-        "드라마"
-      ],
+      "genres": ["범죄", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/nJFKg6pyfmkLKttiLQKQuLZBLKH.jpg",
@@ -657,11 +623,7 @@
       "voteAverage": 7.666,
       "popularity": 12.3602,
       "runtime": 124,
-      "genres": [
-        "공포",
-        "스릴러",
-        "모험"
-      ],
+      "genres": ["공포", "스릴러", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/nRSaeJUXuXFYOQNRSsLvBLmZa48.jpg",
@@ -724,10 +686,7 @@
       "voteAverage": 7.379,
       "popularity": 11.0065,
       "runtime": 110,
-      "genres": [
-        "로맨스",
-        "코미디"
-      ],
+      "genres": ["로맨스", "코미디"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/czVhhAaSBFpakur7U8pOIDV9NUG.jpg",
@@ -790,10 +749,7 @@
       "voteAverage": 7.059,
       "popularity": 20.8055,
       "runtime": 110,
-      "genres": [
-        "액션",
-        "드라마"
-      ],
+      "genres": ["액션", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/9DVdYFqGXdMPLgIfqQxNpUWz266.jpg",
@@ -856,11 +812,7 @@
       "voteAverage": 8.2,
       "popularity": 16.429,
       "runtime": 170,
-      "genres": [
-        "액션",
-        "범죄",
-        "드라마"
-      ],
+      "genres": ["액션", "범죄", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/zx7sXrMISbs8RI4URbjPyKocRgP.jpg",
@@ -917,11 +869,7 @@
       "voteAverage": 7.665,
       "popularity": 18.1686,
       "runtime": 108,
-      "genres": [
-        "액션",
-        "스릴러",
-        "SF"
-      ],
+      "genres": ["액션", "스릴러", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/sez4xWeylbYQqiI8HIgnciTP7MY.jpg",
@@ -984,11 +932,7 @@
       "voteAverage": 8.32,
       "popularity": 15.726,
       "runtime": 120,
-      "genres": [
-        "모험",
-        "코미디",
-        "SF"
-      ],
+      "genres": ["모험", "코미디", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/7gGicAJdHRzaUd6qLjH5bSW4Cgi.jpg",
@@ -1051,12 +995,7 @@
       "voteAverage": 7.535,
       "popularity": 15.3169,
       "runtime": 107,
-      "genres": [
-        "SF",
-        "액션",
-        "모험",
-        "스릴러"
-      ],
+      "genres": ["SF", "액션", "모험", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/AjYcJsuiqW4sHFEmh5SVSy5PswH.jpg",
@@ -1119,9 +1058,7 @@
       "voteAverage": 6.3,
       "popularity": 13.1149,
       "runtime": 96,
-      "genres": [
-        "공포"
-      ],
+      "genres": ["공포"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/sGUuLvKOf6JlBFtPDVWFIlvLjeO.jpg",
@@ -1178,10 +1115,7 @@
       "voteAverage": 8.212,
       "popularity": 14.3179,
       "runtime": 144,
-      "genres": [
-        "공포",
-        "스릴러"
-      ],
+      "genres": ["공포", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/e3pxD5asVzFMcH3UvmGxolZ7wS.jpg",
@@ -1244,12 +1178,7 @@
       "voteAverage": 7.202,
       "popularity": 11.0072,
       "runtime": 126,
-      "genres": [
-        "액션",
-        "모험",
-        "드라마",
-        "가족"
-      ],
+      "genres": ["액션", "모험", "드라마", "가족"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/yxsCYGpPIkicWmallcBqPylHmqF.jpg",
@@ -1312,10 +1241,7 @@
       "voteAverage": 7.923,
       "popularity": 11.5342,
       "runtime": 115,
-      "genres": [
-        "모험",
-        "액션"
-      ],
+      "genres": ["모험", "액션"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/xB8nOHHz8bmuM3GoW3gFttUvEks.jpg",
@@ -1378,11 +1304,7 @@
       "voteAverage": 8.07,
       "popularity": 11.1303,
       "runtime": 87,
-      "genres": [
-        "판타지",
-        "애니메이션",
-        "가족"
-      ],
+      "genres": ["판타지", "애니메이션", "가족"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/c9zCkL0rTkNQ1HB9cmeFIqbkS50.jpg",
@@ -1439,11 +1361,7 @@
       "voteAverage": 6.998,
       "popularity": 46.1066,
       "runtime": 110,
-      "genres": [
-        "모험",
-        "액션",
-        "스릴러"
-      ],
+      "genres": ["모험", "액션", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/e7ABYg2KnI0QBBYSrLYiTljtmpd.jpg",
@@ -1506,10 +1424,7 @@
       "voteAverage": 7.906,
       "popularity": 31.1822,
       "runtime": 194,
-      "genres": [
-        "드라마",
-        "로맨스"
-      ],
+      "genres": ["드라마", "로맨스"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/132KjhVrWUqKFVfMAKKNkherytA.jpg",
@@ -1566,10 +1481,7 @@
       "voteAverage": 8.71,
       "popularity": 33.229,
       "runtime": 142,
-      "genres": [
-        "드라마",
-        "범죄"
-      ],
+      "genres": ["드라마", "범죄"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/oAt6OtpwYCdJI76AVtVKW1eorYx.jpg",
@@ -1626,10 +1538,7 @@
       "voteAverage": 8.226,
       "popularity": 29.4557,
       "runtime": 136,
-      "genres": [
-        "액션",
-        "SF"
-      ],
+      "genres": ["액션", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/fxBxoXFAYKWde6lKzXxSusn18Av.jpg",
@@ -1692,9 +1601,7 @@
       "voteAverage": 8.438,
       "popularity": 24.0884,
       "runtime": 139,
-      "genres": [
-        "드라마"
-      ],
+      "genres": ["드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/uEsdm0noLfmkcVrZlyyuXp9e5I7.jpg",
@@ -1751,11 +1658,7 @@
       "voteAverage": 8.468,
       "popularity": 22.3631,
       "runtime": 142,
-      "genres": [
-        "코미디",
-        "드라마",
-        "로맨스"
-      ],
+      "genres": ["코미디", "드라마", "로맨스"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/iraQz6gdAe8JL45QcBifM1UhQ38.jpg",
@@ -1812,12 +1715,7 @@
       "voteAverage": 7.968,
       "popularity": 21.8546,
       "runtime": 81,
-      "genres": [
-        "애니메이션",
-        "모험",
-        "가족",
-        "코미디"
-      ],
+      "genres": ["애니메이션", "모험", "가족", "코미디"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/5ELwzkC7QY9vug20AvRFOXBzLbG.jpg",
@@ -1880,10 +1778,7 @@
       "voteAverage": 8.147,
       "popularity": 19.4019,
       "runtime": 103,
-      "genres": [
-        "코미디",
-        "드라마"
-      ],
+      "genres": ["코미디", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/AsUv4pFf1UQuOLKf7nYUXgmgCNf.jpg",
@@ -1940,11 +1835,7 @@
       "voteAverage": 8.258,
       "popularity": 18.6288,
       "runtime": 89,
-      "genres": [
-        "가족",
-        "애니메이션",
-        "드라마"
-      ],
+      "genres": ["가족", "애니메이션", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/9Y048zYw66TWvpUtsiNK0uReiVX.jpg",
@@ -2007,11 +1898,7 @@
       "voteAverage": 8.376,
       "popularity": 19.1125,
       "runtime": 127,
-      "genres": [
-        "범죄",
-        "미스터리",
-        "스릴러"
-      ],
+      "genres": ["범죄", "미스터리", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/izzk8dbmrLowcoGbFaebqJvzyXg.jpg",
@@ -2068,9 +1955,7 @@
       "voteAverage": 6.615,
       "popularity": 89.1441,
       "runtime": 98,
-      "genres": [
-        "공포"
-      ],
+      "genres": ["공포"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/kPqTDpKN3lkteEV1OegqpZ6GHL6.jpg",
@@ -2133,10 +2018,7 @@
       "voteAverage": 6.3,
       "popularity": 57.4889,
       "runtime": 90,
-      "genres": [
-        "공포",
-        "미스터리"
-      ],
+      "genres": ["공포", "미스터리"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/3OdyCaz3tRJhY4JeZwHd0nG6jNw.jpg",
@@ -2199,12 +2081,7 @@
       "voteAverage": 5.9,
       "popularity": 54.0601,
       "runtime": 124,
-      "genres": [
-        "액션",
-        "모험",
-        "스릴러",
-        "범죄"
-      ],
+      "genres": ["액션", "모험", "스릴러", "범죄"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/xeEw3eLeSFmJgXZzmF2Efww0q3s.jpg",
@@ -2267,11 +2144,7 @@
       "voteAverage": 7.541,
       "popularity": 67.0913,
       "runtime": 85,
-      "genres": [
-        "애니메이션",
-        "가족",
-        "코미디"
-      ],
+      "genres": ["애니메이션", "가족", "코미디"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/3Ila1FBT3IUeSvD1PCuxMJphHt0.jpg",
@@ -2334,10 +2207,7 @@
       "voteAverage": 6.119,
       "popularity": 51.335,
       "runtime": 92,
-      "genres": [
-        "공포",
-        "미스터리"
-      ],
+      "genres": ["공포", "미스터리"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/gGSZPvotlWff9CE2eqNTBkzxIYl.jpg",
@@ -2400,10 +2270,7 @@
       "voteAverage": 5.604,
       "popularity": 51.4545,
       "runtime": 82,
-      "genres": [
-        "공포",
-        "미스터리"
-      ],
+      "genres": ["공포", "미스터리"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/pRckgFI7EhfrkyXgczs93erGWEo.jpg",
@@ -2466,13 +2333,7 @@
       "voteAverage": 7.752,
       "popularity": 28.9151,
       "runtime": 90,
-      "genres": [
-        "애니메이션",
-        "코미디",
-        "판타지",
-        "모험",
-        "가족"
-      ],
+      "genres": ["애니메이션", "코미디", "판타지", "모험", "가족"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/hABnmgdAU3u6Nu61b9GUGaOseVl.jpg",
@@ -2535,12 +2396,7 @@
       "voteAverage": 8.52,
       "popularity": 27.7164,
       "runtime": 152,
-      "genres": [
-        "드라마",
-        "액션",
-        "범죄",
-        "스릴러"
-      ],
+      "genres": ["드라마", "액션", "범죄", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/f6dNinWX8rBM79JXKcShkfSh2oA.jpg",
@@ -2603,10 +2459,7 @@
       "voteAverage": 7.902,
       "popularity": 28.4548,
       "runtime": 152,
-      "genres": [
-        "모험",
-        "판타지"
-      ],
+      "genres": ["모험", "판타지"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/unEtC8uWn2lcQLnwKG9PZJX0h0c.jpg",
@@ -2669,11 +2522,7 @@
       "voteAverage": 8.421,
       "popularity": 30.0872,
       "runtime": 227,
-      "genres": [
-        "모험",
-        "판타지",
-        "액션"
-      ],
+      "genres": ["모험", "판타지", "액션"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/r18JdjImbWDRwkbVDIzWoLQqkCo.jpg",
@@ -2736,10 +2585,7 @@
       "voteAverage": 6.123,
       "popularity": 78.011,
       "runtime": 91,
-      "genres": [
-        "공포",
-        "미스터리"
-      ],
+      "genres": ["공포", "미스터리"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/5sRZVerkpfZmyBqgma6v0qMlvUA.jpg",
@@ -2802,11 +2648,7 @@
       "voteAverage": 8.455,
       "popularity": 35.3042,
       "runtime": 169,
-      "genres": [
-        "모험",
-        "드라마",
-        "SF"
-      ],
+      "genres": ["모험", "드라마", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/evoEi8SBSvIIEveM3V6nCJ6vKj8.jpg",
@@ -2863,10 +2705,7 @@
       "voteAverage": 7.541,
       "popularity": 33.223,
       "runtime": 112,
-      "genres": [
-        "공포",
-        "스릴러"
-      ],
+      "genres": ["공포", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/pWpTToZ32bG09PaZ1rvYG5mpOyV.jpg",
@@ -2929,11 +2768,7 @@
       "voteAverage": 7.75,
       "popularity": 35.1093,
       "runtime": 142,
-      "genres": [
-        "SF",
-        "액션",
-        "모험"
-      ],
+      "genres": ["SF", "액션", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/krgjV3rJtBcEpQehODKXNCt6uFL.jpg",
@@ -2996,11 +2831,7 @@
       "voteAverage": 8.236,
       "popularity": 32.1283,
       "runtime": 149,
-      "genres": [
-        "모험",
-        "액션",
-        "SF"
-      ],
+      "genres": ["모험", "액션", "SF"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/kmP6viwzcEkZeoi1LaVcQemcvZh.jpg",
@@ -3063,10 +2894,7 @@
       "voteAverage": 7.4,
       "popularity": 33.0906,
       "runtime": 147,
-      "genres": [
-        "액션",
-        "모험"
-      ],
+      "genres": ["액션", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/u8gdbmvbypmVmoCJyPkBiJyvAvv.jpg",
@@ -3129,11 +2957,7 @@
       "voteAverage": 7.096,
       "popularity": 30.3989,
       "runtime": 132,
-      "genres": [
-        "액션",
-        "스릴러",
-        "모험"
-      ],
+      "genres": ["액션", "스릴러", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/krNypFiKeGThhLSYhvMNVSezEua.jpg",
@@ -3196,11 +3020,7 @@
       "voteAverage": 7.11,
       "popularity": 27.8722,
       "runtime": 128,
-      "genres": [
-        "범죄",
-        "스릴러",
-        "드라마"
-      ],
+      "genres": ["범죄", "스릴러", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/f6SW5VjX2w1lPwzswCsm6XbvlAS.jpg",
@@ -3263,11 +3083,7 @@
       "voteAverage": 8.369,
       "popularity": 25.2703,
       "runtime": 148,
-      "genres": [
-        "액션",
-        "SF",
-        "모험"
-      ],
+      "genres": ["액션", "SF", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/zTgjeblxSLSvomt6F6UYtpiD4n7.jpg",
@@ -3324,12 +3140,7 @@
       "voteAverage": 7.19,
       "popularity": 25.2334,
       "runtime": 113,
-      "genres": [
-        "액션",
-        "미스터리",
-        "SF",
-        "스릴러"
-      ],
+      "genres": ["액션", "미스터리", "SF", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/bL0bBepUCLFcCj2ATFD40FbyDEl.jpg",
@@ -3392,12 +3203,7 @@
       "voteAverage": 7.08,
       "popularity": 103.0977,
       "runtime": 100,
-      "genres": [
-        "애니메이션",
-        "모험",
-        "가족",
-        "코미디"
-      ],
+      "genres": ["애니메이션", "모험", "가족", "코미디"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/hwmwTFtMbzxAWbIOp1RyyiOCyx0.jpg",
@@ -3460,11 +3266,7 @@
       "voteAverage": 7.398,
       "popularity": 84.0314,
       "runtime": 118,
-      "genres": [
-        "모험",
-        "가족",
-        "애니메이션"
-      ],
+      "genres": ["모험", "가족", "애니메이션"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/1VUExee8iFohFTwYVi4IOArYyaM.jpg",
@@ -3527,12 +3329,7 @@
       "voteAverage": 7.715,
       "popularity": 73.6897,
       "runtime": 110,
-      "genres": [
-        "액션",
-        "SF",
-        "코미디",
-        "가족"
-      ],
+      "genres": ["액션", "SF", "코미디", "가족"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/5ZoI48Puf5i5FwI6HOpunDuJOw0.jpg",
@@ -3595,11 +3392,7 @@
       "voteAverage": 7.534,
       "popularity": 70.2479,
       "runtime": 164,
-      "genres": [
-        "액션",
-        "모험",
-        "스릴러"
-      ],
+      "genres": ["액션", "모험", "스릴러"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/dIcLgXA6R54EZ0XPSMKW4XDNCAA.jpg",
@@ -3662,10 +3455,7 @@
       "voteAverage": 5.988,
       "popularity": 61.2291,
       "runtime": 114,
-      "genres": [
-        "로맨스",
-        "드라마"
-      ],
+      "genres": ["로맨스", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/76qnVxU2rPdVvipBN3DPQH6fVYB.jpg",
@@ -3722,10 +3512,7 @@
       "voteAverage": 7.809,
       "popularity": 56.1708,
       "runtime": 117,
-      "genres": [
-        "로맨스",
-        "드라마"
-      ],
+      "genres": ["로맨스", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/duT8Vks5FXwDkpxoR84xb2a6VB6.jpg",
@@ -3788,11 +3575,7 @@
       "voteAverage": 7.061,
       "popularity": 53.3978,
       "runtime": 91,
-      "genres": [
-        "액션",
-        "범죄",
-        "드라마"
-      ],
+      "genres": ["액션", "범죄", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/jzAW5kCRWJuBbsdFSGGcG0dj28K.jpg",
@@ -3849,11 +3632,7 @@
       "voteAverage": 6.741,
       "popularity": 48.9502,
       "runtime": 109,
-      "genres": [
-        "액션",
-        "SF",
-        "모험"
-      ],
+      "genres": ["액션", "SF", "모험"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/ptfoRD0MmL8Ry0iBVccYbqoN9Xc.jpg",
@@ -3916,11 +3695,7 @@
       "voteAverage": 8.318,
       "popularity": 50.6922,
       "runtime": 102,
-      "genres": [
-        "애니메이션",
-        "SF",
-        "가족"
-      ],
+      "genres": ["애니메이션", "SF", "가족"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/8dkuf9IuVh0VZjDTk7kAY67lU0U.jpg",
@@ -3983,10 +3758,7 @@
       "voteAverage": 6.964,
       "popularity": 48.1689,
       "runtime": 175,
-      "genres": [
-        "액션",
-        "드라마"
-      ],
+      "genres": ["액션", "드라마"],
       "isAdult": false,
       "isVideo": false,
       "poster_path": "https://image.tmdb.org/t/p/w500/hdpYUidbB83AfemP369W7guOIlr.jpg",
