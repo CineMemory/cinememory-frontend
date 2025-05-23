@@ -94,3 +94,8 @@ $RECYCLE.BIN/
 # cursor IDE rules
 .cursor
 .cursor/
+
+# vue-cinememory
+.env
+.env.local
+.env.*.local
