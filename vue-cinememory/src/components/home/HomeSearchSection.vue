@@ -2,6 +2,9 @@
 <template>
   <section class="home-search-section">
     <div class="home-search-section__container">
+      <div class="home-search-section__logo" @click="goHome">
+        <BaseIcon name="home" class="home-search-section__logo-icon" />
+      </div>
       <div
         class="home-search-section__search-box"
         @click="handleSearchClick">
@@ -9,7 +12,7 @@
           name="search"
           class="home-search-section__icon" />
         <span class="home-search-section__placeholder">
-          작품, 인물, 컬렉션, 게시글을 검색해 보세요
+          작품, 인물을 검색해보세요.
         </span>
       </div>
     </div>
@@ -24,6 +27,10 @@
 
   const handleSearchClick = () => {
     router.push({ name: 'Search' })
+  }
+
+  const goHome = () => {
+    router.push({ name: 'Home' })
   }
 </script>
 
@@ -40,13 +47,34 @@
     width: 100%;
     max-width: 700px;
     padding: 0 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .home-search-section__logo {
+    margin-bottom: 0;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .home-search-section__logo-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--color-primary, #3b82f6);
+    transition: opacity 0.2s;
+  }
+
+  .home-search-section__logo-icon:hover {
+    opacity: 0.7;
   }
 
   .home-search-section__search-box {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%;
     height: 40px;
     background-color: var(--color-search-box);
     border: 1px solid var(--border-color-default);
