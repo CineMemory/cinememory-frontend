@@ -1,4 +1,4 @@
-<!-- 기본 아이콘 -->
+<!-- 기본 아이콘 (누락된 아이콘들 추가) -->
 <template>
   <svg
     :class="[
@@ -35,6 +35,14 @@
       v-if="name === 'arrow-right'"
       d="M12 5l7 7-7 7" />
 
+    <!-- Arrow Left Icon -->
+    <path
+      v-if="name === 'arrow-left'"
+      d="M19 12H5" />
+    <path
+      v-if="name === 'arrow-left'"
+      d="M12 19l-7-7 7-7" />
+
     <!-- Close/X Icon -->
     <path
       v-if="name === 'x'"
@@ -60,6 +68,38 @@
       cx="12"
       cy="7"
       r="4" />
+
+    <!-- Log Out Icon -->
+    <path
+      v-if="name === 'log-out'"
+      d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <polyline
+      v-if="name === 'log-out'"
+      points="16,17 21,12 16,7" />
+    <line
+      v-if="name === 'log-out'"
+      x1="21"
+      y1="12"
+      x2="9"
+      y2="12" />
+
+    <!-- Alert Circle Icon -->
+    <circle
+      v-if="name === 'alert-circle'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <line
+      v-if="name === 'alert-circle'"
+      x1="12"
+      y1="8"
+      x2="12"
+      y2="12" />
+    <circle
+      v-if="name === 'alert-circle'"
+      cx="12"
+      cy="16"
+      r="0.01" />
 
     <!-- Calendar Icon -->
     <rect

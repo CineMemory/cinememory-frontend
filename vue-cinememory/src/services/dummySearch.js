@@ -67,7 +67,7 @@ const formatRuntime = (minutes) => {
   if (!minutes) return null
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
-  
+
   if (hours === 0) return `${mins}분`
   if (mins === 0) return `${hours}시간`
   return `${hours}시간 ${mins}분`
@@ -100,7 +100,9 @@ export const dummySearchService = {
           results.push({
             ...movie,
             // 검색용 추가 정보
-            overview: movie.overview || `${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`,
+            overview:
+              movie.overview ||
+              `${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`,
             poster_path:
               movie.poster_path?.replace(
                 'https://image.tmdb.org/t/p/w500',
@@ -210,7 +212,7 @@ export const dummySearchService = {
     // credits_cast에서 감독 정보 추출 (새로운 구조에서는 별도 directors 배열이 없을 수 있음)
     const movieDirectors = []
     // credits_cast가 있다면 감독도 포함되어 있을 수 있음 (job 필드로 구분)
-    
+
     // 기존 directors 필드가 있다면 사용 (하위 호환성)
     if (movie.directors && Array.isArray(movie.directors)) {
       movie.directors.forEach((directorId) => {
@@ -221,18 +223,24 @@ export const dummySearchService = {
     }
 
     // credits_cast에서 배우 정보 추출 (새로운 구조 사용)
-    const movieActors = movie.credits_cast ? movie.credits_cast.map(cast => ({
-      id: cast.actor_id,
-      name: cast.name,
-      character: cast.character,
-      order: cast.order,
-      profile_path: cast.profile_path,
-      // 필요시 전체 배우 정보 병합
-      ...actors[cast.actor_id]
-    })) : []
+    const movieActors = movie.credits_cast
+      ? movie.credits_cast.map((cast) => ({
+          id: cast.actor_id,
+          name: cast.name,
+          character: cast.character,
+          order: cast.order,
+          profile_path: cast.profile_path,
+          // 필요시 전체 배우 정보 병합
+          ...actors[cast.actor_id]
+        }))
+      : []
 
     // 기존 actors 필드도 하위 호환성으로 유지
-    if (movie.actors && Array.isArray(movie.actors) && movieActors.length === 0) {
+    if (
+      movie.actors &&
+      Array.isArray(movie.actors) &&
+      movieActors.length === 0
+    ) {
       movie.actors.forEach((actorId) => {
         if (actors[actorId]) {
           movieActors.push(actors[actorId])
@@ -278,10 +286,10 @@ export const dummySearchService = {
   getBackdropSrcset: (path) => {
     if (!path) return null
     const baseUrl = 'https://image.tmdb.org/t/p/'
-    
+
     return [
       `${baseUrl}w780${path} 780w`,
-      `${baseUrl}w1280${path} 1280w`, 
+      `${baseUrl}w1280${path} 1280w`,
       `${baseUrl}original${path} 1920w`
     ].join(', ')
   },
@@ -289,7 +297,7 @@ export const dummySearchService = {
   getPosterSrcset: (path) => {
     if (!path) return null
     const baseUrl = 'https://image.tmdb.org/t/p/'
-    
+
     return [
       `${baseUrl}w342${path} 342w`,
       `${baseUrl}w500${path} 500w`,
@@ -300,7 +308,7 @@ export const dummySearchService = {
   getProfileSrcset: (path) => {
     if (!path) return null
     const baseUrl = 'https://image.tmdb.org/t/p/'
-    
+
     return [
       `${baseUrl}w185${path} 185w`,
       `${baseUrl}h632${path} 632w`,
