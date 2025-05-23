@@ -5,11 +5,16 @@ import directorsFixtures from '@/data/directors_fixtures.json'
 
 // 🔄 데이터 전처리 - fixture 형태를 사용하기 쉽게 변환
 const processFixtureData = () => {
-  // 영화 데이터 변환
+  // 영화 데이터 변환 - 새로운 구조 반영
   const movies = moviesFixtures.map((item) => ({
     id: item.pk,
     media_type: 'movie',
-    ...item.fields
+    ...item.fields,
+    // 기존 호환성을 위한 alias 추가
+    poster_url: item.fields.poster_path,
+    vote_average: item.fields.voteAverage,
+    is_adult: item.fields.isAdult,
+    is_video: item.fields.isVideo
   }))
 
   // 배우 데이터 변환 (pk를 key로 하는 객체)
@@ -57,6 +62,17 @@ const calculateAge = (birthday) => {
   return age
 }
 
+// 상영시간을 "X시간 Y분" 형태로 변환
+const formatRuntime = (minutes) => {
+  if (!minutes) return null
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  
+  if (hours === 0) return `${mins}분`
+  if (mins === 0) return `${hours}시간`
+  return `${hours}시간 ${mins}분`
+}
+
 // 🔍 검색 서비스
 export const dummySearchService = {
   // 통합 검색 (영화 + 인물)
@@ -84,14 +100,14 @@ export const dummySearchService = {
           results.push({
             ...movie,
             // 검색용 추가 정보
-            overview: `${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`,
+            overview: movie.overview || `${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`,
             poster_path:
-              movie.poster_url?.replace(
+              movie.poster_path?.replace(
                 'https://image.tmdb.org/t/p/w500',
                 ''
               ) || null,
             release_date: movie.release_date,
-            vote_average: Math.random() * 10 // 임시 평점
+            vote_average: movie.voteAverage || Math.random() * 10 // 새로운 필드 사용
           })
         }
       })
@@ -186,25 +202,51 @@ export const dummySearchService = {
     }
   },
 
-  // 🎬 영화 상세 정보 조회
+  // 🎬 영화 상세 정보 조회 - 새로운 구조 반영
   getMovieById: (id) => {
     const movie = movies.find((m) => m.id === parseInt(id))
     if (!movie) return null
 
-    // 감독 정보 추가
-    const movieDirectors =
-      movie.directors
-        ?.map((directorId) => directors[directorId])
-        .filter(Boolean) || []
+    // credits_cast에서 감독 정보 추출 (새로운 구조에서는 별도 directors 배열이 없을 수 있음)
+    const movieDirectors = []
+    // credits_cast가 있다면 감독도 포함되어 있을 수 있음 (job 필드로 구분)
+    
+    // 기존 directors 필드가 있다면 사용 (하위 호환성)
+    if (movie.directors && Array.isArray(movie.directors)) {
+      movie.directors.forEach((directorId) => {
+        if (directors[directorId]) {
+          movieDirectors.push(directors[directorId])
+        }
+      })
+    }
 
-    // 배우 정보 추가
-    const movieActors =
-      movie.actors?.map((actorId) => actors[actorId]).filter(Boolean) || []
+    // credits_cast에서 배우 정보 추출 (새로운 구조 사용)
+    const movieActors = movie.credits_cast ? movie.credits_cast.map(cast => ({
+      id: cast.actor_id,
+      name: cast.name,
+      character: cast.character,
+      order: cast.order,
+      profile_path: cast.profile_path,
+      // 필요시 전체 배우 정보 병합
+      ...actors[cast.actor_id]
+    })) : []
+
+    // 기존 actors 필드도 하위 호환성으로 유지
+    if (movie.actors && Array.isArray(movie.actors) && movieActors.length === 0) {
+      movie.actors.forEach((actorId) => {
+        if (actors[actorId]) {
+          movieActors.push(actors[actorId])
+        }
+      })
+    }
 
     return {
       ...movie,
       directors: movieDirectors,
-      actors: movieActors
+      actors: movieActors,
+      // 추가 유틸리티 필드
+      formatted_runtime: formatRuntime(movie.runtime),
+      release_year: movie.release_date ? movie.release_date.split('-')[0] : null
     }
   },
 
@@ -226,10 +268,44 @@ export const dummySearchService = {
     return `https://image.tmdb.org/t/p/${size}${path}`
   },
 
-  getBackdropUrl: (path, size = 'w780') => {
+  getBackdropUrl: (path, size = 'w1280') => {
     if (!path) return null
     if (path.startsWith('http')) return path
     return `https://image.tmdb.org/t/p/${size}${path}`
+  },
+
+  // 반응형 이미지를 위한 srcset 생성
+  getBackdropSrcset: (path) => {
+    if (!path) return null
+    const baseUrl = 'https://image.tmdb.org/t/p/'
+    
+    return [
+      `${baseUrl}w780${path} 780w`,
+      `${baseUrl}w1280${path} 1280w`, 
+      `${baseUrl}original${path} 1920w`
+    ].join(', ')
+  },
+
+  getPosterSrcset: (path) => {
+    if (!path) return null
+    const baseUrl = 'https://image.tmdb.org/t/p/'
+    
+    return [
+      `${baseUrl}w342${path} 342w`,
+      `${baseUrl}w500${path} 500w`,
+      `${baseUrl}w780${path} 780w`
+    ].join(', ')
+  },
+
+  getProfileSrcset: (path) => {
+    if (!path) return null
+    const baseUrl = 'https://image.tmdb.org/t/p/'
+    
+    return [
+      `${baseUrl}w185${path} 185w`,
+      `${baseUrl}h632${path} 632w`,
+      `${baseUrl}original${path} 1000w`
+    ].join(', ')
   },
 
   getProfileUrl: (path, size = 'w185') => {
