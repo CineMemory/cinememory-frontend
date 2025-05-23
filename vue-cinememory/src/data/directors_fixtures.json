@@ -1,0 +1,242 @@
+[
+  {
+    "model": "movies.director",
+    "pk": 4385,
+    "fields": {
+      "tmdb_id": 4385,
+      "name": "세르조 레오네"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 13265,
+    "fields": {
+      "tmdb_id": 13265,
+      "name": "Franklin J. Schaffner"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 1776,
+    "fields": {
+      "tmdb_id": 1776,
+      "name": "프랜시스 포드 코폴라"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 1,
+    "fields": {
+      "tmdb_id": 1,
+      "name": "조지 루카스"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 578,
+    "fields": {
+      "tmdb_id": 578,
+      "name": "리들리 스콧"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 893,
+    "fields": {
+      "tmdb_id": 893,
+      "name": "토니 스콧"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 1150,
+    "fields": {
+      "tmdb_id": 1150,
+      "name": "브라이언 드 팔마"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 2710,
+    "fields": {
+      "tmdb_id": 2710,
+      "name": "제임스 카메론"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 24,
+    "fields": {
+      "tmdb_id": 24,
+      "name": "로버트 저메키스"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 4027,
+    "fields": {
+      "tmdb_id": 4027,
+      "name": "프랭크 다라본트"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 9340,
+    "fields": {
+      "tmdb_id": 9340,
+      "name": "라나 워쇼스키"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 9339,
+    "fields": {
+      "tmdb_id": 9339,
+      "name": "릴리 워쇼스키"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 7467,
+    "fields": {
+      "tmdb_id": 7467,
+      "name": "데이비드 핀처"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 57134,
+    "fields": {
+      "tmdb_id": 57134,
+      "name": "James Wong"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 4755,
+    "fields": {
+      "tmdb_id": 4755,
+      "name": "David R. Ellis"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 18878,
+    "fields": {
+      "tmdb_id": 18878,
+      "name": "Rob Cohen"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 66193,
+    "fields": {
+      "tmdb_id": 66193,
+      "name": "크리스 샌더스"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 69797,
+    "fields": {
+      "tmdb_id": 69797,
+      "name": "딘 데블로이스"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 93214,
+    "fields": {
+      "tmdb_id": 93214,
+      "name": "Steven Quale"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 525,
+    "fields": {
+      "tmdb_id": 525,
+      "name": "크리스토퍼 놀란"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 2127,
+    "fields": {
+      "tmdb_id": 2127,
+      "name": "제임스 완"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 12891,
+    "fields": {
+      "tmdb_id": 12891,
+      "name": "조스 웨던"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 19271,
+    "fields": {
+      "tmdb_id": 19271,
+      "name": "안소니 루소"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 19272,
+    "fields": {
+      "tmdb_id": 19272,
+      "name": "조 루소"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 4524084,
+    "fields": {
+      "tmdb_id": 4524084,
+      "name": "David G. Derrick Jr."
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 1461394,
+    "fields": {
+      "tmdb_id": 1461394,
+      "name": "Jason Hand"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 1513971,
+    "fields": {
+      "tmdb_id": 1513971,
+      "name": "Dana Ledoux Miller"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 92784,
+    "fields": {
+      "tmdb_id": 92784,
+      "name": "배리 젠킨스"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 93364,
+    "fields": {
+      "tmdb_id": 93364,
+      "name": "Jeff Fowler"
+    }
+  },
+  {
+    "model": "movies.director",
+    "pk": 9033,
+    "fields": {
+      "tmdb_id": 9033,
+      "name": "크리스토퍼 맥쿼리"
+    }
+  }
+]

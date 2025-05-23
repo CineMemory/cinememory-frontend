@@ -1,0 +1,577 @@
+[
+  {
+    "model": "movies.movie",
+    "pk": 429,
+    "fields": {
+      "title": "석양의 무법자",
+      "directors": [
+        4385
+      ],
+      "actors": [
+        190,
+        3265,
+        4078,
+        5813,
+        5814
+      ],
+      "release_date": "1966-12-22",
+      "poster_url": "https://image.tmdb.org/t/p/w500/s7qPuoj4liolAtmx9vcL6AyaZzR.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 335,
+    "fields": {
+      "title": "옛날 옛적 서부에서",
+      "directors": [
+        4385
+      ],
+      "actors": [
+        4959,
+        4958,
+        4765,
+        4960,
+        4961
+      ],
+      "release_date": "1968-12-21",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3MPqF2iK6ZBoagnB5H1pjImHpHc.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 871,
+    "fields": {
+      "title": "혹성탈출",
+      "directors": [
+        13265
+      ],
+      "actors": [
+        10017,
+        7505,
+        10539,
+        12023,
+        6577
+      ],
+      "release_date": "1968-02-07",
+      "poster_url": "https://image.tmdb.org/t/p/w500/2r9iKnlSYEk4daQadsXfcjHfIjQ.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 238,
+    "fields": {
+      "title": "대부",
+      "directors": [
+        1776
+      ],
+      "actors": [
+        3084,
+        1158,
+        3085,
+        3087,
+        3086
+      ],
+      "release_date": "1972-03-14",
+      "poster_url": "https://image.tmdb.org/t/p/w500/I1fkNd5CeJGv56mhrTDoOeMc2r.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 11,
+    "fields": {
+      "title": "스타워즈 에피소드 4: 새로운 희망",
+      "directors": [
+        1
+      ],
+      "actors": [
+        2,
+        3,
+        4,
+        5,
+        12248
+      ],
+      "release_date": "1977-05-25",
+      "poster_url": "https://image.tmdb.org/t/p/w500/7XFfURIFCJxN1mfBg0SAjk5yGzg.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 348,
+    "fields": {
+      "title": "에이리언",
+      "directors": [
+        578
+      ],
+      "actors": [
+        4139,
+        10205,
+        5047,
+        5048,
+        5049
+      ],
+      "release_date": "1979-05-25",
+      "poster_url": "https://image.tmdb.org/t/p/w500/k3m1RdlYUlCx51PxxNMlmbm7QSk.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 240,
+    "fields": {
+      "title": "대부 2",
+      "directors": [
+        1776
+      ],
+      "actors": [
+        1158,
+        3087,
+        3092,
+        380,
+        3096
+      ],
+      "release_date": "1974-12-20",
+      "poster_url": "https://image.tmdb.org/t/p/w500/bhqvqYuAgrTGwyNAmMR0ZVmjXel.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 744,
+    "fields": {
+      "title": "탑건",
+      "directors": [
+        893
+      ],
+      "actors": [
+        500,
+        11084,
+        5576,
+        11085,
+        4139
+      ],
+      "release_date": "1986-05-16",
+      "poster_url": "https://image.tmdb.org/t/p/w500/9DVdYFqGXdMPLgIfqQxNpUWz266.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 111,
+    "fields": {
+      "title": "스카페이스",
+      "directors": [
+        1150
+      ],
+      "actors": [
+        1158,
+        1159,
+        1160,
+        1161,
+        1162
+      ],
+      "release_date": "1983-12-09",
+      "poster_url": "https://image.tmdb.org/t/p/w500/zx7sXrMISbs8RI4URbjPyKocRgP.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 218,
+    "fields": {
+      "title": "터미네이터",
+      "directors": [
+        2710
+      ],
+      "actors": [
+        1100,
+        2712,
+        2713,
+        1818,
+        2714
+      ],
+      "release_date": "1984-10-26",
+      "poster_url": "https://image.tmdb.org/t/p/w500/sez4xWeylbYQqiI8HIgnciTP7MY.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 105,
+    "fields": {
+      "title": "빽 투 더 퓨쳐",
+      "directors": [
+        24
+      ],
+      "actors": [
+        521,
+        1062,
+        1064,
+        1063,
+        1066
+      ],
+      "release_date": "1985-07-03",
+      "poster_url": "https://image.tmdb.org/t/p/w500/7gGicAJdHRzaUd6qLjH5bSW4Cgi.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 954,
+    "fields": {
+      "title": "미션 임파서블",
+      "directors": [
+        1150
+      ],
+      "actors": [
+        500,
+        10127,
+        4885,
+        15319,
+        1003
+      ],
+      "release_date": "1996-05-22",
+      "poster_url": "https://image.tmdb.org/t/p/w500/e7ABYg2KnI0QBBYSrLYiTljtmpd.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 597,
+    "fields": {
+      "title": "타이타닉",
+      "directors": [
+        2710
+      ],
+      "actors": [
+        6193,
+        204,
+        1954,
+        8534,
+        3713
+      ],
+      "release_date": "1997-11-18",
+      "poster_url": "https://image.tmdb.org/t/p/w500/132KjhVrWUqKFVfMAKKNkherytA.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 278,
+    "fields": {
+      "title": "쇼생크 탈출",
+      "directors": [
+        4027
+      ],
+      "actors": [
+        504,
+        192,
+        4029,
+        6573,
+        6574
+      ],
+      "release_date": "1994-09-23",
+      "poster_url": "https://image.tmdb.org/t/p/w500/oAt6OtpwYCdJI76AVtVKW1eorYx.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 603,
+    "fields": {
+      "title": "매트릭스",
+      "directors": [
+        9340,
+        9339
+      ],
+      "actors": [
+        6384,
+        2975,
+        530,
+        1331,
+        9364
+      ],
+      "release_date": "1999-03-31",
+      "poster_url": "https://image.tmdb.org/t/p/w500/fxBxoXFAYKWde6lKzXxSusn18Av.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 550,
+    "fields": {
+      "title": "파이트 클럽",
+      "directors": [
+        7467
+      ],
+      "actors": [
+        819,
+        287,
+        1283,
+        7470,
+        7499
+      ],
+      "release_date": "1999-10-15",
+      "poster_url": "https://image.tmdb.org/t/p/w500/uEsdm0noLfmkcVrZlyyuXp9e5I7.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 9532,
+    "fields": {
+      "title": "데스티네이션",
+      "directors": [
+        57134
+      ],
+      "actors": [
+        50398,
+        17303,
+        43442,
+        58392,
+        43774
+      ],
+      "release_date": "2000-03-17",
+      "poster_url": "https://image.tmdb.org/t/p/w500/kPqTDpKN3lkteEV1OegqpZ6GHL6.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 9358,
+    "fields": {
+      "title": "데스티네이션 2",
+      "directors": [
+        4755
+      ],
+      "actors": [
+        17303,
+        17236,
+        57428,
+        33293,
+        58374
+      ],
+      "release_date": "2003-01-31",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3OdyCaz3tRJhY4JeZwHd0nG6jNw.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 7451,
+    "fields": {
+      "title": "트리플 엑스",
+      "directors": [
+        18878
+      ],
+      "actors": [
+        12835,
+        18514,
+        20982,
+        2231,
+        53347
+      ],
+      "release_date": "2002-08-09",
+      "poster_url": "https://image.tmdb.org/t/p/w500/xeEw3eLeSFmJgXZzmF2Efww0q3s.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 11544,
+    "fields": {
+      "title": "릴로 & 스티치",
+      "directors": [
+        66193,
+        69797
+      ],
+      "actors": [
+        1580,
+        66193,
+        13445,
+        28010,
+        58955
+      ],
+      "release_date": "2002-06-21",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3Ila1FBT3IUeSvD1PCuxMJphHt0.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 9286,
+    "fields": {
+      "title": "파이널 데스티네이션",
+      "directors": [
+        57134
+      ],
+      "actors": [
+        17628,
+        57136,
+        20176,
+        57137,
+        37700
+      ],
+      "release_date": "2006-02-09",
+      "poster_url": "https://image.tmdb.org/t/p/w500/gGSZPvotlWff9CE2eqNTBkzxIYl.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 55779,
+    "fields": {
+      "title": "파이널 데스티네이션 5",
+      "directors": [
+        93214
+      ],
+      "actors": [
+        37059,
+        131820,
+        1223185,
+        223124,
+        103389
+      ],
+      "release_date": "2011-08-12",
+      "poster_url": "https://image.tmdb.org/t/p/w500/5sRZVerkpfZmyBqgma6v0qMlvUA.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 157336,
+    "fields": {
+      "title": "인터스텔라",
+      "directors": [
+        525
+      ],
+      "actors": [
+        10297,
+        1813,
+        3895,
+        83002,
+        1893
+      ],
+      "release_date": "2014-11-05",
+      "poster_url": "https://image.tmdb.org/t/p/w500/evoEi8SBSvIIEveM3V6nCJ6vKj8.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 138843,
+    "fields": {
+      "title": "컨저링",
+      "directors": [
+        2127
+      ],
+      "actors": [
+        17178,
+        21657,
+        3127,
+        17402,
+        851784
+      ],
+      "release_date": "2013-07-18",
+      "poster_url": "https://image.tmdb.org/t/p/w500/pWpTToZ32bG09PaZ1rvYG5mpOyV.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 24428,
+    "fields": {
+      "title": "어벤져스",
+      "directors": [
+        12891
+      ],
+      "actors": [
+        3223,
+        16828,
+        103,
+        74568,
+        1245
+      ],
+      "release_date": "2012-04-25",
+      "poster_url": "https://image.tmdb.org/t/p/w500/krgjV3rJtBcEpQehODKXNCt6uFL.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 299536,
+    "fields": {
+      "title": "어벤져스: 인피니티 워",
+      "directors": [
+        19271,
+        19272
+      ],
+      "actors": [
+        3223,
+        16828,
+        74568,
+        16851,
+        103
+      ],
+      "release_date": "2018-04-25",
+      "poster_url": "https://image.tmdb.org/t/p/w500/kmP6viwzcEkZeoi1LaVcQemcvZh.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 1241982,
+    "fields": {
+      "title": "모아나 2",
+      "directors": [
+        4524084,
+        1461394,
+        1513971
+      ],
+      "actors": [
+        1564846,
+        18918,
+        4775908,
+        1868823,
+        55937
+      ],
+      "release_date": "2024-11-21",
+      "poster_url": "https://image.tmdb.org/t/p/w500/hwmwTFtMbzxAWbIOp1RyyiOCyx0.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 762509,
+    "fields": {
+      "title": "무파사: 라이온 킹",
+      "directors": [
+        92784
+      ],
+      "actors": [
+        1763709,
+        1344361,
+        1074676,
+        107529,
+        1251835
+      ],
+      "release_date": "2024-12-18",
+      "poster_url": "https://image.tmdb.org/t/p/w500/1VUExee8iFohFTwYVi4IOArYyaM.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 939243,
+    "fields": {
+      "title": "수퍼 소닉 3",
+      "directors": [
+        93364
+      ],
+      "actors": [
+        206,
+        222121,
+        6384,
+        17605,
+        1212864
+      ],
+      "release_date": "2024-12-19",
+      "poster_url": "https://image.tmdb.org/t/p/w500/5ZoI48Puf5i5FwI6HOpunDuJOw0.jpg"
+    }
+  },
+  {
+    "model": "movies.movie",
+    "pk": 575264,
+    "fields": {
+      "title": "미션 임파서블: 데드 레코닝",
+      "directors": [
+        9033
+      ],
+      "actors": [
+        500,
+        39459,
+        10182,
+        11108,
+        933238
+      ],
+      "release_date": "2023-07-08",
+      "poster_url": "https://image.tmdb.org/t/p/w500/dIcLgXA6R54EZ0XPSMKW4XDNCAA.jpg"
+    }
+  }
+]

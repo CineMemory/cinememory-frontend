@@ -35,12 +35,13 @@ const routes = [
       title: '내 프로필 | 씨네메모리'
     }
   },
+  // 🔍 검색 결과 페이지 (실제 SearchResultView 사용)
   {
     path: '/search',
-    name: 'Search',
-    component: () => import('@/views/DummyView.vue'),
+    name: 'SearchResult',
+    component: () => import('@/views/SearchResultView.vue'),
     meta: {
-      title: '검색 | 씨네메모리'
+      title: '검색 결과 | 씨네메모리'
     }
   }
 ]
@@ -52,7 +53,12 @@ const router = createRouter({
 
 // 페이지 타이틀 설정
 router.beforeEach((to) => {
-  document.title = to.meta.title || '씨네메모리'
+  // 검색 페이지의 경우 검색어를 타이틀에 포함
+  if (to.name === 'SearchResult' && to.query.q) {
+    document.title = `"${to.query.q}" 검색 결과 | 씨네메모리`
+  } else {
+    document.title = to.meta.title || '씨네메모리'
+  }
 })
 
 export default router
