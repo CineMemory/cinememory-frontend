@@ -49,8 +49,21 @@
           <span class="department">
             {{ item.known_for_department === 'Directing' ? '감독' : '배우' }}
           </span>
-          <span class="tmdb-id" v-if="item.tmdb_id">ID: {{ item.tmdb_id }}</span>
+          <span class="age" v-if="item.age">{{ item.age }}세</span>
+          <span class="birth-year" v-else-if="item.birthday">
+            {{ item.birthday.split('-')[0] }}년생
+          </span>
         </div>
+        
+        <!-- 대표 작품들 -->
+        <div class="known-for" v-if="item.known_for && item.known_for.length > 0">
+          <span class="known-for-label">대표작:</span>
+          <span class="known-for-movies">
+            {{ item.known_for.slice(0, 2).join(', ') }}
+            <span v-if="item.known_for.length > 2"> 외 {{ item.known_for.length - 2 }}편</span>
+          </span>
+        </div>
+        
         <div class="person-type">인물</div>
       </div>
     </div>
@@ -227,7 +240,7 @@ const handleClick = () => {
   display: flex;
   padding: 1rem;
   gap: 1rem;
-  min-height: 100px;
+  min-height: 120px;
 }
 
 .profile-container {
@@ -259,7 +272,7 @@ const handleClick = () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .person-name {
@@ -273,16 +286,34 @@ const handleClick = () => {
   display: flex;
   gap: 1rem;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .department {
   color: var(--color-highlight-text);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.tmdb-id {
+.age, .birth-year {
   color: var(--color-inactive-text);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.known-for {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.known-for-label {
+  color: var(--color-highlight-text);
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.known-for-movies {
+  color: var(--color-text);
 }
 
 .person-type {
