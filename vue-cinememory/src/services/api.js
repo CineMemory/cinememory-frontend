@@ -32,7 +32,7 @@ const loadCommunityFixtures = async () => {
 // 더미 데이터에서 필요한 데이터 추출 및 가공 (수정된 부분)
 const processFixtures = async () => {
   const fixtures = await loadCommunityFixtures()
-  
+
   const posts = fixtures.posts || []
   const comments = fixtures.comments || []
   const likePosts = fixtures.like_posts || []
@@ -42,13 +42,22 @@ const processFixtures = async () => {
   const tags = fixtures.tags || []
   const postTags = fixtures.post_tags || []
 
-  console.log('📊 처리된 데이터:', { 
-    posts: posts.length, 
-    comments: comments.length, 
-    tags: tags.length 
+  console.log('📊 처리된 데이터:', {
+    posts: posts.length,
+    comments: comments.length,
+    tags: tags.length
   })
 
-  return { posts, comments, likePosts, likeMovies, likeDirectors, likeActors, tags, postTags }
+  return {
+    posts,
+    comments,
+    likePosts,
+    likeMovies,
+    likeDirectors,
+    likeActors,
+    tags,
+    postTags
+  }
 }
 
 // API 요청 헬퍼 함수 (기존 코드 그대로)
@@ -108,24 +117,26 @@ const apiRequest = async (endpoint, options = {}) => {
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
+    await new Promise((resolve) => setTimeout(resolve, 800))
+
     try {
       const { posts, tags, postTags } = await processFixtures()
-      
+
       console.log('🔍 getPosts 호출됨:', { page, limit, sortBy })
       console.log('📋 사용 가능한 게시글:', posts.length)
-      
+
       // 게시글에 태그 정보 추가
-      const postsWithTags = posts.map(post => {
-        const postTagRelations = postTags.filter(pt => pt.fields.post_pk === post.pk)
-        const postTagIds = postTagRelations.map(pt => pt.fields.tag_pk)
-        const postTagList = tags.filter(tag => postTagIds.includes(tag.pk))
-        
+      const postsWithTags = posts.map((post) => {
+        const postTagRelations = postTags.filter(
+          (pt) => pt.fields.post_pk === post.pk
+        )
+        const postTagIds = postTagRelations.map((pt) => pt.fields.tag_pk)
+        const postTagList = tags.filter((tag) => postTagIds.includes(tag.pk))
+
         return {
           ...post.fields,
           id: post.pk,
-          tags: postTagList.map(tag => tag.fields.tag_name),
+          tags: postTagList.map((tag) => tag.fields.tag_name),
           author: {
             id: post.fields.user_pk,
             username: `user${post.fields.user_pk}`
@@ -138,7 +149,9 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
       // 정렬
       let sortedPosts = [...postsWithTags]
       if (sortBy === 'latest') {
-        sortedPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        sortedPosts.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
       } else if (sortBy === 'popular') {
         sortedPosts.sort((a, b) => b.like_count - a.like_count)
       }
@@ -157,7 +170,6 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
 
       console.log('📤 반환할 결과:', result)
       return result
-      
     } catch (error) {
       console.error('❌ getPosts 오류:', error)
       throw {
@@ -169,25 +181,27 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
     }
   }
 
-  return await apiRequest(`/community/posts/?page=${page}&limit=${limit}&sort=${sortBy}`)
+  return await apiRequest(
+    `/community/posts/?page=${page}&limit=${limit}&sort=${sortBy}`
+  )
 }
 
 // 개별 게시글 조회
 export const getPost = async (postId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
     try {
       const { posts, tags, postTags, comments } = await processFixtures()
-      
+
       console.log('🔍 getPost 호출됨:', { postId })
-      
+
       // postId를 숫자로 변환
       const numericPostId = parseInt(postId)
-      
+
       // 해당 ID의 게시글 찾기
-      const post = posts.find(p => p.pk === numericPostId)
-      
+      const post = posts.find((p) => p.pk === numericPostId)
+
       if (!post) {
         throw {
           response: {
@@ -196,19 +210,21 @@ export const getPost = async (postId) => {
           }
         }
       }
-      
+
       // 태그 정보 추가
-      const postTagRelations = postTags.filter(pt => pt.fields.post_pk === post.pk)
-      const postTagIds = postTagRelations.map(pt => pt.fields.tag_pk)
-      const postTagList = tags.filter(tag => postTagIds.includes(tag.pk))
-      
+      const postTagRelations = postTags.filter(
+        (pt) => pt.fields.post_pk === post.pk
+      )
+      const postTagIds = postTagRelations.map((pt) => pt.fields.tag_pk)
+      const postTagList = tags.filter((tag) => postTagIds.includes(tag.pk))
+
       // 댓글 수 계산
-      const postComments = comments.filter(c => c.fields.post_pk === post.pk)
-      
+      const postComments = comments.filter((c) => c.fields.post_pk === post.pk)
+
       const result = {
         ...post.fields,
         id: post.pk,
-        tags: postTagList.map(tag => tag.fields.tag_name),
+        tags: postTagList.map((tag) => tag.fields.tag_name),
         author: {
           id: post.fields.user_pk,
           username: `user${post.fields.user_pk}`
@@ -217,10 +233,9 @@ export const getPost = async (postId) => {
         is_liked: false, // 더미 데이터에서는 좋아요 상태를 false로 설정
         view_count: 0 // 더미 데이터에서는 조회수를 0으로 설정
       }
-      
+
       console.log('✅ 게시글 조회 성공:', result)
       return result
-      
     } catch (error) {
       console.error('❌ getPost 오류:', error)
       throw error
@@ -233,8 +248,8 @@ export const getPost = async (postId) => {
 // 게시글 작성
 export const createPost = async (postData) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
     // 더미 데이터에서는 실제 생성은 하지 않고 시뮬레이션만
     const newPost = {
       id: Math.floor(Math.random() * 10000) + 1000,
@@ -252,7 +267,7 @@ export const createPost = async (postData) => {
       is_liked: false,
       view_count: 0
     }
-    
+
     console.log('✅ 게시글 작성 시뮬레이션:', newPost)
     return newPost
   }
@@ -266,8 +281,8 @@ export const createPost = async (postData) => {
 // 게시글 수정
 export const updatePost = async (postId, postData) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
     // 더미 데이터에서는 실제 수정은 하지 않고 시뮬레이션만
     const updatedPost = {
       id: parseInt(postId),
@@ -285,7 +300,7 @@ export const updatePost = async (postId, postData) => {
       is_liked: false,
       view_count: 0
     }
-    
+
     console.log('✅ 게시글 수정 시뮬레이션:', updatedPost)
     return updatedPost
   }
@@ -299,8 +314,8 @@ export const updatePost = async (postId, postData) => {
 // 게시글 삭제
 export const deletePost = async (postId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
     console.log('✅ 게시글 삭제 시뮬레이션:', postId)
     return { message: '게시글이 삭제되었습니다.' }
   }
@@ -313,16 +328,18 @@ export const deletePost = async (postId) => {
 // 댓글 목록 조회
 export const getComments = async (postId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 400))
-    
+    await new Promise((resolve) => setTimeout(resolve, 400))
+
     try {
       const { comments } = await processFixtures()
-      
+
       // 해당 게시글의 댓글들 필터링
-      const postComments = comments.filter(c => c.fields.post_pk === parseInt(postId))
-      
+      const postComments = comments.filter(
+        (c) => c.fields.post_pk === parseInt(postId)
+      )
+
       // 댓글 데이터 가공
-      const processedComments = postComments.map(comment => ({
+      const processedComments = postComments.map((comment) => ({
         id: comment.pk,
         content: comment.fields.content,
         created_at: comment.fields.created_at,
@@ -333,18 +350,17 @@ export const getComments = async (postId) => {
         parent_id: comment.fields.parent_pk,
         replies: []
       }))
-      
+
       // 대댓글 구조 생성
-      const topLevelComments = processedComments.filter(c => !c.parent_id)
-      const replies = processedComments.filter(c => c.parent_id)
-      
-      topLevelComments.forEach(comment => {
-        comment.replies = replies.filter(r => r.parent_id === comment.id)
+      const topLevelComments = processedComments.filter((c) => !c.parent_id)
+      const replies = processedComments.filter((c) => c.parent_id)
+
+      topLevelComments.forEach((comment) => {
+        comment.replies = replies.filter((r) => r.parent_id === comment.id)
       })
-      
+
       console.log('✅ 댓글 조회 성공:', topLevelComments)
       return topLevelComments
-      
     } catch (error) {
       console.error('❌ getComments 오류:', error)
       throw {
@@ -362,8 +378,8 @@ export const getComments = async (postId) => {
 // 댓글 작성
 export const createComment = async (postId, commentData) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
+    await new Promise((resolve) => setTimeout(resolve, 800))
+
     const newComment = {
       id: Math.floor(Math.random() * 10000) + 1000,
       content: commentData.content,
@@ -375,7 +391,7 @@ export const createComment = async (postId, commentData) => {
       parent_id: commentData.parent_pk || null,
       replies: []
     }
-    
+
     console.log('✅ 댓글 작성 시뮬레이션:', newComment)
     return newComment
   }
@@ -389,8 +405,8 @@ export const createComment = async (postId, commentData) => {
 // 댓글 삭제
 export const deleteComment = async (commentId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
     console.log('✅ 댓글 삭제 시뮬레이션:', commentId)
     return { message: '댓글이 삭제되었습니다.' }
   }
@@ -403,17 +419,17 @@ export const deleteComment = async (commentId) => {
 // 게시글 좋아요 토글
 export const togglePostLike = async (postId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     // 더미 데이터에서는 간단한 토글 시뮬레이션
     const isLiked = Math.random() > 0.5
     const likeCount = Math.floor(Math.random() * 50) + 1
-    
+
     const result = {
       is_liked: isLiked,
       like_count: likeCount
     }
-    
+
     console.log('✅ 좋아요 토글 시뮬레이션:', result)
     return result
   }
@@ -426,13 +442,13 @@ export const togglePostLike = async (postId) => {
 // 영화 좋아요 토글
 export const toggleMovieLike = async (movieId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     const result = {
       is_liked: Math.random() > 0.5,
       like_count: Math.floor(Math.random() * 100) + 1
     }
-    
+
     console.log('✅ 영화 좋아요 토글 시뮬레이션:', result)
     return result
   }
@@ -445,13 +461,13 @@ export const toggleMovieLike = async (movieId) => {
 // 감독 좋아요 토글
 export const toggleDirectorLike = async (directorId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     const result = {
       is_liked: Math.random() > 0.5,
       like_count: Math.floor(Math.random() * 50) + 1
     }
-    
+
     console.log('✅ 감독 좋아요 토글 시뮬레이션:', result)
     return result
   }
@@ -464,13 +480,13 @@ export const toggleDirectorLike = async (directorId) => {
 // 배우 좋아요 토글
 export const toggleActorLike = async (actorId) => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     const result = {
       is_liked: Math.random() > 0.5,
       like_count: Math.floor(Math.random() * 50) + 1
     }
-    
+
     console.log('✅ 배우 좋아요 토글 시뮬레이션:', result)
     return result
   }
@@ -483,19 +499,18 @@ export const toggleActorLike = async (actorId) => {
 // 태그 목록 조회
 export const getTags = async () => {
   if (import.meta.env.MODE === 'development') {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     try {
       const { tags } = await processFixtures()
-      
-      const result = tags.map(tag => ({
+
+      const result = tags.map((tag) => ({
         id: tag.pk,
         name: tag.fields.tag_name
       }))
-      
+
       console.log('✅ 태그 조회 성공:', result)
       return result
-      
     } catch (error) {
       console.error('❌ getTags 오류:', error)
       throw {

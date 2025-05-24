@@ -172,8 +172,10 @@
                     viewBox="0 0 24 24">
                     <path
                       fill="#FF0000"
-                      d="M23.498 6.186c-.276-1.04-1.089-1.857-2.122-2.133C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.507C1.591 4.329.778 5.146.502 6.186.002 8.07.002 12 .002 12s0 3.93.5 5.814c.276 1.04 1.089 1.857 2.121 2.133 1.872.507 9.377.507 9.377.507s7.505 0 9.377-.507c1.033-.276 1.846-1.093 2.122-2.133.5-1.884.5-5.814.5-5.814s0-3.93-.5-5.814z"/>
-                    <path fill="#FFF" d="M9.545 15.568V8.432l6.364 3.568-6.364 3.568z"/>
+                      d="M23.498 6.186c-.276-1.04-1.089-1.857-2.122-2.133C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.507C1.591 4.329.778 5.146.502 6.186.002 8.07.002 12 .002 12s0 3.93.5 5.814c.276 1.04 1.089 1.857 2.121 2.133 1.872.507 9.377.507 9.377.507s7.505 0 9.377-.507c1.033-.276 1.846-1.093 2.122-2.133.5-1.884.5-5.814.5-5.814s0-3.93-.5-5.814z" />
+                    <path
+                      fill="#FFF"
+                      d="M9.545 15.568V8.432l6.364 3.568-6.364 3.568z" />
                   </svg>
                   YouTube에서 보기
                 </button>
@@ -320,7 +322,9 @@
           class="trailer-modal"
           @click.stop>
           <div class="trailer-modal-header">
-            <h3 class="trailer-modal-title">{{ movie.fields.title }} - 예고편</h3>
+            <h3 class="trailer-modal-title">
+              {{ movie.fields.title }} - 예고편
+            </h3>
             <button
               @click="closeTrailerModal"
               class="trailer-modal-close">
@@ -510,18 +514,20 @@
 
     // YouTube API 키 확인
     if (!YOUTUBE_API_KEY) {
-      alert('YouTube API 키가 설정되지 않았습니다.\n\n설정 방법:\n1. Google Cloud Console에서 YouTube Data API v3 키 발급\n2. 프로젝트 루트에 .env 파일 생성\n3. VITE_YOUTUBE_API_KEY=your_api_key 추가')
+      alert(
+        'YouTube API 키가 설정되지 않았습니다.\n\n설정 방법:\n1. Google Cloud Console에서 YouTube Data API v3 키 발급\n2. 프로젝트 루트에 .env 파일 생성\n3. VITE_YOUTUBE_API_KEY=your_api_key 추가'
+      )
       return
     }
 
     isLoadingTrailer.value = true
-    
+
     try {
       const searchQuery = `${movie.value.fields.title} trailer 예고편`
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&key=${YOUTUBE_API_KEY}&maxResults=1`
       )
-      
+
       if (response.ok) {
         const data = await response.json()
         if (data.items && data.items.length > 0) {
@@ -534,11 +540,15 @@
       } else {
         const errorData = await response.json()
         console.error('YouTube API 에러:', errorData)
-        alert(`YouTube API 오류가 발생했습니다: ${errorData.error?.message || '알 수 없는 오류'}`)
+        alert(
+          `YouTube API 오류가 발생했습니다: ${errorData.error?.message || '알 수 없는 오류'}`
+        )
       }
     } catch (error) {
       console.error('예고편 검색 에러:', error)
-      alert('예고편을 불러오는 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.')
+      alert(
+        '예고편을 불러오는 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.'
+      )
     } finally {
       isLoadingTrailer.value = false
     }
@@ -1193,8 +1203,12 @@
   }
 
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   /* 예고편 모달 */

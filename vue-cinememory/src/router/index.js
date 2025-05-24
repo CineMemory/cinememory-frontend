@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/profile',
     name: 'MyProfile',
-    component: () => import('@/views/DummyView.vue'),
+    component: () => import('@/views/ProfileView.vue'),
     meta: {
       title: '내 프로필 | 씨네메모리',
       requireAuth: true // 로그인 필요한 페이지

@@ -59,13 +59,6 @@
         회원가입
       </button>
     </div>
-
-    <!-- 개발용 힌트 -->
-    <div
-      v-if="isDevelopment"
-      class="auth-form__dev-hint">
-      <small> 개발 모드: admin / password </small>
-    </div>
   </form>
 </template>
 
@@ -176,6 +169,7 @@
     text-align: center;
     padding-top: 16px;
     border-top: 1px solid var(--color-inactive-icon);
+    padding-bottom: 24px;
   }
 
   .auth-form__switch-text {
@@ -202,13 +196,5 @@
   .auth-form__switch-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  .auth-form__dev-hint {
-    text-align: center;
-    padding: 8px 12px;
-    background-color: var(--color-highlight-background);
-    border-radius: var(--border-radius-small);
-    color: var(--color-highlight-text);
   }
 </style>

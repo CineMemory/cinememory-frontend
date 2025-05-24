@@ -12,13 +12,13 @@ export const useCommunityStore = defineStore('community', () => {
   const isLoading = ref(false)
   const isLoadingComments = ref(false)
   const error = ref(null)
-  
+
   // 페이지네이션 관련
   const currentPage = ref(1)
   const totalCount = ref(0)
   const hasNextPage = ref(false)
   const hasPreviousPage = ref(false)
-  
+
   // 필터링/정렬 관련
   const sortBy = ref('latest') // 'latest', 'popular'
   const searchQuery = ref('')
@@ -31,16 +31,17 @@ export const useCommunityStore = defineStore('community', () => {
     // 검색어 필터링
     if (searchQuery.value) {
       const query = searchQuery.value.toLowerCase()
-      filtered = filtered.filter(post => 
-        post.title.toLowerCase().includes(query) ||
-        post.content.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (post) =>
+          post.title.toLowerCase().includes(query) ||
+          post.content.toLowerCase().includes(query)
       )
     }
 
     // 태그 필터링
     if (selectedTags.value.length > 0) {
-      filtered = filtered.filter(post =>
-        selectedTags.value.some(tag => post.tags.includes(tag))
+      filtered = filtered.filter((post) =>
+        selectedTags.value.some((tag) => post.tags.includes(tag))
       )
     }
 
@@ -69,7 +70,7 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       const response = await communityAPI.getPosts(page, limit, sort)
-      
+
       posts.value = response.results
       currentPage.value = page
       totalCount.value = response.count
@@ -79,7 +80,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -97,7 +99,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true, post }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -111,14 +114,15 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       const newPost = await communityAPI.createPost(postData)
-      
+
       // 새 게시글을 목록 맨 앞에 추가
       posts.value.unshift(newPost)
       totalCount.value += 1
 
       return { success: true, post: newPost }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '게시글 작성에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '게시글 작성에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -132,13 +136,15 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       const updatedPost = await communityAPI.updatePost(postId, postData)
-      
+
       // 게시글 목록에서 업데이트
-      const index = posts.value.findIndex(post => post.id === parseInt(postId))
+      const index = posts.value.findIndex(
+        (post) => post.id === parseInt(postId)
+      )
       if (index !== -1) {
         posts.value[index] = updatedPost
       }
-      
+
       // 현재 게시글이 업데이트된 게시글이면 교체
       if (currentPost.value?.id === parseInt(postId)) {
         currentPost.value = updatedPost
@@ -146,7 +152,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true, post: updatedPost }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '게시글 수정에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '게시글 수정에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -160,11 +167,11 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       await communityAPI.deletePost(postId)
-      
+
       // 게시글 목록에서 제거
-      posts.value = posts.value.filter(post => post.id !== parseInt(postId))
+      posts.value = posts.value.filter((post) => post.id !== parseInt(postId))
       totalCount.value -= 1
-      
+
       // 현재 게시글이 삭제된 게시글이면 초기화
       if (currentPost.value?.id === parseInt(postId)) {
         currentPost.value = null
@@ -172,7 +179,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '게시글 삭제에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '게시글 삭제에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -191,7 +199,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true, comments: commentsData }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '댓글을 불러오는데 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '댓글을 불러오는데 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -204,10 +213,12 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       const newComment = await communityAPI.createComment(postId, commentData)
-      
+
       // 대댓글인 경우 부모 댓글의 replies에 추가
       if (commentData.parent_pk) {
-        const parentComment = comments.value.find(c => c.id === commentData.parent_pk)
+        const parentComment = comments.value.find(
+          (c) => c.id === commentData.parent_pk
+        )
         if (parentComment) {
           parentComment.replies.push(newComment)
         }
@@ -222,14 +233,17 @@ export const useCommunityStore = defineStore('community', () => {
       }
 
       // 게시글 목록에서도 댓글 수 업데이트
-      const postIndex = posts.value.findIndex(post => post.id === parseInt(postId))
+      const postIndex = posts.value.findIndex(
+        (post) => post.id === parseInt(postId)
+      )
       if (postIndex !== -1) {
         posts.value[postIndex].comment_count += 1
       }
 
       return { success: true, comment: newComment }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '댓글 작성에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '댓글 작성에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -240,14 +254,16 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       await communityAPI.deleteComment(commentId)
-      
+
       // 댓글 목록에서 제거 (대댓글도 함께 처리)
-      comments.value = comments.value.filter(comment => {
+      comments.value = comments.value.filter((comment) => {
         if (comment.id === commentId) {
           return false
         }
         // 대댓글에서도 제거
-        comment.replies = comment.replies.filter(reply => reply.id !== commentId)
+        comment.replies = comment.replies.filter(
+          (reply) => reply.id !== commentId
+        )
         return true
       })
 
@@ -257,14 +273,17 @@ export const useCommunityStore = defineStore('community', () => {
       }
 
       // 게시글 목록에서도 댓글 수 업데이트
-      const postIndex = posts.value.findIndex(post => post.id === parseInt(postId))
+      const postIndex = posts.value.findIndex(
+        (post) => post.id === parseInt(postId)
+      )
       if (postIndex !== -1) {
         posts.value[postIndex].comment_count -= 1
       }
 
       return { success: true }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '댓글 삭제에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '댓글 삭제에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -276,7 +295,7 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
 
       const result = await communityAPI.togglePostLike(postId)
-      
+
       // 현재 게시글의 좋아요 상태 업데이트
       if (currentPost.value?.id === parseInt(postId)) {
         currentPost.value.like_count = result.like_count
@@ -284,7 +303,9 @@ export const useCommunityStore = defineStore('community', () => {
       }
 
       // 게시글 목록에서도 좋아요 수 업데이트
-      const postIndex = posts.value.findIndex(post => post.id === parseInt(postId))
+      const postIndex = posts.value.findIndex(
+        (post) => post.id === parseInt(postId)
+      )
       if (postIndex !== -1) {
         posts.value[postIndex].like_count = result.like_count
         posts.value[postIndex].is_liked = result.is_liked
@@ -292,7 +313,8 @@ export const useCommunityStore = defineStore('community', () => {
 
       return { success: true, ...result }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '좋아요 처리에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '좋아요 처리에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -303,7 +325,8 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
       return await communityAPI.toggleMovieLike(movieId)
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '좋아요 처리에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '좋아요 처리에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -314,7 +337,8 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
       return await communityAPI.toggleDirectorLike(directorId)
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '좋아요 처리에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '좋아요 처리에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -325,7 +349,8 @@ export const useCommunityStore = defineStore('community', () => {
       clearError()
       return await communityAPI.toggleActorLike(actorId)
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '좋아요 처리에 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '좋아요 처리에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -338,7 +363,8 @@ export const useCommunityStore = defineStore('community', () => {
       tags.value = tagsData
       return { success: true, tags: tagsData }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || '태그를 불러오는데 실패했습니다.'
+      const errorMessage =
+        err.response?.data?.message || '태그를 불러오는데 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }

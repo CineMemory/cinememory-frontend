@@ -14,7 +14,7 @@ export const useAuth = () => {
   const isLoading = computed(() => authStore.isLoading)
   const error = computed(() => authStore.error)
 
-  // 로그인
+  // 🔑 로그인
   const login = async (credentials) => {
     const result = await authStore.login(credentials)
 
@@ -27,20 +27,25 @@ export const useAuth = () => {
     return result
   }
 
-  // 회원가입
+  // 📝 회원가입
   const signup = async (userData) => {
     const result = await authStore.signup(userData)
 
+    // 회원가입 성공해도 자동 로그인하지 않음 (API 명세서에 토큰이 없음)
+    // 성공 메시지만 반환하고 로그인 화면으로 전환
     if (result.success) {
-      console.log('✅ 회원가입 성공:', authStore.user.username)
-      // 회원가입 성공 시 홈으로 리다이렉트
-      router.push({ name: 'Home' })
+      console.log('✅ 회원가입 성공:', result.username)
     }
 
     return result
   }
 
-  // 로그아웃
+  // 🔍 닉네임 중복 확인
+  const checkUsernameAvailability = async (username) => {
+    return await authStore.checkUsernameAvailability(username)
+  }
+
+  // 🚪 로그아웃
   const logout = async () => {
     await authStore.logout()
     console.log('👋 로그아웃 완료')
@@ -90,6 +95,8 @@ export const useAuth = () => {
     }
   })
 
+  // 🔍 유효성 검사 함수들
+
   // 생년월일 유효성 검사
   const validateBirthDate = (birthDate) => {
     if (!birthDate) return false
@@ -101,14 +108,24 @@ export const useAuth = () => {
     return birth >= minDate && birth <= now
   }
 
-  // 비밀번호 유효성 검사
+  // 비밀번호 유효성 검사 (API 명세서에 맞춤: 영문, 숫자, 특수문자 포함 8자 이상)
   const validatePassword = (password) => {
-    return password && password.length >= 6
+    if (!password) return false
+
+    // 영문, 숫자, 특수문자를 포함해 8자 이상
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+    return passwordRegex.test(password)
   }
 
   // 사용자명 유효성 검사
   const validateUsername = (username) => {
     return username && username.length >= 3 && username.length <= 20
+  }
+
+  // 🔧 앱 초기화 (main.js나 App.vue에서 호출)
+  const initializeAuth = async () => {
+    await authStore.initialize()
   }
 
   return {
@@ -123,8 +140,10 @@ export const useAuth = () => {
     // 액션
     login,
     signup,
+    checkUsernameAvailability,
     logout,
     clearError,
+    initializeAuth,
 
     // 가드
     requireAuth,
