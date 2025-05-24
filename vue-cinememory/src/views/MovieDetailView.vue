@@ -158,6 +158,36 @@
               </div>
             </div>
 
+            <!-- 예고편 버튼 -->
+            <div class="movie-details">
+              <div class="detail-item">
+                <span class="detail-label">예고편</span>
+                <button
+                  v-if="!isLoadingTrailer"
+                  @click="searchTrailer"
+                  :disabled="isLoadingTrailer"
+                  class="trailer-btn">
+                  <svg
+                    class="youtube-icon"
+                    viewBox="0 0 24 24">
+                    <path
+                      fill="#FF0000"
+                      d="M23.498 6.186c-.276-1.04-1.089-1.857-2.122-2.133C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.507C1.591 4.329.778 5.146.502 6.186.002 8.07.002 12 .002 12s0 3.93.5 5.814c.276 1.04 1.089 1.857 2.121 2.133 1.872.507 9.377.507 9.377.507s7.505 0 9.377-.507c1.033-.276 1.846-1.093 2.122-2.133.5-1.884.5-5.814.5-5.814s0-3.93-.5-5.814z"/>
+                    <path fill="#FFF" d="M9.545 15.568V8.432l6.364 3.568-6.364 3.568z"/>
+                  </svg>
+                  YouTube에서 보기
+                </button>
+                <div
+                  v-else
+                  class="trailer-loading">
+                  <BaseIcon
+                    name="search"
+                    class="loading-icon" />
+                  검색 중...
+                </div>
+              </div>
+            </div>
+
             <!-- 줄거리 -->
             <div
               v-if="movie.fields.overview"
@@ -279,11 +309,43 @@
         </div>
       </div>
     </div>
+
+    <!-- 예고편 모달 -->
+    <Transition name="modal">
+      <div
+        v-if="showTrailerModal && trailerVideoId"
+        class="trailer-modal-overlay"
+        @click="closeTrailerModal">
+        <div
+          class="trailer-modal"
+          @click.stop>
+          <div class="trailer-modal-header">
+            <h3 class="trailer-modal-title">{{ movie.fields.title }} - 예고편</h3>
+            <button
+              @click="closeTrailerModal"
+              class="trailer-modal-close">
+              <BaseIcon
+                name="x"
+                class="close-icon" />
+            </button>
+          </div>
+          <div class="trailer-video-container">
+            <iframe
+              :src="`https://www.youtube.com/embed/${trailerVideoId}?autoplay=1`"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="trailer-video">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, nextTick } from 'vue'
+  import { ref, computed, onMounted, nextTick, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
@@ -303,6 +365,14 @@
   const isSearchMode = ref(false)
   const newSearchQuery = ref('')
   const searchInput = ref(null)
+
+  // 예고편 관련 상태
+  const showTrailerModal = ref(false)
+  const trailerVideoId = ref('')
+  const isLoadingTrailer = ref(false)
+
+  // YouTube API 키 (환경변수에서 가져오기)
+  const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
 
   // 계산된 속성
   const displayedActors = computed(() => {
@@ -432,6 +502,71 @@
   // 마운트 시 영화 로드
   onMounted(() => {
     loadMovie()
+  })
+
+  // 예고편 관련 함수들
+  const searchTrailer = async () => {
+    if (!movie.value || isLoadingTrailer.value) return
+
+    // YouTube API 키 확인
+    if (!YOUTUBE_API_KEY) {
+      alert('YouTube API 키가 설정되지 않았습니다.\n\n설정 방법:\n1. Google Cloud Console에서 YouTube Data API v3 키 발급\n2. 프로젝트 루트에 .env 파일 생성\n3. VITE_YOUTUBE_API_KEY=your_api_key 추가')
+      return
+    }
+
+    isLoadingTrailer.value = true
+    
+    try {
+      const searchQuery = `${movie.value.fields.title} trailer 예고편`
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&key=${YOUTUBE_API_KEY}&maxResults=1`
+      )
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.items && data.items.length > 0) {
+          trailerVideoId.value = data.items[0].id.videoId
+          showTrailerModal.value = true
+          console.log('✅ 예고편 검색 성공:', data.items[0].snippet.title)
+        } else {
+          alert('죄송합니다. 해당 영화의 예고편을 찾을 수 없습니다.')
+        }
+      } else {
+        const errorData = await response.json()
+        console.error('YouTube API 에러:', errorData)
+        alert(`YouTube API 오류가 발생했습니다: ${errorData.error?.message || '알 수 없는 오류'}`)
+      }
+    } catch (error) {
+      console.error('예고편 검색 에러:', error)
+      alert('예고편을 불러오는 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.')
+    } finally {
+      isLoadingTrailer.value = false
+    }
+  }
+
+  const closeTrailerModal = () => {
+    showTrailerModal.value = false
+    trailerVideoId.value = ''
+  }
+
+  // 키보드 이벤트 처리
+  const handleKeydown = (event) => {
+    if (event.key === 'Escape' && showTrailerModal.value) {
+      closeTrailerModal()
+    }
+  }
+
+  // 모달이 열릴 때 키보드 이벤트 리스너 추가
+  watch(showTrailerModal, (newValue) => {
+    if (newValue) {
+      document.addEventListener('keydown', handleKeydown)
+      // 스크롤 방지
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.removeEventListener('keydown', handleKeydown)
+      // 스크롤 복원
+      document.body.style.overflow = ''
+    }
   })
 </script>
 
@@ -990,6 +1125,170 @@
     min-width: 120px;
   }
 
+  /* 영화 상세 정보 */
+  .movie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .detail-item {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .detail-label {
+    font-size: 16px;
+    color: var(--color-highlight-text);
+    font-weight: 500;
+    min-width: 10px;
+  }
+
+  /* 예고편 버튼 */
+  .trailer-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--border-radius-medium);
+    transition: background-color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', sans-serif;
+  }
+
+  .trailer-btn:hover {
+    background-color: var(--color-highlight-background);
+  }
+
+  .trailer-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .youtube-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .trailer-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-highlight-text);
+    font-size: 14px;
+    padding: 6px 0;
+  }
+
+  .trailer-loading .loading-icon {
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* 예고편 모달 */
+  .trailer-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .trailer-modal {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .trailer-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-inactive-icon);
+  }
+
+  .trailer-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .trailer-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--border-radius-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+
+  .trailer-modal-close:hover {
+    background-color: var(--color-highlight-background);
+  }
+
+  .close-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-text);
+  }
+
+  .trailer-video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+    height: 0;
+  }
+
+  .trailer-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 모달 트랜지션 */
+  .modal-enter-active,
+  .modal-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .modal-enter-from,
+  .modal-leave-to {
+    opacity: 0;
+  }
+
+  .modal-enter-from .trailer-modal,
+  .modal-leave-to .trailer-modal {
+    transform: scale(0.9) translateY(-20px);
+  }
+
   /* 반응형 */
   @media (max-width: 768px) {
     .movie-detail-container {
@@ -1051,6 +1350,40 @@
       width: 100px;
       height: 150px;
     }
+
+    .trailer-modal {
+      max-width: 95vw;
+      margin: 10px;
+    }
+
+    .trailer-modal-header {
+      padding: 16px 20px;
+    }
+
+    .trailer-modal-title {
+      font-size: 18px;
+    }
+
+    .detail-item {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+
+    .detail-label {
+      min-width: auto;
+      font-size: 14px;
+    }
+
+    .trailer-btn {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    .youtube-icon {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -1077,6 +1410,18 @@
 
     .loading-subtitle {
       font-size: 14px;
+    }
+
+    .trailer-modal-overlay {
+      padding: 10px;
+    }
+
+    .trailer-modal-header {
+      padding: 12px 16px;
+    }
+
+    .trailer-modal-title {
+      font-size: 16px;
     }
   }
 </style>
