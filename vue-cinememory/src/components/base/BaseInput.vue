@@ -1,5 +1,3 @@
-@import '@/assets/colors.css'; @import '@/assets/fonts.css';
-
 <!-- 기본 입력 필드 -->
 <template>
   <div class="base-input">

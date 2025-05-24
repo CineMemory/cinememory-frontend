@@ -474,7 +474,6 @@
     position: relative;
     z-index: 2;
     padding-top: 40vh;
-    margin-top: 80px; /* 헤더 높이만큼 마진 추가 */
   }
 
   .movie-detail-container {
