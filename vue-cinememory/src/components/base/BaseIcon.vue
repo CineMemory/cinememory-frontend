@@ -257,6 +257,43 @@
       y1="6.51"
       x2="8.59"
       y2="10.49" />
+
+    <!-- Clock Icon -->
+    <circle
+      v-if="name === 'clock'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <polyline
+      v-if="name === 'clock'"
+      points="12,6 12,12 16,14" />
+
+    <!-- Log In Icon -->
+    <path
+      v-if="name === 'log-in'"
+      d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+    <polyline
+      v-if="name === 'log-in'"
+      points="10 17 15 12 10 7" />
+    <line
+      v-if="name === 'log-in'"
+      x1="15" y1="12" x2="3" y2="12" />
+
+    <!-- User Plus Icon (회원가입) -->
+    <path
+      v-if="name === 'user-plus'"
+      d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle
+      v-if="name === 'user-plus'"
+      cx="8.5"
+      cy="7"
+      r="4" />
+    <line
+      v-if="name === 'user-plus'"
+      x1="20" y1="8" x2="20" y2="14" />
+    <line
+      v-if="name === 'user-plus'"
+      x1="23" y1="11" x2="17" y2="11" />
   </svg>
 </template>
 

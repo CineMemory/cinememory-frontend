@@ -21,13 +21,39 @@ const routes = [
       requireGuest: true // 이미 로그인한 사용자는 접근 불가
     }
   },
-  // 임시 더미 라우트들 (나중에 실제 컴포넌트로 교체)
+  // 🏘️ 커뮤니티 관련 라우트
   {
     path: '/community',
     name: 'Community',
-    component: () => import('@/views/DummyView.vue'),
+    component: () => import('@/views/CommunityView.vue'),
     meta: {
       title: '커뮤니티 | 씨네메모리'
+    }
+  },
+  {
+    path: '/community/post/:id',
+    name: 'PostDetail',
+    component: () => import('@/views/PostDetailView.vue'),
+    meta: {
+      title: '게시글 상세 | 씨네메모리'
+    }
+  },
+  {
+    path: '/community/post/create',
+    name: 'PostCreate',
+    component: () => import('@/views/PostCreateView.vue'),
+    meta: {
+      title: '게시글 작성 | 씨네메모리',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/community/post/:id/edit',
+    name: 'PostEdit',
+    component: () => import('@/views/PostEditView.vue'),
+    meta: {
+      title: '게시글 수정 | 씨네메모리',
+      requireAuth: true
     }
   },
   {
