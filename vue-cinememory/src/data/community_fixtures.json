@@ -1,0 +1,427 @@
+{
+  "posts": [
+    {
+      "model": "community.post",
+      "pk": 1,
+      "fields": {
+        "title": "2024년 최고의 영화는 뭐라고 생각하시나요?",
+        "content": "올해 정말 많은 좋은 영화들이 나왔는데, 개인적으로는 듄: 파트 투가 가장 인상깊었어요. 시각적 스펙터클과 스토리텔링 모두 완벽했다고 생각합니다. 여러분은 어떤 영화를 올해의 베스트로 뽑으시겠어요?",
+        "created_at": "2024-12-15T10:30:00Z",
+        "updated_at": "2024-12-15T10:30:00Z",
+        "user_pk": 1,
+        "like_count": 12,
+        "comment_count": 8
+      }
+    },
+    {
+      "model": "community.post", 
+      "pk": 2,
+      "fields": {
+        "title": "90년대 한국 영화 추천해주세요!",
+        "content": "요즘 90년대 향수에 빠져서 그 시절 한국 영화들을 보고 있어요. 쉬리, 접속 같은 유명한 것들은 이미 봤고, 좀 더 숨겨진 명작들이 있다면 추천 부탁드립니다!",
+        "created_at": "2024-12-14T15:45:00Z",
+        "updated_at": "2024-12-14T15:45:00Z", 
+        "user_pk": 2,
+        "like_count": 5,
+        "comment_count": 15
+      }
+    },
+    {
+      "model": "community.post",
+      "pk": 3,
+      "fields": {
+        "title": "크리스토퍼 놀란 감독의 차기작 기대되시나요?",
+        "content": "오펜하이머 이후로 어떤 작품을 준비하고 있는지 궁금합니다. 개인적으로는 다시 SF 장르로 돌아갔으면 좋겠어요. 인터스텔라 같은 감동적인 SF 영화를 또 보고 싶습니다.",
+        "created_at": "2024-12-13T20:15:00Z",
+        "updated_at": "2024-12-13T20:15:00Z",
+        "user_pk": 3,
+        "like_count": 23,
+        "comment_count": 6
+      }
+    },
+    {
+      "model": "community.post",
+      "pk": 4,
+      "fields": {
+        "title": "영화관에서 보길 잘했다고 생각하는 영화",
+        "content": "집에서 넷플릭스로 보는 것과 영화관에서 보는 건 정말 다른 경험인 것 같아요. 특히 액션이나 SF 영화들은 큰 스크린에서 봐야 제맛인 것 같습니다. 최근에는 탑건: 매버릭을 아이맥스로 봤는데 정말 소름돋았어요!",
+        "created_at": "2024-12-12T14:20:00Z",
+        "updated_at": "2024-12-12T14:20:00Z",
+        "user_pk": 1,
+        "like_count": 18,
+        "comment_count": 11
+      }
+    },
+    {
+      "model": "community.post",
+      "pk": 5,
+      "fields": {
+        "title": "봉준호 감독 작품 중 최고작은?",
+        "content": "기생충으로 아카데미상을 받으면서 세계적으로 인정받은 봉준호 감독님. 개인적으로는 살인의 추억이 가장 인상깊었는데, 여러분은 어떤 작품을 최고로 생각하시나요? 괴물, 옥자, 설국열차까지 모든 작품이 수작이라고 생각해요.",
+        "created_at": "2024-12-11T09:30:00Z",
+        "updated_at": "2024-12-11T09:30:00Z",
+        "user_pk": 4,
+        "like_count": 31,
+        "comment_count": 22
+      }
+    }
+  ],
+  "comments": [
+    {
+      "model": "community.comment",
+      "pk": 1,
+      "fields": {
+        "content": "저도 듄: 파트 투가 올해 최고였다고 생각해요! 한스 짐머 음악도 정말 좋았고요.",
+        "created_at": "2024-12-15T11:15:00Z",
+        "post_pk": 1,
+        "user_pk": 2,
+        "parent_pk": null
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 2,
+      "fields": {
+        "content": "개인적으로는 위키드가 더 인상깊었어요. 뮤지컬 영화의 새로운 가능성을 보여준 것 같습니다.",
+        "created_at": "2024-12-15T11:45:00Z",
+        "post_pk": 1,
+        "user_pk": 3,
+        "parent_pk": null
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 3,
+      "fields": {
+        "content": "음악도 그렇고 시각적 연출도 정말 압도적이었죠!",
+        "created_at": "2024-12-15T12:00:00Z",
+        "post_pk": 1,
+        "user_pk": 1,
+        "parent_pk": 1
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 4,
+      "fields": {
+        "content": "90년대라면 '은밀하게 위대하게'는 어떠세요? 아, 잠깐 그건 2010년대네요 ㅋㅋ 진짜 90년대라면 '결혼 이야기' 추천드려요!",
+        "created_at": "2024-12-14T16:30:00Z",
+        "post_pk": 2,
+        "user_pk": 1,
+        "parent_pk": null
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 5,
+      "fields": {
+        "content": "'301, 302' 보셨나요? 박철수 감독 작품인데 정말 독특하고 인상적이에요.",
+        "created_at": "2024-12-14T17:00:00Z",
+        "post_pk": 2,
+        "user_pk": 4,
+        "parent_pk": null
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 6,
+      "fields": {
+        "content": "오 그 영화 정말 독특했죠! 90년대 한국영화의 실험정신을 보여주는 작품이라고 생각해요.",
+        "created_at": "2024-12-14T17:15:00Z",
+        "post_pk": 2,
+        "user_pk": 2,
+        "parent_pk": 5
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 7,
+      "fields": {
+        "content": "놀란 감독은 정말 천재인 것 같아요. 다음 작품도 벌써부터 기대됩니다!",
+        "created_at": "2024-12-13T21:00:00Z",
+        "post_pk": 3,
+        "user_pk": 2,
+        "parent_pk": null
+      }
+    },
+    {
+      "model": "community.comment",
+      "pk": 8,
+      "fields": {
+        "content": "탑건: 매버릭 아이맥스로 보신 분 부럽네요! 저는 일반 상영관에서 봤는데도 충분히 감동적이었어요.",
+        "created_at": "2024-12-12T15:30:00Z",
+        "post_pk": 4,
+        "user_pk": 3,
+        "parent_pk": null
+      }
+    }
+  ],
+  "like_posts": [
+    {
+      "model": "community.like_post",
+      "pk": 1,
+      "fields": {
+        "user_pk": 2,
+        "post_pk": 1
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 2,
+      "fields": {
+        "user_pk": 3,
+        "post_pk": 1
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 3,
+      "fields": {
+        "user_pk": 4,
+        "post_pk": 1
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 4,
+      "fields": {
+        "user_pk": 1,
+        "post_pk": 2
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 5,
+      "fields": {
+        "user_pk": 3,
+        "post_pk": 2
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 6,
+      "fields": {
+        "user_pk": 1,
+        "post_pk": 3
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 7,
+      "fields": {
+        "user_pk": 2,
+        "post_pk": 3
+      }
+    },
+    {
+      "model": "community.like_post",
+      "pk": 8,
+      "fields": {
+        "user_pk": 4,
+        "post_pk": 3
+      }
+    }
+  ],
+  "like_movies": [
+    {
+      "model": "community.like_movie",
+      "pk": 1,
+      "fields": {
+        "user_pk": 1,
+        "movie_pk": 429
+      }
+    },
+    {
+      "model": "community.like_movie",
+      "pk": 2,
+      "fields": {
+        "user_pk": 2,
+        "movie_pk": 335
+      }
+    },
+    {
+      "model": "community.like_movie",
+      "pk": 3,
+      "fields": {
+        "user_pk": 1,
+        "movie_pk": 335
+      }
+    }
+  ],
+  "like_directors": [
+    {
+      "model": "community.like_director",
+      "pk": 1,
+      "fields": {
+        "user_pk": 1,
+        "director_pk": 4385
+      }
+    },
+    {
+      "model": "community.like_director",
+      "pk": 2,
+      "fields": {
+        "user_pk": 3,
+        "director_pk": 4385
+      }
+    }
+  ],
+  "like_actors": [
+    {
+      "model": "community.like_actor",
+      "pk": 1,
+      "fields": {
+        "user_pk": 1,
+        "actor_pk": 190
+      }
+    },
+    {
+      "model": "community.like_actor",
+      "pk": 2,
+      "fields": {
+        "user_pk": 2,
+        "actor_pk": 190
+      }
+    }
+  ],
+  "tags": [
+    {
+      "model": "community.tag",
+      "pk": 1,
+      "fields": {
+        "tag_name": "2024영화"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 2,
+      "fields": {
+        "tag_name": "추천"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 3,
+      "fields": {
+        "tag_name": "90년대"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 4,
+      "fields": {
+        "tag_name": "한국영화"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 5,
+      "fields": {
+        "tag_name": "놀란"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 6,
+      "fields": {
+        "tag_name": "SF"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 7,
+      "fields": {
+        "tag_name": "아이맥스"
+      }
+    },
+    {
+      "model": "community.tag",
+      "pk": 8,
+      "fields": {
+        "tag_name": "봉준호"
+      }
+    }
+  ],
+  "post_tags": [
+    {
+      "model": "community.post_tag",
+      "pk": 1,
+      "fields": {
+        "post_pk": 1,
+        "tag_pk": 1
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 2,
+      "fields": {
+        "post_pk": 1,
+        "tag_pk": 2
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 3,
+      "fields": {
+        "post_pk": 2,
+        "tag_pk": 3
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 4,
+      "fields": {
+        "post_pk": 2,
+        "tag_pk": 4
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 5,
+      "fields": {
+        "post_pk": 2,
+        "tag_pk": 2
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 6,
+      "fields": {
+        "post_pk": 3,
+        "tag_pk": 5
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 7,
+      "fields": {
+        "post_pk": 3,
+        "tag_pk": 6
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 8,
+      "fields": {
+        "post_pk": 4,
+        "tag_pk": 7
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 9,
+      "fields": {
+        "post_pk": 5,
+        "tag_pk": 8
+      }
+    },
+    {
+      "model": "community.post_tag",
+      "pk": 10,
+      "fields": {
+        "post_pk": 5,
+        "tag_pk": 4
+      }
+    }
+  ]
+}
