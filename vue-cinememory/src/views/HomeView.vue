@@ -165,10 +165,20 @@
 <style scoped>
   /* 🎨 로고 색상 변수 - 프로젝트 컬러셋에 맞게 조정 */
   :root {
-    --logo-color: var(--color-gold-main);  /* 더 밝은 골드 컬러 사용 */
-    --logo-color-hover: #fff700;  /* 호버 시 더욱 밝은 노란색 */
-    --logo-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);  /* 더 밝은 그라데이션 */
-    --logo-gradient-hover: linear-gradient(135deg, #fff700 0%, #ffff80 50%, #fff700 100%);  /* 호버 시 더욱 밝게 */
+    --logo-color: var(--color-gold-main); /* 더 밝은 골드 컬러 사용 */
+    --logo-color-hover: #fff700; /* 호버 시 더욱 밝은 노란색 */
+    --logo-gradient: linear-gradient(
+      135deg,
+      #ffd700 0%,
+      #ffed4e 50%,
+      #ffd700 100%
+    ); /* 더 밝은 그라데이션 */
+    --logo-gradient-hover: linear-gradient(
+      135deg,
+      #fff700 0%,
+      #ffff80 50%,
+      #fff700 100%
+    ); /* 호버 시 더욱 밝게 */
   }
 
   .home-view {
@@ -186,7 +196,7 @@
     z-index: 100;
     background-color: var(--color-background);
     border-bottom: 1px solid var(--color-inactive-icon);
-    padding: 8px 24px;  /* 16px → 8px로 줄임 */
+    padding: 8px 24px; /* 16px → 8px로 줄임 */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -207,7 +217,7 @@
   }
 
   .home-header__logo-icon {
-    width: 56px;  /* 48px → 56px로 더 크게 */
+    width: 56px; /* 48px → 56px로 더 크게 */
     height: 56px;
     object-fit: contain;
     /* 🎨 그라데이션 효과로 더 고급스러운 로고 색상 */
@@ -230,9 +240,9 @@
   }
 
   .home-header__logo-text {
-    font-size: 24px;  /* 22px → 24px로 더 크게 */
+    font-size: 24px; /* 22px → 24px로 더 크게 */
     font-weight: 800;
-    color: var(--color-text);  /* 기본 흰색 */
+    color: var(--color-text); /* 기본 흰색 */
     /* 🎬 구글 폰트 사용 - 현재: Orbitron (미래적이고 영화스러운 느낌) */
     /* 다른 폰트로 변경하려면 index.html에서 해당 폰트 링크를 주석 해제하고 아래 폰트명을 변경하세요:
        - 'Bebas Neue' (클래식한 영화 포스터)
@@ -243,14 +253,16 @@
        - 'Anton' (볼드하고 임팩트) */
     font-family: 'Anton', 'Pretendard-ExtraBold', 'Noto Sans KR', sans-serif;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);  /* 더 진한 그림자로 가독성 향상 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 더 진한 그림자로 가독성 향상 */
     transition: all 0.3s ease;
   }
 
   .home-header__logo:hover .home-header__logo-text {
     /* 호버 시에도 흰색 유지하되 살짝 밝게 */
     color: #ffffff;
-    text-shadow: 0 2px 6px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 247, 0, 0.2);
+    text-shadow:
+      0 2px 6px rgba(255, 255, 255, 0.3),
+      0 0 10px rgba(255, 247, 0, 0.2);
     transform: translateY(-1px);
   }
 
@@ -319,19 +331,20 @@
   /* 반응형 */
   @media (max-width: 768px) {
     .home-header {
-      padding: 6px 16px;  /* 12px → 6px로 줄임 */
+      padding: 6px 16px; /* 12px → 6px로 줄임 */
     }
 
     .home-header__logo-icon {
-      width: 48px;  /* 40px → 48px로 조정 */
+      width: 48px; /* 40px → 48px로 조정 */
       height: 48px;
     }
 
     .home-header__logo-text {
-      font-size: 20px;  /* 18px → 20px로 크게, 흰색 유지 */
+      font-size: 20px; /* 18px → 20px로 크게, 흰색 유지 */
       font-weight: 800;
-      color: var(--color-text);  /* 흰색 */
-      font-family: 'Orbitron', 'Pretendard-ExtraBold', 'Noto Sans KR', sans-serif;
+      color: var(--color-text); /* 흰색 */
+      font-family:
+        'Orbitron', 'Pretendard-ExtraBold', 'Noto Sans KR', sans-serif;
       letter-spacing: -0.3px;
     }
 
@@ -340,21 +353,22 @@
     }
 
     .home-main {
-      padding-top: 56px;  /* 70px → 56px로 줄임 */
+      padding-top: 56px; /* 70px → 56px로 줄임 */
     }
   }
 
   @media (max-width: 480px) {
     .home-header__logo-icon {
-      width: 42px;  /* 36px → 42px로 조정 */
+      width: 42px; /* 36px → 42px로 조정 */
       height: 42px;
     }
 
     .home-header__logo-text {
-      font-size: 18px;  /* 16px → 18px로 크게, 흰색 유지 */
+      font-size: 18px; /* 16px → 18px로 크게, 흰색 유지 */
       font-weight: 800;
-      color: var(--color-text);  /* 흰색 */
-      font-family: 'Orbitron', 'Pretendard-ExtraBold', 'Noto Sans KR', sans-serif;
+      color: var(--color-text); /* 흰색 */
+      font-family:
+        'Orbitron', 'Pretendard-ExtraBold', 'Noto Sans KR', sans-serif;
       letter-spacing: -0.2px;
     }
 

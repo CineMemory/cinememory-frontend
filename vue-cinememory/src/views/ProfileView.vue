@@ -83,12 +83,59 @@
             <!-- 닉네임 수정 -->
             <div class="form-field">
               <label class="form-label">닉네임</label>
-              <BaseInput
-                v-model="editForm.username"
-                type="text"
-                placeholder="새로운 닉네임"
-                :disabled="isUpdating"
-                class="form-input" />
+              <div class="username-input-container">
+                <BaseInput
+                  v-model="editForm.username"
+                  type="text"
+                  placeholder="새로운 닉네임"
+                  :disabled="isUpdating"
+                  class="form-input"
+                  @input="handleUsernameInput" />
+
+                <!-- 닉네임 확인 상태 표시 -->
+                <div class="username-status">
+                  <div
+                    v-if="usernameCheckState.isChecking"
+                    class="username-status__checking">
+                    <BaseIcon
+                      name="loader"
+                      class="spinner" />
+                  </div>
+                  <div
+                    v-else-if="usernameCheckState.isAvailable === true"
+                    class="username-status__available">
+                    <BaseIcon
+                      name="check"
+                      class="check-icon" />
+                  </div>
+                  <div
+                    v-else-if="usernameCheckState.isAvailable === false"
+                    class="username-status__unavailable">
+                    <BaseIcon
+                      name="x"
+                      class="x-icon" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 닉네임 관련 메시지 -->
+              <div
+                v-if="
+                  editForm.username &&
+                  (editForm.username.length < 3 ||
+                    editForm.username.length > 20)
+                "
+                class="field-error">
+                닉네임은 3-20글자여야 합니다.
+              </div>
+              <div
+                v-else-if="usernameCheckState.message"
+                :class="[
+                  'field-message',
+                  usernameCheckState.isAvailable ? 'success' : 'error'
+                ]">
+                {{ usernameCheckState.message }}
+              </div>
             </div>
 
             <!-- 비밀번호 변경 -->
@@ -108,7 +155,7 @@
             <!-- 수정 버튼 -->
             <BaseButton
               type="submit"
-              :disabled="isUpdating || !hasChanges"
+              :disabled="isUpdating || !isFormValid"
               :loading="isUpdating"
               variant="primary"
               size="large"
@@ -136,7 +183,8 @@
 
     <!-- 회원 탈퇴 확인 모달 -->
     <BaseModal
-      v-model="showDeleteModal"
+      :modelValue="showDeleteModal"
+      @update:modelValue="showDeleteModal = $event"
       @close="closeDeleteModal"
       class="delete-modal">
       <div class="delete-modal-content">
@@ -234,8 +282,18 @@
     password: ''
   })
 
+  // 닉네임 중복 확인 상태 추가
+  const usernameCheckState = ref({
+    isChecking: false,
+    isAvailable: null, // null: 미확인, true: 사용가능, false: 사용불가
+    message: ''
+  })
+
   const showDeleteModal = ref(false)
   const imageInput = ref(null)
+
+  // 닉네임 중복 확인 디바운스 타이머
+  let usernameCheckTimer = null
 
   // 계산된 속성
   const hasChanges = computed(() => {
@@ -244,6 +302,24 @@
       editForm.value.password.length > 0 ||
       editForm.value.profileImage !== null
     )
+  })
+
+  // 닉네임 변경 여부 확인
+  const isUsernameChanged = computed(() => {
+    return (
+      editForm.value.username !== profile.value.username &&
+      editForm.value.username.length >= 3
+    )
+  })
+
+  // 폼 유효성 (닉네임 중복 확인 포함)
+  const isFormValid = computed(() => {
+    // 닉네임이 변경된 경우 중복 확인이 완료되어야 함
+    if (isUsernameChanged.value) {
+      return usernameCheckState.value.isAvailable === true
+    }
+    // 닉네임이 변경되지 않은 경우는 다른 변경사항만 확인
+    return hasChanges.value
   })
 
   // 프로필 정보 로드
@@ -264,6 +340,13 @@
 
       // 수정 폼 초기값 설정
       editForm.value.username = data.username
+
+      // 닉네임 중복 확인 상태 초기화
+      usernameCheckState.value = {
+        isChecking: false,
+        isAvailable: null,
+        message: ''
+      }
     } catch (err) {
       console.error('프로필 로드 실패:', err)
       error.value =
@@ -273,7 +356,60 @@
     }
   }
 
-  // 이미지 업로드 열기
+  // 닉네임 입력 핸들러 (디바운스 적용)
+  const handleUsernameInput = () => {
+    const username = editForm.value.username.trim()
+
+    // 이전 타이머 취소
+    if (usernameCheckTimer) {
+      clearTimeout(usernameCheckTimer)
+    }
+
+    // 상태 초기화
+    usernameCheckState.value = {
+      isChecking: false,
+      isAvailable: null,
+      message: ''
+    }
+
+    // 원래 닉네임과 같으면 확인하지 않음
+    if (username === profile.value.username) {
+      return
+    }
+
+    // 유효하지 않은 사용자명이면 확인하지 않음
+    if (username.length < 3 || username.length > 20) {
+      return
+    }
+
+    // 500ms 후에 중복 확인 실행
+    usernameCheckTimer = setTimeout(async () => {
+      await checkUsername(username)
+    }, 500)
+  }
+
+  // 닉네임 중복 확인 실행
+  const checkUsername = async (username) => {
+    if (!username || username.length < 3 || username.length > 20) return
+
+    usernameCheckState.value.isChecking = true
+    usernameCheckState.value.message = ''
+
+    try {
+      const result = await authAPI.checkUsernameAvailability(username)
+
+      if (result.message) {
+        usernameCheckState.value.isAvailable = true
+        usernameCheckState.value.message = result.message
+      }
+    } catch (err) {
+      usernameCheckState.value.isAvailable = false
+      usernameCheckState.value.message =
+        err.response?.data?.error || '닉네임 확인에 실패했습니다.'
+    } finally {
+      usernameCheckState.value.isChecking = false
+    }
+  }
   const openImageUpload = () => {
     imageInput.value?.click()
   }
@@ -312,21 +448,30 @@
 
       // 이미지가 있으면 FormData, 없으면 일반 객체 사용
       if (editForm.value.profileImage) {
+        console.log('🖼️ 이미지 업로드 시도:', editForm.value.profileImage)
+
         const formData = new FormData()
 
         // 변경된 필드만 추가 (백엔드 필드명에 맞춤)
         if (editForm.value.username !== profile.value.username) {
-          formData.append('username', editForm.value.username) // nickname → username
+          formData.append('username', editForm.value.username)
         }
 
         if (editForm.value.password) {
-          formData.append('password1', editForm.value.password) // password → password1
-          formData.append('password2', editForm.value.password) // password2 추가
+          formData.append('password1', editForm.value.password)
+          formData.append('password2', editForm.value.password)
         }
 
         formData.append('profile_image', editForm.value.profileImage)
 
+        // FormData 내용 확인
+        console.log('📤 전송할 FormData:')
+        for (let [key, value] of formData.entries()) {
+          console.log(`  ${key}:`, value)
+        }
+
         const response = await authAPI.updateUserProfile(formData)
+        console.log('✅ 업데이트 응답:', response)
       } else {
         // 이미지가 없으면 JSON으로 전송
         const updateData = {}
@@ -340,10 +485,13 @@
           updateData.password2 = editForm.value.password
         }
 
+        console.log('📤 전송할 JSON 데이터:', updateData)
         const response = await authAPI.updateUserProfile(updateData)
+        console.log('✅ 업데이트 응답:', response)
       }
 
       // 성공 시 프로필 다시 로드
+      console.log('🔄 프로필 정보 다시 로드...')
       await loadProfile()
 
       // 폼 초기화
@@ -379,70 +527,17 @@
       isDeleting.value = true
       deleteError.value = ''
 
-      console.log('🔍 회원탈퇴 처리 시작')
-      console.log('🔑 입력된 비밀번호 길이:', deleteForm.value.password?.length)
+      await authAPI.deleteUserAccount(deleteForm.value.password)
 
-      // 🔐 먼저 현재 비밀번호가 맞는지 검증
-      console.log('🔒 비밀번호 검증 시작')
-      try {
-        await authAPI.login({
-          username: profile.value.username,
-          password: deleteForm.value.password
-        })
-        console.log('✅ 비밀번호 검증 성공')
-      } catch (verifyError) {
-        console.error('❌ 비밀번호 검증 실패:', verifyError)
-
-        // 비밀번호가 틀린 경우 탈퇴 중단
-        if (
-          verifyError.response?.status === 400 ||
-          verifyError.response?.status === 401
-        ) {
-          deleteError.value = '비밀번호가 올바르지 않습니다.'
-          return
-        } else {
-          deleteError.value = '비밀번호 검증 중 오류가 발생했습니다.'
-          return
-        }
-      }
-
-      // 🗑️ 비밀번호가 확인되면 회원탈퇴 진행
-      console.log('🗑️ 회원탈퇴 API 호출')
-      const result = await authAPI.deleteUserAccount(deleteForm.value.password)
-
-      console.log('✅ 회원탈퇴 성공:', result)
       alert('회원 탈퇴가 완료되었습니다.')
 
       // 로그아웃 후 홈으로 이동
       await logout()
       router.push({ name: 'Home' })
     } catch (err) {
-      console.error('❌ 회원 탈퇴 실패:', err)
-      console.log('📝 에러 상세 정보:', {
-        status: err.response?.status,
-        data: err.response?.data,
-        message: err.message
-      })
-
-      // 에러 메시지 처리
-      let errorMessage = '회원 탈퇴에 실패했습니다.'
-
-      if (err.response?.status === 400) {
-        // 비밀번호 오류 등
-        errorMessage =
-          err.response?.data?.error || '비밀번호가 올바르지 않습니다.'
-      } else if (err.response?.status === 401) {
-        // 인증 오류
-        errorMessage = '인증에 실패했습니다. 다시 로그인해주세요.'
-      } else if (err.response?.data?.error) {
-        errorMessage = err.response.data.error
-      } else if (err.response?.data?.message) {
-        errorMessage = err.response.data.message
-      } else if (err.message) {
-        errorMessage = err.message
-      }
-
-      deleteError.value = errorMessage
+      console.error('회원 탈퇴 실패:', err)
+      deleteError.value =
+        err.response?.data?.error || '회원 탈퇴에 실패했습니다.'
     } finally {
       isDeleting.value = false
     }
@@ -464,6 +559,15 @@
   // 컴포넌트 마운트 시 프로필 로드
   onMounted(() => {
     loadProfile()
+  })
+
+  // 컴포넌트 언마운트 시 타이머 정리
+  import { onUnmounted } from 'vue'
+
+  onUnmounted(() => {
+    if (usernameCheckTimer) {
+      clearTimeout(usernameCheckTimer)
+    }
   })
 </script>
 
@@ -626,6 +730,71 @@
     width: 100%;
   }
 
+  .username-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .username-input-container .form-input {
+    padding-right: 40px; /* 아이콘 공간 확보 */
+  }
+
+  .username-status {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .username-status__checking .spinner {
+    width: 16px;
+    height: 16px;
+    color: var(--color-highlight-text);
+    animation: spin 1s linear infinite;
+  }
+
+  .username-status__available .check-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-success);
+  }
+
+  .username-status__unavailable .x-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-alert);
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .field-error {
+    font-size: 12px;
+    color: var(--color-alert);
+    margin-top: -4px;
+  }
+
+  .field-message {
+    font-size: 12px;
+    margin-top: -4px;
+  }
+
+  .field-message.success {
+    color: var(--color-success);
+  }
+
+  .field-message.error {
+    color: var(--color-alert);
+  }
+
   .field-description {
     font-size: 12px;
     color: var(--color-highlight-text);
@@ -653,7 +822,6 @@
   .delete-modal-content {
     width: 100%;
     max-width: 400px;
-    padding: 32px 24px;
   }
 
   .delete-modal-header {
@@ -701,7 +869,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 4px 12px;
+    padding: 12px;
     background-color: var(--color-alert);
     color: white;
     border-radius: var(--border-radius-medium);
