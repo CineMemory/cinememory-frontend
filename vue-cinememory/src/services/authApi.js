@@ -109,7 +109,7 @@ export const signup = async (userData) => {
 
   console.log('🔄 백엔드로 전송할 데이터:', requestData)
 
-  return await authApiRequest('/v1/cinememory/accounts/signup/', {
+  return await authApiRequest('/cinememory/accounts/signup/', {
     method: 'POST',
     body: JSON.stringify(requestData)
   })
@@ -119,7 +119,7 @@ export const signup = async (userData) => {
  * 닉네임 중복 확인
  */
 export const checkUsernameAvailability = async (username) => {
-  return await authApiRequest('/v1/cinememory/accounts/check-username/', {
+  return await authApiRequest('/cinememory/accounts/check-username/', {
     method: 'POST',
     body: JSON.stringify({ username })
   })
@@ -129,7 +129,7 @@ export const checkUsernameAvailability = async (username) => {
  * 로그인
  */
 export const login = async (credentials) => {
-  return await authApiRequest('/v1/cinememory/accounts/login/', {
+  return await authApiRequest('/cinememory/accounts/login/', {
     method: 'POST',
     body: JSON.stringify(credentials)
   })
@@ -139,7 +139,7 @@ export const login = async (credentials) => {
  * 로그아웃
  */
 export const logout = async () => {
-  return await authApiRequest('/v1/cinememory/accounts/logout/', {
+  return await authApiRequest('/cinememory/accounts/logout/', {
     method: 'POST',
     requireAuth: true
   })
@@ -149,7 +149,7 @@ export const logout = async () => {
  * 현재 사용자 정보 조회
  */
 export const getUserProfile = async () => {
-  return await authApiRequest('/v1/cinememory/accounts/me/', {
+  return await authApiRequest('/cinememory/accounts/me/', {
     method: 'GET',
     requireAuth: true
   })
@@ -176,7 +176,7 @@ export const updateUserProfile = async (updateData) => {
     config.body = JSON.stringify(updateData)
   }
 
-  return await authApiRequest('/v1/cinememory/accounts/me/update/', config)
+  return await authApiRequest('/cinememory/accounts/me/update/', config)
 }
 
 /**
@@ -204,7 +204,7 @@ export const deleteUserAccount = async (password) => {
   })
 
   try {
-    const result = await authApiRequest('/v1/cinememory/accounts/me/delete/', {
+    const result = await authApiRequest('/cinememory/accounts/me/delete/', {
       method: 'DELETE',
       requireAuth: true,
       body: JSON.stringify(requestData)
@@ -234,7 +234,7 @@ export const deleteUserAccount = async (password) => {
       status: error.response?.status,
       statusText: error.response?.statusText,
       data: error.response?.data,
-      url: '/v1/cinememory/accounts/me/delete/'
+      url: '/cinememory/accounts/me/delete/'
     })
 
     // 에러를 다시 throw해서 호출하는 곳에서 처리할 수 있도록 함

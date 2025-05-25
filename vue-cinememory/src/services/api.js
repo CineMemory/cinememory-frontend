@@ -2,65 +2,7 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
 
-// 커뮤니티 더미 데이터 import (수정된 부분)
-let communityFixtures = null
-
-// 더미 데이터 동적 로드
-const loadCommunityFixtures = async () => {
-  if (!communityFixtures) {
-    try {
-      const module = await import('@/data/community_fixtures.json')
-      communityFixtures = module.default
-      console.log('✅ 커뮤니티 더미 데이터 로드 성공:', communityFixtures)
-    } catch (error) {
-      console.error('❌ 커뮤니티 더미 데이터 로드 실패:', error)
-      communityFixtures = {
-        posts: [],
-        comments: [],
-        like_posts: [],
-        like_movies: [],
-        like_directors: [],
-        like_actors: [],
-        tags: [],
-        post_tags: []
-      }
-    }
-  }
-  return communityFixtures
-}
-
-// 더미 데이터에서 필요한 데이터 추출 및 가공 (수정된 부분)
-const processFixtures = async () => {
-  const fixtures = await loadCommunityFixtures()
-
-  const posts = fixtures.posts || []
-  const comments = fixtures.comments || []
-  const likePosts = fixtures.like_posts || []
-  const likeMovies = fixtures.like_movies || []
-  const likeDirectors = fixtures.like_directors || []
-  const likeActors = fixtures.like_actors || []
-  const tags = fixtures.tags || []
-  const postTags = fixtures.post_tags || []
-
-  console.log('📊 처리된 데이터:', {
-    posts: posts.length,
-    comments: comments.length,
-    tags: tags.length
-  })
-
-  return {
-    posts,
-    comments,
-    likePosts,
-    likeMovies,
-    likeDirectors,
-    likeActors,
-    tags,
-    postTags
-  }
-}
-
-// API 요청 헬퍼 함수 (기존 코드 그대로)
+// API 요청 헬퍼 함수
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`
 
@@ -75,17 +17,33 @@ const apiRequest = async (endpoint, options = {}) => {
   // 토큰이 있으면 Authorization 헤더 추가
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `Token ${token}`
   }
+
+  console.log('🌐 API 요청:', {
+    url,
+    method: config.method || 'GET',
+    hasAuth: !!config.headers.Authorization,
+    hasBody: !!config.body
+  })
 
   try {
     const response = await fetch(url, config)
+
+    console.log('📡 API 응답 상태:', {
+      url,
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok
+    })
 
     // 응답이 JSON이 아닐 수 있으므로 체크
     const contentType = response.headers.get('content-type')
     const isJson = contentType && contentType.includes('application/json')
 
     const data = isJson ? await response.json() : await response.text()
+
+    console.log('📄 API 응답 데이터:', data)
 
     if (!response.ok) {
       throw {
@@ -98,6 +56,7 @@ const apiRequest = async (endpoint, options = {}) => {
 
     return data
   } catch (error) {
+    console.error('❌ API 요청 실패:', error)
     if (error.response) {
       throw error
     }
@@ -112,415 +71,389 @@ const apiRequest = async (endpoint, options = {}) => {
   }
 }
 
-// 🏘️ 커뮤니티 관련 API (수정된 부분)
+// 🏘️ 커뮤니티 관련 API
 
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 800))
+  console.log('📝 getPosts 호출됨:', { page, limit, sortBy })
 
-    try {
-      const { posts, tags, postTags } = await processFixtures()
+  try {
+    // 먼저 커뮤니티 홈에서 게시글 가져오기
+    const homeData = await getCommunityHome()
 
-      console.log('🔍 getPosts 호출됨:', { page, limit, sortBy })
-      console.log('📋 사용 가능한 게시글:', posts.length)
-
-      // 게시글에 태그 정보 추가
-      const postsWithTags = posts.map((post) => {
-        const postTagRelations = postTags.filter(
-          (pt) => pt.fields.post_pk === post.pk
-        )
-        const postTagIds = postTagRelations.map((pt) => pt.fields.tag_pk)
-        const postTagList = tags.filter((tag) => postTagIds.includes(tag.pk))
-
-        return {
-          ...post.fields,
-          id: post.pk,
-          tags: postTagList.map((tag) => tag.fields.tag_name),
-          author: {
-            id: post.fields.user_pk,
-            username: `user${post.fields.user_pk}`
-          }
-        }
-      })
-
-      console.log('✅ 처리된 게시글:', postsWithTags.length)
-
-      // 정렬
-      let sortedPosts = [...postsWithTags]
-      if (sortBy === 'latest') {
-        sortedPosts.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        )
-      } else if (sortBy === 'popular') {
-        sortedPosts.sort((a, b) => b.like_count - a.like_count)
-      }
-
-      // 페이지네이션
-      const startIndex = (page - 1) * limit
-      const endIndex = startIndex + limit
-      const paginatedPosts = sortedPosts.slice(startIndex, endIndex)
-
-      const result = {
-        results: paginatedPosts,
-        count: sortedPosts.length,
-        next: endIndex < sortedPosts.length ? page + 1 : null,
-        previous: page > 1 ? page - 1 : null
-      }
-
-      console.log('📤 반환할 결과:', result)
-      return result
-    } catch (error) {
-      console.error('❌ getPosts 오류:', error)
-      throw {
-        response: {
-          status: 500,
-          data: { message: '게시글을 불러오는 중 오류가 발생했습니다.' }
-        }
-      }
+    const result = {
+      results: homeData.data.recent_posts,
+      count: homeData.data.recent_posts.length,
+      next: null,
+      previous: null
     }
-  }
 
-  return await apiRequest(
-    `/community/posts/?page=${page}&limit=${limit}&sort=${sortBy}`
-  )
+    console.log('📤 getPosts 반환 결과:', result)
+    return result
+  } catch (error) {
+    console.error('❌ getPosts 오류:', error)
+    throw error
+  }
 }
 
 // 개별 게시글 조회
 export const getPost = async (postId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 500))
+  console.log('📄 getPost 호출됨:', postId)
 
-    try {
-      const { posts, tags, postTags, comments } = await processFixtures()
+  try {
+    const response = await apiRequest(`/cinememory/community/post/${postId}/`)
 
-      console.log('🔍 getPost 호출됨:', { postId })
+    console.log('📤 게시글 상세 실제 응답:', response)
 
-      // postId를 숫자로 변환
-      const numericPostId = parseInt(postId)
+    // 작성자 정보 디버깅
+    console.log('📤 게시글 작성자 정보:', response.author)
 
-      // 해당 ID의 게시글 찾기
-      const post = posts.find((p) => p.pk === numericPostId)
-
-      if (!post) {
-        throw {
-          response: {
-            status: 404,
-            data: { message: '게시글을 찾을 수 없습니다.' }
-          }
-        }
-      }
-
-      // 태그 정보 추가
-      const postTagRelations = postTags.filter(
-        (pt) => pt.fields.post_pk === post.pk
-      )
-      const postTagIds = postTagRelations.map((pt) => pt.fields.tag_pk)
-      const postTagList = tags.filter((tag) => postTagIds.includes(tag.pk))
-
-      // 댓글 수 계산
-      const postComments = comments.filter((c) => c.fields.post_pk === post.pk)
-
-      const result = {
-        ...post.fields,
-        id: post.pk,
-        tags: postTagList.map((tag) => tag.fields.tag_name),
+    // Django API 응답 구조에 맞춰 변환
+    let result
+    if (response.status === 'success' || response.data) {
+      result = response
+    } else {
+      // 응답이 직접 게시글 데이터인 경우 - 데이터 변환 적용
+      const transformedPost = {
+        post_id: response.id || parseInt(postId),
+        post_title: response.title || response.post_title,
+        content: response.content,
         author: {
-          id: post.fields.user_pk,
-          username: `user${post.fields.user_pk}`
+          id: response.author?.id || response.author_id,
+          username: response.author?.username || response.author
         },
-        comment_count: postComments.length,
-        is_liked: false, // 더미 데이터에서는 좋아요 상태를 false로 설정
-        view_count: 0 // 더미 데이터에서는 조회수를 0으로 설정
+        like_count: response.like_count || 0,
+        comment_count: response.comment_count || 0,
+        is_liked: response.is_liked || false,
+        created_at: response.created_at,
+        updated_at: response.updated_at,
+        // 태그 처리: 객체 배열을 문자열 배열로 변환
+        tags: Array.isArray(response.tags)
+          ? response.tags.map((tag) =>
+              typeof tag === 'object' ? tag.name : tag
+            )
+          : [],
+        comments: response.comments || []
       }
 
-      console.log('✅ 게시글 조회 성공:', result)
-      return result
-    } catch (error) {
-      console.error('❌ getPost 오류:', error)
-      throw error
+      result = {
+        status: 'success',
+        data: transformedPost
+      }
     }
-  }
 
-  return await apiRequest(`/community/posts/${postId}/`)
+    console.log('📤 변환된 게시글 데이터:', result)
+    return result
+  } catch (error) {
+    console.error('❌ getPost 오류:', error)
+    throw error
+  }
 }
 
 // 게시글 작성
 export const createPost = async (postData) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+  console.log('✍️ createPost 호출됨:', postData)
 
-    // 더미 데이터에서는 실제 생성은 하지 않고 시뮬레이션만
-    const newPost = {
-      id: Math.floor(Math.random() * 10000) + 1000,
-      title: postData.title,
+  try {
+    // 프론트엔드 데이터를 백엔드 형식으로 변환
+    const backendData = {
+      title: postData.title, // post_title → title 수정
       content: postData.content,
-      tags: postData.tags || [],
-      author: {
-        id: 1, // 더미 사용자 ID
-        username: 'user1'
-      },
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      like_count: 0,
-      comment_count: 0,
-      is_liked: false,
-      view_count: 0
+      tag_names: postData.tags || []
     }
 
-    console.log('✅ 게시글 작성 시뮬레이션:', newPost)
-    return newPost
-  }
+    console.log('📤 백엔드로 전송할 데이터:', backendData)
 
-  return await apiRequest('/community/posts/', {
-    method: 'POST',
-    body: JSON.stringify(postData)
-  })
+    const response = await apiRequest('/cinememory/community/post/', {
+      method: 'POST',
+      body: JSON.stringify(backendData)
+    })
+
+    console.log('📤 게시글 작성 실제 응답:', response)
+    return response
+  } catch (error) {
+    console.error('❌ createPost 오류:', error)
+    throw error
+  }
 }
 
 // 게시글 수정
 export const updatePost = async (postId, postData) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+  console.log('🔄 updatePost 호출됨:', { postId, postData })
 
-    // 더미 데이터에서는 실제 수정은 하지 않고 시뮬레이션만
-    const updatedPost = {
-      id: parseInt(postId),
-      title: postData.title,
+  try {
+    const backendData = {
+      title: postData.title, // post_title → title 수정
       content: postData.content,
-      tags: postData.tags || [],
-      author: {
-        id: 1, // 더미 사용자 ID
-        username: 'user1'
-      },
-      created_at: '2024-12-15T10:30:00Z', // 더미 생성 시간
-      updated_at: new Date().toISOString(),
-      like_count: 0,
-      comment_count: 0,
-      is_liked: false,
-      view_count: 0
+      tag_names: postData.tags || []
     }
 
-    console.log('✅ 게시글 수정 시뮬레이션:', updatedPost)
-    return updatedPost
-  }
+    const response = await apiRequest(`/cinememory/community/post/${postId}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(backendData)
+    })
 
-  return await apiRequest(`/community/posts/${postId}/`, {
-    method: 'PUT',
-    body: JSON.stringify(postData)
-  })
+    console.log('📤 게시글 수정 실제 응답:', response)
+    return response
+  } catch (error) {
+    console.error('❌ updatePost 오류:', error)
+    throw error
+  }
 }
 
 // 게시글 삭제
 export const deletePost = async (postId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 500))
+  console.log('🗑️ deletePost 호출됨:', postId)
 
-    console.log('✅ 게시글 삭제 시뮬레이션:', postId)
-    return { message: '게시글이 삭제되었습니다.' }
+  try {
+    const response = await apiRequest(`/cinememory/community/post/${postId}/`, {
+      method: 'DELETE'
+    })
+
+    console.log('📤 게시글 삭제 완료')
+    return response || null
+  } catch (error) {
+    console.error('❌ deletePost 오류:', error)
+    throw error
   }
-
-  return await apiRequest(`/community/posts/${postId}/`, {
-    method: 'DELETE'
-  })
 }
 
 // 댓글 목록 조회
 export const getComments = async (postId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 400))
+  console.log('💬 getComments 호출됨:', postId)
 
-    try {
-      const { comments } = await processFixtures()
+  try {
+    const postData = await getPost(postId)
 
-      // 해당 게시글의 댓글들 필터링
-      const postComments = comments.filter(
-        (c) => c.fields.post_pk === parseInt(postId)
-      )
-
-      // 댓글 데이터 가공
-      const processedComments = postComments.map((comment) => ({
-        id: comment.pk,
-        content: comment.fields.content,
-        created_at: comment.fields.created_at,
-        author: {
-          id: comment.fields.user_pk,
-          username: `user${comment.fields.user_pk}`
-        },
-        parent_id: comment.fields.parent_pk,
-        replies: []
-      }))
-
-      // 대댓글 구조 생성
-      const topLevelComments = processedComments.filter((c) => !c.parent_id)
-      const replies = processedComments.filter((c) => c.parent_id)
-
-      topLevelComments.forEach((comment) => {
-        comment.replies = replies.filter((r) => r.parent_id === comment.id)
-      })
-
-      console.log('✅ 댓글 조회 성공:', topLevelComments)
-      return topLevelComments
-    } catch (error) {
-      console.error('❌ getComments 오류:', error)
-      throw {
-        response: {
-          status: 500,
-          data: { message: '댓글을 불러오는 중 오류가 발생했습니다.' }
-        }
-      }
+    if (postData.status === 'success') {
+      return postData.data.comments || []
+    } else {
+      return postData.comments || []
     }
+  } catch (error) {
+    console.error('❌ getComments 오류:', error)
+    throw error
   }
-
-  return await apiRequest(`/community/posts/${postId}/comments/`)
 }
 
 // 댓글 작성
 export const createComment = async (postId, commentData) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 800))
+  console.log('💬 createComment 호출됨:', { postId, commentData })
 
-    const newComment = {
-      id: Math.floor(Math.random() * 10000) + 1000,
-      content: commentData.content,
-      created_at: new Date().toISOString(),
-      author: {
-        id: 1, // 더미 사용자 ID
-        username: 'user1'
-      },
-      parent_id: commentData.parent_pk || null,
-      replies: []
+  try {
+    const backendData = {
+      content: commentData.content
     }
 
-    console.log('✅ 댓글 작성 시뮬레이션:', newComment)
-    return newComment
-  }
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/`,
+      {
+        method: 'POST',
+        body: JSON.stringify(backendData)
+      }
+    )
 
-  return await apiRequest(`/community/posts/${postId}/comments/`, {
-    method: 'POST',
-    body: JSON.stringify(commentData)
-  })
+    console.log('📤 댓글 작성 실제 응답:', response)
+    return response
+  } catch (error) {
+    console.error('❌ createComment 오류:', error)
+    throw error
+  }
+}
+
+// 대댓글 작성
+export const createReply = async (postId, commentId, replyData) => {
+  console.log('💬 createReply 호출됨:', { postId, commentId, replyData })
+
+  try {
+    const backendData = {
+      content: replyData.content
+    }
+
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/${commentId}/replies/`,
+      {
+        method: 'POST',
+        body: JSON.stringify(backendData)
+      }
+    )
+
+    console.log('📤 대댓글 작성 실제 응답:', response)
+    return response
+  } catch (error) {
+    console.error('❌ createReply 오류:', error)
+    throw error
+  }
 }
 
 // 댓글 삭제
-export const deleteComment = async (commentId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 500))
+export const deleteComment = async (postId, commentId) => {
+  console.log('🗑️ deleteComment 호출됨:', { postId, commentId })
 
-    console.log('✅ 댓글 삭제 시뮬레이션:', commentId)
-    return { message: '댓글이 삭제되었습니다.' }
+  try {
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/${commentId}/`,
+      {
+        method: 'DELETE'
+      }
+    )
+
+    console.log('📤 댓글 삭제 완료')
+    return response || null
+  } catch (error) {
+    console.error('❌ deleteComment 오류:', error)
+    throw error
   }
-
-  return await apiRequest(`/community/comments/${commentId}/`, {
-    method: 'DELETE'
-  })
 }
 
-// 게시글 좋아요 토글
+// 게시글 좋아요 토글 (URL 수정)
 export const togglePostLike = async (postId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 300))
+  console.log('💝 togglePostLike 호출됨:', postId)
 
-    // 더미 데이터에서는 간단한 토글 시뮬레이션
-    const isLiked = Math.random() > 0.5
-    const likeCount = Math.floor(Math.random() * 50) + 1
+  try {
+    // URL을 /like/에서 /likes/로 수정
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/likes/`,
+      {
+        method: 'POST'
+      }
+    )
 
-    const result = {
-      is_liked: isLiked,
-      like_count: likeCount
+    console.log('📤 좋아요 토글 실제 응답:', response)
+
+    // API 응답 구조에 맞춰 반환
+    return {
+      is_liked: response.is_liked,
+      like_count: response.like_count
     }
-
-    console.log('✅ 좋아요 토글 시뮬레이션:', result)
-    return result
+  } catch (error) {
+    console.error('❌ togglePostLike 오류:', error)
+    throw error
   }
-
-  return await apiRequest(`/community/posts/${postId}/like/`, {
-    method: 'POST'
-  })
 }
 
-// 영화 좋아요 토글
-export const toggleMovieLike = async (movieId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    const result = {
-      is_liked: Math.random() > 0.5,
-      like_count: Math.floor(Math.random() * 100) + 1
-    }
-
-    console.log('✅ 영화 좋아요 토글 시뮬레이션:', result)
-    return result
-  }
-
-  return await apiRequest(`/community/movies/${movieId}/like/`, {
-    method: 'POST'
-  })
-}
-
-// 감독 좋아요 토글
-export const toggleDirectorLike = async (directorId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    const result = {
-      is_liked: Math.random() > 0.5,
-      like_count: Math.floor(Math.random() * 50) + 1
-    }
-
-    console.log('✅ 감독 좋아요 토글 시뮬레이션:', result)
-    return result
-  }
-
-  return await apiRequest(`/community/directors/${directorId}/like/`, {
-    method: 'POST'
-  })
-}
-
-// 배우 좋아요 토글
-export const toggleActorLike = async (actorId) => {
-  if (import.meta.env.MODE === 'development') {
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    const result = {
-      is_liked: Math.random() > 0.5,
-      like_count: Math.floor(Math.random() * 50) + 1
-    }
-
-    console.log('✅ 배우 좋아요 토글 시뮬레이션:', result)
-    return result
-  }
-
-  return await apiRequest(`/community/actors/${actorId}/like/`, {
-    method: 'POST'
-  })
-}
-
-// 태그 목록 조회
+// 태그 목록 조회 (임시)
 export const getTags = async () => {
-  if (import.meta.env.MODE === 'development') {
+  console.log('🏷️ getTags 호출됨')
+
+  // TODO: 실제 태그 API 구현 필요
+  await new Promise((resolve) => setTimeout(resolve, 300))
+
+  const result = [
+    { id: 1, name: '영화' },
+    { id: 2, name: '드라마' },
+    { id: 3, name: '애니메이션' },
+    { id: 4, name: '다큐멘터리' },
+    { id: 5, name: '액션' },
+    { id: 6, name: '로맨스' },
+    { id: 7, name: '코미디' },
+    { id: 8, name: '스릴러' }
+  ]
+
+  console.log('📤 태그 목록:', result)
+  return result
+}
+
+// 📊 커뮤니티 통계 조회 (향후 구현 예정)
+export const getCommunityStats = async () => {
+  console.log('📊 getCommunityStats 호출됨')
+
+  try {
+    // TODO: 실제 Django API 엔드포인트 구현 필요
+    // const response = await apiRequest('/cinememory/community/stats/')
+
+    // 임시 더미 데이터
     await new Promise((resolve) => setTimeout(resolve, 300))
 
-    try {
-      const { tags } = await processFixtures()
+    return {
+      totalUsers: 1847,
+      totalPosts: 324,
+      todayActivities: 23
+    }
+  } catch (error) {
+    console.error('❌ getCommunityStats 오류:', error)
+    throw error
+  }
+}
 
-      const result = tags.map((tag) => ({
-        id: tag.pk,
-        name: tag.fields.tag_name
+// 커뮤니티 홈 조회 (comment_count 대응)
+export const getCommunityHome = async () => {
+  console.log('🏠 getCommunityHome 호출됨')
+
+  try {
+    const response = await apiRequest('/cinememory/community/')
+
+    console.log('📤 커뮤니티 홈 실제 응답:', response)
+
+    // 작성자 정보 및 댓글 수 디버깅
+    if (Array.isArray(response) && response.length > 0) {
+      console.log('📤 첫 번째 게시글 작성자 정보:', response[0].author)
+      console.log('📤 첫 번째 게시글 댓글 수:', response[0].comment_count)
+      console.log('📤 첫 번째 게시글 전체 데이터:', response[0])
+    }
+
+    // Django의 post_list 응답을 Vue가 기대하는 형식으로 변환
+    const transformedPosts = Array.isArray(response)
+      ? response.map((post) => {
+          console.log(`📊 게시글 ${post.id} 댓글 수:`, post.comment_count) // 디버깅용
+
+          return {
+            id: post.id || post.post_id,
+            title: post.title || post.post_title,
+            content: post.content,
+            author: {
+              id: post.author?.id || post.author_id || post.user,
+              username:
+                post.author?.username ||
+                post.author ||
+                post.username ||
+                '사용자'
+            },
+            like_count: post.like_count || 0,
+            comment_count: post.comment_count || 0, // Django에서 제공하는 comment_count 사용
+            is_liked: post.is_liked || false,
+            created_at: post.created_at,
+            updated_at: post.updated_at,
+            // 태그 처리: 객체 배열을 문자열 배열로 변환
+            tags: Array.isArray(post.tags)
+              ? post.tags.map((tag) =>
+                  typeof tag === 'object' ? tag.name : tag
+                )
+              : [],
+            view_count: post.view_count || 0
+          }
+        })
+      : []
+
+    const result = {
+      status: 'success',
+      data: {
+        recent_posts: transformedPosts,
+        popular_tags: [] // 현재 Django에서 태그 데이터가 없으므로 빈 배열
+      }
+    }
+
+    console.log('📤 변환된 커뮤니티 홈 데이터:', result)
+    console.log(
+      '📤 각 게시글별 댓글 수:',
+      result.data.recent_posts.map((p) => ({
+        id: p.id,
+        comment_count: p.comment_count
       }))
+    )
 
-      console.log('✅ 태그 조회 성공:', result)
-      return result
-    } catch (error) {
-      console.error('❌ getTags 오류:', error)
-      throw {
-        response: {
-          status: 500,
-          data: { message: '태그를 불러오는 중 오류가 발생했습니다.' }
+    return result
+  } catch (error) {
+    console.error('❌ getCommunityHome 오류:', error)
+    throw {
+      response: {
+        status: error.response?.status || 500,
+        data: {
+          message:
+            error.response?.data?.message ||
+            '커뮤니티 홈 데이터를 불러오는 중 오류가 발생했습니다.'
         }
       }
     }
   }
-
-  return await apiRequest('/community/tags/')
 }

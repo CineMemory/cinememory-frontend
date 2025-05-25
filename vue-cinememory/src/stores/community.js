@@ -9,6 +9,7 @@ export const useCommunityStore = defineStore('community', () => {
   const currentPost = ref(null)
   const comments = ref([])
   const tags = ref([])
+  const popularTags = ref([])
   const isLoading = ref(false)
   const isLoadingComments = ref(false)
   const error = ref(null)
@@ -20,9 +21,10 @@ export const useCommunityStore = defineStore('community', () => {
   const hasPreviousPage = ref(false)
 
   // 필터링/정렬 관련
-  const sortBy = ref('latest') // 'latest', 'popular'
+  const sortBy = ref('latest')
   const searchQuery = ref('')
   const selectedTags = ref([])
+  const currentTagFilter = ref(null) // 현재 선택된 태그 필터
 
   // 📊 계산된 속성
   const filteredPosts = computed(() => {
@@ -34,14 +36,15 @@ export const useCommunityStore = defineStore('community', () => {
       filtered = filtered.filter(
         (post) =>
           post.title.toLowerCase().includes(query) ||
-          post.content.toLowerCase().includes(query)
+          post.content.toLowerCase().includes(query) ||
+          post.author.username.toLowerCase().includes(query)
       )
     }
 
-    // 태그 필터링
+    // 태그 필터링 (로컬 필터링 - 추가 필터링용)
     if (selectedTags.value.length > 0) {
       filtered = filtered.filter((post) =>
-        selectedTags.value.some((tag) => post.tags.includes(tag))
+        selectedTags.value.some((tag) => post.tags?.includes(tag))
       )
     }
 
@@ -63,7 +66,97 @@ export const useCommunityStore = defineStore('community', () => {
     error.value = errorMessage
   }
 
-  // 📝 게시글 관련 액션
+  // 🏠 커뮤니티 홈 관련 액션
+  const fetchCommunityHome = async () => {
+    try {
+      isLoading.value = true
+      clearError()
+
+      console.log('🏠 커뮤니티 홈 데이터 요청 중...')
+      const response = await communityAPI.getCommunityHome()
+
+      if (response.status === 'success') {
+        // 최신 게시글 업데이트
+        posts.value = response.data.recent_posts || []
+
+        // 인기 태그 업데이트
+        popularTags.value = response.data.popular_tags || []
+
+        // 페이지네이션 초기화 (홈에서는 고정된 10개)
+        currentPage.value = 1
+        totalCount.value = posts.value.length
+        hasNextPage.value = false
+        hasPreviousPage.value = false
+
+        // 태그 필터 초기화
+        currentTagFilter.value = null
+
+        console.log('✅ 커뮤니티 홈 데이터 로드 성공:', {
+          posts: posts.value.length,
+          popularTags: popularTags.value.length
+        })
+
+        return { success: true }
+      } else {
+        throw new Error('응답 상태가 success가 아닙니다.')
+      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message ||
+        '커뮤니티 홈 데이터를 불러오는데 실패했습니다.'
+      setError(errorMessage)
+      console.error('❌ 커뮤니티 홈 데이터 로드 실패:', err)
+      return { success: false, error: errorMessage }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  // 🏷️ 태그별 게시글 조회
+  const fetchPostsByTag = async (tagName, page = 1, limit = 10) => {
+    try {
+      isLoading.value = true
+      clearError()
+
+      console.log('🏷️ 태그별 게시글 요청 중...', { tagName, page, limit })
+      const response = await communityAPI.getPostsByTag(tagName, page, limit)
+
+      if (response.status === 'success') {
+        posts.value = response.data.posts || []
+
+        // 페이지네이션 정보 업데이트
+        const pagination = response.data.pagination || {}
+        currentPage.value = pagination.current_page || 1
+        totalCount.value = pagination.total_count || 0
+        hasNextPage.value = pagination.has_next || false
+        hasPreviousPage.value = pagination.has_previous || false
+
+        // 현재 태그 필터 설정
+        currentTagFilter.value = tagName
+
+        console.log('✅ 태그별 게시글 로드 성공:', {
+          tag: tagName,
+          posts: posts.value.length,
+          pagination
+        })
+
+        return { success: true }
+      } else {
+        throw new Error('응답 상태가 success가 아닙니다.')
+      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message ||
+        '태그별 게시글을 불러오는데 실패했습니다.'
+      setError(errorMessage)
+      console.error('❌ 태그별 게시글 로드 실패:', err)
+      return { success: false, error: errorMessage }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  // 📝 게시글 관련 액션 (기존 코드 유지)
   const fetchPosts = async (page = 1, limit = 10, sort = 'latest') => {
     try {
       isLoading.value = true
@@ -71,12 +164,15 @@ export const useCommunityStore = defineStore('community', () => {
 
       const response = await communityAPI.getPosts(page, limit, sort)
 
-      posts.value = response.results
+      posts.value = response.results || []
       currentPage.value = page
-      totalCount.value = response.count
+      totalCount.value = response.count || 0
       hasNextPage.value = !!response.next
       hasPreviousPage.value = !!response.previous
       sortBy.value = sort
+
+      // 태그 필터 초기화
+      currentTagFilter.value = null
 
       return { success: true }
     } catch (err) {
@@ -89,15 +185,43 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
+  // 📝 게시글 관련 액션 (새로운 API 구조에 맞춰 수정)
   const fetchPost = async (postId) => {
     try {
       isLoading.value = true
       clearError()
 
-      const post = await communityAPI.getPost(postId)
-      currentPost.value = post
+      const response = await communityAPI.getPost(postId)
 
-      return { success: true, post }
+      console.log('🔍 fetchPost 응답 확인:', response)
+
+      // API에서 이미 변환된 데이터 처리
+      if (response.status === 'success') {
+        const postData = response.data
+
+        // API에서 이미 변환된 데이터를 그대로 사용
+        currentPost.value = {
+          id: postData.post_id,
+          title: postData.post_title,
+          content: postData.content,
+          author: postData.author, // API에서 이미 객체로 변환됨
+          like_count: postData.like_count,
+          comment_count: postData.comment_count,
+          is_liked: postData.is_liked,
+          created_at: postData.created_at,
+          updated_at: postData.updated_at,
+          tags: postData.tags // API에서 이미 문자열 배열로 변환됨
+        }
+
+        // 댓글도 함께 설정 (계층형 구조 그대로 사용)
+        comments.value = postData.comments || []
+
+        return { success: true, post: currentPost.value }
+      } else {
+        // 레거시 응답 형태 처리 (하위 호환성)
+        currentPost.value = response
+        return { success: true, post: response }
+      }
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
@@ -113,16 +237,29 @@ export const useCommunityStore = defineStore('community', () => {
       isLoading.value = true
       clearError()
 
-      const newPost = await communityAPI.createPost(postData)
+      const response = await communityAPI.createPost(postData)
 
-      // 새 게시글을 목록 맨 앞에 추가
-      posts.value.unshift(newPost)
-      totalCount.value += 1
+      // 새로운 API 응답 구조 처리
+      if (response.message) {
+        // 게시글 생성 성공 - 커뮤니티 홈 새로고침하여 최신 게시글 반영
+        await fetchCommunityHome()
 
-      return { success: true, post: newPost }
+        return {
+          success: true,
+          message: response.message,
+          post_id: response.post_id
+        }
+      } else {
+        // 레거시 응답 처리
+        posts.value.unshift(response)
+        totalCount.value += 1
+        return { success: true, post: response }
+      }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '게시글 작성에 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '게시글 작성에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -135,25 +272,43 @@ export const useCommunityStore = defineStore('community', () => {
       isLoading.value = true
       clearError()
 
-      const updatedPost = await communityAPI.updatePost(postId, postData)
+      const response = await communityAPI.updatePost(postId, postData)
 
-      // 게시글 목록에서 업데이트
-      const index = posts.value.findIndex(
-        (post) => post.id === parseInt(postId)
-      )
-      if (index !== -1) {
-        posts.value[index] = updatedPost
+      // 새로운 API 응답 구조 처리
+      if (response.message) {
+        // 수정 성공 - 현재 게시글 다시 로드
+        if (currentPost.value?.id === parseInt(postId)) {
+          await fetchPost(postId)
+        }
+
+        // 게시글 목록도 새로고침
+        await fetchCommunityHome()
+
+        return {
+          success: true,
+          message: response.message,
+          updated_at: response.updated_at
+        }
+      } else {
+        // 레거시 응답 처리
+        const index = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
+        )
+        if (index !== -1) {
+          posts.value[index] = response
+        }
+
+        if (currentPost.value?.id === parseInt(postId)) {
+          currentPost.value = response
+        }
+
+        return { success: true, post: response }
       }
-
-      // 현재 게시글이 업데이트된 게시글이면 교체
-      if (currentPost.value?.id === parseInt(postId)) {
-        currentPost.value = updatedPost
-      }
-
-      return { success: true, post: updatedPost }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '게시글 수정에 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '게시글 수정에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -170,17 +325,23 @@ export const useCommunityStore = defineStore('community', () => {
 
       // 게시글 목록에서 제거
       posts.value = posts.value.filter((post) => post.id !== parseInt(postId))
-      totalCount.value -= 1
+      totalCount.value = Math.max(0, totalCount.value - 1)
 
       // 현재 게시글이 삭제된 게시글이면 초기화
       if (currentPost.value?.id === parseInt(postId)) {
         currentPost.value = null
+        comments.value = []
       }
+
+      // 커뮤니티 홈 새로고침하여 최신 상태 반영
+      await fetchCommunityHome()
 
       return { success: true }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '게시글 삭제에 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '게시글 삭제에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -188,19 +349,29 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
-  // 💬 댓글 관련 액션
+  // 💬 댓글 관련 액션 (새로운 API 구조에 맞춰 수정)
   const fetchComments = async (postId) => {
     try {
       isLoadingComments.value = true
       clearError()
 
-      const commentsData = await communityAPI.getComments(postId)
-      comments.value = commentsData
+      // 새로운 구조에서는 게시글 조회시 댓글도 함께 반환됨
+      const response = await communityAPI.getPost(postId)
 
-      return { success: true, comments: commentsData }
+      if (response.status === 'success') {
+        comments.value = response.data.comments || []
+      } else {
+        // 레거시 처리
+        const commentsData = await communityAPI.getComments(postId)
+        comments.value = commentsData
+      }
+
+      return { success: true, comments: comments.value }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '댓글을 불러오는데 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '댓글을 불러오는데 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -212,38 +383,121 @@ export const useCommunityStore = defineStore('community', () => {
     try {
       clearError()
 
-      const newComment = await communityAPI.createComment(postId, commentData)
+      const response = await communityAPI.createComment(postId, commentData)
 
-      // 대댓글인 경우 부모 댓글의 replies에 추가
-      if (commentData.parent_pk) {
-        const parentComment = comments.value.find(
-          (c) => c.id === commentData.parent_pk
+      // 새로운 API 응답 구조 처리
+      if (response.message) {
+        // 댓글 생성 성공 - 게시글을 다시 로드하여 최신 댓글 반영
+        await fetchPost(postId)
+
+        // 게시글 목록에서도 댓글 수 증가
+        const postIndex = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
         )
-        if (parentComment) {
-          parentComment.replies.push(newComment)
+        if (postIndex !== -1) {
+          posts.value[postIndex].comment_count =
+            (posts.value[postIndex].comment_count || 0) + 1
+        }
+
+        return {
+          success: true,
+          message: response.message,
+          comment: {
+            id: response.comment_id,
+            content: response.content,
+            author: { username: response.author },
+            created_at: response.created_at
+          }
         }
       } else {
-        // 최상위 댓글인 경우 댓글 목록에 추가
-        comments.value.push(newComment)
-      }
+        // 레거시 응답 처리
+        comments.value.push(response)
 
-      // 현재 게시글의 댓글 수 증가
-      if (currentPost.value?.id === parseInt(postId)) {
-        currentPost.value.comment_count += 1
-      }
+        // 현재 게시글의 댓글 수 증가
+        if (currentPost.value?.id === parseInt(postId)) {
+          currentPost.value.comment_count += 1
+        }
 
-      // 게시글 목록에서도 댓글 수 업데이트
-      const postIndex = posts.value.findIndex(
-        (post) => post.id === parseInt(postId)
-      )
-      if (postIndex !== -1) {
-        posts.value[postIndex].comment_count += 1
-      }
+        // 게시글 목록에서도 댓글 수 증가
+        const postIndex = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
+        )
+        if (postIndex !== -1) {
+          posts.value[postIndex].comment_count =
+            (posts.value[postIndex].comment_count || 0) + 1
+        }
 
-      return { success: true, comment: newComment }
+        return { success: true, comment: response }
+      }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '댓글 작성에 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '댓글 작성에 실패했습니다.'
+      setError(errorMessage)
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  const createReply = async (postId, commentId, replyData) => {
+    try {
+      clearError()
+
+      const response = await communityAPI.createReply(
+        postId,
+        commentId,
+        replyData
+      )
+
+      // 새로운 API 응답 구조 처리
+      if (response.message) {
+        // 대댓글 생성 성공 - 게시글을 다시 로드하여 최신 댓글 반영
+        await fetchPost(postId)
+
+        // 게시글 목록에서도 댓글 수 증가 (대댓글도 댓글 수에 포함)
+        const postIndex = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
+        )
+        if (postIndex !== -1) {
+          posts.value[postIndex].comment_count =
+            (posts.value[postIndex].comment_count || 0) + 1
+        }
+
+        return {
+          success: true,
+          message: response.message,
+          reply: {
+            id: response.comment_id,
+            content: response.content,
+            author: { username: response.author },
+            created_at: response.created_at
+          }
+        }
+      } else {
+        // 레거시 처리 - 부모 댓글의 replies에 추가
+        const parentComment = comments.value.find(
+          (c) => c.id === parseInt(commentId)
+        )
+        if (parentComment) {
+          parentComment.replies.push(response)
+        }
+
+        // 게시글 목록에서도 댓글 수 증가
+        const postIndex = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
+        )
+        if (postIndex !== -1) {
+          posts.value[postIndex].comment_count =
+            (posts.value[postIndex].comment_count || 0) + 1
+        }
+
+        return { success: true, reply: response }
+      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '대댓글 작성에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -253,37 +507,28 @@ export const useCommunityStore = defineStore('community', () => {
     try {
       clearError()
 
-      await communityAPI.deleteComment(commentId)
+      await communityAPI.deleteComment(postId, commentId)
 
-      // 댓글 목록에서 제거 (대댓글도 함께 처리)
-      comments.value = comments.value.filter((comment) => {
-        if (comment.id === commentId) {
-          return false
-        }
-        // 대댓글에서도 제거
-        comment.replies = comment.replies.filter(
-          (reply) => reply.id !== commentId
-        )
-        return true
-      })
+      // 댓글 삭제 성공 - 게시글을 다시 로드하여 최신 댓글 반영
+      await fetchPost(postId)
 
-      // 현재 게시글의 댓글 수 감소
-      if (currentPost.value?.id === parseInt(postId)) {
-        currentPost.value.comment_count -= 1
-      }
-
-      // 게시글 목록에서도 댓글 수 업데이트
+      // 게시글 목록에서도 댓글 수 감소
       const postIndex = posts.value.findIndex(
         (post) => post.id === parseInt(postId)
       )
       if (postIndex !== -1) {
-        posts.value[postIndex].comment_count -= 1
+        posts.value[postIndex].comment_count = Math.max(
+          0,
+          (posts.value[postIndex].comment_count || 0) - 1
+        )
       }
 
       return { success: true }
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || '댓글 삭제에 실패했습니다.'
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '댓글 삭제에 실패했습니다.'
       setError(errorMessage)
       return { success: false, error: errorMessage }
     }
@@ -383,11 +628,24 @@ export const useCommunityStore = defineStore('community', () => {
     sortBy.value = sort
   }
 
+  // 태그 필터링 토글 (새로운 기능)
+  const toggleTagFilter = async (tagName) => {
+    if (currentTagFilter.value === tagName) {
+      // 같은 태그를 다시 클릭하면 필터 해제 (홈으로 돌아가기)
+      await fetchCommunityHome()
+    } else {
+      // 새로운 태그로 필터링
+      await fetchPostsByTag(tagName)
+    }
+  }
+
   // 🧹 초기화 함수
   const resetStore = () => {
     posts.value = []
     currentPost.value = null
     comments.value = []
+    tags.value = []
+    popularTags.value = []
     error.value = null
     currentPage.value = 1
     totalCount.value = 0
@@ -396,6 +654,7 @@ export const useCommunityStore = defineStore('community', () => {
     searchQuery.value = ''
     selectedTags.value = []
     sortBy.value = 'latest'
+    currentTagFilter.value = null
   }
 
   const resetCurrentPost = () => {
@@ -409,6 +668,7 @@ export const useCommunityStore = defineStore('community', () => {
     currentPost,
     comments,
     tags,
+    popularTags,
     isLoading,
     isLoadingComments,
     error,
@@ -419,10 +679,15 @@ export const useCommunityStore = defineStore('community', () => {
     sortBy,
     searchQuery,
     selectedTags,
+    currentTagFilter,
 
     // 계산된 속성
     filteredPosts,
     isAuthenticated,
+
+    // 커뮤니티 홈 액션
+    fetchCommunityHome,
+    fetchPostsByTag,
 
     // 게시글 액션
     fetchPosts,
@@ -434,6 +699,7 @@ export const useCommunityStore = defineStore('community', () => {
     // 댓글 액션
     fetchComments,
     createComment,
+    createReply,
     deleteComment,
 
     // 좋아요 액션
@@ -444,6 +710,7 @@ export const useCommunityStore = defineStore('community', () => {
 
     // 태그 액션
     fetchTags,
+    toggleTagFilter,
 
     // 검색/필터 액션
     setSearchQuery,

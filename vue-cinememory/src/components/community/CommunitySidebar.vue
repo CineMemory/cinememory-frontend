@@ -14,19 +14,41 @@
           <BaseTag
             v-for="tag in popularTags"
             :key="tag.name"
-            variant="secondary"
+            :variant="currentTagFilter === tag.name ? 'primary' : 'secondary'"
             size="small"
             clickable
-            @click="filterByTag(tag.name)">
+            @click="handleTagClick(tag.name)">
             #{{ tag.name }}
             <span class="community-sidebar__tag-count">({{ tag.count }})</span>
           </BaseTag>
+        </div>
+        <div
+          v-else-if="isLoading"
+          class="community-sidebar__loading">
+          <BaseSpinner size="sm" />
+          <span>태그 로딩 중...</span>
         </div>
         <p
           v-else
           class="community-sidebar__empty">
           아직 태그가 없습니다
         </p>
+      </div>
+    </div>
+
+    <!-- 전체 게시글 보기 버튼 -->
+    <div
+      v-if="currentTagFilter"
+      class="community-sidebar__section">
+      <div class="community-sidebar__content">
+        <BaseButton
+          variant="secondary"
+          size="small"
+          icon-left="arrow-left"
+          @click="showAllPosts"
+          class="community-sidebar__show-all">
+          전체 게시글 보기
+        </BaseButton>
       </div>
     </div>
 
@@ -61,11 +83,56 @@
             </div>
           </div>
         </div>
+        <div
+          v-else-if="isLoadingActivities"
+          class="community-sidebar__loading">
+          <BaseSpinner size="sm" />
+          <span>활동 로딩 중...</span>
+        </div>
         <p
           v-else
           class="community-sidebar__empty">
           최근 활동이 없습니다
         </p>
+      </div>
+    </div>
+
+    <!-- 커뮤니티 통계 -->
+    <div class="community-sidebar__section">
+      <h3 class="community-sidebar__title">
+        <BaseIcon name="info" />
+        커뮤니티 통계
+      </h3>
+      <div class="community-sidebar__content">
+        <div class="community-sidebar__stats">
+          <div class="community-sidebar__stat-item">
+            <BaseIcon name="users" />
+            <div class="community-sidebar__stat-content">
+              <span class="community-sidebar__stat-label">전체 회원</span>
+              <span class="community-sidebar__stat-value"
+                >{{ communityStats.totalUsers }}명</span
+              >
+            </div>
+          </div>
+          <div class="community-sidebar__stat-item">
+            <BaseIcon name="message-circle" />
+            <div class="community-sidebar__stat-content">
+              <span class="community-sidebar__stat-label">전체 게시글</span>
+              <span class="community-sidebar__stat-value"
+                >{{ communityStats.totalPosts }}개</span
+              >
+            </div>
+          </div>
+          <div class="community-sidebar__stat-item">
+            <BaseIcon name="heart" />
+            <div class="community-sidebar__stat-content">
+              <span class="community-sidebar__stat-label">오늘의 활동</span>
+              <span class="community-sidebar__stat-value"
+                >{{ communityStats.todayActivities }}건</span
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -100,67 +167,40 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { ref, computed, onMounted } from 'vue'
   import { useCommunityStore } from '@/stores/community'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseTag from '@/components/base/BaseTag.vue'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
+  import BaseButton from '@/components/base/BaseButton.vue'
+  import BaseSpinner from '@/components/base/BaseSpinner.vue'
 
-  const router = useRouter()
   const communityStore = useCommunityStore()
 
-  // 더미 데이터 (나중에 API에서 가져올 예정)
-  const popularTags = ref([
-    { name: '2024영화', count: 15 },
-    { name: '추천', count: 12 },
-    { name: '한국영화', count: 8 },
-    { name: '놀란', count: 6 },
-    { name: 'SF', count: 5 },
-    { name: '90년대', count: 4 },
-    { name: '봉준호', count: 3 },
-    { name: '아이맥스', count: 2 }
-  ])
+  // 스토어에서 데이터 가져오기
+  const popularTags = computed(() => communityStore.popularTags)
+  const isLoading = computed(() => communityStore.isLoading)
+  const currentTagFilter = computed(() => communityStore.currentTagFilter)
 
-  const recentActivities = ref([
-    {
-      id: 1,
-      user: { username: 'user2' },
-      action: '새 게시글을 작성했습니다',
-      createdAt: '2024-12-20T14:30:00Z'
-    },
-    {
-      id: 2,
-      user: { username: 'user3' },
-      action: '댓글을 남겼습니다',
-      createdAt: '2024-12-20T14:15:00Z'
-    },
-    {
-      id: 3,
-      user: { username: 'user1' },
-      action: '게시글에 좋아요를 눌렀습니다',
-      createdAt: '2024-12-20T13:45:00Z'
-    },
-    {
-      id: 4,
-      user: { username: 'user4' },
-      action: '새 댓글을 작성했습니다',
-      createdAt: '2024-12-20T13:20:00Z'
-    }
-  ])
-
-  onMounted(() => {
-    // 실제로는 API에서 데이터를 가져올 예정
-    // loadPopularTags()
-    // loadRecentActivities()
+  // 로컬 상태
+  const recentActivities = ref([])
+  const isLoadingActivities = ref(false)
+  const communityStats = ref({
+    totalUsers: 0,
+    totalPosts: 0,
+    todayActivities: 0
   })
 
-  // 태그로 필터링
-  const filterByTag = (tagName) => {
-    const currentTags = communityStore.selectedTags
-    if (!currentTags.includes(tagName)) {
-      communityStore.setSelectedTags([...currentTags, tagName])
-    }
+  // 태그 클릭 처리
+  const handleTagClick = async (tagName) => {
+    console.log('🏷️ 태그 클릭됨:', tagName)
+    await communityStore.toggleTagFilter(tagName)
+  }
+
+  // 전체 게시글 보기
+  const showAllPosts = async () => {
+    console.log('📋 전체 게시글 보기')
+    await communityStore.fetchCommunityHome()
   }
 
   // 시간 포맷팅
@@ -181,6 +221,82 @@
       return `${days}일 전`
     }
   }
+
+  // 최근 활동 데이터 로드 (향후 API로 대체)
+  const loadRecentActivities = async () => {
+    try {
+      isLoadingActivities.value = true
+
+      // TODO: 실제 API 호출로 대체 필요
+      // const response = await getCommunityActivities()
+
+      // 임시 더미 데이터 (API 구현 전까지)
+      await new Promise((resolve) => setTimeout(resolve, 500)) // 로딩 시뮬레이션
+
+      recentActivities.value = [
+        {
+          id: 1,
+          user: { username: 'moviefan' },
+          action: '새 게시글을 작성했습니다',
+          createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() // 10분 전
+        },
+        {
+          id: 2,
+          user: { username: 'cinelover' },
+          action: '댓글을 남겼습니다',
+          createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString() // 30분 전
+        },
+        {
+          id: 3,
+          user: { username: 'filmcritic' },
+          action: '게시글에 좋아요를 눌렀습니다',
+          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() // 2시간 전
+        },
+        {
+          id: 4,
+          user: { username: 'dramaaddict' },
+          action: '새 댓글을 작성했습니다',
+          createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString() // 4시간 전
+        }
+      ]
+    } catch (error) {
+      console.error('❌ 최근 활동 로드 실패:', error)
+      recentActivities.value = []
+    } finally {
+      isLoadingActivities.value = false
+    }
+  }
+
+  // 커뮤니티 통계 데이터 로드 (향후 API로 대체)
+  const loadCommunityStats = async () => {
+    try {
+      // TODO: 실제 API 호출로 대체 필요
+      // const response = await getCommunityStats()
+
+      // 임시 더미 데이터 (API 구현 전까지)
+      await new Promise((resolve) => setTimeout(resolve, 300)) // 로딩 시뮬레이션
+
+      communityStats.value = {
+        totalUsers: 1847,
+        totalPosts: 324,
+        todayActivities: 23
+      }
+    } catch (error) {
+      console.error('❌ 커뮤니티 통계 로드 실패:', error)
+      communityStats.value = {
+        totalUsers: 0,
+        totalPosts: 0,
+        todayActivities: 0
+      }
+    }
+  }
+
+  onMounted(async () => {
+    console.log('🔄 CommunitySidebar 마운트됨')
+
+    // 사이드바 데이터 로드
+    await Promise.all([loadRecentActivities(), loadCommunityStats()])
+  })
 </script>
 
 <style scoped>
@@ -214,7 +330,7 @@
     border-bottom: 1px solid var(--color-inactive-icon);
   }
 
-  .community-sidebar__title svg {
+  .community-sidebar__title .base-icon {
     width: 18px;
     height: 18px;
     color: var(--color-main);
@@ -234,6 +350,21 @@
     font-size: 11px;
     color: var(--color-highlight-text);
     margin-left: 4px;
+  }
+
+  .community-sidebar__loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 16px 0;
+    color: var(--color-highlight-text);
+    font-size: 13px;
+  }
+
+  .community-sidebar__show-all {
+    width: 100%;
+    justify-content: center;
   }
 
   .community-sidebar__activities {
@@ -270,6 +401,47 @@
     color: var(--color-highlight-text);
   }
 
+  /* 커뮤니티 통계 스타일 */
+  .community-sidebar__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .community-sidebar__stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .community-sidebar__stat-item .base-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-main);
+    flex-shrink: 0;
+  }
+
+  .community-sidebar__stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .community-sidebar__stat-label {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    line-height: 1.2;
+  }
+
+  .community-sidebar__stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
   .community-sidebar__guide {
     display: flex;
     flex-direction: column;
@@ -285,7 +457,7 @@
     line-height: 1.4;
   }
 
-  .community-sidebar__guide-item svg {
+  .community-sidebar__guide-item .base-icon {
     width: 16px;
     height: 16px;
     color: var(--color-main);
@@ -323,6 +495,14 @@
     .community-sidebar__content {
       padding: 12px;
     }
+
+    .community-sidebar__stat-item {
+      padding: 6px 0;
+    }
+
+    .community-sidebar__stat-content {
+      gap: 1px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -332,6 +512,18 @@
 
     .community-sidebar__section {
       min-width: 240px;
+    }
+
+    .community-sidebar__title {
+      font-size: 14px;
+    }
+
+    .community-sidebar__stat-label {
+      font-size: 11px;
+    }
+
+    .community-sidebar__stat-value {
+      font-size: 13px;
     }
   }
 </style>

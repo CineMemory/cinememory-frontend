@@ -141,7 +141,10 @@
 
   // 계산된 속성
   const isEditing = computed(() => !!props.editingPost)
-  const availableTags = computed(() => communityStore.tags)
+  const availableTags = computed(() => {
+    // 새로운 구조: popularTags에서 태그명 추출
+    return communityStore.popularTags.map((tag) => tag.name) || []
+  })
 
   const isFormValid = computed(() => {
     return (
@@ -163,13 +166,13 @@
       return
     }
 
-    // 태그 목록 로드
-    await communityStore.fetchTags()
+    // 커뮤니티 홈 데이터 로드 (인기 태그 포함)
+    await communityStore.fetchCommunityHome()
 
     // 수정 모드인 경우 기존 데이터 로드
     if (isEditing.value && props.editingPost) {
       formData.value = {
-        title: props.editingPost.title || '',
+        title: props.editingPost.title || props.editingPost.post_title || '',
         content: props.editingPost.content || '',
         tags: [...(props.editingPost.tags || [])]
       }
@@ -213,33 +216,49 @@
 
       if (isEditing.value) {
         // 수정
-        result = await communityStore.updatePost(
-          props.editingPost.id,
-          formData.value
-        )
+        const postId = props.editingPost.id || props.editingPost.post_id
+        result = await communityStore.updatePost(postId, formData.value)
+
         if (result.success) {
-          emit('post-updated', result.post)
+          emit('post-updated', result.post || result)
           hasUnsavedChanges.value = false
+
+          // 성공 메시지 표시
+          if (result.message) {
+            alert(result.message)
+          }
+
           router.push({
             name: 'PostDetail',
-            params: { id: props.editingPost.id }
+            params: { id: postId }
           })
         }
       } else {
         // 새 게시글 작성
         result = await communityStore.createPost(formData.value)
+
         if (result.success) {
-          emit('post-created', result.post)
+          emit('post-created', result.post || result)
           hasUnsavedChanges.value = false
-          router.push({ name: 'PostDetail', params: { id: result.post.id } })
+
+          // 성공 메시지 표시
+          if (result.message) {
+            alert(result.message)
+          } else {
+            alert('게시글이 성공적으로 작성되었습니다!')
+          }
+
+          // 커뮤니티 페이지로 이동 (새로운 구조에서는 post_id만 반환)
+          router.push({ name: 'Community' })
         }
       }
 
       if (!result.success) {
+        console.error('❌ 게시글 저장 실패:', result.error)
         alert(result.error || '게시글 저장에 실패했습니다.')
       }
     } catch (error) {
-      console.error('게시글 저장 중 오류:', error)
+      console.error('❌ 게시글 저장 중 오류:', error)
       alert('게시글 저장 중 오류가 발생했습니다.')
     } finally {
       isSubmitting.value = false
@@ -310,7 +329,8 @@
     emit('cancel')
 
     if (isEditing.value && props.editingPost) {
-      router.push({ name: 'PostDetail', params: { id: props.editingPost.id } })
+      const postId = props.editingPost.id || props.editingPost.post_id
+      router.push({ name: 'PostDetail', params: { id: postId } })
     } else {
       router.push({ name: 'Community' })
     }

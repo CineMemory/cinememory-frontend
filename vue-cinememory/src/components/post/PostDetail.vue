@@ -6,16 +6,18 @@
       <div class="post-detail__meta">
         <div class="post-detail__author">
           <BaseAvatar
-            :username="post.author.username"
+            :username="post.author?.username || 'Unknown'"
             size="medium" />
           <div class="post-detail__author-info">
-            <h4 class="post-detail__author-name">{{ post.author.username }}</h4>
+            <h4 class="post-detail__author-name">
+              {{ post.author?.username || 'Unknown' }}
+            </h4>
             <div class="post-detail__date-info">
               <span class="post-detail__created">{{
                 formatDate(post.created_at)
               }}</span>
               <span
-                v-if="post.updated_at !== post.created_at"
+                v-if="isEdited"
                 class="post-detail__updated">
                 (수정됨: {{ formatDate(post.updated_at) }})
               </span>
@@ -27,7 +29,7 @@
 
     <!-- 게시글 제목 -->
     <div class="post-detail__title-section">
-      <h1 class="post-detail__title">{{ post.title }}</h1>
+      <h1 class="post-detail__title">{{ post.title || post.post_title }}</h1>
 
       <!-- 태그들 -->
       <div
@@ -54,7 +56,7 @@
     <footer class="post-detail__footer">
       <div class="post-detail__actions">
         <PostButtonLike
-          :post-id="post.id"
+          :post-id="post.id || post.post_id"
           :is-liked="post.is_liked"
           :like-count="post.like_count"
           :on-login-required="props.onLoginRequired"
@@ -64,14 +66,7 @@
           variant="ghost"
           icon-left="message-circle"
           size="small">
-          댓글 {{ post.comment_count }}
-        </BaseButton>
-
-        <BaseButton
-          variant="ghost"
-          icon-left="eye"
-          size="small">
-          조회 {{ post.view_count || 0 }}
+          댓글 {{ commentCount }}
         </BaseButton>
 
         <BaseButton
@@ -87,6 +82,7 @@
 </template>
 
 <script setup>
+  import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useCommunityStore } from '@/stores/community'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
@@ -110,6 +106,37 @@
 
   const router = useRouter()
   const communityStore = useCommunityStore()
+
+  // 계산된 속성들
+  const commentCount = computed(() => {
+    // 스토어에서 댓글 데이터를 가져와서 대댓글도 포함해서 계산
+    const comments = communityStore.comments
+    if (comments && comments.length > 0) {
+      let totalCount = comments.length
+      comments.forEach((comment) => {
+        if (comment.replies && comment.replies.length > 0) {
+          totalCount += comment.replies.length
+        }
+      })
+      return totalCount
+    }
+    // 스토어에 댓글이 없으면 props에서 가져옴
+    return props.post.comment_count || 0
+  })
+
+  // 수정 여부 확인
+  const isEdited = computed(() => {
+    if (!props.post.updated_at || !props.post.created_at) {
+      return false
+    }
+
+    // 날짜 문자열을 Date 객체로 변환하여 비교
+    const createdTime = new Date(props.post.created_at).getTime()
+    const updatedTime = new Date(props.post.updated_at).getTime()
+
+    // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
+    return Math.abs(updatedTime - createdTime) > 60000
+  })
 
   // 날짜 포맷팅
   const formatDate = (dateString) => {
