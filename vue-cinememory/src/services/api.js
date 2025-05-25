@@ -96,7 +96,7 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   }
 }
 
-// 개별 게시글 조회
+// 🔧 api.js의 getPost 함수 수정
 export const getPost = async (postId) => {
   console.log('📄 getPost 호출됨:', postId)
 
@@ -104,9 +104,6 @@ export const getPost = async (postId) => {
     const response = await apiRequest(`/cinememory/community/post/${postId}/`)
 
     console.log('📤 게시글 상세 실제 응답:', response)
-
-    // 작성자 정보 디버깅
-    console.log('📤 게시글 작성자 정보:', response.author)
 
     // Django API 응답 구조에 맞춰 변환
     let result
@@ -118,9 +115,10 @@ export const getPost = async (postId) => {
         post_id: response.id || parseInt(postId),
         post_title: response.title || response.post_title,
         content: response.content,
+        // 🔧 작성자 정보 변환 로직 수정
         author: {
-          id: response.author?.id || response.author_id,
-          username: response.author?.username || response.author
+          id: response.user || response.author_id || response.author?.id,
+          username: response.username || response.author?.username || response.author || 'Unknown'
         },
         like_count: response.like_count || 0,
         comment_count: response.comment_count || 0,
@@ -133,7 +131,27 @@ export const getPost = async (postId) => {
               typeof tag === 'object' ? tag.name : tag
             )
           : [],
-        comments: response.comments || []
+        // 🔧 댓글 변환 로직 추가
+        comments: Array.isArray(response.comments) 
+          ? response.comments.map(comment => ({
+              ...comment,
+              // 댓글 작성자 정보도 변환
+              author: {
+                id: comment.user || comment.author_id || comment.author?.id,
+                username: comment.username || comment.author?.username || comment.author || 'Unknown'
+              },
+              // 대댓글 작성자 정보도 변환
+              replies: Array.isArray(comment.replies) 
+                ? comment.replies.map(reply => ({
+                    ...reply,
+                    author: {
+                      id: reply.user || reply.author_id || reply.author?.id,
+                      username: reply.username || reply.author?.username || reply.author || 'Unknown'
+                    }
+                  }))
+                : []
+            }))
+          : []
       }
 
       result = {
