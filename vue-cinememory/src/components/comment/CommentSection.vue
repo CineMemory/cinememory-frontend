@@ -95,17 +95,17 @@
   import BaseSelect from '@/components/base/BaseSelect.vue'
 
   // CommentSection.vue
-const props = defineProps({
-  postId: {
-    type: [String, Number],
-    required: true
-  },
-  // 🔧 추가
-  onLoginRequired: {
-    type: Function,
-    default: () => {}
-  }
-})
+  const props = defineProps({
+    postId: {
+      type: [String, Number],
+      required: true
+    },
+    // 🔧 추가
+    onLoginRequired: {
+      type: Function,
+      default: () => {}
+    }
+  })
 
   const communityStore = useCommunityStore()
 

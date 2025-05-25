@@ -88,29 +88,28 @@
   import BaseIcon from '@/components/base/BaseIcon.vue'
 
   const props = defineProps({
-  postId: {
-    type: [String, Number],
-    required: true
-  },
-  parentCommentId: {
-    type: [String, Number],
-    default: null
-  },
-  placeholder: {
-    type: String,
-    default: '댓글을 입력하세요...'
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  },
-  // 🔧 추가
-  onLoginRequired: {
-    type: Function,
-    default: () => {}
-  }
-})
-
+    postId: {
+      type: [String, Number],
+      required: true
+    },
+    parentCommentId: {
+      type: [String, Number],
+      default: null
+    },
+    placeholder: {
+      type: String,
+      default: '댓글을 입력하세요...'
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    // 🔧 추가
+    onLoginRequired: {
+      type: Function,
+      default: () => {}
+    }
+  })
 
   const emit = defineEmits(['comment-created', 'reply-created', 'cancel'])
 
@@ -167,7 +166,7 @@
     console.log('🔓 로그인 모달 열기')
     // 🔧 부모 컴포넌트의 로그인 모달 함수 호출
     props.onLoginRequired?.()
-}
+  }
 
   const cancelComment = () => {
     content.value = ''

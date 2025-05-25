@@ -118,7 +118,11 @@ export const getPost = async (postId) => {
         // 🔧 작성자 정보 변환 로직 수정
         author: {
           id: response.user || response.author_id || response.author?.id,
-          username: response.username || response.author?.username || response.author || 'Unknown'
+          username:
+            response.username ||
+            response.author?.username ||
+            response.author ||
+            'Unknown'
         },
         like_count: response.like_count || 0,
         comment_count: response.comment_count || 0,
@@ -132,21 +136,29 @@ export const getPost = async (postId) => {
             )
           : [],
         // 🔧 댓글 변환 로직 추가
-        comments: Array.isArray(response.comments) 
-          ? response.comments.map(comment => ({
+        comments: Array.isArray(response.comments)
+          ? response.comments.map((comment) => ({
               ...comment,
               // 댓글 작성자 정보도 변환
               author: {
                 id: comment.user || comment.author_id || comment.author?.id,
-                username: comment.username || comment.author?.username || comment.author || 'Unknown'
+                username:
+                  comment.username ||
+                  comment.author?.username ||
+                  comment.author ||
+                  'Unknown'
               },
               // 대댓글 작성자 정보도 변환
-              replies: Array.isArray(comment.replies) 
-                ? comment.replies.map(reply => ({
+              replies: Array.isArray(comment.replies)
+                ? comment.replies.map((reply) => ({
                     ...reply,
                     author: {
                       id: reply.user || reply.author_id || reply.author?.id,
-                      username: reply.username || reply.author?.username || reply.author || 'Unknown'
+                      username:
+                        reply.username ||
+                        reply.author?.username ||
+                        reply.author ||
+                        'Unknown'
                     }
                   }))
                 : []
@@ -348,12 +360,13 @@ export const togglePostLike = async (postId) => {
     }
   } catch (error) {
     console.error('❌ togglePostLike 오류:', error)
-    
+
     // 상세한 에러 정보 반환
-    const errorMessage = error.response?.data?.error || 
-                        error.response?.data?.message || 
-                        '좋아요 처리 중 오류가 발생했습니다.'
-    
+    const errorMessage =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      '좋아요 처리 중 오류가 발생했습니다.'
+
     return {
       success: false,
       error: errorMessage,

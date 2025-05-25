@@ -52,19 +52,25 @@
   const communityStore = useCommunityStore()
 
   const isLoading = ref(false)
-  
+
   // 로컬 상태로 좋아요 상태 관리
   const localIsLiked = ref(props.isLiked)
   const localLikeCount = ref(props.likeCount)
 
   // props 변경 감지하여 로컬 상태 업데이트
-  watch(() => props.isLiked, (newValue) => {
-    localIsLiked.value = newValue
-  })
+  watch(
+    () => props.isLiked,
+    (newValue) => {
+      localIsLiked.value = newValue
+    }
+  )
 
-  watch(() => props.likeCount, (newValue) => {
-    localLikeCount.value = newValue
-  })
+  watch(
+    () => props.likeCount,
+    (newValue) => {
+      localLikeCount.value = newValue
+    }
+  )
 
   const handleLike = async () => {
     console.log('🔔 좋아요 버튼 클릭됨', {
@@ -88,9 +94,11 @@
       // 낙관적 업데이트 (즉시 UI 반영)
       const previousLiked = localIsLiked.value
       const previousCount = localLikeCount.value
-      
+
       localIsLiked.value = !previousLiked
-      localLikeCount.value = previousLiked ? previousCount - 1 : previousCount + 1
+      localLikeCount.value = previousLiked
+        ? previousCount - 1
+        : previousCount + 1
 
       console.log('🚀 좋아요 API 호출 시작...', {
         postId: props.postId,
@@ -127,15 +135,17 @@
         // 실패시 이전 상태로 롤백
         localIsLiked.value = previousLiked
         localLikeCount.value = previousCount
-        
+
         console.error('❌ 좋아요 처리 실패:', result.error)
         alert(result.error || '좋아요 처리에 실패했습니다.')
       }
     } catch (error) {
       // 에러시 이전 상태로 롤백
       localIsLiked.value = !localIsLiked.value
-      localLikeCount.value = localIsLiked.value ? localLikeCount.value + 1 : localLikeCount.value - 1
-      
+      localLikeCount.value = localIsLiked.value
+        ? localLikeCount.value + 1
+        : localLikeCount.value - 1
+
       console.error('❌ 좋아요 처리 중 오류:', error)
       alert('좋아요 처리 중 오류가 발생했습니다.')
     } finally {

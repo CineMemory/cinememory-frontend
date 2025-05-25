@@ -210,40 +210,43 @@
   )
 
   // 게시글 로드
-const loadPost = async () => {
-  const postId = String(route.params.id)
-  console.log('상세 페이지 postId:', postId)
+  const loadPost = async () => {
+    const postId = String(route.params.id)
+    console.log('상세 페이지 postId:', postId)
 
-  if (!postId) {
-    router.push({ name: 'Community' })
-    return
-  }
-
-  const result = await communityStore.fetchPost(postId)
-  console.log('fetchPost 결과:', result)
-
-  if (result.success && result.post) {
-    // 🔍 디버깅: 상세 게시글 데이터 확인
-    console.log('📄 상세 게시글 전체 데이터:', result.post)
-    console.log('📄 상세 게시글 작성자:', result.post?.author)
-    console.log('📄 댓글 전체 데이터:', communityStore.comments)
-    if (communityStore.comments.length > 0) {
-      console.log('📄 첫 번째 댓글:', communityStore.comments[0])
-      console.log('📄 첫 번째 댓글 작성자:', communityStore.comments[0]?.author)
+    if (!postId) {
+      router.push({ name: 'Community' })
+      return
     }
-    
-    // 페이지 타이틀 설정
-    document.title = `${result.post.title} | 씨네메모리`
-  } else {
-    // 게시글을 찾을 수 없는 경우
-    if (
-      result.error?.includes('404') ||
-      result.error?.includes('찾을 수 없습니다')
-    ) {
-      router.push({ name: 'NotFound' })
+
+    const result = await communityStore.fetchPost(postId)
+    console.log('fetchPost 결과:', result)
+
+    if (result.success && result.post) {
+      // 🔍 디버깅: 상세 게시글 데이터 확인
+      console.log('📄 상세 게시글 전체 데이터:', result.post)
+      console.log('📄 상세 게시글 작성자:', result.post?.author)
+      console.log('📄 댓글 전체 데이터:', communityStore.comments)
+      if (communityStore.comments.length > 0) {
+        console.log('📄 첫 번째 댓글:', communityStore.comments[0])
+        console.log(
+          '📄 첫 번째 댓글 작성자:',
+          communityStore.comments[0]?.author
+        )
+      }
+
+      // 페이지 타이틀 설정
+      document.title = `${result.post.title} | 씨네메모리`
+    } else {
+      // 게시글을 찾을 수 없는 경우
+      if (
+        result.error?.includes('404') ||
+        result.error?.includes('찾을 수 없습니다')
+      ) {
+        router.push({ name: 'NotFound' })
+      }
     }
   }
-}
 
   // 재시도
   const retryLoad = () => {

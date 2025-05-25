@@ -127,8 +127,8 @@
 
   // 수정 여부 확인
   const isEdited = computed(() => {
-  return isContentEdited(props.post.created_at, props.post.updated_at, 5)
-})
+    return isContentEdited(props.post.created_at, props.post.updated_at, 5)
+  })
 
   // const isEdited = computed(() => {
   //   if (!props.post.updated_at || !props.post.created_at) {

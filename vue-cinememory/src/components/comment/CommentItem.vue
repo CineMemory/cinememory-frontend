@@ -248,9 +248,13 @@
   })
 
   // 수정 여부 확인 로직 교체
-const isEdited = computed(() => {
-  return isContentEdited(props.comment.created_at, props.comment.updated_at, 5)
-})
+  const isEdited = computed(() => {
+    return isContentEdited(
+      props.comment.created_at,
+      props.comment.updated_at,
+      5
+    )
+  })
   // const isEdited = computed(() => {
   //   return (
   //     props.comment.updated_at &&

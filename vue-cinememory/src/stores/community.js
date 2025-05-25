@@ -536,71 +536,71 @@ export const useCommunityStore = defineStore('community', () => {
 
   // ❤️ 좋아요 관련 액션
   // ❤️ 좋아요 관련 액션 수정
-const togglePostLike = async (postId) => {
-  try {
-    clearError()
+  const togglePostLike = async (postId) => {
+    try {
+      clearError()
 
-    console.log('🎯 Store togglePostLike 시작:', postId)
+      console.log('🎯 Store togglePostLike 시작:', postId)
 
-    const result = await communityAPI.togglePostLike(postId)
+      const result = await communityAPI.togglePostLike(postId)
 
-    console.log('📤 Store togglePostLike API 결과:', result)
+      console.log('📤 Store togglePostLike API 결과:', result)
 
-    if (result.success) {
-      const { is_liked, like_count } = result
+      if (result.success) {
+        const { is_liked, like_count } = result
 
-      // 현재 게시글의 좋아요 상태 업데이트
-      if (currentPost.value?.id === parseInt(postId)) {
-        currentPost.value.like_count = like_count
-        currentPost.value.is_liked = is_liked
-        console.log('✅ currentPost 좋아요 상태 업데이트:', {
-          postId,
+        // 현재 게시글의 좋아요 상태 업데이트
+        if (currentPost.value?.id === parseInt(postId)) {
+          currentPost.value.like_count = like_count
+          currentPost.value.is_liked = is_liked
+          console.log('✅ currentPost 좋아요 상태 업데이트:', {
+            postId,
+            like_count,
+            is_liked
+          })
+        }
+
+        // 게시글 목록에서도 좋아요 수 업데이트
+        const postIndex = posts.value.findIndex(
+          (post) => post.id === parseInt(postId)
+        )
+        if (postIndex !== -1) {
+          posts.value[postIndex].like_count = like_count
+          posts.value[postIndex].is_liked = is_liked
+          console.log('✅ posts 배열 좋아요 상태 업데이트:', {
+            postIndex,
+            postId,
+            like_count,
+            is_liked
+          })
+        }
+
+        return {
+          success: true,
+          is_liked,
           like_count,
-          is_liked
-        })
+          message: result.message
+        }
+      } else {
+        console.error('❌ togglePostLike 실패:', result.error)
+        return result
       }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        '좋아요 처리에 실패했습니다.'
 
-      // 게시글 목록에서도 좋아요 수 업데이트
-      const postIndex = posts.value.findIndex(
-        (post) => post.id === parseInt(postId)
-      )
-      if (postIndex !== -1) {
-        posts.value[postIndex].like_count = like_count
-        posts.value[postIndex].is_liked = is_liked
-        console.log('✅ posts 배열 좋아요 상태 업데이트:', {
-          postIndex,
-          postId,
-          like_count,
-          is_liked
-        })
-      }
+      console.error('❌ togglePostLike 에러:', err)
+      setError(errorMessage)
 
-      return { 
-        success: true, 
-        is_liked, 
-        like_count,
-        message: result.message 
+      return {
+        success: false,
+        error: errorMessage,
+        status: err.response?.status
       }
-    } else {
-      console.error('❌ togglePostLike 실패:', result.error)
-      return result
-    }
-  } catch (err) {
-    const errorMessage = 
-      err.response?.data?.message || 
-      err.response?.data?.error ||
-      '좋아요 처리에 실패했습니다.'
-    
-    console.error('❌ togglePostLike 에러:', err)
-    setError(errorMessage)
-    
-    return { 
-      success: false, 
-      error: errorMessage,
-      status: err.response?.status 
     }
   }
-}
 
   const toggleMovieLike = async (movieId) => {
     try {
