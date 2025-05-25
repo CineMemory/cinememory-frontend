@@ -1,218 +1,212 @@
 <!-- 댓글 섹션 -->
 <template>
   <div class="comment-section">
-    <!-- 댓글 섹션 헤더 -->
-    <div class="comment-section__header">
-      <h3 class="comment-section__title">
-        <BaseIcon name="message-circle" />
-        댓글 {{ totalComments }}개
-      </h3>
-
-      <CommentSectionStats
-        :total-comments="totalComments"
-        :comment-count="comments.length" />
-    </div>
-
-    <!-- 댓글 작성 폼 (로그인한 경우에만) -->
-    <div
-      v-if="isAuthenticated"
-      class="comment-section__form">
-      <CommentSectionForm
+    <!-- 댓글 작성 폼 -->
+    <div class="comment-section__form">
+      <CommentForm
         :post-id="postId"
-        :is-loading="isCreatingComment"
+        :loading="isLoadingComments"
         @comment-created="handleCommentCreated" />
     </div>
 
-    <!-- 로그인 안내 (비로그인 사용자) -->
+    <!-- 댓글 목록 헤더 -->
+    <div class="comment-section__header">
+      <h3 class="comment-section__title">댓글 {{ totalCommentCount }}개</h3>
+
+      <!-- 정렬 옵션 -->
+      <BaseSelect
+        v-model="sortBy"
+        :options="sortOptions"
+        size="small"
+        class="comment-section__sort" />
+    </div>
+
+    <!-- 로딩 상태 -->
     <div
-      v-else
-      class="comment-section__login-notice">
-      <BaseIcon name="lock" />
-      <span>댓글을 작성하려면 로그인이 필요합니다.</span>
+      v-if="isLoadingComments && comments.length === 0"
+      class="comment-section__loading">
+      <BaseSpinner size="md" />
+      <span>댓글을 불러오는 중...</span>
+    </div>
+
+    <!-- 에러 상태 -->
+    <div
+      v-else-if="error"
+      class="comment-section__error">
+      <BaseIcon name="alert-circle" />
+      <p>{{ error }}</p>
       <BaseButton
         variant="secondary"
         size="small"
-        @click="goToLogin">
-        로그인
+        @click="retryLoad">
+        다시 시도
       </BaseButton>
     </div>
 
+    <!-- 빈 상태 -->
+    <div
+      v-else-if="sortedComments.length === 0"
+      class="comment-section__empty">
+      <BaseIcon name="message-circle" />
+      <p>아직 댓글이 없습니다.</p>
+      <p>첫 번째 댓글을 작성해보세요!</p>
+    </div>
+
     <!-- 댓글 목록 -->
-    <div class="comment-section__list">
-      <!-- 로딩 상태 -->
-      <div
-        v-if="isLoading"
-        class="comment-section__loading">
-        <BaseSpinner size="lg" />
-        <p>댓글을 불러오는 중...</p>
-      </div>
+    <div
+      v-else
+      class="comment-section__list">
+      <TransitionGroup
+        name="comment-list"
+        tag="div">
+        <CommentItem
+          v-for="comment in sortedComments"
+          :key="`comment-${comment.comment_id || comment.id}`"
+          :comment="comment"
+          :post-id="postId"
+          @reply-created="handleReplyCreated"
+          @comment-deleted="handleCommentDeleted" />
+      </TransitionGroup>
+    </div>
 
-      <!-- 에러 상태 -->
-      <div
-        v-else-if="error"
-        class="comment-section__error">
-        <BaseIcon name="alert-circle" />
-        <p>{{ error }}</p>
-        <BaseButton
-          variant="secondary"
-          size="small"
-          @click="retryLoad">
-          다시 시도
-        </BaseButton>
-      </div>
-
-      <!-- 댓글이 없는 경우 -->
-      <div
-        v-else-if="!isLoading && comments.length === 0"
-        class="comment-section__empty">
-        <BaseIcon name="message-circle" />
-        <h4>아직 댓글이 없습니다</h4>
-        <p>첫 번째 댓글을 작성해보세요!</p>
-      </div>
-
-      <!-- 댓글 목록 -->
-      <CommentSectionList
-        v-else
-        :comments="comments"
-        :post-id="postId"
-        @comment-deleted="handleCommentDeleted"
-        @reply-created="handleReplyCreated" />
+    <!-- 더 보기 버튼 (페이지네이션이 있는 경우) -->
+    <div
+      v-if="hasMoreComments"
+      class="comment-section__load-more">
+      <BaseButton
+        variant="secondary"
+        :loading="isLoadingComments"
+        @click="loadMoreComments">
+        더 많은 댓글 보기
+      </BaseButton>
     </div>
   </div>
 </template>
 
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
-  import { useRouter } from 'vue-router'
-  import { useAuth } from '@/composables/useAuth'
   import { useCommunityStore } from '@/stores/community'
-  import CommentSectionStats from './CommentSectionStats.vue'
-  import CommentSectionForm from './CommentSectionForm.vue'
-  import CommentSectionList from './CommentSectionList.vue'
-  import BaseIcon from '@/components/base/BaseIcon.vue'
+  import CommentForm from './CommentForm.vue'
+  import CommentItem from './CommentItem.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
+  import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseSpinner from '@/components/base/BaseSpinner.vue'
+  import BaseSelect from '@/components/base/BaseSelect.vue'
 
   const props = defineProps({
     postId: {
       type: [String, Number],
       required: true
-    },
-    onLoginRequired: {
-      type: Function,
-      default: null
     }
   })
 
-  const router = useRouter()
-  const { isAuthenticated } = useAuth()
   const communityStore = useCommunityStore()
 
   // 로컬 상태
-  const isCreatingComment = ref(false)
+  const sortBy = ref('latest')
+  const hasMoreComments = ref(false) // 추후 페이지네이션 지원시 사용
 
-  // 계산된 속성
+  // 정렬 옵션
+  const sortOptions = [
+    { value: 'latest', label: '최신순' },
+    { value: 'oldest', label: '오래된순' },
+    { value: 'popular', label: '인기순' }
+  ]
+
+  // 스토어에서 데이터 가져오기
   const comments = computed(() => communityStore.comments)
-  const isLoading = computed(() => communityStore.isLoadingComments)
+  const isLoadingComments = computed(() => communityStore.isLoadingComments)
   const error = computed(() => communityStore.error)
 
-  const totalComments = computed(() => {
+  // 전체 댓글 수 계산 (대댓글 포함)
+  const totalCommentCount = computed(() => {
     let count = comments.value.length
-
-    // 대댓글 수도 포함
     comments.value.forEach((comment) => {
       if (comment.replies && comment.replies.length > 0) {
         count += comment.replies.length
       }
     })
-
     return count
   })
 
-  // 초기 댓글 로드
-  onMounted(() => {
-    loadComments()
+  // 정렬된 댓글 목록
+  const sortedComments = computed(() => {
+    const commentsCopy = [...comments.value]
+
+    switch (sortBy.value) {
+      case 'latest':
+        return commentsCopy.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
+      case 'oldest':
+        return commentsCopy.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        )
+      case 'popular':
+        return commentsCopy.sort(
+          (a, b) => (b.like_count || 0) - (a.like_count || 0)
+        )
+      default:
+        return commentsCopy
+    }
   })
 
-  // postId 변경 시 댓글 다시 로드
+  // 초기 댓글 로드
+  onMounted(async () => {
+    console.log('💬 CommentSection 마운트됨, postId:', props.postId)
+    await loadComments()
+  })
+
+  // postId 변경시 댓글 다시 로드
   watch(
     () => props.postId,
-    () => {
-      loadComments()
+    async (newPostId) => {
+      if (newPostId) {
+        await loadComments()
+      }
     }
   )
 
   // 댓글 로드
   const loadComments = async () => {
-    if (!props.postId) return
-
-    await communityStore.fetchComments(props.postId)
+    try {
+      const result = await communityStore.fetchComments(props.postId)
+      if (result.success) {
+        console.log('✅ 댓글 로드 성공:', result.comments.length)
+      } else {
+        console.error('❌ 댓글 로드 실패:', result.error)
+      }
+    } catch (error) {
+      console.error('❌ 댓글 로드 중 오류:', error)
+    }
   }
 
-  // 댓글 다시 로드
-  const retryLoad = () => {
+  // 다시 시도
+  const retryLoad = async () => {
     communityStore.clearError()
-    loadComments()
+    await loadComments()
   }
 
-  // 로그인 처리
-  const goToLogin = () => {
-    // onLoginRequired 콜백이 있으면 모달 사용, 없으면 로그인 페이지로 이동
-    if (props.onLoginRequired) {
-      props.onLoginRequired()
-    } else {
-      router.push({
-        name: 'Auth',
-        query: {
-          mode: 'login',
-          redirect: router.currentRoute.value.fullPath
-        }
-      })
-    }
+  // 더 많은 댓글 로드 (추후 구현)
+  const loadMoreComments = async () => {
+    console.log('🔄 더 많은 댓글 로드 (추후 구현)')
+    // TODO: 페이지네이션 지원시 구현
   }
 
-  // 댓글 생성 처리
-  const handleCommentCreated = async (commentData) => {
-    try {
-      isCreatingComment.value = true
-
-      const result = await communityStore.createComment(
-        props.postId,
-        commentData
-      )
-
-      if (!result.success) {
-        alert(result.error || '댓글 작성에 실패했습니다.')
-      }
-    } catch (error) {
-      console.error('댓글 작성 중 오류:', error)
-      alert('댓글 작성 중 오류가 발생했습니다.')
-    } finally {
-      isCreatingComment.value = false
-    }
+  // 이벤트 핸들러들
+  const handleCommentCreated = (newComment) => {
+    console.log('✅ 새 댓글 생성됨:', newComment)
+    // 스토어에서 자동으로 처리되므로 별도 작업 불필요
   }
 
-  // 댓글 삭제 처리
-  const handleCommentDeleted = async (commentId) => {
-    const result = await communityStore.deleteComment(commentId, props.postId)
-
-    if (!result.success) {
-      alert(result.error || '댓글 삭제에 실패했습니다.')
-    }
+  const handleReplyCreated = (newReply, parentCommentId) => {
+    console.log('✅ 새 대댓글 생성됨:', { newReply, parentCommentId })
+    // 스토어에서 자동으로 처리되므로 별도 작업 불필요
   }
 
-  // 대댓글 생성 처리
-  const handleReplyCreated = async (replyData) => {
-    try {
-      const result = await communityStore.createComment(props.postId, replyData)
-
-      if (!result.success) {
-        alert(result.error || '답글 작성에 실패했습니다.')
-      }
-    } catch (error) {
-      console.error('답글 작성 중 오류:', error)
-      alert('답글 작성 중 오류가 발생했습니다.')
-    }
+  const handleCommentDeleted = (commentId) => {
+    console.log('✅ 댓글 삭제됨:', commentId)
+    // 스토어에서 자동으로 처리되므로 별도 작업 불필요
   }
 </script>
 
@@ -224,129 +218,144 @@
     font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
   }
 
+  .comment-section__form {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-inactive-icon);
+  }
+
   .comment-section__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--color-inactive-icon);
   }
 
   .comment-section__title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--color-text);
     margin: 0;
+    width: 100px;
   }
 
-  .comment-section__title svg {
-    width: 20px;
-    height: 20px;
-    color: var(--color-main);
+  .comment-section__sort {
+    width: 100px;
   }
 
-  .comment-section__form {
-    margin-bottom: 24px;
-  }
-
-  .comment-section__login-notice {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    background-color: var(--color-card-background);
-    border-radius: var(--border-radius-medium);
-    border: 1px solid var(--color-inactive-icon);
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: var(--color-highlight-text);
-  }
-
-  .comment-section__login-notice svg {
-    width: 18px;
-    height: 18px;
-    color: var(--color-main);
-  }
-
-  .comment-section__list {
-    min-height: 100px;
-  }
-
-  .comment-section__loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 48px 16px;
-    color: var(--color-highlight-text);
-  }
-
-  .comment-section__error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 48px 16px;
-    color: var(--color-alert);
-    text-align: center;
-  }
-
-  .comment-section__error svg {
-    width: 32px;
-    height: 32px;
-  }
-
+  .comment-section__loading,
+  .comment-section__error,
   .comment-section__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 48px 16px;
-    color: var(--color-highlight-text);
+    padding: 40px 20px;
     text-align: center;
   }
 
+  .comment-section__loading {
+    color: var(--color-highlight-text);
+  }
+
+  .comment-section__error {
+    color: var(--color-alert);
+  }
+
+  .comment-section__empty {
+    color: var(--color-highlight-text);
+  }
+
+  .comment-section__loading svg,
+  .comment-section__error svg,
   .comment-section__empty svg {
     width: 48px;
     height: 48px;
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
-  .comment-section__empty h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text);
-    margin: 0;
-  }
-
+  .comment-section__error p,
   .comment-section__empty p {
-    font-size: 14px;
     margin: 0;
+    font-size: 14px;
   }
 
-  /* 모바일 최적화 */
+  .comment-section__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .comment-section__load-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-inactive-icon);
+  }
+
+  /* 트랜지션 애니메이션 */
+  .comment-list-enter-active,
+  .comment-list-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .comment-list-enter-from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .comment-list-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  .comment-list-move {
+    transition: transform 0.3s ease;
+  }
+
+  /* 반응형 */
   @media (max-width: 768px) {
     .comment-section__header {
       flex-direction: column;
       align-items: flex-start;
-      gap: 8px;
+      gap: 12px;
+    }
+
+    .comment-section__sort {
+      align-self: flex-end;
+      min-width: 100px;
     }
 
     .comment-section__title {
       font-size: 16px;
     }
 
-    .comment-section__login-notice {
-      flex-direction: column;
-      gap: 8px;
-      text-align: center;
+    .comment-section__loading,
+    .comment-section__error,
+    .comment-section__empty {
+      padding: 30px 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .comment-section__form {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+
+    .comment-section__loading,
+    .comment-section__error,
+    .comment-section__empty {
+      padding: 24px 12px;
+    }
+
+    .comment-section__loading svg,
+    .comment-section__error svg,
+    .comment-section__empty svg {
+      width: 40px;
+      height: 40px;
     }
   }
 </style>

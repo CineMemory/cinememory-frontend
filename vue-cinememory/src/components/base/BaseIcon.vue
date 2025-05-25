@@ -17,6 +17,99 @@
     stroke-linecap="round"
     stroke-linejoin="round"
     @click="handleClick">
+    <!-- Hash Icon (#) -->
+    <line
+      v-if="name === 'hash'"
+      x1="4"
+      y1="9"
+      x2="20"
+      y2="9" />
+    <line
+      v-if="name === 'hash'"
+      x1="4"
+      y1="15"
+      x2="20"
+      y2="15" />
+    <line
+      v-if="name === 'hash'"
+      x1="10"
+      y1="3"
+      x2="8"
+      y2="21" />
+    <line
+      v-if="name === 'hash'"
+      x1="16"
+      y1="3"
+      x2="14"
+      y2="21" />
+
+    <!-- Activity Icon -->
+    <polyline
+      v-if="name === 'activity'"
+      points="22,12 18,12 15,21 9,3 6,12 2,12" />
+
+    <!-- Info Icon -->
+    <circle
+      v-if="name === 'info'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <line
+      v-if="name === 'info'"
+      x1="12"
+      y1="16"
+      x2="12"
+      y2="12" />
+    <line
+      v-if="name === 'info'"
+      x1="12"
+      y1="8"
+      x2="12.01"
+      y2="8" />
+
+    <!-- Users Icon -->
+    <path
+      v-if="name === 'users'"
+      d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle
+      v-if="name === 'users'"
+      cx="9"
+      cy="7"
+      r="4" />
+    <path
+      v-if="name === 'users'"
+      d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path
+      v-if="name === 'users'"
+      d="M16 3.13a4 4 0 0 1 0 7.75" />
+
+    <!-- Shield Icon -->
+    <path
+      v-if="name === 'shield'"
+      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+
+    <!-- Smile Icon -->
+    <circle
+      v-if="name === 'smile'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <path
+      v-if="name === 'smile'"
+      d="M8 14s1.5 2 4 2 4-2 4-2" />
+    <line
+      v-if="name === 'smile'"
+      x1="9"
+      y1="9"
+      x2="9.01"
+      y2="9" />
+    <line
+      v-if="name === 'smile'"
+      x1="15"
+      y1="9"
+      x2="15.01"
+      y2="9" />
+
     <!-- Search Icon -->
     <circle
       v-if="name === 'search'"
@@ -303,6 +396,99 @@
       y1="11"
       x2="17"
       y2="11" />
+
+    <!-- Edit Icon -->
+    <path
+      v-if="name === 'edit'"
+      d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path
+      v-if="name === 'edit'"
+      d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+
+    <!-- Trash 2 Icon -->
+    <polyline
+      v-if="name === 'trash-2'"
+      points="3,6 5,6 21,6" />
+    <path
+      v-if="name === 'trash-2'"
+      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    <line
+      v-if="name === 'trash-2'"
+      x1="10"
+      y1="11"
+      x2="10"
+      y2="17" />
+    <line
+      v-if="name === 'trash-2'"
+      x1="14"
+      y1="11"
+      x2="14"
+      y2="17" />
+
+    <!-- More Horizontal Icon -->
+    <circle
+      v-if="name === 'more-horizontal'"
+      cx="12"
+      cy="12"
+      r="1" />
+    <circle
+      v-if="name === 'more-horizontal'"
+      cx="19"
+      cy="12"
+      r="1" />
+    <circle
+      v-if="name === 'more-horizontal'"
+      cx="5"
+      cy="12"
+      r="1" />
+
+    <!-- Chevron Up Icon -->
+    <polyline
+      v-if="name === 'chevron-up'"
+      points="18,15 12,9 6,15" />
+
+    <!-- Corner Down Right Icon -->
+    <polyline
+      v-if="name === 'corner-down-right'"
+      points="15,10 20,15 15,20" />
+    <path
+      v-if="name === 'corner-down-right'"
+      d="M4 4v7a4 4 0 0 0 4 4h12" />
+
+    <!-- Edit 3 Icon -->
+    <path
+      v-if="name === 'edit-3'"
+      d="M12 20h9" />
+    <path
+      v-if="name === 'edit-3'"
+      d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+
+    <!-- Send Icon -->
+    <line
+      v-if="name === 'send'"
+      x1="22"
+      y1="2"
+      x2="11"
+      y2="13" />
+    <polygon
+      v-if="name === 'send'"
+      points="22,2 15,22 11,13 2,9" />
+
+    <!-- Alert Triangle Icon -->
+    <path
+      v-if="name === 'alert-triangle'"
+      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <line
+      v-if="name === 'alert-triangle'"
+      x1="12"
+      y1="9"
+      x2="12"
+      y2="13" />
+    <circle
+      v-if="name === 'alert-triangle'"
+      cx="12"
+      cy="17"
+      r="0.01" />
   </svg>
 </template>
 

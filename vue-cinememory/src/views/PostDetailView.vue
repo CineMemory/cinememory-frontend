@@ -75,7 +75,7 @@
         <!-- 댓글 섹션 -->
         <div class="post-detail-view__comments">
           <CommentSection
-            :post-id="post.id"
+            :post-id="post?.id || post?.post_id"
             :on-login-required="openLoginModal" />
         </div>
       </div>

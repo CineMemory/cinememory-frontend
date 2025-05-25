@@ -11,7 +11,7 @@
     :disabled="isLoading"
     @click="handleLike">
     <BaseIcon
-      :name="isLiked ? 'heart-filled' : 'heart'"
+      name="heart"
       :class="[
         'post-button-like__icon',
         { 'post-button-like__icon--liked': isLiked }
