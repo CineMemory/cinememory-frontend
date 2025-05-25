@@ -8,7 +8,7 @@
           to="/"
           class="layout-header__logo-link">
           <img
-            src="/logo.svg"
+            src="/src/assets/images/cinememory-logo.png"
             alt="씨네메모리"
             class="layout-header__logo-image" />
           <span class="layout-header__logo-text">씨네메모리</span>
@@ -67,22 +67,39 @@
     gap: 12px;
     text-decoration: none;
     color: #f7f5f3;
-    transition: opacity 0.2s ease;
+    transition: all 0.3s ease;
   }
 
   .layout-header__logo-link:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: scale(1.02);
   }
 
   .layout-header__logo-image {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    /* 오렌지 → 골드(#ffb700) 변환 */
+    filter: brightness(0) saturate(100%) invert(70%) sepia(100%) saturate(1000%) hue-rotate(25deg) brightness(100%) contrast(100%);
+    transition: all 0.3s ease;
+  }
+
+  .layout-header__logo-link:hover .layout-header__logo-image {
+    /* 호버 시 더 밝은 골드 */
+    filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(1200%) hue-rotate(25deg) brightness(110%) contrast(110%);
+    transform: translateY(-1px);
   }
 
   .layout-header__logo-text {
     font-size: 20px;
     font-weight: 700;
     color: #ffb700;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+
+  .layout-header__logo-link:hover .layout-header__logo-text {
+    color: #ffd700; /* 호버 시 더 밝은 골드 */
   }
 
   .layout-header__search {
@@ -111,11 +128,35 @@
     .layout-header__logo-text {
       display: none;
     }
+
+    .layout-header__logo-image {
+      width: 32px;
+      height: 32px;
+    }
   }
 
   @media (max-width: 640px) {
     .layout-header__search {
       display: none;
     }
+
+    .layout-header__logo-image {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  /* 추가 애니메이션 효과 */
+  @keyframes logoFloat {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+  .layout-header__logo-link:active .layout-header__logo-image {
+    animation: logoFloat 0.6s ease-in-out;
   }
 </style>
