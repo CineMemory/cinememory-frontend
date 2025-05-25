@@ -307,11 +307,11 @@ export const deleteComment = async (postId, commentId) => {
 }
 
 // 게시글 좋아요 토글 (URL 수정)
+// 게시글 좋아요 토글
 export const togglePostLike = async (postId) => {
   console.log('💝 togglePostLike 호출됨:', postId)
 
   try {
-    // URL을 /like/에서 /likes/로 수정
     const response = await apiRequest(
       `/cinememory/community/post/${postId}/likes/`,
       {
@@ -321,17 +321,28 @@ export const togglePostLike = async (postId) => {
 
     console.log('📤 좋아요 토글 실제 응답:', response)
 
-    // API 응답 구조에 맞춰 반환
+    // Django API 응답 구조에 맞춰 반환
     return {
+      success: true,
       is_liked: response.is_liked,
-      like_count: response.like_count
+      like_count: response.like_count,
+      message: response.message
     }
   } catch (error) {
     console.error('❌ togglePostLike 오류:', error)
-    throw error
+    
+    // 상세한 에러 정보 반환
+    const errorMessage = error.response?.data?.error || 
+                        error.response?.data?.message || 
+                        '좋아요 처리 중 오류가 발생했습니다.'
+    
+    return {
+      success: false,
+      error: errorMessage,
+      status: error.response?.status
+    }
   }
 }
-
 // 태그 목록 조회 (임시)
 export const getTags = async () => {
   console.log('🏷️ getTags 호출됨')
