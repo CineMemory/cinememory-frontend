@@ -80,13 +80,15 @@
     height: 36px;
     object-fit: contain;
     /* 오렌지 → 골드(#ffb700) 변환 */
-    filter: brightness(0) saturate(100%) invert(70%) sepia(100%) saturate(1000%) hue-rotate(25deg) brightness(100%) contrast(100%);
+    filter: brightness(0) saturate(100%) invert(70%) sepia(100%) saturate(1000%)
+      hue-rotate(25deg) brightness(100%) contrast(100%);
     transition: all 0.3s ease;
   }
 
   .layout-header__logo-link:hover .layout-header__logo-image {
     /* 호버 시 더 밝은 골드 */
-    filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(1200%) hue-rotate(25deg) brightness(110%) contrast(110%);
+    filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(1200%)
+      hue-rotate(25deg) brightness(110%) contrast(110%);
     transform: translateY(-1px);
   }
 
@@ -148,7 +150,8 @@
 
   /* 추가 애니메이션 효과 */
   @keyframes logoFloat {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
