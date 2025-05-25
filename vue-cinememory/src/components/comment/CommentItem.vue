@@ -186,6 +186,7 @@
   import { ref, computed } from 'vue'
   import { useAuth } from '@/composables/useAuth'
   import { useCommunityStore } from '@/stores/community'
+  import { isContentEdited, formatTimeAgo } from '@/utils/dateUtils'
   import CommentForm from './CommentForm.vue'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
@@ -246,12 +247,16 @@
     )
   })
 
-  const isEdited = computed(() => {
-    return (
-      props.comment.updated_at &&
-      props.comment.created_at !== props.comment.updated_at
-    )
-  })
+  // 수정 여부 확인 로직 교체
+const isEdited = computed(() => {
+  return isContentEdited(props.comment.created_at, props.comment.updated_at, 5)
+})
+  // const isEdited = computed(() => {
+  //   return (
+  //     props.comment.updated_at &&
+  //     props.comment.created_at !== props.comment.updated_at
+  //   )
+  // })
 
   const replies = computed(() => props.comment.replies || [])
   const replyCount = computed(() => replies.value.length)
@@ -267,33 +272,33 @@
     return count?.toString() || '0'
   }
 
-  const formatTimeAgo = (dateString) => {
-    if (!dateString) return ''
+  // const formatTimeAgo = (dateString) => {
+  //   if (!dateString) return ''
 
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInMinutes = Math.floor((now - date) / (1000 * 60))
+  //   const date = new Date(dateString)
+  //   const now = new Date()
+  //   const diffInMinutes = Math.floor((now - date) / (1000 * 60))
 
-    if (diffInMinutes < 1) {
-      return '방금 전'
-    } else if (diffInMinutes < 60) {
-      return `${diffInMinutes}분 전`
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60)
-      return `${hours}시간 전`
-    } else {
-      const days = Math.floor(diffInMinutes / 1440)
-      if (days < 30) {
-        return `${days}일 전`
-      } else {
-        return date.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })
-      }
-    }
-  }
+  //   if (diffInMinutes < 1) {
+  //     return '방금 전'
+  //   } else if (diffInMinutes < 60) {
+  //     return `${diffInMinutes}분 전`
+  //   } else if (diffInMinutes < 1440) {
+  //     const hours = Math.floor(diffInMinutes / 60)
+  //     return `${hours}시간 전`
+  //   } else {
+  //     const days = Math.floor(diffInMinutes / 1440)
+  //     if (days < 30) {
+  //       return `${days}일 전`
+  //     } else {
+  //       return date.toLocaleDateString('ko-KR', {
+  //         year: 'numeric',
+  //         month: 'long',
+  //         day: 'numeric'
+  //       })
+  //     }
+  //   }
+  // }
 
   const getReplyAuthorName = (reply) => {
     if (typeof reply.author === 'object' && reply.author?.username) {

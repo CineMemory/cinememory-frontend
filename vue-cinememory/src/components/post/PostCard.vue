@@ -123,6 +123,7 @@
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/composables/useAuth'
   import { useCommunityStore } from '@/stores/community'
+  import { isContentEdited, formatTimeAgo } from '@/utils/dateUtils'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
@@ -181,18 +182,23 @@
       : content
   })
 
-  const isEdited = computed(() => {
-    if (!props.post.updated_at || !props.post.created_at) {
-      return false
-    }
+  // 수정 여부 확인 로직 교체
+const isEdited = computed(() => {
+  return isContentEdited(props.post.created_at, props.post.updated_at, 5)
+})
 
-    // 날짜 문자열을 Date 객체로 변환하여 비교
-    const createdTime = new Date(props.post.created_at).getTime()
-    const updatedTime = new Date(props.post.updated_at).getTime()
+  // const isEdited = computed(() => {
+  //   if (!props.post.updated_at || !props.post.created_at) {
+  //     return false
+  //   }
 
-    // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
-    return Math.abs(updatedTime - createdTime) > 60000
-  })
+  //   // 날짜 문자열을 Date 객체로 변환하여 비교
+  //   const createdTime = new Date(props.post.created_at).getTime()
+  //   const updatedTime = new Date(props.post.updated_at).getTime()
+
+  //   // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
+  //   return Math.abs(updatedTime - createdTime) > 60000
+  // })
 
   // 댓글 수 계산 (실제 댓글 데이터가 있으면 그것을 우선 사용)
   const commentCount = computed(() => {
@@ -221,33 +227,33 @@
     return count?.toString() || '0'
   }
 
-  const formatTimeAgo = (dateString) => {
-    if (!dateString) return ''
+  // const formatTimeAgo = (dateString) => {
+  //   if (!dateString) return ''
 
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInMinutes = Math.floor((now - date) / (1000 * 60))
+  //   const date = new Date(dateString)
+  //   const now = new Date()
+  //   const diffInMinutes = Math.floor((now - date) / (1000 * 60))
 
-    if (diffInMinutes < 1) {
-      return '방금 전'
-    } else if (diffInMinutes < 60) {
-      return `${diffInMinutes}분 전`
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60)
-      return `${hours}시간 전`
-    } else {
-      const days = Math.floor(diffInMinutes / 1440)
-      if (days < 30) {
-        return `${days}일 전`
-      } else {
-        return date.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })
-      }
-    }
-  }
+  //   if (diffInMinutes < 1) {
+  //     return '방금 전'
+  //   } else if (diffInMinutes < 60) {
+  //     return `${diffInMinutes}분 전`
+  //   } else if (diffInMinutes < 1440) {
+  //     const hours = Math.floor(diffInMinutes / 60)
+  //     return `${hours}시간 전`
+  //   } else {
+  //     const days = Math.floor(diffInMinutes / 1440)
+  //     if (days < 30) {
+  //       return `${days}일 전`
+  //     } else {
+  //       return date.toLocaleDateString('ko-KR', {
+  //         year: 'numeric',
+  //         month: 'long',
+  //         day: 'numeric'
+  //       })
+  //     }
+  //   }
+  // }
 
   // 액션 함수들
   const goToPost = () => {

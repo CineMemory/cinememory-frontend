@@ -85,6 +85,7 @@
   import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useCommunityStore } from '@/stores/community'
+  import { isContentEdited } from '@/utils/dateUtils'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseTag from '@/components/base/BaseTag.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
@@ -126,17 +127,21 @@
 
   // 수정 여부 확인
   const isEdited = computed(() => {
-    if (!props.post.updated_at || !props.post.created_at) {
-      return false
-    }
+  return isContentEdited(props.post.created_at, props.post.updated_at, 5)
+})
 
-    // 날짜 문자열을 Date 객체로 변환하여 비교
-    const createdTime = new Date(props.post.created_at).getTime()
-    const updatedTime = new Date(props.post.updated_at).getTime()
+  // const isEdited = computed(() => {
+  //   if (!props.post.updated_at || !props.post.created_at) {
+  //     return false
+  //   }
 
-    // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
-    return Math.abs(updatedTime - createdTime) > 60000
-  })
+  //   // 날짜 문자열을 Date 객체로 변환하여 비교
+  //   const createdTime = new Date(props.post.created_at).getTime()
+  //   const updatedTime = new Date(props.post.updated_at).getTime()
+
+  //   // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
+  //   return Math.abs(updatedTime - createdTime) > 60000
+  // })
 
   // 날짜 포맷팅
   const formatDate = (dateString) => {
