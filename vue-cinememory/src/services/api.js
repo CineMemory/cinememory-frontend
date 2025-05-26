@@ -71,12 +71,9 @@ const apiRequest = async (endpoint, options = {}) => {
   }
 }
 
-// 🏘️ 커뮤니티 관련 API
-
+// 커뮤니티 관련 API
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
-  console.log('📝 getPosts 호출됨:', { page, limit, sortBy })
-
   try {
     // 먼저 커뮤니티 홈에서 게시글 가져오기
     const homeData = await getCommunityHome()
@@ -88,7 +85,6 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
       previous: null
     }
 
-    console.log('📤 getPosts 반환 결과:', result)
     return result
   } catch (error) {
     console.error('❌ getPosts 오류:', error)
@@ -96,14 +92,9 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   }
 }
 
-// 🔧 api.js의 getPost 함수 수정
 export const getPost = async (postId) => {
-  console.log('📄 getPost 호출됨:', postId)
-
   try {
     const response = await apiRequest(`/cinememory/community/post/${postId}/`)
-
-    console.log('📤 게시글 상세 실제 응답:', response)
 
     // Django API 응답 구조에 맞춰 변환
     let result
@@ -140,7 +131,7 @@ export const getPost = async (postId) => {
               typeof tag === 'object' ? tag.name : tag
             )
           : [],
-        // 🔧 댓글 변환 로직 추가
+        // 댓글 변환 로직 추가
         comments: Array.isArray(response.comments)
           ? response.comments.map((comment) => ({
               ...comment,
@@ -177,7 +168,6 @@ export const getPost = async (postId) => {
       }
     }
 
-    console.log('📤 변환된 게시글 데이터:', result)
     return result
   } catch (error) {
     console.error('❌ getPost 오류:', error)
@@ -187,8 +177,6 @@ export const getPost = async (postId) => {
 
 // 게시글 작성
 export const createPost = async (postData) => {
-  console.log('✍️ createPost 호출됨:', postData)
-
   try {
     // 프론트엔드 데이터를 백엔드 형식으로 변환
     const backendData = {
@@ -197,14 +185,11 @@ export const createPost = async (postData) => {
       tag_names: postData.tags || []
     }
 
-    console.log('📤 백엔드로 전송할 데이터:', backendData)
-
     const response = await apiRequest('/cinememory/community/post/', {
       method: 'POST',
       body: JSON.stringify(backendData)
     })
 
-    console.log('📤 게시글 작성 실제 응답:', response)
     return response
   } catch (error) {
     console.error('❌ createPost 오류:', error)
@@ -214,8 +199,6 @@ export const createPost = async (postData) => {
 
 // 게시글 수정
 export const updatePost = async (postId, postData) => {
-  console.log('🔄 updatePost 호출됨:', { postId, postData })
-
   try {
     const backendData = {
       title: postData.title, // post_title → title 수정
@@ -228,7 +211,6 @@ export const updatePost = async (postId, postData) => {
       body: JSON.stringify(backendData)
     })
 
-    console.log('📤 게시글 수정 실제 응답:', response)
     return response
   } catch (error) {
     console.error('❌ updatePost 오류:', error)
@@ -238,14 +220,11 @@ export const updatePost = async (postId, postData) => {
 
 // 게시글 삭제
 export const deletePost = async (postId) => {
-  console.log('🗑️ deletePost 호출됨:', postId)
-
   try {
     const response = await apiRequest(`/cinememory/community/post/${postId}/`, {
       method: 'DELETE'
     })
 
-    console.log('📤 게시글 삭제 완료')
     return response || null
   } catch (error) {
     console.error('❌ deletePost 오류:', error)
@@ -255,8 +234,6 @@ export const deletePost = async (postId) => {
 
 // 댓글 목록 조회
 export const getComments = async (postId) => {
-  console.log('💬 getComments 호출됨:', postId)
-
   try {
     const postData = await getPost(postId)
 
@@ -273,8 +250,6 @@ export const getComments = async (postId) => {
 
 // 댓글 작성
 export const createComment = async (postId, commentData) => {
-  console.log('💬 createComment 호출됨:', { postId, commentData })
-
   try {
     const backendData = {
       content: commentData.content
@@ -288,7 +263,6 @@ export const createComment = async (postId, commentData) => {
       }
     )
 
-    console.log('📤 댓글 작성 실제 응답:', response)
     return response
   } catch (error) {
     console.error('❌ createComment 오류:', error)
@@ -298,8 +272,6 @@ export const createComment = async (postId, commentData) => {
 
 // 대댓글 작성
 export const createReply = async (postId, commentId, replyData) => {
-  console.log('💬 createReply 호출됨:', { postId, commentId, replyData })
-
   try {
     const backendData = {
       content: replyData.content
@@ -313,7 +285,6 @@ export const createReply = async (postId, commentId, replyData) => {
       }
     )
 
-    console.log('📤 대댓글 작성 실제 응답:', response)
     return response
   } catch (error) {
     console.error('❌ createReply 오류:', error)
@@ -341,11 +312,8 @@ export const deleteComment = async (postId, commentId) => {
   }
 }
 
-// 게시글 좋아요 토글 (URL 수정)
 // 게시글 좋아요 토글
 export const togglePostLike = async (postId) => {
-  console.log('💝 togglePostLike 호출됨:', postId)
-
   try {
     const response = await apiRequest(
       `/cinememory/community/post/${postId}/likes/`,
@@ -353,8 +321,6 @@ export const togglePostLike = async (postId) => {
         method: 'POST'
       }
     )
-
-    console.log('📤 좋아요 토글 실제 응답:', response)
 
     // Django API 응답 구조에 맞춰 반환
     return {
@@ -381,11 +347,8 @@ export const togglePostLike = async (postId) => {
 }
 // 태그 목록 조회 (임시)
 export const getTags = async () => {
-  console.log('🏷️ getTags 호출됨')
-
   try {
     const response = await apiRequest('/cinememory/community/tags/')
-    console.log('📤 태그 목록 응답:', response)
     return response
   } catch (error) {
     console.error('❌ getTags 오류:', error)
@@ -395,16 +358,13 @@ export const getTags = async () => {
 
 // 특정 태그의 게시글 조회
 export const getPostsByTag = async (tagName) => {
-  console.log('🏷️ getPostsByTag 호출됨:', tagName)
-
   try {
     const encodedTagName = encodeURIComponent(tagName)
     const response = await apiRequest(
       `/cinememory/community/tags/${encodedTagName}/posts/`
     )
-    console.log('📤 태그별 게시글 원본 응답:', response)
 
-    // 🔧 작성자 정보 변환 추가
+    // 작성자 정보 변환 추가
     if (response && response.posts) {
       const transformedPosts = response.posts.map((post) => ({
         id: post.id,
@@ -443,8 +403,6 @@ export const getPostsByTag = async (tagName) => {
 
 // 📊 커뮤니티 통계 조회 (향후 구현 예정)
 export const getCommunityStats = async () => {
-  console.log('📊 getCommunityStats 호출됨')
-
   try {
     // TODO: 실제 Django API 엔드포인트 구현 필요
     // const response = await apiRequest('/cinememory/community/stats/')
@@ -465,25 +423,12 @@ export const getCommunityStats = async () => {
 
 // 커뮤니티 홈 조회 (comment_count 대응)
 export const getCommunityHome = async () => {
-  console.log('🏠 getCommunityHome 호출됨')
-
   try {
     const response = await apiRequest('/cinememory/community/')
-
-    console.log('📤 커뮤니티 홈 실제 응답:', response)
-
-    // 작성자 정보 및 댓글 수 디버깅
-    if (Array.isArray(response) && response.length > 0) {
-      console.log('📤 첫 번째 게시글 작성자 정보:', response[0].author)
-      console.log('📤 첫 번째 게시글 댓글 수:', response[0].comment_count)
-      console.log('📤 첫 번째 게시글 전체 데이터:', response[0])
-    }
 
     // Django의 post_list 응답을 Vue가 기대하는 형식으로 변환
     const transformedPosts = Array.isArray(response)
       ? response.map((post) => {
-          console.log(`📊 게시글 ${post.id} 댓글 수:`, post.comment_count) // 디버깅용
-
           return {
             id: post.id || post.post_id,
             title: post.title || post.post_title,
@@ -524,15 +469,6 @@ export const getCommunityHome = async () => {
         popular_tags: [] // 현재 Django에서 태그 데이터가 없으므로 빈 배열
       }
     }
-
-    console.log('📤 변환된 커뮤니티 홈 데이터:', result)
-    console.log(
-      '📤 각 게시글별 댓글 수:',
-      result.data.recent_posts.map((p) => ({
-        id: p.id,
-        comment_count: p.comment_count
-      }))
-    )
 
     return result
   } catch (error) {

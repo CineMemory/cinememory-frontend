@@ -1,4 +1,4 @@
-// 🎣 인증 관련 컴포저블
+// 인증 관련 컴포저블
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -14,7 +14,7 @@ export const useAuth = () => {
   const isLoading = computed(() => authStore.isLoading)
   const error = computed(() => authStore.error)
 
-  // 🔑 로그인
+  // 로그인
   const login = async (credentials) => {
     const result = await authStore.login(credentials)
 
@@ -27,7 +27,7 @@ export const useAuth = () => {
     return result
   }
 
-  // 📝 회원가입
+  // 회원가입
   const signup = async (userData) => {
     const result = await authStore.signup(userData)
 
@@ -40,12 +40,12 @@ export const useAuth = () => {
     return result
   }
 
-  // 🔍 닉네임 중복 확인
+  // 닉네임 중복 확인
   const checkUsernameAvailability = async (username) => {
     return await authStore.checkUsernameAvailability(username)
   }
 
-  // 🚪 로그아웃
+  // 로그아웃
   const logout = async () => {
     await authStore.logout()
     console.log('👋 로그아웃 완료')
@@ -95,7 +95,7 @@ export const useAuth = () => {
     }
   })
 
-  // 🔍 유효성 검사 함수들
+  // 유효성 검사 함수들
 
   // 생년월일 유효성 검사
   const validateBirthDate = (birthDate) => {

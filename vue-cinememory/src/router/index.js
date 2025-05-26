@@ -11,7 +11,7 @@ const routes = [
       title: '씨네메모리 - 당신의 인생을 영화로'
     }
   },
-  // 🔐 인증 페이지
+  // 인증 페이지
   {
     path: '/auth',
     name: 'Auth',
@@ -21,7 +21,7 @@ const routes = [
       requireGuest: true // 이미 로그인한 사용자는 접근 불가
     }
   },
-  // 🏘️ 커뮤니티 관련 라우트
+  // 커뮤니티 관련 라우트
   {
     path: '/community',
     name: 'Community',
@@ -74,7 +74,7 @@ const routes = [
       requireAuth: true // 로그인 필요한 페이지
     }
   },
-  // 🔍 검색 결과 페이지 (실제 SearchResultView 사용)
+  // 검색 결과 페이지 (실제 SearchResultView 사용)
   {
     path: '/search',
     name: 'SearchResult',
@@ -116,7 +116,7 @@ const router = createRouter({
   routes
 })
 
-// 🔐 인증 가드
+// 인증 가드
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
 

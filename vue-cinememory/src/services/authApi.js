@@ -97,8 +97,6 @@ const authApiRequest = async (endpoint, options = {}) => {
  * 회원가입
  */
 export const signup = async (userData) => {
-  console.log('🔍 프론트엔드에서 받은 원본 데이터:', userData)
-
   // 백엔드 serializer에 맞춰 데이터 변환
   const requestData = {
     username: userData.username,
@@ -106,8 +104,6 @@ export const signup = async (userData) => {
     password2: userData.passwordConfirm || userData.password, // passwordConfirm이 없으면 password 사용
     birth: userData.birth
   }
-
-  console.log('🔄 백엔드로 전송할 데이터:', requestData)
 
   return await authApiRequest('/cinememory/accounts/signup/', {
     method: 'POST',
@@ -183,8 +179,6 @@ export const updateUserProfile = async (updateData) => {
  * 회원 탈퇴
  */
 export const deleteUserAccount = async (password) => {
-  console.log('🔍 회원탈퇴 요청 시작 - 비밀번호 길이:', password?.length)
-
   // 백엔드 API 스펙에 따라 다양한 필드명 시도
   const requestData = {
     password: password,
@@ -194,23 +188,12 @@ export const deleteUserAccount = async (password) => {
     confirm_password: password
   }
 
-  console.log('📤 전송할 데이터:', {
-    ...requestData,
-    password: '***',
-    current_password: '***',
-    password1: '***',
-    old_password: '***',
-    confirm_password: '***'
-  })
-
   try {
     const result = await authApiRequest('/cinememory/accounts/me/delete/', {
       method: 'DELETE',
       requireAuth: true,
       body: JSON.stringify(requestData)
     })
-
-    console.log('✅ 회원탈퇴 API 성공 응답:', result)
 
     // 응답에서 실제로 삭제가 성공했는지 확인
     if (result && result.message && result.message.includes('성공')) {
@@ -225,7 +208,6 @@ export const deleteUserAccount = async (password) => {
       }
     } else {
       // 기본적으로 성공으로 처리하되, 백엔드 응답을 확인
-      console.log('⚠️ 회원탈퇴 응답 확인 필요:', result)
       return result
     }
   } catch (error) {
