@@ -553,6 +553,7 @@
   .post-list-filter__available-header {
     display: flex;
     align-items: center;
+    margin-top: 4px;
     gap: 6px;
     font-size: 13px;
     font-weight: 500;
@@ -659,6 +660,20 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
+    }
+  }
+
+  .post-list__filter-sort-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--color-inactive-icon, #e0e0e0);
+    margin: 16px 0 8px 0;
+    border-radius: 1px;
+    opacity: 0.7;
+  }
+  @media (max-width: 767px) {
+    .post-list__filter-sort-divider {
+      margin: 12px 0 6px 0;
     }
   }
 </style>

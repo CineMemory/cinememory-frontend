@@ -12,6 +12,8 @@
             @filter-changed="handleFilterChanged" />
         </div>
 
+        <div class="post-list__filter-sort-divider"></div>
+
         <div class="post-list__sort">
           <PostListSort
             v-model="sortBy"
@@ -503,6 +505,15 @@
       width: 100%;
       min-width: auto;
     }
+
+    .post-list__filter-sort-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--color-inactive-icon, #e0e0e0);
+      margin: 16px 0 8px 0;
+      border-radius: 1px;
+      opacity: 0.7;
+    }
   }
 
   @media (max-width: 480px) {
@@ -523,6 +534,10 @@
     .post-list__load-more .base-button {
       height: 44px;
       font-size: 15px;
+    }
+
+    .post-list__filter-sort-divider {
+      margin: 12px 0 6px 0;
     }
   }
 </style>
