@@ -189,7 +189,6 @@
                 @error="handlePersonImageError" />
               <div class="person-info">
                 <h3 class="person-name">{{ actor.name }}</h3>
-                <p class="person-role">{{ translateRole(actor.role) }}</p>
                 <span class="person-type">배우</span>
               </div>
             </div>
@@ -207,7 +206,6 @@
                 @error="handlePersonImageError" />
               <div class="person-info">
                 <h3 class="person-name">{{ director.name }}</h3>
-                <p class="person-role">{{ translateRole(director.role) }}</p>
                 <span class="person-type">감독</span>
               </div>
             </div>
@@ -839,12 +837,6 @@
     line-height: 1.3;
   }
 
-  .person-role {
-    font-size: 14px;
-    color: var(--color-highlight-text);
-    margin: 0;
-  }
-
   .person-type {
     font-size: 12px;
     color: var(--color-main);
@@ -853,6 +845,7 @@
     border-radius: var(--border-radius-small);
     align-self: flex-start;
     font-weight: 500;
+    margin-top: 4px;
   }
 
   /* 검색 결과 없음 */
@@ -1206,9 +1199,6 @@
     }
 
     .movie-date,
-    .person-role {
-      font-size: 13px;
-    }
 
     .movie-overview {
       font-size: 12px;
