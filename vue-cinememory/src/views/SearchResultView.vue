@@ -304,8 +304,6 @@
       console.log('🔍 Django API 검색 시작:', query)
       const response = await searchMovies(query)
 
-      console.log('✅ 검색 응답:', response)
-
       // Django API 응답 구조 그대로 사용
       searchResults.value = {
         movies: response.movies || [],
@@ -320,9 +318,16 @@
         activeTab.value = 'movies'
       }
     } catch (err) {
-      console.error('❌ 검색 실패:', err)
-      error.value = err.response?.data?.error || '검색 중 오류가 발생했습니다.'
-      searchResults.value = { movies: [], actors: [], directors: [] }
+      // 🔧 404 에러인 경우 (검색 결과 없음) 오류가 아닌 빈 결과로 처리
+      if (err.response?.status === 404) {
+        searchResults.value = { movies: [], actors: [], directors: [] }
+        error.value = null // 에러 상태를 null로 설정
+      } else {
+        // 실제 서버 에러인 경우만 에러로 처리
+        error.value =
+          err.response?.data?.error || '검색 중 오류가 발생했습니다.'
+        searchResults.value = { movies: [], actors: [], directors: [] }
+      }
     } finally {
       isLoading.value = false
     }
