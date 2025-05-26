@@ -107,8 +107,15 @@
   const { isAuthenticated } = useAuth()
 
   // 로컬 상태
-  const searchQuery = ref('')
-  const selectedTags = ref([])
+  const searchQuery = computed({
+  get: () => communityStore.searchQuery,
+  set: (value) => communityStore.setSearchQuery(value)
+})
+
+const selectedTags = computed({
+  get: () => communityStore.selectedTags,
+  set: (value) => communityStore.setSelectedTags(value)
+})
   const sortBy = ref('latest')
 
   // 계산된 속성
@@ -116,7 +123,13 @@
   const isLoading = computed(() => communityStore.isLoading)
   const error = computed(() => communityStore.error)
   const hasNextPage = computed(() => communityStore.hasNextPage)
-  const availableTags = computed(() => communityStore.tags)
+  const availableTags = computed(() => {
+  // 태그 목록을 ID와 이름이 있는 객체 형태로 반환
+  return communityStore.tags.map(tag => ({
+    id: typeof tag === 'object' ? tag.id : tag,
+    name: typeof tag === 'object' ? tag.name : tag
+  }))
+})
   // isAuthenticated는 이미 useAuth에서 가져옴
 
   // 필터링된 게시글
@@ -136,18 +149,31 @@
 
     // 태그 필터링
     if (selectedTags.value.length > 0) {
-      filtered = filtered.filter((post) =>
-        selectedTags.value.some((tag) => post.tags?.includes(tag))
+      filtered = filtered.filter((post) => {
+        if (!post.tags || post.tags.length ===0 ) {
+          return false
+        }
+        return selectedTags.value.every(selectedTag => 
+        post.tags.includes(selectedTag)
       )
-    }
+    })
+  }
 
-    return filtered
-  })
+  return filtered
+})
 
   // 초기 데이터 로드
   onMounted(async () => {
-    await loadInitialData()
-  })
+  // 태그 목록 먼저 로드
+  try {
+    await communityStore.fetchTags()
+  } catch (error) {
+    console.warn('태그 로드 실패:', error)
+  }
+  
+  // 기존 로직
+  await loadInitialData()
+})
 
   // 초기 데이터 로드
   const loadInitialData = async () => {

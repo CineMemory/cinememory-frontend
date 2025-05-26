@@ -191,10 +191,42 @@
   const error = computed(() => communityStore.error)
 
   const canEdit = computed(() => {
-    return (
-      isAuthenticated.value && user.value?.user_pk === post.value?.author.id
-    )
+  console.log('🔍 권한 체크:', {
+    isAuthenticated: isAuthenticated.value,
+    currentUser: user.value,
+    post: post.value,
+    postAuthor: post.value?.author,
+    userIds: {
+      currentUserId: user.value?.id,
+      currentUserPk: user.value?.user_pk,
+      postAuthorId: post.value?.author?.id
+    }
   })
+
+  if (!isAuthenticated.value || !user.value || !post.value?.author) {
+    console.log('❌ 기본 조건 실패')
+    return false
+  }
+
+  // 작성자 ID 비교 (여러 가지 경우 대비)
+  const currentUserId = user.value.id || user.value.user_pk || user.value.pk
+  const currentUserIdStr = String(currentUserId)
+  
+  const postAuthorId = post.value.author.id || post.value.author.user_id || post.value.author.pk
+  const postAuthorIdStr = String(postAuthorId)
+
+  const isOwner = currentUserIdStr === postAuthorIdStr
+
+  console.log('🔍 상세 권한 체크:', {
+    currentUserId,
+    currentUserIdStr,
+    postAuthorId,
+    postAuthorIdStr,
+    isOwner
+  })
+
+  return isOwner
+})
 
   // 라이프사이클
   onMounted(() => {

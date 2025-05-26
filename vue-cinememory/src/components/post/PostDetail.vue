@@ -24,6 +24,26 @@
             </div>
           </div>
         </div>
+
+        <!-- 🔧 수정/삭제 버튼 추가 (작성자만 보임) -->
+        <div
+          v-if="canEdit"
+          class="post-detail__author-actions">
+          <BaseButton
+            variant="secondary"
+            icon-left="edit"
+            size="small"
+            @click="editPost">
+            수정
+          </BaseButton>
+          <BaseButton
+            variant="ghost"
+            icon-left="trash-2"
+            size="small"
+            @click="deletePost">
+            삭제
+          </BaseButton>
+        </div>
       </div>
     </header>
 
@@ -86,6 +106,7 @@
   import { useRouter } from 'vue-router'
   import { useCommunityStore } from '@/stores/community'
   import { isContentEdited } from '@/utils/dateUtils'
+  import { useAuth } from '@/composables/useAuth'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseTag from '@/components/base/BaseTag.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
@@ -107,6 +128,7 @@
 
   const router = useRouter()
   const communityStore = useCommunityStore()
+  const { isAuthenticated, user } = useAuth()
 
   // 계산된 속성들
   const commentCount = computed(() => {
@@ -130,18 +152,65 @@
     return isContentEdited(props.post.created_at, props.post.updated_at, 5)
   })
 
-  // const isEdited = computed(() => {
-  //   if (!props.post.updated_at || !props.post.created_at) {
-  //     return false
-  //   }
+  // 🔧 작성자 권한 확인
+  const canEdit = computed(() => {
+    console.log('🔍 PostDetail canEdit 체크:', {
+      isAuthenticated: isAuthenticated.value,
+      currentUser: user.value,
+      post: props.post,
+      postAuthor: props.post?.author
+    })
 
-  //   // 날짜 문자열을 Date 객체로 변환하여 비교
-  //   const createdTime = new Date(props.post.created_at).getTime()
-  //   const updatedTime = new Date(props.post.updated_at).getTime()
+    if (!isAuthenticated.value || !user.value || !props.post?.author) {
+      return false
+    }
 
-  //   // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
-  //   return Math.abs(updatedTime - createdTime) > 60000
-  // })
+    const currentUserId = user.value.id || user.value.user_pk
+    const postAuthorId = props.post.author.id
+
+    const isOwner = String(currentUserId) === String(postAuthorId)
+    
+    console.log('🔍 PostDetail 권한 결과:', {
+      currentUserId,
+      postAuthorId,
+      isOwner
+    })
+
+    return isOwner
+  })
+
+  // 🔧 게시글 수정
+  const editPost = () => {
+    const postId = props.post.id || props.post.post_id
+    console.log('🔧 수정 버튼 클릭:', postId)
+    router.push({
+      name: 'PostEdit',
+      params: { id: postId }
+    })
+  }
+
+  // 🔧 게시글 삭제
+  const deletePost = async () => {
+    if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+      return
+    }
+
+    try {
+      const postId = props.post.id || props.post.post_id
+      const result = await communityStore.deletePost(postId)
+
+      if (result.success) {
+        console.log('✅ 게시글 삭제 성공')
+        emit('post-deleted', postId)
+        router.push({ name: 'Community' })
+      } else {
+        alert('게시글 삭제에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('❌ 게시글 삭제 중 오류:', error)
+      alert('게시글 삭제 중 오류가 발생했습니다.')
+    }
+  }
 
   // 날짜 포맷팅
   const formatDate = (dateString) => {
@@ -232,6 +301,11 @@
     gap: 4px;
   }
 
+  .post-detail__author-actions {
+    display: flex;
+    gap: 8px;
+  }
+
   .post-detail__author-name {
     font-size: 16px;
     font-weight: 600;
@@ -314,6 +388,16 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 2px;
+    }
+
+    .post-detail__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .post-detail__author-actions {
+      align-self: flex-end;
     }
   }
 

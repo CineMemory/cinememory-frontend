@@ -1,11 +1,25 @@
-<!-- 게시글 수정 페이지 -->
+<!-- PostEditView.vue 템플릿 수정 -->
 <template>
   <div class="post-edit-view">
-    <!-- 헤더 -->
-    <CommunityHeader
-      title="게시글 수정"
-      subtitle="내용을 수정하고 업데이트하세요"
-      show-back-button />
+    <!-- 🔧 CommunityHeader 제거하고 간단한 헤더로 교체 -->
+    <header class="post-edit-view__header">
+      <div class="post-edit-view__header-content">
+        <!-- 뒤로가기 버튼 -->
+        <BaseButton
+          variant="ghost"
+          icon-left="arrow-left"
+          size="small"
+          @click="goBack">
+          뒤로가기
+        </BaseButton>
+        
+        <!-- 제목 -->
+        <div class="post-edit-view__title-section">
+          <h1 class="post-edit-view__title">게시글 수정</h1>
+          <p class="post-edit-view__subtitle">내용을 수정하고 업데이트하세요</p>
+        </div>
+      </div>
+    </header>
 
     <!-- 메인 콘텐츠 -->
     <div class="post-edit-view__content">
@@ -35,7 +49,7 @@
       <div
         v-else-if="post && !canEdit"
         class="post-edit-view__unauthorized">
-        <BaseIcon name="lock" />
+        <BaseIcon name="alert-triangle" />
         <h3>수정 권한이 없습니다</h3>
         <p>본인이 작성한 게시글만 수정할 수 있습니다.</p>
         <BaseButton
@@ -60,7 +74,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import { useAuth } from '@/composables/useAuth'
   import { useCommunityStore } from '@/stores/community'
-  import CommunityHeader from '@/components/layout/CommunityHeader.vue'
+  // import CommunityHeader from '@/components/layout/CommunityHeader.vue' // 🔧 제거
   import PostCreator from '@/components/post/PostCreator.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
@@ -71,67 +85,83 @@
   const { isAuthenticated, user, requireAuth } = useAuth()
   const communityStore = useCommunityStore()
 
-  // 계산된 속성
+  // 🔧 뒤로가기 함수 추가
+  const goBack = () => {
+    // 이전 페이지가 있으면 뒤로가기, 없으면 게시글 상세로
+    if (window.history.length > 1) {
+      router.go(-1)
+    } else {
+      router.push({
+        name: 'PostDetail',
+        params: { id: route.params.id }
+      })
+    }
+  }
+
+  // 나머지 스크립트는 기존과 동일...
   const post = computed(() => communityStore.currentPost)
   const isLoading = computed(() => communityStore.isLoading)
   const error = computed(() => communityStore.error)
 
   const canEdit = computed(() => {
     return (
-      isAuthenticated.value && user.value?.user_pk === post.value?.author.id
+      isAuthenticated.value && 
+      user.value && 
+      post.value?.author && 
+      (user.value.user_pk === post.value.author.id || 
+       user.value.id === post.value.author.id)
     )
   })
 
-  // 라이프사이클
   onMounted(async () => {
-    // 인증 확인
     if (!requireAuth()) {
       return
     }
-
     await loadPost()
   })
 
-  // 라우트 파라미터 변경 감시
   watch(
     () => route.params.id,
-    () => {
-      loadPost()
+    async (newId, oldId) => {
+      if (newId && newId !== oldId) {
+        await loadPost()
+      }
     }
   )
 
-  // 게시글 로드
   const loadPost = async () => {
     const postId = route.params.id
+    console.log('📄 게시글 로드 시작:', postId)
 
     if (!postId) {
       router.push({ name: 'Community' })
       return
     }
 
-    const result = await communityStore.fetchPost(postId)
+    try {
+      const result = await communityStore.fetchPost(postId)
+      console.log('📄 게시글 로드 결과:', result)
 
-    if (result.success && result.post) {
-      // 페이지 타이틀 설정
-      document.title = `"${result.post.title}" 수정 | 씨네메모리`
-    } else {
-      // 게시글을 찾을 수 없는 경우
-      if (
-        result.error?.includes('404') ||
-        result.error?.includes('찾을 수 없습니다')
-      ) {
-        router.push({ name: 'NotFound' })
+      if (result.success && result.post) {
+        document.title = `"${result.post.title}" 수정 | 씨네메모리`
+      } else {
+        if (
+          result.error?.includes('404') ||
+          result.error?.includes('찾을 수 없습니다')
+        ) {
+          router.push({ name: 'NotFound' })
+        }
       }
+    } catch (error) {
+      console.error('❌ 게시글 로드 중 오류:', error)
     }
   }
 
-  // 재시도
   const retryLoad = () => {
     communityStore.clearError()
     loadPost()
   }
 
-  // 게시글로 이동
   const goToPost = () => {
     router.push({
       name: 'PostDetail',
@@ -139,16 +169,13 @@
     })
   }
 
-  // 게시글 업데이트 완료 처리
   const handlePostUpdated = (updatedPost) => {
     console.log('게시글 수정 완료:', updatedPost)
-    // PostCreator에서 자동으로 상세 페이지로 이동하므로 별도 처리 불필요
   }
 
-  // 취소 처리
   const handleCancel = () => {
     console.log('게시글 수정 취소')
-    // PostCreator에서 자동으로 상세 페이지로 이동하므로 별도 처리 불필요
+    goBack()
   }
 </script>
 
@@ -162,21 +189,49 @@
     font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
   }
 
+  /* 🔧 새로운 헤더 스타일 */
+  .post-edit-view__header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-inactive-icon);
+    padding: 16px 24px;
+  }
+
+  .post-edit-view__header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .post-edit-view__title-section {
+    flex: 1;
+  }
+
+  .post-edit-view__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 4px 0;
+  }
+
+  .post-edit-view__subtitle {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    margin: 0;
+  }
+
   .post-edit-view__content {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 24px;
   }
 
-  .post-edit-view__loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 80px 16px;
-    color: var(--color-highlight-text);
-  }
-
+  /* 나머지 스타일은 기존과 동일... */
+  .post-edit-view__loading,
   .post-edit-view__error,
   .post-edit-view__unauthorized {
     display: flex;
@@ -212,10 +267,20 @@
 
   /* 모바일 최적화 */
   @media (max-width: 768px) {
-    .post-edit-view__loading,
-    .post-edit-view__error,
-    .post-edit-view__unauthorized {
-      padding: 60px 16px;
+    .post-edit-view__header {
+      padding: 12px 16px;
+    }
+
+    .post-edit-view__title {
+      font-size: 18px;
+    }
+
+    .post-edit-view__subtitle {
+      font-size: 13px;
+    }
+
+    .post-edit-view__content {
+      padding: 16px;
     }
   }
 </style>

@@ -64,18 +64,18 @@
 
       <!-- 태그들 -->
       <div
-        v-if="post.tags && post.tags.length > 0"
-        class="post-card__tags">
-        <BaseTag
-          v-for="tag in post.tags"
-          :key="tag"
-          variant="secondary"
-          size="small"
-          clickable
-          @click="filterByTag(tag)">
-          #{{ tag }}
-        </BaseTag>
-      </div>
+  v-if="post.tags && post.tags.length > 0"
+  class="post-card__tags">
+  <BaseTag
+    v-for="(tag, index) in post.tags"
+    :key="index"
+    variant="secondary"
+    size="small"
+    clickable
+    @click="filterByTag(getTagName(tag))">
+    #{{ getTagName(tag) }}
+  </BaseTag>
+</div>
     </div>
 
     <!-- 푸터 (액션 버튼들) -->
@@ -187,19 +187,6 @@
     return isContentEdited(props.post.created_at, props.post.updated_at, 5)
   })
 
-  // const isEdited = computed(() => {
-  //   if (!props.post.updated_at || !props.post.created_at) {
-  //     return false
-  //   }
-
-  //   // 날짜 문자열을 Date 객체로 변환하여 비교
-  //   const createdTime = new Date(props.post.created_at).getTime()
-  //   const updatedTime = new Date(props.post.updated_at).getTime()
-
-  //   // 1분 이상 차이가 날 때만 수정됨으로 표시 (서버 시간 차이 고려)
-  //   return Math.abs(updatedTime - createdTime) > 60000
-  // })
-
   // 댓글 수 계산 (실제 댓글 데이터가 있으면 그것을 우선 사용)
   const commentCount = computed(() => {
     // 게시글에 댓글 데이터가 포함되어 있는 경우 (PostDetail에서 온 경우)
@@ -226,34 +213,6 @@
     }
     return count?.toString() || '0'
   }
-
-  // const formatTimeAgo = (dateString) => {
-  //   if (!dateString) return ''
-
-  //   const date = new Date(dateString)
-  //   const now = new Date()
-  //   const diffInMinutes = Math.floor((now - date) / (1000 * 60))
-
-  //   if (diffInMinutes < 1) {
-  //     return '방금 전'
-  //   } else if (diffInMinutes < 60) {
-  //     return `${diffInMinutes}분 전`
-  //   } else if (diffInMinutes < 1440) {
-  //     const hours = Math.floor(diffInMinutes / 60)
-  //     return `${hours}시간 전`
-  //   } else {
-  //     const days = Math.floor(diffInMinutes / 1440)
-  //     if (days < 30) {
-  //       return `${days}일 전`
-  //     } else {
-  //       return date.toLocaleDateString('ko-KR', {
-  //         year: 'numeric',
-  //         month: 'long',
-  //         day: 'numeric'
-  //       })
-  //     }
-  //   }
-  // }
 
   // 액션 함수들
   const goToPost = () => {
@@ -286,18 +245,26 @@
     }
   }
 
-  const filterByTag = async (tagName) => {
-    console.log('🏷️ 태그 필터링:', tagName)
-    await communityStore.toggleTagFilter(tagName)
+  const getTagName = (tag) => {
+  // 태그가 객체인 경우와 문자열인 경우 모두 처리
+  if (typeof tag === 'object' && tag.name) {
+    return tag.name
   }
+  return tag
+}
 
-  const editPost = () => {
-    const postId = props.post.id || props.post.post_id
-    router.push({
-      name: 'PostEdit',
-      params: { id: postId }
-    })
+const filterByTag = async (tagName) => {
+  console.log('🏷️ 태그 클릭됨:', tagName)
+  
+  try {
+    // 🔧 스토어를 통해 태그 필터에 추가
+    communityStore.addTagToFilter(tagName)
+    
+    console.log('✅ 태그 필터에 추가됨:', tagName)
+  } catch (error) {
+    console.error('❌ 태그 필터 추가 오류:', error)
   }
+}
 
   const deletePost = async () => {
     if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) {

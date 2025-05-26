@@ -219,7 +219,7 @@ export const updatePost = async (postId, postData) => {
     }
 
     const response = await apiRequest(`/cinememory/community/post/${postId}/`, {
-      method: 'PATCH',
+      method: 'PUT',
       body: JSON.stringify(backendData)
     })
 
@@ -378,22 +378,59 @@ export const togglePostLike = async (postId) => {
 export const getTags = async () => {
   console.log('🏷️ getTags 호출됨')
 
-  // TODO: 실제 태그 API 구현 필요
-  await new Promise((resolve) => setTimeout(resolve, 300))
+  try {
+    const response = await apiRequest('/cinememory/community/tags/')
+    console.log('📤 태그 목록 응답:', response)
+    return response
+  } catch (error) {
+    console.error('❌ getTags 오류:', error)
+    throw error
+  }
+}
 
-  const result = [
-    { id: 1, name: '영화' },
-    { id: 2, name: '드라마' },
-    { id: 3, name: '애니메이션' },
-    { id: 4, name: '다큐멘터리' },
-    { id: 5, name: '액션' },
-    { id: 6, name: '로맨스' },
-    { id: 7, name: '코미디' },
-    { id: 8, name: '스릴러' }
-  ]
+// 특정 태그의 게시글 조회
+export const getPostsByTag = async (tagName) => {
+  console.log('🏷️ getPostsByTag 호출됨:', tagName)
 
-  console.log('📤 태그 목록:', result)
-  return result
+  try {
+    const encodedTagName = encodeURIComponent(tagName)
+    const response = await apiRequest(`/cinememory/community/tags/${encodedTagName}/posts/`)
+    console.log('📤 태그별 게시글 원본 응답:', response)
+
+    // 🔧 작성자 정보 변환 추가
+    if (response && response.posts) {
+      const transformedPosts = response.posts.map(post => ({
+        id: post.id,
+        title: post.title,
+        content: post.content,
+        // 🔧 작성자 정보 변환
+        author: {
+          id: post.user || post.author_id || post.author?.id,
+          username: post.username || post.author?.username || post.author || 'Unknown'
+        },
+        like_count: post.like_count || 0,
+        comment_count: post.comment_count || 0,
+        is_liked: post.is_liked || false,
+        created_at: post.created_at,
+        updated_at: post.updated_at,
+        // 태그 정보 변환
+        tags: Array.isArray(post.tags)
+          ? post.tags.map(tag => typeof tag === 'object' ? tag.name : tag)
+          : [],
+        view_count: post.view_count || 0
+      }))
+
+      return {
+        ...response,
+        posts: transformedPosts
+      }
+    }
+
+    return response
+  } catch (error) {
+    console.error('❌ getPostsByTag 오류:', error)
+    throw error
+  }
 }
 
 // 📊 커뮤니티 통계 조회 (향후 구현 예정)

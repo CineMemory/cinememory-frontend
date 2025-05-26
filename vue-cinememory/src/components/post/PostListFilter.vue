@@ -95,6 +95,7 @@
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseTag from '@/components/base/BaseTag.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
+  import { useCommunityStore } from '@/stores/community'
 
   const props = defineProps({
     search: {
@@ -110,6 +111,8 @@
       default: () => []
     }
   })
+
+  const communityStore = useCommunityStore()
 
   const emit = defineEmits([
     'update:search',

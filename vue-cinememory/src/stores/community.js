@@ -638,20 +638,6 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
-  // 🏷️ 태그 관련 액션
-  const fetchTags = async () => {
-    try {
-      const tagsData = await communityAPI.getTags()
-      tags.value = tagsData
-      return { success: true, tags: tagsData }
-    } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || '태그를 불러오는데 실패했습니다.'
-      setError(errorMessage)
-      return { success: false, error: errorMessage }
-    }
-  }
-
   // 🔍 검색/필터 관련 액션
   const setSearchQuery = (query) => {
     searchQuery.value = query
@@ -698,6 +684,90 @@ export const useCommunityStore = defineStore('community', () => {
     currentPost.value = null
     comments.value = []
   }
+
+  // 태그로 게시글 필터링
+  const setTagFilter = async (tagName) => {
+    try {
+      isLoading.value = true
+      clearError()
+  
+      console.log('🏷️ 태그 필터링 시작:', tagName)
+      
+      const response = await communityAPI.getPostsByTag(tagName)
+      console.log('📤 태그별 게시글 응답:', response)
+  
+      if (response && response.posts) {
+        // 🔧 이미 변환된 데이터 사용
+        posts.value = response.posts
+        currentTagFilter.value = tagName
+        
+        console.log('✅ 태그 필터링 성공:', {
+          tag: tagName,
+          count: posts.value.length,
+          firstPost: posts.value[0]?.author // 첫 번째 게시글 확인
+        })
+      }
+  
+      return { success: true }
+    } catch (error) {
+      const errorMessage = 
+        error.response?.data?.error || 
+        '태그별 게시글을 불러오는데 실패했습니다.'
+      
+      setError(errorMessage)
+      console.error('❌ 태그 필터링 실패:', error)
+      return { success: false, error: errorMessage }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+// 태그 필터 초기화
+const clearTagFilter = async () => {
+  currentTagFilter.value = null
+  await fetchCommunityHome()
+}
+
+// 태그 필터에 추가하는 함수
+const addTagToFilter = (tagName) => {
+  if (!selectedTags.value.includes(tagName)) {
+    selectedTags.value.push(tagName)
+    console.log('✅ 태그 필터에 추가:', tagName, selectedTags.value)
+  }
+}
+
+// 태그 필터에서 제거하는 함수  
+const removeTagFromFilter = (tagName) => {
+  const index = selectedTags.value.indexOf(tagName)
+  if (index > -1) {
+    selectedTags.value.splice(index, 1)
+    console.log('✅ 태그 필터에서 제거:', tagName, selectedTags.value)
+  }
+}
+
+// 태그 목록 가져오기
+const fetchTags = async () => {
+  try {
+    const tagsData = await communityAPI.getTags()
+    tags.value = tagsData || []
+    console.log('✅ 태그 목록 로드:', tags.value)
+    return { success: true, tags: tagsData }
+  } catch (err) {
+    const errorMessage = err.response?.data?.message || '태그를 불러오는데 실패했습니다.'
+    setError(errorMessage)
+    return { success: false, error: errorMessage }
+  }
+}
+
+// 태그 필터 토글
+const toggleTagInFilter = (tagName) => {
+  if (selectedTags.value.includes(tagName)) {
+    removeTagFromFilter(tagName)
+  } else {
+    addTagToFilter(tagName)
+  }
+}
+
 
   return {
     // 상태
@@ -757,6 +827,20 @@ export const useCommunityStore = defineStore('community', () => {
     // 유틸리티
     clearError,
     resetStore,
-    resetCurrentPost
+    resetCurrentPost,
+
+    setTagFilter,
+    clearTagFilter,
+
+    addTagToFilter,
+  removeTagFromFilter,
+  toggleTagInFilter,
+
+    // 🔧 현재 게시글 초기화 함수 추가
+  resetCurrentPost: () => {
+    currentPost.value = null
+    comments.value = []
+    error.value = null
+  }
   }
 })

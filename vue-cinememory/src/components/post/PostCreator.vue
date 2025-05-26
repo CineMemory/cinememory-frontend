@@ -20,12 +20,42 @@
           @input="clearFieldError('content')" />
       </div>
 
-      <!-- 태그 선택 -->
+      <!-- 🔧 간단한 태그 입력으로 교체 -->
       <div class="post-creator__field">
-        <PostCreatorTags
-          v-model="formData.tags"
-          :available-tags="availableTags"
-          @tags-changed="handleTagsChanged" />
+        <label class="post-creator__label">태그 (선택사항)</label>
+        <div class="post-creator__tag-input">
+          <input
+            v-model="newTagInput"
+            type="text"
+            placeholder="태그를 입력하고 Enter를 누르세요"
+            class="post-creator__tag-field"
+            @keydown.enter.prevent
+            @keyup.enter.prevent="addTag"
+            @blur="addTag" />
+          <BaseButton
+            type="button"
+            variant="ghost"
+            size="small"
+            @click="addTag">
+            추가
+          </BaseButton>
+        </div>
+        
+        <!-- 추가된 태그들 -->
+        <div v-if="formData.tags.length > 0" class="post-creator__tags">
+          <span
+            v-for="(tag, index) in formData.tags"
+            :key="index"
+            class="post-creator__tag">
+            #{{ tag }}
+            <button
+              type="button"
+              class="post-creator__tag-remove"
+              @click="removeTag(index)">
+              ×
+            </button>
+          </span>
+        </div>
       </div>
 
       <!-- 미리보기 -->
@@ -108,6 +138,39 @@
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseModal from '@/components/base/BaseModal.vue'
 
+  // 태그 관련 로컬 상태
+  const newTagInput = ref('')
+
+  // 태그 추가 함수
+  const addTag = () => {
+  const tag = newTagInput.value.trim()
+  
+  // 더 엄격한 조건 검사
+  if (
+    tag.length > 0 &&                           // 빈 문자열 체크
+    tag.length <= 20 &&                         // 태그 길이 제한
+    !formData.value.tags.includes(tag) &&       // 중복 체크
+    formData.value.tags.length < 10             // 최대 개수 체크
+  ) {
+    formData.value.tags.push(tag)
+    newTagInput.value = ''
+    console.log('✅ 태그 추가됨:', tag)
+  } else {
+    console.log('❌ 태그 추가 실패:', { tag, 조건: {
+      길이체크: tag.length > 0,
+      최대길이: tag.length <= 20,
+      중복체크: !formData.value.tags.includes(tag),
+      개수체크: formData.value.tags.length < 10
+    }})
+  }
+}
+
+  // 태그 제거 함수
+  // 🔧 태그 제거 함수
+  const removeTag = (index) => {
+    formData.value.tags.splice(index, 1)
+  }
+
   const props = defineProps({
     editingPost: {
       type: Object,
@@ -141,10 +204,8 @@
 
   // 계산된 속성
   const isEditing = computed(() => !!props.editingPost)
-  const availableTags = computed(() => {
-    // 새로운 구조: popularTags에서 태그명 추출
-    return communityStore.popularTags.map((tag) => tag.name) || []
-  })
+  // PostCreator.vue의 availableTags computed 수정
+
 
   const isFormValid = computed(() => {
     return (
@@ -156,31 +217,29 @@
   })
 
   // 초기 데이터 설정
-  onMounted(async () => {
-    // 인증 확인
-    if (!isAuthenticated.value) {
-      router.push({
-        name: 'Auth',
-        query: { mode: 'login', redirect: route.fullPath }
-      })
-      return
+  // PostCreator.vue의 onMounted 함수 수정
+onMounted(async () => {
+  // 인증 확인
+  if (!isAuthenticated.value) {
+    router.push({
+      name: 'Auth',
+      query: { mode: 'login', redirect: route.fullPath }
+    })
+    return
+  }
+  // 수정 모드인 경우 기존 데이터 로드
+  if (isEditing.value && props.editingPost) {
+    formData.value = {
+      title: props.editingPost.title || props.editingPost.post_title || '',
+      content: props.editingPost.content || '',
+      tags: [...(props.editingPost.tags || [])]
     }
+    console.log('📝 수정 모드 데이터 로드:', formData.value)
+  }
 
-    // 커뮤니티 홈 데이터 로드 (인기 태그 포함)
-    await communityStore.fetchCommunityHome()
-
-    // 수정 모드인 경우 기존 데이터 로드
-    if (isEditing.value && props.editingPost) {
-      formData.value = {
-        title: props.editingPost.title || props.editingPost.post_title || '',
-        content: props.editingPost.content || '',
-        tags: [...(props.editingPost.tags || [])]
-      }
-    }
-
-    // 페이지 떠나기 방지
-    window.addEventListener('beforeunload', handleBeforeUnload)
-  })
+  // 페이지 떠나기 방지
+  window.addEventListener('beforeunload', handleBeforeUnload)
+})
 
   onBeforeUnmount(() => {
     window.removeEventListener('beforeunload', handleBeforeUnload)
@@ -217,7 +276,9 @@
       if (isEditing.value) {
         // 수정
         const postId = props.editingPost.id || props.editingPost.post_id
+        console.log('🔄 게시글 수정 시작:', { postId, formData: formData.value })
         result = await communityStore.updatePost(postId, formData.value)
+        console.log('📤 수정 결과:', result)
 
         if (result.success) {
           emit('post-updated', result.post || result)
@@ -227,13 +288,20 @@
           if (result.message) {
             alert(result.message)
           }
+          console.log('🔄 게시글 상세로 이동 중...')
 
+          // 현재 게시글 데이터 초기화
+        communityStore.resetCurrentPost()
+        
+        // 약간의 지연 후 이동 (데이터 초기화 시간 확보)
+        setTimeout(() => {
           router.push({
             name: 'PostDetail',
-            params: { id: postId }
+            params: { id: String(postId) }
           })
-        }
-      } else {
+        }, 100)
+      }
+    } else {
         // 새 게시글 작성
         result = await communityStore.createPost(formData.value)
 
@@ -308,11 +376,6 @@
     showPreview.value = !showPreview.value
   }
 
-  // 태그 변경 처리
-  const handleTagsChanged = (tags) => {
-    formData.value.tags = tags
-  }
-
   // 취소 처리
   const handleCancel = () => {
     if (hasUnsavedChanges.value) {
@@ -356,6 +419,70 @@
 
   .post-creator__field {
     width: 100%;
+  }
+
+  .post-creator__label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .post-creator__tag-input {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .post-creator__tag-field {
+    flex: 1;
+    padding: 12px 16px;
+    background-color: var(--color-card-background);
+    border: 1px solid var(--color-inactive-icon);
+    border-radius: var(--border-radius-medium);
+    color: var(--color-text);
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
+  }
+
+  .post-creator__tag-field:focus {
+    outline: none;
+    border-color: var(--color-main);
+  }
+
+  .post-creator__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .post-creator__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background-color: var(--color-main-opacity-20);
+    border: 1px solid var(--color-main-opacity-50);
+    border-radius: var(--border-radius-medium);
+    font-size: 13px;
+    color: var(--color-text);
+  }
+
+  .post-creator__tag-remove {
+    background: none;
+    border: none;
+    color: var(--color-alert);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0;
+    margin-left: 4px;
+  }
+
+  .post-creator__tag-remove:hover {
+    color: var(--color-text);
   }
 
   .post-creator__actions {
