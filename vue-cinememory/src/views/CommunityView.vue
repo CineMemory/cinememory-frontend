@@ -78,22 +78,29 @@
     <main class="community-main">
       <!-- 주요 콘텐츠 -->
       <div class="community-view__content">
-        <!-- 메인 콘텐츠 (사이드바 제거) -->
-        <section class="community-view__main">
-          <!-- 공지사항 (관리자용) -->
-          <div
-            v-if="announcements.length > 0"
-            class="community-view__announcements">
-            <CommunityAnnouncements
-              :announcements="announcements"
-              @dismiss="handleDismissAnnouncement" />
-          </div>
+        <!-- 메인 콘텐츠와 사이드바 -->
+        <div class="community-view__layout">
+          <!-- 사이드바를 왼쪽에 -->
+          <aside class="community-view__sidebar">
+            <CommunitySidebar />
+          </aside>
+          <!-- 메인 콘텐츠 -->
+          <section class="community-view__main">
+            <!-- 공지사항 (관리자용) -->
+            <div
+              v-if="announcements.length > 0"
+              class="community-view__announcements">
+              <CommunityAnnouncements
+                :announcements="announcements"
+                @dismiss="handleDismissAnnouncement" />
+            </div>
 
-          <!-- 게시글 목록 -->
-          <div class="community-view__posts">
-            <PostList />
-          </div>
-        </section>
+            <!-- 게시글 목록 -->
+            <div class="community-view__posts">
+              <PostList />
+            </div>
+          </section>
+        </div>
       </div>
     </main>
 
@@ -107,7 +114,7 @@
       size="large"
       @click="createPost" />
 
-    <!-- 🔐 인증 모달 -->
+    <!-- 인증 모달 -->
     <BaseModal
       v-model="isAuthModalOpen"
       size="small"
@@ -140,6 +147,7 @@
   import CommunityAnnouncements from '@/components/community/CommunityAnnouncements.vue'
   import AuthFormLogin from '@/components/auth/AuthFormLogin.vue'
   import AuthFormSignup from '@/components/auth/AuthFormSignup.vue'
+  import CommunitySidebar from '@/components/community/CommunitySidebar.vue'
 
   const router = useRouter()
   const route = useRoute()
@@ -416,16 +424,25 @@
   }
 
   .community-view__content {
-    max-width: 800px; /* 사이드바가 없으므로 좀 더 넓게 */
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 16px;
   }
 
-  .community-view__main {
+  .community-view__layout {
     display: flex;
-    flex-direction: column;
     gap: 24px;
+    align-items: flex-start;
+  }
+
+  .community-view__main {
+    flex: 1;
     min-width: 0;
+    max-width: calc(100% - 344px);
+  }
+
+  .community-view__sidebar {
+    flex-shrink: 0;
   }
 
   .community-view__announcements {
@@ -446,12 +463,27 @@
     display: none;
   }
 
-  /* 🔐 인증 모달 내용 */
+  /* 인증 모달 내용 */
   .auth-modal-content {
     padding: 0;
   }
 
-  /* 반응형 */
+  /* 반응형: 1200px 이하에서는 사이드바 숨김 */
+  @media (max-width: 1200px) {
+    .community-view__sidebar {
+      display: none;
+    }
+
+    .community-view__main {
+      max-width: none;
+    }
+
+    .community-view__content {
+      max-width: 1000px;
+    }
+  }
+
+  /* 반응형: 768px */
   @media (max-width: 768px) {
     .community-header {
       padding: 6px 16px;

@@ -272,7 +272,7 @@
 
   .post-list {
     width: 100%;
-    max-width: 1200px;
+    max-width: none;
     margin: 0 auto;
     font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
   }
@@ -301,7 +301,7 @@
   /* 필터와 정렬 영역 레이아웃 개선 */
   .post-list__filters {
     width: 100%;
-    max-width: 600px;
+    max-width: none;
   }
 
   .post-list__sort {

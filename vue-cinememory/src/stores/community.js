@@ -852,6 +852,34 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
+  // 커뮤니티 통계 조회
+  const communityStats = ref({})
+  const isLoadingStats = ref(false)
+  const fetchCommunityStats = async () => {
+    try {
+      isLoadingStats.value = true
+      clearError()
+
+      const response = await communityAPI.getCommunityStats()
+
+      if (response.success) {
+        communityStats.value = response.data
+        console.log('✅ 커뮤니티 통계 로드 성공:', communityStats.value)
+        return { success: true, data: response.data }
+      } else {
+        throw new Error('통계 데이터 로드 실패')
+      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || '통계를 불러오는데 실패했습니다.'
+      setError(errorMessage)
+      console.error('❌ 커뮤니티 통계 로드 실패:', err)
+      return { success: false, error: errorMessage }
+    } finally {
+      isLoadingStats.value = false
+    }
+  }
+
   return {
     // 상태
     posts,
@@ -924,6 +952,11 @@ export const useCommunityStore = defineStore('community', () => {
 
     toggleCommentLike,
     updateCommentLikeStatus,
+
+    // 커뮤니티 통계 관련
+    communityStats,
+    isLoadingStats,
+    fetchCommunityStats,
 
     // 🔧 현재 게시글 초기화 함수 추가
     resetCurrentPost: () => {

@@ -1,301 +1,309 @@
-<!-- 커뮤니티 사이드바 -->
+<!-- 커뮤니티 사이드바 (소셜 미디어 스타일) -->
 <template>
-  <div class="community-sidebar">
-    <!-- 인기 태그 -->
-    <div class="community-sidebar__section">
-      <h3 class="community-sidebar__title">
-        <BaseIcon name="hash" />
-        인기 태그
-      </h3>
-      <div class="community-sidebar__content">
-        <div
-          v-if="popularTags.length > 0"
-          class="community-sidebar__tags">
-          <BaseTag
-            v-for="tag in popularTags"
-            :key="tag.name"
-            :variant="currentTagFilter === tag.name ? 'primary' : 'secondary'"
-            size="small"
-            clickable
-            @click="handleTagClick(tag.name)">
-            #{{ tag.name }}
-            <span class="community-sidebar__tag-count">({{ tag.count }})</span>
-          </BaseTag>
+  <aside class="community-sidebar">
+    <!-- 커뮤니티 개요 -->
+    <div class="sidebar-section community-overview">
+      <div class="section-header">
+        <BaseIcon name="users" />
+        <h3>씨네메모리</h3>
+        <span class="live-indicator">LIVE</span>
+      </div>
+
+      <div class="community-stats">
+        <div class="stat-item">
+          <span class="stat-number">{{
+            formatNumber(stats.users?.total || 0)
+          }}</span>
+          <span class="stat-label">멤버</span>
+          <span
+            v-if="stats.users?.today > 0"
+            class="stat-badge new">
+            +{{ stats.users.today }}
+          </span>
         </div>
-        <div
-          v-else-if="isLoading"
-          class="community-sidebar__loading">
-          <BaseSpinner size="sm" />
-          <span>태그 로딩 중...</span>
+
+        <div class="stat-item">
+          <span class="stat-number">{{
+            formatNumber(stats.posts?.total || 0)
+          }}</span>
+          <span class="stat-label">게시글</span>
+          <span
+            v-if="stats.posts?.today > 0"
+            class="stat-badge new">
+            +{{ stats.posts.today }}
+          </span>
         </div>
-        <p
-          v-else
-          class="community-sidebar__empty">
-          아직 태그가 없습니다
-        </p>
+
+        <div class="stat-item">
+          <span class="stat-number">{{
+            formatNumber(stats.comments?.total || 0)
+          }}</span>
+          <span class="stat-label">댓글</span>
+          <span
+            v-if="stats.comments?.today > 0"
+            class="stat-badge new">
+            +{{ stats.comments.today }}
+          </span>
+        </div>
       </div>
     </div>
 
-    <!-- 전체 게시글 보기 버튼 -->
-    <div
-      v-if="currentTagFilter"
-      class="community-sidebar__section">
-      <div class="community-sidebar__content">
+    <!-- 🔥 최신 활동 피드 -->
+    <div class="sidebar-section activity-feed">
+      <div class="section-header">
+        <BaseIcon name="activity" />
+        <h3>최신 활동</h3>
         <BaseButton
-          variant="secondary"
+          variant="ghost"
           size="small"
-          icon-left="arrow-left"
-          @click="showAllPosts"
-          class="community-sidebar__show-all">
-          전체 게시글 보기
+          icon-left="refresh-cw"
+          @click="refreshStats"
+          :loading="isRefreshing">
         </BaseButton>
       </div>
-    </div>
 
-    <!-- 최근 활동 -->
-    <div class="community-sidebar__section">
-      <h3 class="community-sidebar__title">
-        <BaseIcon name="activity" />
-        최근 활동
-      </h3>
-      <div class="community-sidebar__content">
-        <div
-          v-if="recentActivities.length > 0"
-          class="community-sidebar__activities">
+      <!-- 최신 게시글 -->
+      <div class="activity-group">
+        <h4>최신 게시글</h4>
+        <div class="activity-list">
           <div
-            v-for="activity in recentActivities"
-            :key="activity.id"
-            class="community-sidebar__activity">
+            v-for="post in recentPosts"
+            :key="post.id"
+            class="activity-item post-item"
+            @click="goToPost(post.id)">
             <BaseAvatar
-              :username="activity.user.username"
-              size="sm" />
-            <div class="community-sidebar__activity-content">
-              <p class="community-sidebar__activity-text">
-                <strong>{{ activity.user.username }}</strong
-                >님이
-                <span class="community-sidebar__activity-action">{{
-                  activity.action
+              :username="post.author"
+              size="xs" />
+            <div class="activity-content">
+              <div class="activity-text">
+                <span class="author">{{ post.author }}</span
+                >님이 새 글을 작성했습니다
+              </div>
+              <div class="activity-title">{{ post.title }}</div>
+              <div class="activity-meta">
+                <span class="time">{{ formatTimeAgo(post.created_at) }}</span>
+                <div class="activity-stats">
+                  <span class="stat">
+                    <BaseIcon name="heart" />
+                    {{ post.like_count }}
+                  </span>
+                  <span class="stat">
+                    <BaseIcon name="message-circle" />
+                    {{ post.comment_count }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 최신 댓글 -->
+      <div class="activity-group">
+        <h4>최신 댓글</h4>
+        <div class="activity-list">
+          <div
+            v-for="comment in recentComments"
+            :key="comment.id"
+            class="activity-item comment-item"
+            @click="goToPost(comment.post_id)">
+            <BaseAvatar
+              :username="comment.author"
+              size="xs" />
+            <div class="activity-content">
+              <div class="activity-text">
+                <span class="author">{{ comment.author }}</span
+                >님이 댓글을 남겼습니다
+              </div>
+              <div class="activity-subtitle">{{ comment.post_title }}</div>
+              <div class="comment-preview">{{ comment.content }}</div>
+              <div class="activity-meta">
+                <span class="time">{{
+                  formatTimeAgo(comment.created_at)
                 }}</span>
-              </p>
-              <span class="community-sidebar__activity-time">
-                {{ formatTimeAgo(activity.createdAt) }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div
-          v-else-if="isLoadingActivities"
-          class="community-sidebar__loading">
-          <BaseSpinner size="sm" />
-          <span>활동 로딩 중...</span>
-        </div>
-        <p
-          v-else
-          class="community-sidebar__empty">
-          최근 활동이 없습니다
-        </p>
-      </div>
-    </div>
-
-    <!-- 커뮤니티 통계 -->
-    <div class="community-sidebar__section">
-      <h3 class="community-sidebar__title">
-        <BaseIcon name="info" />
-        커뮤니티 통계
-      </h3>
-      <div class="community-sidebar__content">
-        <div class="community-sidebar__stats">
-          <div class="community-sidebar__stat-item">
-            <BaseIcon name="users" />
-            <div class="community-sidebar__stat-content">
-              <span class="community-sidebar__stat-label">전체 회원</span>
-              <span class="community-sidebar__stat-value"
-                >{{ communityStats.totalUsers }}명</span
-              >
-            </div>
-          </div>
-          <div class="community-sidebar__stat-item">
-            <BaseIcon name="message-circle" />
-            <div class="community-sidebar__stat-content">
-              <span class="community-sidebar__stat-label">전체 게시글</span>
-              <span class="community-sidebar__stat-value"
-                >{{ communityStats.totalPosts }}개</span
-              >
-            </div>
-          </div>
-          <div class="community-sidebar__stat-item">
-            <BaseIcon name="heart" />
-            <div class="community-sidebar__stat-content">
-              <span class="community-sidebar__stat-label">오늘의 활동</span>
-              <span class="community-sidebar__stat-value"
-                >{{ communityStats.todayActivities }}건</span
-              >
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 커뮤니티 가이드 -->
-    <div class="community-sidebar__section">
-      <h3 class="community-sidebar__title">
-        <BaseIcon name="info" />
-        커뮤니티 가이드
-      </h3>
-      <div class="community-sidebar__content">
-        <div class="community-sidebar__guide">
-          <div class="community-sidebar__guide-item">
-            <BaseIcon name="heart" />
-            <span>영화에 대한 건설적인 토론을 나누어요</span>
+    <!-- 인기 태그 클라우드 -->
+    <div class="sidebar-section tag-cloud">
+      <div class="section-header">
+        <BaseIcon
+          name="tag"
+          size="large" />
+        <h3>인기 태그</h3>
+      </div>
+
+      <div class="tag-cloud-container">
+        <BaseTag
+          v-for="tag in popularTags"
+          :key="tag.id"
+          :variant="getTagVariant(tag.post_count)"
+          :size="getTagSize(tag.post_count)"
+          clickable
+          @click="filterByTag(tag.name)">
+          #{{ tag.name }}
+          <span class="tag-count">({{ tag.post_count }})</span>
+        </BaseTag>
+      </div>
+    </div>
+
+    <!-- 오늘의 활동 -->
+    <div class="sidebar-section daily-activity">
+      <div class="section-header">
+        <BaseIcon name="calendar" />
+        <h3>오늘의 활동</h3>
+      </div>
+
+      <div class="daily-stats">
+        <div class="daily-stat">
+          <div class="daily-icon">📝</div>
+          <div class="daily-info">
+            <span class="daily-number">{{ stats.posts?.today || 0 }}</span>
+            <span class="daily-label">새 게시글</span>
           </div>
-          <div class="community-sidebar__guide-item">
-            <BaseIcon name="users" />
-            <span>서로를 존중하고 배려해요</span>
+        </div>
+
+        <div class="daily-stat">
+          <div class="daily-icon">💬</div>
+          <div class="daily-info">
+            <span class="daily-number">{{ stats.comments?.today || 0 }}</span>
+            <span class="daily-label">새 댓글</span>
           </div>
-          <div class="community-sidebar__guide-item">
-            <BaseIcon name="shield" />
-            <span>스포일러는 주의해서 작성해요</span>
-          </div>
-          <div class="community-sidebar__guide-item">
-            <BaseIcon name="smile" />
-            <span>즐겁고 유익한 시간을 보내요</span>
+        </div>
+
+        <div class="daily-stat">
+          <div class="daily-icon">👋</div>
+          <div class="daily-info">
+            <span class="daily-number">{{ stats.users?.today || 0 }}</span>
+            <span class="daily-label">새 멤버</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- 마지막 업데이트 시간 -->
+    <div class="sidebar-footer">
+      <span class="last-updated">
+        마지막 업데이트: {{ formatLastUpdated(stats.last_updated) }}
+      </span>
+    </div>
+  </aside>
 </template>
 
 <script setup>
   import { ref, computed, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useCommunityStore } from '@/stores/community'
+  import { formatTimeAgo } from '@/utils/dateUtils'
   import BaseIcon from '@/components/base/BaseIcon.vue'
-  import BaseTag from '@/components/base/BaseTag.vue'
-  import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
-  import BaseSpinner from '@/components/base/BaseSpinner.vue'
+  import BaseAvatar from '@/components/base/BaseAvatar.vue'
+  import BaseTag from '@/components/base/BaseTag.vue'
+  import * as communityAPI from '@/services/api'
 
+  const router = useRouter()
   const communityStore = useCommunityStore()
 
-  // 스토어에서 데이터 가져오기
-  const popularTags = computed(() => communityStore.popularTags)
-  const isLoading = computed(() => communityStore.isLoading)
-  const currentTagFilter = computed(() => communityStore.currentTagFilter)
-
   // 로컬 상태
-  const recentActivities = ref([])
-  const isLoadingActivities = ref(false)
-  const communityStats = ref({
-    totalUsers: 0,
-    totalPosts: 0,
-    todayActivities: 0
-  })
+  const stats = ref({})
+  const isLoading = ref(false)
+  const isRefreshing = ref(false)
+  const error = ref(null)
 
-  // 태그 클릭 처리
-  const handleTagClick = async (tagName) => {
-    console.log('🏷️ 태그 클릭됨:', tagName)
-    await communityStore.toggleTagFilter(tagName)
+  // 계산된 속성
+  const recentPosts = computed(() => stats.value.recent_posts || [])
+  const recentComments = computed(() => stats.value.recent_comments || [])
+  const popularTags = computed(() => stats.value.popular_tags || [])
+
+  // 유틸리티 함수들
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M'
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K'
+    }
+    return num.toString()
   }
 
-  // 전체 게시글 보기
-  const showAllPosts = async () => {
-    console.log('📋 전체 게시글 보기')
-    await communityStore.fetchCommunityHome()
-  }
+  const formatLastUpdated = (dateString) => {
+    if (!dateString) return '방금 전'
 
-  // 시간 포맷팅
-  const formatTimeAgo = (dateString) => {
     const date = new Date(dateString)
     const now = new Date()
     const diffInMinutes = Math.floor((now - date) / (1000 * 60))
 
-    if (diffInMinutes < 1) {
-      return '방금 전'
-    } else if (diffInMinutes < 60) {
-      return `${diffInMinutes}분 전`
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60)
-      return `${hours}시간 전`
-    } else {
-      const days = Math.floor(diffInMinutes / 1440)
-      return `${days}일 전`
-    }
+    if (diffInMinutes < 1) return '방금 전'
+    if (diffInMinutes < 60) return `${diffInMinutes}분 전`
+    return `${Math.floor(diffInMinutes / 60)}시간 전`
   }
 
-  // 최근 활동 데이터 로드 (향후 API로 대체)
-  const loadRecentActivities = async () => {
+  const getTagVariant = (postCount) => {
+    if (postCount >= 10) return 'primary'
+    if (postCount >= 5) return 'secondary'
+    return 'outline'
+  }
+
+  const getTagSize = (postCount) => {
+    if (postCount >= 15) return 'medium'
+    return 'small'
+  }
+
+  // 액션 함수들
+  const fetchStats = async () => {
     try {
-      isLoadingActivities.value = true
+      isLoading.value = true
+      error.value = null
 
-      // TODO: 실제 API 호출로 대체 필요
-      // const response = await getCommunityActivities()
+      console.log('📊 커뮤니티 통계 로드 중...')
+      const response = await communityAPI.getCommunityStats()
 
-      // 임시 더미 데이터 (API 구현 전까지)
-      await new Promise((resolve) => setTimeout(resolve, 500)) // 로딩 시뮬레이션
-
-      recentActivities.value = [
-        {
-          id: 1,
-          user: { username: 'moviefan' },
-          action: '새 게시글을 작성했습니다',
-          createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() // 10분 전
-        },
-        {
-          id: 2,
-          user: { username: 'cinelover' },
-          action: '댓글을 남겼습니다',
-          createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString() // 30분 전
-        },
-        {
-          id: 3,
-          user: { username: 'filmcritic' },
-          action: '게시글에 좋아요를 눌렀습니다',
-          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() // 2시간 전
-        },
-        {
-          id: 4,
-          user: { username: 'dramaaddict' },
-          action: '새 댓글을 작성했습니다',
-          createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString() // 4시간 전
-        }
-      ]
-    } catch (error) {
-      console.error('❌ 최근 활동 로드 실패:', error)
-      recentActivities.value = []
+      if (response.success) {
+        stats.value = response.data
+        console.log('✅ 커뮤니티 통계 로드 성공:', stats.value)
+      } else {
+        throw new Error('통계 데이터 로드 실패')
+      }
+    } catch (err) {
+      console.error('❌ 커뮤니티 통계 로드 실패:', err)
+      error.value = '통계를 불러올 수 없습니다.'
     } finally {
-      isLoadingActivities.value = false
+      isLoading.value = false
     }
   }
 
-  // 커뮤니티 통계 데이터 로드 (향후 API로 대체)
-  const loadCommunityStats = async () => {
+  const refreshStats = async () => {
     try {
-      // TODO: 실제 API 호출로 대체 필요
-      // const response = await getCommunityStats()
-
-      // 임시 더미 데이터 (API 구현 전까지)
-      await new Promise((resolve) => setTimeout(resolve, 300)) // 로딩 시뮬레이션
-
-      communityStats.value = {
-        totalUsers: 1847,
-        totalPosts: 324,
-        todayActivities: 23
-      }
-    } catch (error) {
-      console.error('❌ 커뮤니티 통계 로드 실패:', error)
-      communityStats.value = {
-        totalUsers: 0,
-        totalPosts: 0,
-        todayActivities: 0
-      }
+      isRefreshing.value = true
+      await fetchStats()
+    } catch (err) {
+      console.error('❌ 통계 새로고침 실패:', err)
+    } finally {
+      isRefreshing.value = false
     }
   }
 
-  onMounted(async () => {
-    console.log('🔄 CommunitySidebar 마운트됨')
+  const goToPost = (postId) => {
+    router.push({ name: 'PostDetail', params: { id: postId } })
+  }
 
-    // 사이드바 데이터 로드
-    await Promise.all([loadRecentActivities(), loadCommunityStats()])
+  const filterByTag = (tagName) => {
+    router.push({ name: 'Community', query: { tag: tagName } })
+  }
+
+  // 라이프사이클
+  onMounted(() => {
+    fetchStats()
+
+    // 30초마다 자동 새로고침
+    setInterval(() => {
+      if (!isRefreshing.value) {
+        refreshStats()
+      }
+    }, 30000)
   })
 </script>
 
@@ -304,226 +312,337 @@
   @import '@/assets/fonts.css';
 
   .community-sidebar {
+    width: 320px;
+    padding: 0px 16px 16px 16px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 14px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
     font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
   }
 
-  .community-sidebar__section {
-    background-color: var(--color-card-background);
+  /* 📱 섹션 공통 스타일 */
+  .sidebar-section {
+    background: var(--color-card-background);
     border-radius: var(--border-radius-large);
+    padding: 14px 16px;
     border: 1px solid var(--color-inactive-icon);
-    overflow: hidden;
+    transition: all 0.3s ease;
   }
 
-  .community-sidebar__title {
+  .sidebar-section:hover {
+    border-color: var(--color-main-opacity-50);
+    box-shadow: var(--shadow-card);
+  }
+
+  .section-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 16px;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text);
-    background-color: var(--color-search-box);
-    border-bottom: 1px solid var(--color-inactive-icon);
+    margin-bottom: 16px;
   }
 
-  .community-sidebar__title .base-icon {
+  .section-header svg {
     width: 18px;
     height: 18px;
     color: var(--color-main);
   }
 
-  .community-sidebar__content {
-    padding: 16px;
+  .section-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    flex: 1;
   }
 
-  .community-sidebar__tags {
+  /* 🎬 커뮤니티 개요 */
+  .community-overview {
+    background: linear-gradient(
+      135deg,
+      var(--color-main-opacity-20) 0%,
+      var(--color-card-background) 100%
+    );
+    border: 2px solid var(--color-main-opacity-50);
+  }
+
+  .live-indicator {
+    background: #ff4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 12px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .community-stats {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 16px;
   }
 
-  .community-sidebar__tag-count {
-    font-size: 11px;
-    color: var(--color-highlight-text);
-    margin-left: 4px;
-  }
-
-  .community-sidebar__loading {
+  .stat-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    justify-content: center;
-    padding: 16px 0;
+    position: relative;
+  }
+
+  .stat-number {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--color-main);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px;
     color: var(--color-highlight-text);
-    font-size: 13px;
+    margin-top: 4px;
   }
 
-  .community-sidebar__show-all {
-    width: 100%;
-    justify-content: center;
+  .stat-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: var(--color-success);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 8px;
+    animation: bounceIn 0.5s ease;
   }
 
-  .community-sidebar__activities {
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* 🔥 활동 피드 */
+  .activity-group {
+    margin-bottom: 10px;
+  }
+
+  .activity-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .activity-group h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 12px 0;
+    padding-left: 4px;
+  }
+
+  .activity-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  .community-sidebar__activity {
+  .activity-item {
     display: flex;
-    gap: 8px;
     align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    background: var(--color-search-box);
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .community-sidebar__activity-content {
+  .activity-item:hover {
+    background: var(--color-highlight-background);
+    transform: translateY(-1px);
+  }
+
+  .activity-content {
     flex: 1;
     min-width: 0;
   }
 
-  .community-sidebar__activity-text {
+  .activity-text {
     font-size: 13px;
-    color: var(--color-text);
-    margin: 0;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  .community-sidebar__activity-action {
-    color: var(--color-main);
-  }
-
-  .community-sidebar__activity-time {
-    font-size: 11px;
     color: var(--color-highlight-text);
+    margin-bottom: 4px;
   }
 
-  /* 커뮤니티 통계 스타일 */
-  .community-sidebar__stats {
+  .author {
+    color: var(--color-main);
+    font-weight: 600;
+  }
+
+  .activity-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .activity-subtitle {
+    font-size: 12px;
+    color: var(--color-main);
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .comment-preview {
+    font-size: 13px;
+    color: var(--color-highlight-text);
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .activity-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--color-inactive-text);
+  }
+
+  .activity-stats {
+    display: flex;
+    gap: 8px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .stat svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* 🏷️ 태그 클라우드 */
+  .tag-cloud-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .tag-count {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-left: 2px;
+  }
+
+  /* 📈 오늘의 활동 */
+  .daily-stats {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  .community-sidebar__stat-item {
+  .daily-stat {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 0;
+    gap: 12px;
+    padding: 8px;
+    background: var(--color-search-box);
+    border-radius: var(--border-radius-medium);
   }
 
-  .community-sidebar__stat-item .base-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-main);
-    flex-shrink: 0;
+  .daily-icon {
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-main-opacity-20);
+    border-radius: var(--border-radius-small);
   }
 
-  .community-sidebar__stat-content {
+  .daily-info {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    flex: 1;
   }
 
-  .community-sidebar__stat-label {
+  .daily-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .daily-label {
     font-size: 12px;
     color: var(--color-highlight-text);
-    line-height: 1.2;
   }
 
-  .community-sidebar__stat-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text);
-    line-height: 1.2;
-  }
-
-  .community-sidebar__guide {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .community-sidebar__guide-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--color-text);
-    line-height: 1.4;
-  }
-
-  .community-sidebar__guide-item .base-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-main);
-    flex-shrink: 0;
-  }
-
-  .community-sidebar__empty {
-    font-size: 13px;
-    color: var(--color-highlight-text);
+  /* 푸터 */
+  .sidebar-footer {
     text-align: center;
-    margin: 16px 0;
-    font-style: italic;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-inactive-icon);
   }
 
-  /* 모바일에서는 가로 스크롤 가능한 카드 형태 */
-  @media (max-width: 768px) {
+  .last-updated {
+    font-size: 11px;
+    color: var(--color-inactive-text);
+  }
+
+  /* 반응형 */
+  @media (max-width: 1200px) {
     .community-sidebar {
-      flex-direction: row;
-      gap: 16px;
-      overflow-x: auto;
-      padding: 0 12px 16px;
-      scroll-snap-type: x mandatory;
-    }
-
-    .community-sidebar__section {
-      min-width: 280px;
-      scroll-snap-align: start;
-    }
-
-    .community-sidebar__title {
-      font-size: 15px;
-      padding: 12px;
-    }
-
-    .community-sidebar__content {
-      padding: 12px;
-    }
-
-    .community-sidebar__stat-item {
-      padding: 6px 0;
-    }
-
-    .community-sidebar__stat-content {
-      gap: 1px;
+      display: none;
     }
   }
 
-  @media (max-width: 480px) {
-    .community-sidebar {
-      padding: 0 8px 12px;
-    }
+  .community-view__layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
 
-    .community-sidebar__section {
-      min-width: 240px;
-    }
+  .community-view__content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 12px;
+  }
 
-    .community-sidebar__title {
-      font-size: 14px;
-    }
+  .community-view__main {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
 
-    .community-sidebar__stat-label {
-      font-size: 11px;
-    }
-
-    .community-sidebar__stat-value {
-      font-size: 13px;
-    }
+  .community-view__sidebar {
+    flex-shrink: 0;
+    width: 320px;
   }
 </style>

@@ -136,6 +136,16 @@
       v-if="name === 'arrow-left'"
       d="M12 19l-7-7 7-7" />
 
+    <!-- Tag Icon -->
+    <path
+      v-if="name === 'tag'"
+      d="M20.59 13.41l-7.59 7.59a2 2 0 0 1-2.83 0l-7.59-7.59a2 2 0 0 1 0-2.83l7.59-7.59a2 2 0 0 1 2.83 0l7.59 7.59a2 2 0 0 1 0 2.83z" />
+    <circle
+      v-if="name === 'tag'"
+      cx="7.5"
+      cy="7.5"
+      r="1.5" />
+
     <!-- Close/X Icon -->
     <path
       v-if="name === 'x'"

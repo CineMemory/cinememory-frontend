@@ -426,23 +426,31 @@ export const getPostsByTag = async (tagName) => {
   }
 }
 
-// 📊 커뮤니티 통계 조회 (향후 구현 예정)
+// 커뮤니티 통계 조회
 export const getCommunityStats = async () => {
   try {
-    // TODO: 실제 Django API 엔드포인트 구현 필요
-    // const response = await apiRequest('/cinememory/community/stats/')
+    const response = await apiRequest('/cinememory/community/stats/')
 
-    // 임시 더미 데이터
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    return {
-      totalUsers: 1847,
-      totalPosts: 324,
-      todayActivities: 23
+    if (response.status === 'success') {
+      return {
+        success: true,
+        data: response.data
+      }
     }
+
+    return response
   } catch (error) {
     console.error('❌ getCommunityStats 오류:', error)
-    throw error
+    throw {
+      response: {
+        status: error.response?.status || 500,
+        data: {
+          message:
+            error.response?.data?.message ||
+            '통계 데이터를 불러오는 중 오류가 발생했습니다.'
+        }
+      }
+    }
   }
 }
 
