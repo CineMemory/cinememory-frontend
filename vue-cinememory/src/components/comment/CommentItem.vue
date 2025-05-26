@@ -563,6 +563,11 @@
 
   .comment-item__reply-avatar {
     flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .comment-item__reply-content {

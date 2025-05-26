@@ -32,7 +32,8 @@
     size: {
       type: String,
       default: 'medium',
-      validator: (value) => ['sm', 'medium', 'large', 'xl'].includes(value)
+      validator: (value) =>
+        ['xs', 'sm', 'medium', 'large', 'xl'].includes(value)
     },
     variant: {
       type: String,
@@ -95,6 +96,12 @@
   }
 
   /* 크기별 스타일 */
+  .base-avatar--xs {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
   .base-avatar--sm {
     width: 32px;
     height: 32px;
