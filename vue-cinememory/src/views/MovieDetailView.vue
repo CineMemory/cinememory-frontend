@@ -1,10 +1,8 @@
-<!-- 🎬 영화 상세 페이지 (완전 구현) -->
 <template>
   <div class="movie-detail-view">
-    <!-- 커스텀 헤더 (검색 기능 포함) -->
+    <!-- 커스텀 헤더 -->
     <header class="movie-detail-header">
       <div class="movie-detail-header__container">
-        <!-- 뒤로가기 버튼 -->
         <button
           @click="goBack"
           class="movie-detail-header__back-btn">
@@ -13,14 +11,11 @@
             class="back-icon" />
         </button>
 
-        <!-- 페이지 제목 -->
         <h1 class="movie-detail-header__title">
-          {{ movie?.fields?.title || '영화 상세' }}
+          {{ movie?.title || '영화 상세' }}
         </h1>
 
-        <!-- 우측 액션들 -->
         <div class="movie-detail-header__actions">
-          <!-- 검색 아이콘 -->
           <button
             @click="toggleSearchMode"
             class="movie-detail-header__search-btn">
@@ -28,13 +23,11 @@
               name="search"
               class="search-icon" />
           </button>
-
-          <!-- 햄버거 메뉴 -->
           <HeaderMenu class="movie-detail-header__menu" />
         </div>
       </div>
 
-      <!-- 검색 모드 -->
+      <!-- 검색 모드 (기존과 동일) -->
       <Transition name="search-bar">
         <div
           v-if="isSearchMode"
@@ -53,8 +46,6 @@
                 @keyup.enter="performNewSearch"
                 @blur="handleSearchBlur" />
             </div>
-
-            <!-- 검색 실행 버튼 -->
             <button
               v-if="newSearchQuery.trim()"
               @click="performNewSearch"
@@ -63,8 +54,6 @@
                 name="search"
                 class="execute-icon" />
             </button>
-
-            <!-- 취소 버튼 -->
             <button
               @click="exitSearchMode"
               class="search-cancel-btn">
@@ -77,15 +66,56 @@
       </Transition>
     </header>
 
+    <!-- 로딩 상태 -->
+    <div
+      v-if="isLoading"
+      class="movie-detail-loading">
+      <div class="loading-content">
+        <BaseIcon
+          name="search"
+          class="loading-icon spinning" />
+        <h2 class="loading-title">영화 정보를 불러오는 중...</h2>
+      </div>
+    </div>
+
+    <!-- 에러 상태 -->
+    <div
+      v-else-if="error"
+      class="movie-detail-loading">
+      <div class="loading-content">
+        <BaseIcon
+          name="alert-circle"
+          class="loading-icon error" />
+        <h2 class="loading-title">오류가 발생했습니다</h2>
+        <p class="loading-subtitle">{{ error }}</p>
+        <div class="loading-actions">
+          <BaseButton
+            @click="loadMovie"
+            variant="primary"
+            class="loading-btn">
+            다시 시도
+          </BaseButton>
+          <BaseButton
+            @click="goBack"
+            variant="secondary"
+            class="loading-btn">
+            이전으로
+          </BaseButton>
+        </div>
+      </div>
+    </div>
+
     <!-- 메인 콘텐츠 -->
     <main
-      v-if="movie"
+      v-else-if="movie"
       class="movie-detail-main">
       <!-- 백드롭 배경 -->
       <div
-        v-if="movie.fields.backdrop_path"
+        v-if="movie.backdrop_path"
         class="movie-backdrop"
-        :style="{ backgroundImage: `url(${movie.fields.backdrop_path})` }">
+        :style="{
+          backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`
+        }">
         <div class="backdrop-overlay"></div>
       </div>
 
@@ -93,118 +123,144 @@
         <!-- 영화 히어로 섹션 -->
         <div class="movie-hero">
           <img
-            :src="movie.fields.poster_path"
-            :alt="movie.fields.title"
+            :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+            :alt="movie.title"
             class="movie-poster" />
 
           <div class="movie-info">
-            <h1 class="movie-title">{{ movie.fields.title }}</h1>
+            <h1 class="movie-title">{{ movie.title }}</h1>
 
             <!-- 태그라인 -->
             <p
-              v-if="movie.fields.tagline"
+              v-if="movie.tagline"
               class="movie-tagline">
-              "{{ movie.fields.tagline }}"
+              "{{ movie.tagline }}"
             </p>
 
             <!-- 기본 정보 -->
             <div class="movie-meta">
               <span class="movie-date">{{
-                formatDate(movie.fields.release_date)
+                formatDate(movie.release_date)
               }}</span>
               <span
-                v-if="movie.fields.runtime"
-                class="movie-runtime"
-                >{{ formatRuntime(movie.fields.runtime) }}</span
-              >
+                v-if="movie.runtime"
+                class="movie-runtime">
+                {{ formatRuntime(movie.runtime) }}
+              </span>
               <span
-                v-if="movie.fields.status"
-                class="movie-status"
-                >{{ translateStatus(movie.fields.status) }}</span
-              >
+                v-if="movie.status"
+                class="movie-status">
+                {{ translateStatus(movie.status) }}
+              </span>
             </div>
 
             <!-- 장르 -->
             <div
-              v-if="movie.fields.genres && movie.fields.genres.length > 0"
+              v-if="movie.genres && movie.genres.length > 0"
               class="movie-genres">
               <span
-                v-for="genre in movie.fields.genres"
-                :key="genre"
-                class="genre-tag"
-                >{{ genre }}</span
-              >
+                v-for="genre in movie.genres"
+                :key="genre.genre_id"
+                class="genre-tag">
+                {{ genre.genre_name }}
+              </span>
             </div>
 
-            <!-- 평점 및 인기도 -->
+            <!-- 평점 및 좋아요 -->
             <div class="movie-ratings">
               <div
-                v-if="movie.fields.voteAverage"
+                v-if="movie.vote_average"
                 class="rating-item">
                 <BaseIcon
                   name="star"
                   class="rating-icon" />
                 <span class="rating-value">{{
-                  movie.fields.voteAverage.toFixed(1)
+                  movie.vote_average.toFixed(1)
                 }}</span>
+                <span class="rating-label">TMDB</span>
               </div>
-              <div
-                v-if="movie.fields.popularity"
-                class="popularity-item">
-                <span class="popularity-label">인기도</span>
-                <span class="popularity-value">{{
-                  movie.fields.popularity.toFixed(1)
-                }}</span>
-              </div>
-            </div>
 
-            <!-- 예고편 버튼 -->
-            <div class="movie-details">
-              <div class="detail-item">
-                <span class="detail-label">예고편</span>
-                <button
-                  v-if="!isLoadingTrailer"
-                  @click="searchTrailer"
-                  :disabled="isLoadingTrailer"
-                  class="trailer-btn">
-                  <svg
-                    class="youtube-icon"
-                    viewBox="0 0 24 24">
-                    <path
-                      fill="#FF0000"
-                      d="M23.498 6.186c-.276-1.04-1.089-1.857-2.122-2.133C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.507C1.591 4.329.778 5.146.502 6.186.002 8.07.002 12 .002 12s0 3.93.5 5.814c.276 1.04 1.089 1.857 2.121 2.133 1.872.507 9.377.507 9.377.507s7.505 0 9.377-.507c1.033-.276 1.846-1.093 2.122-2.133.5-1.884.5-5.814.5-5.814s0-3.93-.5-5.814z" />
-                    <path
-                      fill="#FFF"
-                      d="M9.545 15.568V8.432l6.364 3.568-6.364 3.568z" />
-                  </svg>
-                  YouTube에서 보기
-                </button>
-                <div
-                  v-else
-                  class="trailer-loading">
-                  <BaseIcon
-                    name="search"
-                    class="loading-icon" />
-                  검색 중...
+              <!-- 평균 사용자 평점 -->
+              <div
+                v-if="averageRating > 0"
+                class="rating-item user-rating">
+                <div class="stars-display">
+                  <span
+                    v-for="(star, index) in getStarDisplay(averageRating)"
+                    :key="index"
+                    class="star-item"
+                    :class="star">
+                    ⭐
+                  </span>
                 </div>
+                <span class="rating-value">{{ averageRating.toFixed(1) }}</span>
+                <span class="rating-label">사용자 ({{ reviewCount }})</span>
               </div>
+
+              <!-- 좋아요 버튼 -->
+              <button
+                @click="toggleLike"
+                :disabled="isTogglingLike"
+                class="like-btn"
+                :class="{ liked: isLiked, loading: isTogglingLike }">
+                <BaseIcon
+                  :name="isLiked ? 'heart' : 'heart'"
+                  class="like-icon" />
+                <span class="like-count">{{ likeCount }}</span>
+              </button>
             </div>
 
             <!-- 줄거리 -->
             <div
-              v-if="movie.fields.overview"
+              v-if="movie.overview"
               class="movie-overview">
               <h3 class="section-title">줄거리</h3>
-              <p class="overview-text">{{ movie.fields.overview }}</p>
+              <p class="overview-text">{{ movie.overview }}</p>
+            </div>
+
+            <!-- OTT 시청 정보 -->
+            <div
+              v-if="
+                movie.watch_provider_details &&
+                movie.watch_provider_details.length > 0
+              "
+              class="movie-watch-providers">
+              <h3 class="section-title">시청 가능한 플랫폼</h3>
+              <div class="watch-providers-list">
+                <div
+                  v-for="provider in movie.watch_provider_details"
+                  :key="`${provider.watch_provider.provider_id}-${provider.provider_type}`"
+                  class="watch-provider-item">
+                  <img
+                    :src="provider.watch_provider.logo_path"
+                    :alt="provider.watch_provider.provider_name"
+                    class="provider-logo" />
+                  <div class="provider-info">
+                    <span class="provider-name">{{
+                      provider.watch_provider.provider_name
+                    }}</span>
+                    <span class="provider-type">{{
+                      provider.provider_type === 'flatrate'
+                        ? '스트리밍'
+                        : provider.provider_type === 'rent'
+                          ? '대여'
+                          : '구매'
+                    }}</span>
+                    <span
+                      v-if="provider.price"
+                      class="provider-price"
+                      >{{ provider.price }}</span
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- 출연진 섹션 -->
         <div
-          v-if="
-            movie.fields.credits_cast && movie.fields.credits_cast.length > 0
-          "
+          v-if="movie.actors && movie.actors.length > 0"
           class="movie-cast-section">
           <h2 class="section-title">출연진</h2>
           <div class="cast-list">
@@ -214,105 +270,225 @@
               @click="goToPersonDetail(actor.actor_id)"
               class="cast-item">
               <img
-                :src="actor.profile_path"
+                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
                 :alt="actor.name"
                 class="cast-photo" />
               <div class="cast-info">
                 <span class="cast-name">{{ actor.name }}</span>
-                <span
-                  v-if="actor.character"
-                  class="cast-character"
-                  >{{ actor.character }}</span
-                >
               </div>
             </button>
           </div>
           <button
-            v-if="movie.fields.credits_cast.length > 6 && !showAllActors"
+            v-if="movie.actors.length > 6 && !showAllActors"
             @click="showAllActors = true"
             class="show-more-btn">
-            {{ movie.fields.credits_cast.length - 6 }}명 더 보기
+            {{ movie.actors.length - 6 }}명 더 보기
           </button>
         </div>
 
-        <!-- 추가 정보 -->
-        <div class="movie-additional-info">
-          <div
-            v-if="collectionInfo"
-            class="collection-info">
-            <h3 class="section-title">컬렉션</h3>
-            <div class="collection-content">
+        <!-- 감독 섹션 -->
+        <div
+          v-if="movie.directors && movie.directors.length > 0"
+          class="movie-cast-section">
+          <h2 class="section-title">감독</h2>
+          <div class="cast-list">
+            <button
+              v-for="director in movie.directors"
+              :key="director.director_id"
+              @click="goToPersonDetail(director.director_id)"
+              class="cast-item">
               <img
-                v-if="collectionInfo.poster_path"
-                :src="collectionInfo.poster_path"
-                :alt="collectionInfo.name"
-                class="collection-poster" />
-              <div class="collection-details">
-                <h4 class="collection-name">{{ collectionInfo.name }}</h4>
-                <p
-                  v-if="collectionInfo.overview"
-                  class="collection-overview">
-                  {{ collectionInfo.overview }}
-                </p>
+                :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`"
+                :alt="director.name"
+                class="cast-photo" />
+              <div class="cast-info">
+                <span class="cast-name">{{ director.name }}</span>
               </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 리뷰 섹션 -->
+        <div class="movie-reviews-section">
+          <div class="reviews-header">
+            <h2 class="section-title">리뷰 ({{ reviewCount }})</h2>
+            <BaseButton
+              v-if="authStore.isAuthenticated && !isWritingReview"
+              @click="startWritingReview"
+              variant="primary"
+              class="write-review-btn">
+              {{ userReview ? '내 리뷰 수정' : '리뷰 작성' }}
+            </BaseButton>
+          </div>
+
+          <!-- 리뷰 작성 폼 -->
+          <div
+            v-if="isWritingReview"
+            class="review-form">
+            <div class="review-form-header">
+              <h3>{{ userReview ? '리뷰 수정' : '리뷰 작성' }}</h3>
+              <button
+                @click="cancelWritingReview"
+                class="form-close-btn">
+                <BaseIcon name="x" />
+              </button>
+            </div>
+
+            <!-- 별점 선택 -->
+            <div class="rating-input">
+              <label class="rating-input-label">별점</label>
+              <div class="stars-input">
+                <button
+                  v-for="rating in [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]"
+                  :key="rating"
+                  @click="setRating(rating)"
+                  @mouseenter="setHoveredRating(rating)"
+                  @mouseleave="clearHoveredRating"
+                  class="star-btn"
+                  :class="{
+                    active: reviewRating >= rating,
+                    hovered: hoveredRating >= rating
+                  }">
+                  ⭐
+                </button>
+              </div>
+              <span class="rating-display">{{ reviewRating }}점</span>
+            </div>
+
+            <!-- 리뷰 내용 -->
+            <div class="content-input">
+              <label class="content-input-label">리뷰</label>
+              <textarea
+                v-model="reviewContent"
+                placeholder="이 영화에 대한 솔직한 리뷰를 작성해주세요..."
+                class="content-textarea"
+                rows="4"></textarea>
+            </div>
+
+            <!-- 폼 액션 -->
+            <div class="form-actions">
+              <BaseButton
+                @click="submitReview"
+                :disabled="
+                  isSubmittingReview ||
+                  !reviewContent.trim() ||
+                  reviewRating === 0
+                "
+                variant="primary"
+                class="submit-btn">
+                {{
+                  isSubmittingReview
+                    ? '저장 중...'
+                    : userReview
+                      ? '수정 완료'
+                      : '리뷰 작성'
+                }}
+              </BaseButton>
+              <BaseButton
+                v-if="userReview"
+                @click="deleteReview"
+                variant="danger"
+                class="delete-btn">
+                삭제
+              </BaseButton>
+              <BaseButton
+                @click="cancelWritingReview"
+                variant="secondary"
+                class="cancel-btn">
+                취소
+              </BaseButton>
             </div>
           </div>
 
-          <div class="technical-info">
-            <h3 class="section-title">상세 정보</h3>
-            <div class="info-grid">
-              <div
-                v-if="movie.fields.isAdult !== undefined"
-                class="info-item">
-                <span class="info-label">연령 등급</span>
-                <span class="info-value">{{
-                  movie.fields.isAdult ? '성인' : '전체 관람가'
-                }}</span>
-              </div>
-              <div
-                v-if="movie.fields.isVideo !== undefined"
-                class="info-item">
-                <span class="info-label">비디오</span>
-                <span class="info-value">{{
-                  movie.fields.isVideo ? '예' : '아니요'
-                }}</span>
+          <!-- 내 리뷰 표시 -->
+          <div
+            v-if="userReview && !isWritingReview"
+            class="user-review">
+            <div class="review-header">
+              <h4>내 리뷰</h4>
+              <div class="review-actions">
+                <button
+                  @click="startWritingReview"
+                  class="edit-review-btn">
+                  수정
+                </button>
               </div>
             </div>
+            <div class="review-rating">
+              <div class="stars-display">
+                <span
+                  v-for="(star, index) in getStarDisplay(userReview.rating)"
+                  :key="index"
+                  class="star-item"
+                  :class="star">
+                  ⭐
+                </span>
+              </div>
+              <span class="rating-text">{{ userReview.rating }}점</span>
+            </div>
+            <p class="review-content">{{ userReview.content }}</p>
+            <span class="review-date">{{
+              new Date(userReview.created_at).toLocaleDateString()
+            }}</span>
+          </div>
+
+          <!-- 다른 사용자 리뷰들 -->
+          <div
+            v-if="otherReviews.length > 0"
+            class="other-reviews">
+            <h3 class="other-reviews-title">다른 사용자 리뷰</h3>
+            <div
+              v-for="review in otherReviews"
+              :key="review.id"
+              class="review-item">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <img
+                    v-if="review.user_profile?.profile_image_url"
+                    :src="review.user_profile.profile_image_url"
+                    :alt="review.user_profile.username"
+                    class="reviewer-avatar" />
+                  <div class="reviewer-details">
+                    <span class="reviewer-name">{{
+                      review.user_profile?.username || review.user
+                    }}</span>
+                    <div class="review-rating">
+                      <div class="stars-display small">
+                        <span
+                          v-for="(star, index) in getStarDisplay(review.rating)"
+                          :key="index"
+                          class="star-item"
+                          :class="star">
+                          ⭐
+                        </span>
+                      </div>
+                      <span class="rating-text">{{ review.rating }}점</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="review-date">{{
+                  new Date(review.created_at).toLocaleDateString()
+                }}</span>
+              </div>
+              <p class="review-content">{{ review.content }}</p>
+            </div>
+          </div>
+
+          <!-- 리뷰 없음 -->
+          <div
+            v-if="reviewCount === 0 && !isWritingReview"
+            class="no-reviews">
+            <BaseIcon
+              name="message-square"
+              class="no-reviews-icon" />
+            <h3>아직 리뷰가 없습니다</h3>
+            <p>첫 번째 리뷰를 작성해보세요!</p>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- 로딩 또는 에러 상태 -->
-    <div
-      v-else
-      class="movie-detail-loading">
-      <div class="loading-content">
-        <BaseIcon
-          name="search"
-          class="loading-icon" />
-        <h2 class="loading-title">영화를 찾을 수 없습니다</h2>
-        <p class="loading-subtitle">
-          요청하신 영화가 존재하지 않거나 삭제되었을 수 있습니다.
-        </p>
-        <div class="loading-actions">
-          <BaseButton
-            @click="goBack"
-            variant="secondary"
-            class="loading-btn">
-            이전으로 돌아가기
-          </BaseButton>
-          <BaseButton
-            @click="goHome"
-            variant="primary"
-            class="loading-btn">
-            홈으로 가기
-          </BaseButton>
-        </div>
-      </div>
-    </div>
-
-    <!-- 예고편 모달 -->
+    <!-- 예고편 모달 (기존과 동일) -->
     <Transition name="modal">
       <div
         v-if="showTrailerModal && trailerVideoId"
@@ -322,9 +498,7 @@
           class="trailer-modal"
           @click.stop>
           <div class="trailer-modal-header">
-            <h3 class="trailer-modal-title">
-              {{ movie.fields.title }} - 예고편
-            </h3>
+            <h3 class="trailer-modal-title">{{ movie.title }} - 예고편</h3>
             <button
               @click="closeTrailerModal"
               class="trailer-modal-close">
@@ -351,19 +525,29 @@
 <script setup>
   import { ref, computed, onMounted, nextTick, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+  import { useAuthStore } from '@/stores/auth'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import HeaderMenu from '@/components/layout/HeaderMenu.vue'
 
-  // 더미 데이터 import
-  import moviesData from '@/data/movies_fixtures.json'
+  // API 함수 import
+  import {
+    getMovieDetail,
+    toggleMovieLike,
+    createMovieReview,
+    updateMovieReview,
+    deleteMovieReview
+  } from '@/services/api'
 
   const route = useRoute()
   const router = useRouter()
+  const authStore = useAuthStore()
 
   // 상태
   const movie = ref(null)
   const showAllActors = ref(false)
+  const isLoading = ref(false)
+  const error = ref(null)
 
   // 검색 관련 상태
   const isSearchMode = ref(false)
@@ -375,16 +559,43 @@
   const trailerVideoId = ref('')
   const isLoadingTrailer = ref(false)
 
+  // 리뷰 관련 상태
+  const userReview = ref(null)
+  const isWritingReview = ref(false)
+  const reviewContent = ref('')
+  const reviewRating = ref(0)
+  const hoveredRating = ref(0)
+  const isSubmittingReview = ref(false)
+
+  // 좋아요 관련 상태
+  const isLiked = ref(false)
+  const likeCount = ref(0)
+  const isTogglingLike = ref(false)
+
   // YouTube API 키 (환경변수에서 가져오기)
   const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
 
   // 계산된 속성
   const displayedActors = computed(() => {
-    if (!movie.value?.fields?.credits_cast) return []
-
+    if (!movie.value?.actors) return []
     return showAllActors.value
-      ? movie.value.fields.credits_cast
-      : movie.value.fields.credits_cast.slice(0, 6)
+      ? movie.value.actors
+      : movie.value.actors.slice(0, 6)
+  })
+
+  const averageRating = computed(() => {
+    return movie.value?.average_rating || 0
+  })
+
+  const reviewCount = computed(() => {
+    return movie.value?.review_count || 0
+  })
+
+  const otherReviews = computed(() => {
+    if (!movie.value?.reviews) return []
+    return movie.value.reviews.filter(
+      (review) => !userReview.value || review.id !== userReview.value.id
+    )
   })
 
   // 컬렉션 정보 파싱
@@ -403,6 +614,16 @@
       return null
     }
   })
+
+  // 별점 표시 함수
+  const getStarDisplay = (rating) => {
+    return Array.from({ length: 5 }, (_, i) => {
+      const starValue = i + 1
+      if (rating >= starValue) return 'full'
+      if (rating >= starValue - 0.5) return 'half'
+      return 'empty'
+    })
+  }
 
   // 유틸리티 함수들
   const formatDate = (dateStr) => {
@@ -470,14 +691,10 @@
       return
     }
 
-    console.log('🔍 새로운 검색 실행:', query)
-
-    // 검색 결과 페이지로 이동
     router.push({
       name: 'SearchResult',
       query: { q: query }
     })
-
     exitSearchMode()
   }
 
@@ -490,23 +707,171 @@
   }
 
   // 영화 데이터 로드
-  const loadMovie = () => {
+  const loadMovie = async () => {
     const movieId = parseInt(route.params.id)
-    const foundMovie = moviesData.find((m) => m.pk === movieId)
+    isLoading.value = true
+    error.value = null
 
-    if (foundMovie) {
-      movie.value = foundMovie
-      console.log('✅ 영화 로드 성공:', foundMovie.fields.title)
-    } else {
-      console.error('❌ 영화를 찾을 수 없습니다:', movieId)
-      movie.value = null
+    try {
+      const movieData = await getMovieDetail(movieId)
+      movie.value = movieData
+
+      // 디버깅
+      console.log('백드롭 패스: ', movieData.backdrop_path)
+      console.log(
+        '완전한 URL: ',
+        `https://image.tmdb.org/t/p/w1280${movieData.backdrop_path}`
+      )
+
+      // 좋아요 상태 설정
+      isLiked.value = movieData.is_liked || false
+      likeCount.value = movieData.like_count || 0
+
+      // 사용자 리뷰 찾기
+      if (authStore.isAuthenticated && movieData.reviews) {
+        const currentUserId = authStore.user?.id
+        userReview.value = movieData.reviews.find(
+          (review) =>
+            review.user_profile?.id === currentUserId ||
+            review.user === authStore.user?.username
+        )
+      }
+
+      console.log('✅ 영화 로드 성공:', movieData.title)
+    } catch (err) {
+      console.error('❌ 영화 로드 실패:', err)
+      error.value = err.response?.data?.error || '영화를 불러올 수 없습니다.'
+    } finally {
+      isLoading.value = false
     }
   }
 
-  // 마운트 시 영화 로드
-  onMounted(() => {
-    loadMovie()
-  })
+  // 좋아요 토글
+  const toggleLike = async () => {
+    if (!authStore.isAuthenticated) {
+      alert('로그인이 필요합니다.')
+      return
+    }
+
+    if (isTogglingLike.value) return
+
+    isTogglingLike.value = true
+    try {
+      const result = await toggleMovieLike(movie.value.movie_id)
+      if (result.success) {
+        isLiked.value = result.is_liked
+        likeCount.value = result.like_count
+      } else {
+        alert(result.error)
+      }
+    } catch (err) {
+      console.error('좋아요 토글 실패:', err)
+      alert('좋아요 처리 중 오류가 발생했습니다.')
+    } finally {
+      isTogglingLike.value = false
+    }
+  }
+
+  // 리뷰 관련 함수들
+  const startWritingReview = () => {
+    if (!authStore.isAuthenticated) {
+      alert('로그인이 필요합니다.')
+      return
+    }
+
+    if (userReview.value) {
+      // 기존 리뷰 수정
+      reviewContent.value = userReview.value.content
+      reviewRating.value = userReview.value.rating
+    } else {
+      // 새 리뷰 작성
+      reviewContent.value = ''
+      reviewRating.value = 0
+    }
+
+    isWritingReview.value = true
+  }
+
+  const cancelWritingReview = () => {
+    isWritingReview.value = false
+    reviewContent.value = ''
+    reviewRating.value = 0
+    hoveredRating.value = 0
+  }
+
+  const submitReview = async () => {
+    if (!reviewContent.value.trim()) {
+      alert('리뷰 내용을 입력해주세요.')
+      return
+    }
+
+    if (reviewRating.value === 0) {
+      alert('별점을 선택해주세요.')
+      return
+    }
+
+    isSubmittingReview.value = true
+
+    try {
+      const reviewData = {
+        content: reviewContent.value.trim(),
+        rating: reviewRating.value
+      }
+
+      let response
+      if (userReview.value) {
+        // 리뷰 수정
+        response = await updateMovieReview(
+          movie.value.movie_id,
+          userReview.value.id,
+          reviewData
+        )
+      } else {
+        // 새 리뷰 작성
+        response = await createMovieReview(movie.value.movie_id, reviewData)
+      }
+
+      // 성공 시 영화 데이터 다시 로드
+      await loadMovie()
+      cancelWritingReview()
+      alert(
+        userReview.value ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.'
+      )
+    } catch (err) {
+      console.error('리뷰 제출 실패:', err)
+      alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
+    } finally {
+      isSubmittingReview.value = false
+    }
+  }
+
+  const deleteReview = async () => {
+    if (!userReview.value) return
+
+    if (!confirm('리뷰를 삭제하시겠습니까?')) return
+
+    try {
+      await deleteMovieReview(movie.value.movie_id, userReview.value.id)
+      await loadMovie()
+      alert('리뷰가 삭제되었습니다.')
+    } catch (err) {
+      console.error('리뷰 삭제 실패:', err)
+      alert('리뷰 삭제 중 오류가 발생했습니다.')
+    }
+  }
+
+  // 별점 관련 함수들
+  const setRating = (rating) => {
+    reviewRating.value = rating
+  }
+
+  const setHoveredRating = (rating) => {
+    hoveredRating.value = rating
+  }
+
+  const clearHoveredRating = () => {
+    hoveredRating.value = 0
+  }
 
   // 예고편 관련 함수들
   const searchTrailer = async () => {
@@ -533,7 +898,6 @@
         if (data.items && data.items.length > 0) {
           trailerVideoId.value = data.items[0].id.videoId
           showTrailerModal.value = true
-          console.log('✅ 예고편 검색 성공:', data.items[0].snippet.title)
         } else {
           alert('죄송합니다. 해당 영화의 예고편을 찾을 수 없습니다.')
         }
@@ -561,8 +925,12 @@
 
   // 키보드 이벤트 처리
   const handleKeydown = (event) => {
-    if (event.key === 'Escape' && showTrailerModal.value) {
-      closeTrailerModal()
+    if (event.key === 'Escape') {
+      if (showTrailerModal.value) {
+        closeTrailerModal()
+      } else if (isWritingReview.value) {
+        cancelWritingReview()
+      }
     }
   }
 
@@ -578,6 +946,21 @@
       document.body.style.overflow = ''
     }
   })
+
+  watch(isWritingReview, (newValue) => {
+    if (newValue) {
+      document.addEventListener('keydown', handleKeydown)
+    } else {
+      document.removeEventListener('keydown', handleKeydown)
+    }
+  })
+
+  // 마운트 시 영화 로드
+  onMounted(() => {
+    loadMovie()
+  })
+
+  // loadMovie 함수에서 디버깅 추가
 </script>
 
 <style scoped>
@@ -1303,6 +1686,464 @@
     transform: scale(0.9) translateY(-20px);
   }
 
+  .spinning {
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-icon.error {
+    color: var(--color-alert);
+  }
+
+  /* 좋아요 버튼 */
+  .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px solid var(--color-inactive-icon);
+    color: var(--color-text);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .like-btn:hover {
+    border-color: var(--color-main);
+    background-color: var(--color-main-opacity-20);
+  }
+
+  .like-btn.liked {
+    border-color: var(--color-alert);
+    background-color: var(--color-alert);
+    color: var(--color-text);
+  }
+
+  .like-btn.liked .like-icon {
+    color: var(--color-text);
+  }
+
+  .like-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .like-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-inactive-icon);
+    transition: color 0.2s;
+  }
+
+  .like-btn.liked .like-icon {
+    color: var(--color-text);
+  }
+
+  .like-count {
+    font-weight: 500;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  /* 별점 표시 */
+  .stars-display {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .stars-display.small {
+    transform: scale(0.8);
+    transform-origin: left center;
+  }
+
+  .star-item {
+    font-size: 16px;
+    filter: grayscale(100%);
+    opacity: 0.3;
+  }
+
+  .star-item.half {
+    background: linear-gradient(90deg, var(--color-main) 50%, transparent 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: none;
+    opacity: 1;
+  }
+
+  .star-item.full {
+    color: var(--color-main);
+    filter: none;
+    opacity: 1;
+  }
+
+  /* 사용자 평점 */
+  .user-rating {
+    padding: 8px 12px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-main-opacity-50);
+  }
+
+  /* OTT 시청 정보 */
+  .movie-watch-providers {
+    margin-bottom: 32px;
+  }
+
+  .watch-providers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .watch-provider-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--color-card-background);
+    padding: 12px;
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-inactive-icon);
+  }
+
+  .provider-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: var(--border-radius-small);
+    flex-shrink: 0;
+  }
+
+  .provider-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .provider-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .provider-type {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+  }
+
+  .provider-price {
+    font-size: 12px;
+    color: var(--color-main);
+    font-weight: 500;
+  }
+
+  /* 리뷰 섹션 */
+  .movie-reviews-section {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .write-review-btn {
+    min-width: 120px;
+  }
+
+  /* 리뷰 작성 폼 */
+  .review-form {
+    background-color: var(--color-card-background);
+    padding: 24px;
+    border-radius: var(--border-radius-large);
+    margin-bottom: 32px;
+    border: 2px solid var(--color-main-opacity-50);
+  }
+
+  .review-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .review-form-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .form-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--color-highlight-text);
+    transition: color 0.2s;
+  }
+
+  .form-close-btn:hover {
+    color: var(--color-text);
+  }
+
+  /* 별점 입력 */
+  .rating-input {
+    margin-bottom: 20px;
+  }
+
+  .rating-input-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .stars-input {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    transition: transform 0.1s;
+    filter: grayscale(100%);
+    opacity: 0.4;
+  }
+
+  .star-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .star-btn.active,
+  .star-btn.hovered {
+    filter: none;
+    opacity: 1;
+    color: var(--color-main);
+  }
+
+  .rating-display {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-main);
+  }
+
+  /* 리뷰 내용 입력 */
+  .content-input {
+    margin-bottom: 20px;
+  }
+
+  .content-input-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .content-textarea {
+    width: 100%;
+    background-color: var(--color-search-box);
+    border: 2px solid var(--color-inactive-icon);
+    border-radius: var(--border-radius-medium);
+    padding: 12px 16px;
+    color: var(--color-text);
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s;
+  }
+
+  .content-textarea:focus {
+    outline: none;
+    border-color: var(--color-main);
+  }
+
+  .content-textarea::placeholder {
+    color: var(--color-highlight-text);
+  }
+
+  /* 폼 액션 버튼들 */
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .submit-btn {
+    min-width: 120px;
+  }
+
+  .delete-btn {
+    background-color: var(--color-alert);
+    border-color: var(--color-alert);
+  }
+
+  .delete-btn:hover {
+    background-color: var(--color-alert);
+    opacity: 0.9;
+  }
+
+  .cancel-btn {
+    min-width: 80px;
+  }
+
+  /* 내 리뷰 표시 */
+  .user-review {
+    background-color: var(--color-highlight-background);
+    padding: 20px;
+    border-radius: var(--border-radius-large);
+    margin-bottom: 32px;
+    border-left: 4px solid var(--color-main);
+  }
+
+  .user-review .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .user-review .review-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-main);
+    margin: 0;
+  }
+
+  .edit-review-btn {
+    background: none;
+    border: 1px solid var(--color-inactive-icon);
+    color: var(--color-text);
+    padding: 6px 12px;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+
+  .edit-review-btn:hover {
+    border-color: var(--color-main);
+    background-color: var(--color-main-opacity-20);
+  }
+
+  /* 다른 사용자 리뷰들 */
+  .other-reviews {
+    margin-top: 32px;
+  }
+
+  .other-reviews-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 20px 0;
+  }
+
+  .review-item {
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: var(--border-radius-large);
+    margin-bottom: 16px;
+  }
+
+  .review-item .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .reviewer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reviewer-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .review-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rating-text {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    font-weight: 500;
+  }
+
+  .review-content {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0 0 8px 0;
+  }
+
+  .review-date {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+  }
+
+  /* 리뷰 없음 상태 */
+  .no-reviews {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-highlight-text);
+  }
+
+  .no-reviews-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-inactive-icon);
+    margin-bottom: 16px;
+  }
+
+  .no-reviews h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+  }
+
+  .no-reviews p {
+    font-size: 14px;
+    margin: 0;
+  }
+
   /* 반응형 */
   @media (max-width: 768px) {
     .movie-detail-container {
@@ -1398,6 +2239,58 @@
       width: 18px;
       height: 18px;
     }
+
+    .reviews-header {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .write-review-btn {
+      width: 100%;
+    }
+
+    .review-form {
+      padding: 20px 16px;
+    }
+
+    .stars-input {
+      justify-content: center;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .form-actions button {
+      width: 100%;
+    }
+
+    .reviewer-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .review-item .review-header {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .watch-providers-list {
+      grid-template-columns: 1fr;
+    }
+
+    .movie-ratings {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .like-btn {
+      align-self: flex-start;
+    }
   }
 
   @media (max-width: 480px) {
@@ -1436,6 +2329,32 @@
 
     .trailer-modal-title {
       font-size: 16px;
+    }
+
+    .movie-reviews-section {
+      margin-top: 32px;
+    }
+
+    .review-form {
+      padding: 16px 12px;
+    }
+
+    .review-item {
+      padding: 16px 12px;
+    }
+
+    .stars-input .star-btn {
+      font-size: 20px;
+      padding: 2px;
+    }
+
+    .rating-display {
+      font-size: 14px;
+    }
+
+    .content-textarea {
+      font-size: 14px;
+      padding: 10px 12px;
     }
   }
 </style>

@@ -1,10 +1,8 @@
-<!-- 🔍 검색 결과 페이지 (헤더 추가) -->
 <template>
   <div class="search-result-view">
-    <!-- 페이지 헤더 (검색 아이콘 추가) -->
+    <!-- 페이지 헤더 (기존과 동일) -->
     <header class="search-result-header">
       <div class="search-result-header__container">
-        <!-- 뒤로가기 버튼 -->
         <button
           @click="goBack"
           class="search-result-header__back-btn">
@@ -13,12 +11,9 @@
             class="back-icon" />
         </button>
 
-        <!-- 페이지 제목 -->
         <h1 class="search-result-header__title">{{ pageTitle }}</h1>
 
-        <!-- 우측 액션들 -->
         <div class="search-result-header__actions">
-          <!-- 검색 아이콘 -->
           <button
             @click="toggleSearchMode"
             class="search-result-header__search-btn">
@@ -26,8 +21,6 @@
               name="search"
               class="search-icon" />
           </button>
-
-          <!-- 햄버거 메뉴 -->
           <HeaderMenu class="search-result-header__menu" />
         </div>
       </div>
@@ -52,7 +45,6 @@
                 @blur="handleSearchBlur" />
             </div>
 
-            <!-- 검색 실행 버튼 -->
             <button
               v-if="newSearchQuery.trim()"
               @click="performNewSearch"
@@ -62,7 +54,6 @@
                 class="execute-icon" />
             </button>
 
-            <!-- 취소 버튼 -->
             <button
               @click="exitSearchMode"
               class="search-cancel-btn">
@@ -78,9 +69,38 @@
     <!-- 메인 콘텐츠 -->
     <main class="search-result-main">
       <div class="search-result-container">
+        <!-- 로딩 상태 -->
+        <div
+          v-if="isLoading"
+          class="loading-state">
+          <BaseIcon
+            name="search"
+            class="loading-icon spinning" />
+          <h2 class="loading-title">검색 중...</h2>
+          <p class="loading-subtitle">
+            "{{ searchQuery }}"를 검색하고 있습니다
+          </p>
+        </div>
+
+        <!-- 에러 상태 -->
+        <div
+          v-else-if="error"
+          class="error-state">
+          <BaseIcon
+            name="alert-circle"
+            class="error-icon" />
+          <h2 class="error-title">검색 중 오류가 발생했습니다</h2>
+          <p class="error-subtitle">{{ error }}</p>
+          <button
+            @click="performSearch(searchQuery)"
+            class="retry-btn">
+            다시 시도
+          </button>
+        </div>
+
         <!-- 검색 결과가 있을 때 -->
         <div
-          v-if="searchResults.length > 0"
+          v-else-if="totalResults > 0"
           class="search-results">
           <!-- 탭 네비게이션 -->
           <div class="result-tabs">
@@ -108,19 +128,46 @@
             class="movie-results">
             <div
               v-for="movie in movieResults"
-              :key="movie.pk"
-              @click="goToMovieDetail(movie.pk)"
+              :key="movie.movie_id"
+              @click="goToMovieDetail(movie.movie_id)"
               class="movie-item">
               <img
-                :src="movie.fields.poster_path || ''"
-                :alt="movie.fields.title"
+                :src="movie.poster_path"
+                :alt="movie.title"
                 class="movie-poster"
                 @error="handleImageError" />
               <div class="movie-info">
-                <h3 class="movie-title">{{ movie.fields.title }}</h3>
-                <p class="movie-date">
-                  {{ formatDate(movie.fields.release_date) }}
+                <h3 class="movie-title">{{ movie.title }}</h3>
+                <p class="movie-date">{{ formatDate(movie.release_date) }}</p>
+                <div class="movie-meta">
+                  <span
+                    v-if="movie.vote_average"
+                    class="movie-rating">
+                    ⭐ {{ movie.vote_average.toFixed(1) }}
+                  </span>
+                  <span
+                    v-if="movie.runtime"
+                    class="movie-runtime">
+                    {{ movie.runtime }}분
+                  </span>
+                </div>
+                <p
+                  v-if="movie.overview"
+                  class="movie-overview">
+                  {{ movie.overview.slice(0, 100)
+                  }}{{ movie.overview.length > 100 ? '...' : '' }}
                 </p>
+                <!-- 장르 표시 -->
+                <div
+                  v-if="movie.genres && movie.genres.length > 0"
+                  class="movie-genres">
+                  <span
+                    v-for="genre in movie.genres.slice(0, 3)"
+                    :key="genre.genre_id"
+                    class="genre-tag">
+                    {{ genre.genre_name }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -129,20 +176,39 @@
           <div
             v-if="activeTab === 'people'"
             class="person-results">
+            <!-- 배우들 -->
             <div
-              v-for="person in personResults"
-              :key="person.pk"
-              @click="goToPersonDetail(person.pk)"
+              v-for="actor in searchResults.actors"
+              :key="`actor-${actor.actor_id}`"
+              @click="goToPersonDetail(actor.actor_id, true)"
               class="person-item">
               <img
-                :src="person.fields.profile_path"
-                :alt="person.fields.name"
-                class="person-photo" />
+                :src="actor.profile_path"
+                :alt="actor.name"
+                class="person-photo"
+                @error="handlePersonImageError" />
               <div class="person-info">
-                <h3 class="person-name">{{ person.fields.name }}</h3>
-                <p class="person-department">
-                  {{ translateDepartment(person.fields.known_for_department) }}
-                </p>
+                <h3 class="person-name">{{ actor.name }}</h3>
+                <p class="person-role">{{ translateRole(actor.role) }}</p>
+                <span class="person-type">배우</span>
+              </div>
+            </div>
+
+            <!-- 감독들 -->
+            <div
+              v-for="director in searchResults.directors"
+              :key="`director-${director.director_id}`"
+              @click="goToPersonDetail(director.director_id, false)"
+              class="person-item">
+              <img
+                :src="director.profile_path"
+                :alt="director.name"
+                class="person-photo"
+                @error="handlePersonImageError" />
+              <div class="person-info">
+                <h3 class="person-name">{{ director.name }}</h3>
+                <p class="person-role">{{ translateRole(director.role) }}</p>
+                <span class="person-type">감독</span>
               </div>
             </div>
           </div>
@@ -150,7 +216,7 @@
 
         <!-- 검색 결과가 없을 때 -->
         <div
-          v-else
+          v-else-if="!isLoading && searchQuery"
           class="no-results">
           <BaseIcon
             name="search"
@@ -159,6 +225,25 @@
             "{{ searchQuery }}"에 대한 검색 결과가 없습니다
           </h2>
           <p class="no-results-subtitle">다른 키워드로 검색해보세요</p>
+          <div class="search-suggestions">
+            <p class="suggestions-title">검색 팁:</p>
+            <ul class="suggestions-list">
+              <li>영화 제목의 일부만 입력해보세요</li>
+              <li>배우나 감독의 이름을 검색해보세요</li>
+              <li>맞춤법을 확인해보세요</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 초기 상태 (검색어 없음) -->
+        <div
+          v-else-if="!searchQuery"
+          class="initial-state">
+          <BaseIcon
+            name="search"
+            class="initial-icon" />
+          <h2 class="initial-title">검색어를 입력해주세요</h2>
+          <p class="initial-subtitle">원하는 영화나 인물을 검색해보세요</p>
         </div>
       </div>
     </main>
@@ -166,23 +251,27 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, nextTick } from 'vue'
+  import { ref, computed, onMounted, nextTick, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import HeaderMenu from '@/components/layout/HeaderMenu.vue'
 
-  // 더미 데이터 import (실제로는 API 호출)
-  import moviesData from '@/data/movies_fixtures.json'
-  import actorsData from '@/data/actors_fixtures.json'
-  import directorsData from '@/data/directors_fixtures.json'
+  // Django API 함수 import
+  import { searchMovies } from '@/services/api'
 
   const route = useRoute()
   const router = useRouter()
 
   // 상태
   const searchQuery = ref('')
-  const searchResults = ref([])
+  const searchResults = ref({
+    movies: [],
+    actors: [],
+    directors: []
+  })
   const activeTab = ref('movies')
+  const isLoading = ref(false)
+  const error = ref(null)
 
   // 새로운 검색 관련 상태
   const isSearchMode = ref(false)
@@ -194,43 +283,49 @@
     return searchQuery.value ? `"${searchQuery.value}" 검색 결과` : '검색 결과'
   })
 
-  const movieResults = computed(() =>
-    searchResults.value.filter((item) => item.model === 'movies.movie')
+  const movieResults = computed(() => searchResults.value.movies || [])
+  const personResults = computed(() => [
+    ...(searchResults.value.actors || []),
+    ...(searchResults.value.directors || [])
+  ])
+
+  const totalResults = computed(
+    () => movieResults.value.length + personResults.value.length
   )
 
-  const personResults = computed(() =>
-    searchResults.value.filter(
-      (item) =>
-        item.model === 'movies.actor' || item.model === 'movies.director'
-    )
-  )
+  // Django API를 통한 검색 실행
+  const performSearch = async (query) => {
+    if (!query?.trim()) return
 
-  // 검색 실행
-  const performSearch = (query) => {
-    if (!query) return []
+    isLoading.value = true
+    error.value = null
 
-    const results = []
-    const lowerQuery = query.toLowerCase()
+    try {
+      console.log('🔍 Django API 검색 시작:', query)
+      const response = await searchMovies(query)
 
-    // 영화 검색
-    const movies = moviesData.filter((movie) =>
-      movie.fields.title.toLowerCase().includes(lowerQuery)
-    )
-    results.push(...movies)
+      console.log('✅ 검색 응답:', response)
 
-    // 배우 검색
-    const actors = actorsData.filter((actor) =>
-      actor.fields.name.toLowerCase().includes(lowerQuery)
-    )
-    results.push(...actors)
+      // Django API 응답 구조 그대로 사용
+      searchResults.value = {
+        movies: response.movies || [],
+        actors: response.actors || [],
+        directors: response.directors || []
+      }
 
-    // 감독 검색
-    const directors = directorsData.filter((director) =>
-      director.fields.name.toLowerCase().includes(lowerQuery)
-    )
-    results.push(...directors)
-
-    return results
+      // 결과에 따라 활성 탭 자동 설정
+      if (movieResults.value.length === 0 && personResults.value.length > 0) {
+        activeTab.value = 'people'
+      } else {
+        activeTab.value = 'movies'
+      }
+    } catch (err) {
+      console.error('❌ 검색 실패:', err)
+      error.value = err.response?.data?.error || '검색 중 오류가 발생했습니다.'
+      searchResults.value = { movies: [], actors: [], directors: [] }
+    } finally {
+      isLoading.value = false
+    }
   }
 
   // 날짜 포맷팅
@@ -240,22 +335,15 @@
     return date.getFullYear()
   }
 
-  // 직업 번역
-  const translateDepartment = (department) => {
-    const departmentMap = {
+  // 직업 번역 (Django API의 role 필드 기준)
+  const translateRole = (role) => {
+    const roleMap = {
       Acting: '배우',
       Directing: '감독',
       Writing: '각본가',
-      Production: '제작자',
-      Camera: '촬영감독',
-      Editing: '편집자',
-      Sound: '음향감독',
-      Art: '미술감독',
-      'Costume & Make-Up': '의상/분장',
-      'Visual Effects': '시각효과',
-      Crew: '스태프'
+      Production: '제작자'
     }
-    return departmentMap[department] || department
+    return roleMap[role] || role || '인물'
   }
 
   // 네비게이션
@@ -264,7 +352,7 @@
     router.push({ name: 'MovieDetail', params: { id: movieId } })
   }
 
-  const goToPersonDetail = (personId) => {
+  const goToPersonDetail = (personId, isActor = true) => {
     console.log('👤 인물 상세로 이동:', personId)
     router.push({ name: 'PersonDetail', params: { id: personId } })
   }
@@ -300,9 +388,6 @@
       return
     }
 
-    console.log('🔍 새로운 검색 실행:', query)
-
-    // 새로운 검색어로 페이지 이동
     router.push({
       name: 'SearchResult',
       query: { q: query }
@@ -312,7 +397,6 @@
   }
 
   const handleSearchBlur = () => {
-    // 약간의 딜레이를 줘서 버튼 클릭할 시간 확보
     setTimeout(() => {
       if (!newSearchQuery.value.trim()) {
         exitSearchMode()
@@ -330,16 +414,31 @@
     event.target.style.fontSize = '24px'
   }
 
+  const handlePersonImageError = (event) => {
+    event.target.style.backgroundColor = 'var(--color-inactive-icon)'
+    event.target.style.display = 'flex'
+    event.target.style.alignItems = 'center'
+    event.target.style.justifyContent = 'center'
+    event.target.innerHTML = '👤'
+    event.target.style.fontSize = '24px'
+  }
+
+  // URL 쿼리 변경 감지
+  watch(
+    () => route.query.q,
+    (newQuery) => {
+      if (newQuery && newQuery !== searchQuery.value) {
+        searchQuery.value = newQuery
+        performSearch(newQuery)
+      }
+    }
+  )
+
   // 마운트 시 검색 실행
   onMounted(() => {
     searchQuery.value = route.query.q || ''
     if (searchQuery.value) {
-      searchResults.value = performSearch(searchQuery.value)
-
-      // 결과에 따라 활성 탭 설정
-      if (movieResults.value.length === 0 && personResults.value.length > 0) {
-        activeTab.value = 'people'
-      }
+      performSearch(searchQuery.value)
     }
   })
 </script>
@@ -581,27 +680,31 @@
     gap: 16px;
   }
 
+  /* 중복 제거 및 통합: .movie-item */
   .movie-item {
     display: flex;
-    gap: 12px;
-    padding: 16px;
+    gap: 16px;
+    padding: 20px;
     background-color: var(--color-card-background);
-    border-radius: var(--border-radius-medium);
+    border-radius: var(--border-radius-large);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
   }
-
   .movie-item:hover {
     background-color: var(--color-highlight-background);
+    border-color: var(--color-main-opacity-50);
+    transform: translateY(-2px);
   }
 
+  /* 중복 제거 및 통합: .movie-poster */
   .movie-poster {
-    width: 60px;
-    height: 90px;
+    width: 80px;
+    height: 120px;
     object-fit: cover;
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-medium);
     flex-shrink: 0;
-    background-color: var(--color-card-background);
+    background-color: var(--color-inactive-icon);
   }
 
   .movie-poster[src=''],
@@ -621,22 +724,63 @@
   .movie-info {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .movie-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--color-text);
-    margin: 0 0 4px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin: 0;
+    line-height: 1.3;
   }
 
   .movie-date {
     font-size: 14px;
     color: var(--color-highlight-text);
     margin: 0;
+  }
+
+  .movie-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .movie-rating {
+    font-size: 13px;
+    color: var(--color-main);
+    font-weight: 500;
+  }
+
+  .movie-runtime {
+    font-size: 13px;
+    color: var(--color-highlight-text);
+  }
+
+  .movie-overview {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .movie-genres {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .genre-tag {
+    font-size: 12px;
+    color: var(--color-text);
+    background-color: var(--color-main-opacity-20);
+    padding: 4px 8px;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--color-main-opacity-50);
   }
 
   /* 인물 결과 */
@@ -646,47 +790,64 @@
     gap: 16px;
   }
 
+  /* 중복 제거 및 통합: .person-item */
   .person-item {
     display: flex;
-    gap: 12px;
-    padding: 16px;
+    gap: 16px;
+    padding: 20px;
     background-color: var(--color-card-background);
-    border-radius: var(--border-radius-medium);
+    border-radius: var(--border-radius-large);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
   }
-
   .person-item:hover {
     background-color: var(--color-highlight-background);
+    border-color: var(--color-main-opacity-50);
+    transform: translateY(-2px);
   }
 
+  /* 중복 제거 및 통합: .person-photo */
   .person-photo {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     object-fit: cover;
     border-radius: 50%;
     flex-shrink: 0;
+    background-color: var(--color-inactive-icon);
   }
 
   .person-info {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
   }
 
   .person-name {
     font-size: 16px;
     font-weight: 600;
     color: var(--color-text);
-    margin: 0 0 4px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin: 0;
+    line-height: 1.3;
   }
 
-  .person-department {
+  .person-role {
     font-size: 14px;
     color: var(--color-highlight-text);
     margin: 0;
+  }
+
+  .person-type {
+    font-size: 12px;
+    color: var(--color-main);
+    background-color: var(--color-main-opacity-20);
+    padding: 3px 8px;
+    border-radius: var(--border-radius-small);
+    align-self: flex-start;
+    font-weight: 500;
   }
 
   /* 검색 결과 없음 */
@@ -713,6 +874,188 @@
     font-size: 16px;
     color: var(--color-highlight-text);
     margin: 0;
+  }
+
+  /* 로딩 상태 */
+  .loading-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .loading-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-main);
+    margin-bottom: 20px;
+  }
+
+  .spinning {
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+  }
+
+  .loading-subtitle {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    margin: 0;
+  }
+
+  /* 에러 상태 */
+  .error-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .error-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-alert);
+    margin-bottom: 20px;
+  }
+
+  .error-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+  }
+
+  .error-subtitle {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    margin: 0 0 20px 0;
+  }
+
+  .retry-btn {
+    background-color: var(--color-main);
+    color: var(--color-text);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    transition: opacity 0.2s;
+  }
+
+  .retry-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* 초기 상태 */
+  .initial-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .initial-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--color-inactive-icon);
+    margin-bottom: 20px;
+  }
+
+  .initial-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+  }
+
+  .initial-subtitle {
+    font-size: 16px;
+    color: var(--color-highlight-text);
+    margin: 0;
+  }
+
+  /* 검색 제안 */
+  .search-suggestions {
+    max-width: 400px;
+    margin: 32px auto 0;
+    text-align: left;
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: var(--border-radius-large);
+  }
+
+  .suggestions-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 12px 0;
+  }
+
+  .suggestions-list {
+    margin: 0;
+    padding-left: 16px;
+    list-style: none;
+  }
+
+  .suggestions-list li {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    margin-bottom: 8px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .suggestions-list li:before {
+    content: '•';
+    color: var(--color-main);
+    position: absolute;
+    left: -12px;
+  }
+
+  .suggestions-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 탭 스타일 개선 */
+  .result-tab {
+    background: none;
+    border: none;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-highlight-text);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+    font-family: 'Pretendard-Regular', sans-serif;
+  }
+
+  .result-tab:hover {
+    color: var(--color-text);
+    background-color: var(--color-highlight-background);
+  }
+
+  .result-tab--active {
+    color: var(--color-main);
+    border-bottom-color: var(--color-main);
+    background-color: var(--color-main-opacity-20);
+  }
+
+  /* 결과 그리드 개선 */
+  .movie-results,
+  .person-results {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   /* 반응형 */
@@ -752,6 +1095,57 @@
     .search-result-main {
       margin-top: 70px;
     }
+
+    .movie-item,
+    .person-item {
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .movie-poster {
+      width: 60px;
+      height: 90px;
+    }
+
+    .person-photo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .movie-title,
+    .person-name {
+      font-size: 16px;
+    }
+
+    .movie-overview {
+      font-size: 13px;
+    }
+
+    .movie-meta {
+      gap: 12px;
+    }
+
+    .search-suggestions {
+      margin: 24px auto 0;
+      padding: 16px;
+    }
+
+    .loading-state,
+    .error-state,
+    .initial-state {
+      padding: 60px 20px;
+    }
+
+    .loading-icon,
+    .error-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .initial-icon {
+      width: 48px;
+      height: 48px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -783,6 +1177,62 @@
     .no-results-icon {
       width: 48px;
       height: 48px;
+    }
+
+    .movie-item,
+    .person-item {
+      padding: 12px;
+      gap: 10px;
+    }
+
+    .movie-poster {
+      width: 50px;
+      height: 75px;
+    }
+
+    .person-photo {
+      width: 50px;
+      height: 50px;
+    }
+
+    .movie-title,
+    .person-name {
+      font-size: 15px;
+    }
+
+    .movie-date,
+    .person-role {
+      font-size: 13px;
+    }
+
+    .movie-overview {
+      font-size: 12px;
+    }
+
+    .genre-tag,
+    .person-type {
+      font-size: 11px;
+      padding: 3px 6px;
+    }
+
+    .result-tab {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .loading-state,
+    .error-state,
+    .initial-state {
+      padding: 40px 16px;
+    }
+
+    .loading-title,
+    .error-title {
+      font-size: 18px;
+    }
+
+    .initial-title {
+      font-size: 20px;
     }
   }
 </style>

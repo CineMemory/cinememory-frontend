@@ -35,7 +35,44 @@
       <div
         v-else
         class="profile-content">
-        <!-- 프로필 정보 섹션 -->
+        <!-- 탭 네비게이션 -->
+        <div class="profile-tabs">
+          <button
+            @click="handleTabChange('profile')"
+            :class="[
+              'profile-tab',
+              { 'profile-tab--active': activeTab === 'profile' }
+            ]">
+            <BaseIcon
+              name="user"
+              class="tab-icon" />
+            프로필 수정
+          </button>
+          <button
+            @click="handleTabChange('liked')"
+            :class="[
+              'profile-tab',
+              { 'profile-tab--active': activeTab === 'liked' }
+            ]">
+            <BaseIcon
+              name="heart"
+              class="tab-icon" />
+            좋아요 ({{ likedMovies.length }})
+          </button>
+          <button
+            @click="handleTabChange('reviews')"
+            :class="[
+              'profile-tab',
+              { 'profile-tab--active': activeTab === 'reviews' }
+            ]">
+            <BaseIcon
+              name="message-square"
+              class="tab-icon" />
+            내 리뷰 ({{ userReviews.length }})
+          </button>
+        </div>
+
+        <!-- 프로필 정보 섹션 (모든 탭에서 공통 표시) -->
         <div class="profile-info-section">
           <div class="profile-avatar-container">
             <div class="profile-avatar">
@@ -50,6 +87,7 @@
                 class="avatar-placeholder" />
             </div>
             <button
+              v-if="activeTab === 'profile'"
               @click="openImageUpload"
               class="avatar-edit-btn">
               <BaseIcon
@@ -73,115 +111,283 @@
           </div>
         </div>
 
-        <!-- 프로필 수정 폼 -->
-        <div class="profile-edit-section">
-          <h3 class="section-title">프로필 수정</h3>
+        <!-- 프로필 수정 탭 -->
+        <div
+          v-if="activeTab === 'profile'"
+          class="tab-content">
+          <!-- 프로필 수정 폼 -->
+          <div class="profile-edit-section">
+            <h3 class="section-title">프로필 수정</h3>
 
-          <form
-            @submit.prevent="handleUpdateProfile"
-            class="edit-form">
-            <!-- 닉네임 수정 -->
-            <div class="form-field">
-              <label class="form-label">닉네임</label>
-              <div class="username-input-container">
-                <BaseInput
-                  v-model="editForm.username"
-                  type="text"
-                  placeholder="새로운 닉네임"
-                  :disabled="isUpdating"
-                  class="form-input"
-                  @input="handleUsernameInput" />
+            <form
+              @submit.prevent="handleUpdateProfile"
+              class="edit-form">
+              <!-- 닉네임 수정 -->
+              <div class="form-field">
+                <label class="form-label">닉네임</label>
+                <div class="username-input-container">
+                  <BaseInput
+                    v-model="editForm.username"
+                    type="text"
+                    placeholder="새로운 닉네임"
+                    :disabled="isUpdating"
+                    class="form-input"
+                    @input="handleUsernameInput" />
 
-                <!-- 닉네임 확인 상태 표시 -->
-                <div class="username-status">
-                  <div
-                    v-if="usernameCheckState.isChecking"
-                    class="username-status__checking">
-                    <BaseIcon
-                      name="loader"
-                      class="spinner" />
+                  <!-- 닉네임 확인 상태 표시 -->
+                  <div class="username-status">
+                    <div
+                      v-if="usernameCheckState.isChecking"
+                      class="username-status__checking">
+                      <BaseIcon
+                        name="loader"
+                        class="spinner" />
+                    </div>
+                    <div
+                      v-else-if="usernameCheckState.isAvailable === true"
+                      class="username-status__available">
+                      <BaseIcon
+                        name="check"
+                        class="check-icon" />
+                    </div>
+                    <div
+                      v-else-if="usernameCheckState.isAvailable === false"
+                      class="username-status__unavailable">
+                      <BaseIcon
+                        name="x"
+                        class="x-icon" />
+                    </div>
                   </div>
-                  <div
-                    v-else-if="usernameCheckState.isAvailable === true"
-                    class="username-status__available">
-                    <BaseIcon
-                      name="check"
-                      class="check-icon" />
-                  </div>
-                  <div
-                    v-else-if="usernameCheckState.isAvailable === false"
-                    class="username-status__unavailable">
-                    <BaseIcon
-                      name="x"
-                      class="x-icon" />
-                  </div>
+                </div>
+
+                <!-- 닉네임 관련 메시지 -->
+                <div
+                  v-if="
+                    editForm.username &&
+                    (editForm.username.length < 3 ||
+                      editForm.username.length > 20)
+                  "
+                  class="field-error">
+                  닉네임은 3-20글자여야 합니다.
+                </div>
+                <div
+                  v-else-if="usernameCheckState.message"
+                  :class="[
+                    'field-message',
+                    usernameCheckState.isAvailable ? 'success' : 'error'
+                  ]">
+                  {{ usernameCheckState.message }}
                 </div>
               </div>
 
-              <!-- 닉네임 관련 메시지 -->
-              <div
-                v-if="
-                  editForm.username &&
-                  (editForm.username.length < 3 ||
-                    editForm.username.length > 20)
-                "
-                class="field-error">
-                닉네임은 3-20글자여야 합니다.
+              <!-- 비밀번호 변경 -->
+              <div class="form-field">
+                <label class="form-label">새 비밀번호</label>
+                <BaseInput
+                  v-model="editForm.password"
+                  type="password"
+                  placeholder="새 비밀번호 (변경 시에만 입력)"
+                  :disabled="isUpdating"
+                  class="form-input" />
+                <p class="field-description">
+                  영문, 숫자, 특수문자를 포함해 8자 이상
+                </p>
               </div>
-              <div
-                v-else-if="usernameCheckState.message"
-                :class="[
-                  'field-message',
-                  usernameCheckState.isAvailable ? 'success' : 'error'
-                ]">
-                {{ usernameCheckState.message }}
-              </div>
-            </div>
 
-            <!-- 비밀번호 변경 -->
-            <div class="form-field">
-              <label class="form-label">새 비밀번호</label>
-              <BaseInput
-                v-model="editForm.password"
-                type="password"
-                placeholder="새 비밀번호 (변경 시에만 입력)"
-                :disabled="isUpdating"
-                class="form-input" />
-              <p class="field-description">
-                영문, 숫자, 특수문자를 포함해 8자 이상
-              </p>
-            </div>
+              <!-- 수정 버튼 -->
+              <BaseButton
+                type="submit"
+                :disabled="isUpdating || !isFormValid"
+                :loading="isUpdating"
+                variant="primary"
+                size="large"
+                class="update-btn">
+                {{ isUpdating ? '수정 중...' : '프로필 수정' }}
+              </BaseButton>
+            </form>
+          </div>
 
-            <!-- 수정 버튼 -->
+          <!-- 회원 탈퇴 섹션 -->
+          <div class="delete-section">
+            <h3 class="section-title danger">회원 탈퇴</h3>
+            <p class="delete-warning">
+              회원 탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.
+            </p>
             <BaseButton
-              type="submit"
-              :disabled="isUpdating || !isFormValid"
-              :loading="isUpdating"
-              variant="primary"
-              size="large"
-              class="update-btn">
-              {{ isUpdating ? '수정 중...' : '프로필 수정' }}
+              @click="openDeleteModal"
+              variant="danger"
+              class="delete-btn">
+              회원 탈퇴
             </BaseButton>
-          </form>
+          </div>
         </div>
 
-        <!-- 회원 탈퇴 섹션 -->
-        <div class="delete-section">
-          <h3 class="section-title danger">회원 탈퇴</h3>
-          <p class="delete-warning">
-            회원 탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.
-          </p>
-          <BaseButton
-            @click="openDeleteModal"
-            variant="danger"
-            class="delete-btn">
-            회원 탈퇴
-          </BaseButton>
+        <!-- 좋아요한 영화 탭 -->
+        <div
+          v-else-if="activeTab === 'liked'"
+          class="tab-content">
+          <!-- 로딩 상태 -->
+          <div
+            v-if="isLoadingMovies"
+            class="tab-loading">
+            <BaseSpinner />
+            <p>좋아요한 영화를 불러오는 중...</p>
+          </div>
+
+          <!-- 에러 상태 -->
+          <div
+            v-else-if="moviesError"
+            class="tab-error">
+            <BaseIcon
+              name="alert-circle"
+              class="error-icon" />
+            <p>{{ moviesError }}</p>
+            <BaseButton
+              @click="loadLikedMovies"
+              variant="primary">
+              다시 시도
+            </BaseButton>
+          </div>
+
+          <!-- 좋아요한 영화 목록 -->
+          <div
+            v-else-if="likedMovies.length > 0"
+            class="liked-movies-section">
+            <h3 class="section-title">
+              좋아요한 영화 ({{ likedMovies.length }}편)
+            </h3>
+            <div class="movies-grid">
+              <div
+                v-for="movie in likedMovies"
+                :key="movie.movie_id"
+                @click="goToMovieDetail(movie.movie_id)"
+                class="movie-card">
+                <img
+                  :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
+                  :alt="movie.title"
+                  class="movie-poster"
+                  @error="handleImageError" />
+                <div class="movie-info">
+                  <h4 class="movie-title">{{ movie.title }}</h4>
+                  <p class="movie-year">
+                    {{ new Date(movie.release_date).getFullYear() }}
+                  </p>
+                  <div class="movie-rating">
+                    <BaseIcon
+                      name="star"
+                      class="star-icon" />
+                    <span>{{ movie.vote_average?.toFixed(1) || 'N/A' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 좋아요한 영화 없음 -->
+          <div
+            v-else
+            class="empty-state">
+            <BaseIcon
+              name="heart"
+              class="empty-icon" />
+            <h3>아직 좋아요한 영화가 없습니다</h3>
+            <p>마음에 드는 영화에 좋아요를 눌러보세요!</p>
+          </div>
+        </div>
+
+        <!-- 내 리뷰 탭 -->
+        <div
+          v-else-if="activeTab === 'reviews'"
+          class="tab-content">
+          <!-- 로딩 상태 -->
+          <div
+            v-if="isLoadingReviews"
+            class="tab-loading">
+            <BaseSpinner />
+            <p>리뷰를 불러오는 중...</p>
+          </div>
+
+          <!-- 에러 상태 -->
+          <div
+            v-else-if="reviewsError"
+            class="tab-error">
+            <BaseIcon
+              name="alert-circle"
+              class="error-icon" />
+            <p>{{ reviewsError }}</p>
+            <BaseButton
+              @click="loadUserReviews"
+              variant="primary">
+              다시 시도
+            </BaseButton>
+          </div>
+
+          <!-- 내 리뷰 목록 -->
+          <div
+            v-else-if="userReviews.length > 0"
+            class="user-reviews-section">
+            <h3 class="section-title">내 리뷰 ({{ userReviews.length }}개)</h3>
+            <div class="reviews-list">
+              <div
+                v-for="review in userReviews"
+                :key="review.id"
+                class="review-card">
+                <div class="review-header">
+                  <div class="movie-info-compact">
+                    <img
+                      v-if="review.movie?.poster_path"
+                      :src="`https://image.tmdb.org/t/p/w92${review.movie.poster_path}`"
+                      :alt="review.movie.title"
+                      class="review-movie-poster"
+                      @click="goToMovieDetail(review.movie.movie_id)" />
+                    <div class="movie-details">
+                      <h4
+                        class="review-movie-title"
+                        @click="goToMovieDetail(review.movie?.movie_id)">
+                        {{ review.movie?.title || '영화 제목' }}
+                      </h4>
+                      <div class="review-rating">
+                        <div class="stars-display">
+                          <span
+                            v-for="(star, index) in getStarDisplay(
+                              review.rating
+                            )"
+                            :key="index"
+                            class="star-item"
+                            :class="star">
+                            ⭐
+                          </span>
+                        </div>
+                        <span class="rating-text">{{ review.rating }}점</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="review-date">{{
+                    formatRelativeDate(review.created_at)
+                  }}</span>
+                </div>
+                <div class="review-content">
+                  <p>{{ review.content }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 작성한 리뷰 없음 -->
+          <div
+            v-else
+            class="empty-state">
+            <BaseIcon
+              name="message-square"
+              class="empty-icon" />
+            <h3>아직 작성한 리뷰가 없습니다</h3>
+            <p>영화를 보고 첫 리뷰를 작성해보세요!</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 회원 탈퇴 확인 모달 -->
+    <!-- 회원 탈퇴 확인 모달 (기존과 동일) -->
     <BaseModal
       :modelValue="showDeleteModal"
       @update:modelValue="showDeleteModal = $event"
@@ -245,6 +451,7 @@
   import { ref, computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/composables/useAuth'
+  import { getUserLikeMovies, getUserReviews } from '@/services/api'
   import * as authAPI from '@/services/authApi'
 
   import PageHeader from '@/components/layout/PageHeader.vue'
@@ -263,6 +470,16 @@
   const isDeleting = ref(false)
   const error = ref('')
   const deleteError = ref('')
+
+  const likedMovies = ref([])
+  const userReviews = ref([])
+  const isLoadingMovies = ref(false)
+  const isLoadingReviews = ref(false)
+  const moviesError = ref('')
+  const reviewsError = ref('')
+
+  // 탭 상태
+  const activeTab = ref('profile')
 
   const profile = ref({
     user_id: null,
@@ -556,6 +773,86 @@
     return date.toLocaleDateString('ko-KR')
   }
 
+  // 좋아요한 영화 목록 로드
+  const loadLikedMovies = async () => {
+    try {
+      isLoadingMovies.value = true
+      moviesError.value = ''
+
+      const response = await getUserLikedMovies()
+      likedMovies.value = response.liked_movies || []
+
+      console.log('✅ 좋아요한 영화 로드 성공:', likedMovies.value.length)
+    } catch (err) {
+      console.error('❌ 좋아요한 영화 로드 실패:', err)
+      moviesError.value =
+        err.response?.data?.error || '좋아요한 영화를 불러오는데 실패했습니다.'
+    } finally {
+      isLoadingMovies.value = false
+    }
+  }
+
+  // 사용자 리뷰 목록 로드
+  const loadUserReviews = async () => {
+    try {
+      isLoadingReviews.value = true
+      reviewsError.value = ''
+
+      const response = await getUserReviews()
+      userReviews.value = response.reviews || []
+
+      console.log('✅ 사용자 리뷰 로드 성공:', userReviews.value.length)
+    } catch (err) {
+      console.error('❌ 사용자 리뷰 로드 실패:', err)
+      reviewsError.value =
+        err.response?.data?.error || '리뷰를 불러오는데 실패했습니다.'
+    } finally {
+      isLoadingReviews.value = false
+    }
+  }
+
+  // 탭 변경 시 데이터 로드
+  const handleTabChange = (tab) => {
+    activeTab.value = tab
+
+    if (tab === 'liked' && likedMovies.value.length === 0) {
+      loadLikedMovies()
+    } else if (tab === 'reviews' && userReviews.value.length === 0) {
+      loadUserReviews()
+    }
+  }
+
+  // 영화 상세로 이동
+  const goToMovieDetail = (movieId) => {
+    router.push({ name: 'MovieDetail', params: { id: movieId } })
+  }
+
+  // 별점 표시 함수
+  const getStarDisplay = (rating) => {
+    return Array.from({ length: 5 }, (_, i) => {
+      const starValue = i + 1
+      if (rating >= starValue) return 'full'
+      if (rating >= starValue - 0.5) return 'half'
+      return 'empty'
+    })
+  }
+
+  // 날짜 포맷팅 (상대적 시간)
+  const formatRelativeDate = (dateString) => {
+    if (!dateString) return ''
+
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffTime = Math.abs(now - date)
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffDays === 1) return '1일 전'
+    if (diffDays < 7) return `${diffDays}일 전`
+    if (diffDays < 30) return `${Math.ceil(diffDays / 7)}주 전`
+    if (diffDays < 365) return `${Math.ceil(diffDays / 30)}개월 전`
+    return `${Math.ceil(diffDays / 365)}년 전`
+  }
+
   // 컴포넌트 마운트 시 프로필 로드
   onMounted(() => {
     loadProfile()
@@ -611,6 +908,7 @@
     background-color: var(--color-card-background);
     border-radius: var(--border-radius-large);
     margin-bottom: 24px;
+    transition: all 0.3s ease;
   }
 
   .profile-avatar-container {
@@ -901,6 +1199,417 @@
     min-width: 80px;
   }
 
+  /* 프로필 탭 네비게이션 */
+  .profile-tabs {
+    display: flex;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    margin-bottom: 24px;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .profile-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-highlight-text);
+    transition: all 0.2s ease;
+    font-family: 'Pretendard-Regular', sans-serif;
+  }
+
+  .profile-tab:hover {
+    color: var(--color-text);
+    background-color: var(--color-highlight-background);
+  }
+
+  .profile-tab--active {
+    color: var(--color-text);
+    background-color: var(--color-main);
+  }
+
+  .profile-tab--active .tab-icon {
+    color: var(--color-background);
+  }
+
+  .tab-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-highlight-text);
+    transition: color 0.2s;
+  }
+
+  .profile-tab--active .tab-icon {
+    color: var(--color-background);
+  }
+
+  /* 탭 컨텐츠 */
+  .tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 탭 로딩/에러 상태 */
+  .tab-loading,
+  .tab-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--color-text);
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+  }
+
+  .tab-loading p,
+  .tab-error p {
+    margin: 16px 0;
+    color: var(--color-highlight-text);
+  }
+
+  /* 좋아요한 영화 섹션 */
+  .liked-movies-section {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    padding: 24px;
+  }
+
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .movie-card {
+    background-color: var(--color-highlight-background);
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .movie-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-main-opacity-50);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .movie-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    background-color: var(--color-inactive-icon);
+  }
+
+  .movie-info {
+    padding: 12px;
+  }
+
+  .movie-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .movie-year {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    margin: 0 0 8px 0;
+  }
+
+  .movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .star-icon {
+    width: 12px;
+    height: 12px;
+    color: var(--color-main);
+  }
+
+  .movie-rating span {
+    font-size: 12px;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  /* 내 리뷰 섹션 */
+  .user-reviews-section {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    padding: 24px;
+  }
+
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .review-card {
+    background-color: var(--color-highlight-background);
+    border-radius: var(--border-radius-large);
+    padding: 20px;
+    border: 1px solid var(--color-inactive-icon);
+    transition: all 0.2s ease;
+  }
+
+  .review-card:hover {
+    border-color: var(--color-main-opacity-50);
+    transform: translateY(-2px);
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 16px;
+  }
+
+  .movie-info-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .review-movie-poster {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .review-movie-poster:hover {
+    transform: scale(1.05);
+  }
+
+  .movie-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .review-movie-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1.3;
+  }
+
+  .review-movie-title:hover {
+    color: var(--color-main);
+  }
+
+  .review-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stars-display {
+    display: flex;
+    gap: 2px;
+  }
+
+  .star-item {
+    font-size: 14px;
+    filter: grayscale(100%);
+    opacity: 0.3;
+  }
+
+  .star-item.half {
+    background: linear-gradient(90deg, var(--color-main) 50%, transparent 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: none;
+    opacity: 1;
+  }
+
+  .star-item.full {
+    color: var(--color-main);
+    filter: none;
+    opacity: 1;
+  }
+
+  .rating-text {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    font-weight: 500;
+  }
+
+  .review-date {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    flex-shrink: 0;
+  }
+
+  .review-content {
+    margin-top: 12px;
+  }
+
+  .review-content p {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* 빈 상태 */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--color-inactive-icon);
+    margin-bottom: 20px;
+  }
+
+  .empty-state h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* 이미지 에러 처리 */
+  .movie-poster[src=''],
+  .movie-poster:not([src]),
+  .review-movie-poster[src=''],
+  .review-movie-poster:not([src]) {
+    background-color: var(--color-inactive-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    font-size: 24px;
+  }
+
+  .movie-poster[src='']:after,
+  .movie-poster:not([src]):after {
+    content: '🎬';
+  }
+
+  .review-movie-poster[src='']:after,
+  .review-movie-poster:not([src]):after {
+    content: '🎬';
+    font-size: 16px;
+  }
+
+  /* 프로필 정보 섹션 수정 (아바타 수정 버튼 조건부 표시) */
+  .profile-info-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .profile-tabs {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .profile-tab {
+      justify-content: flex-start;
+      padding: 14px 16px;
+    }
+
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 16px;
+    }
+
+    .movie-info {
+      padding: 10px;
+    }
+
+    .movie-title {
+      font-size: 13px;
+    }
+
+    .review-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .movie-info-compact {
+      width: 100%;
+    }
+
+    .review-date {
+      align-self: flex-end;
+    }
+
+    .empty-state {
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
   /* 반응형 */
   @media (max-width: 480px) {
     .profile-container {
@@ -920,5 +1629,84 @@
     .delete-modal-footer button {
       width: 100%;
     }
+
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+    }
+
+    .movie-info {
+      padding: 8px;
+    }
+
+    .movie-title {
+      font-size: 12px;
+    }
+
+    .movie-year,
+    .movie-rating span {
+      font-size: 11px;
+    }
+
+    .review-card {
+      padding: 16px;
+    }
+
+    .review-movie-poster {
+      width: 40px;
+      height: 60px;
+    }
+
+    .review-movie-title {
+      font-size: 14px;
+    }
+
+    .review-content p {
+      font-size: 13px;
+    }
+
+    .profile-tab {
+      font-size: 13px;
+      padding: 12px 14px;
+    }
+
+    .tab-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .section-title {
+      font-size: 18px;
+    }
+
+    .empty-state {
+      padding: 40px 16px;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+    }
+  }
+
+  .reviews-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .reviews-list::-webkit-scrollbar-track {
+    background: var(--color-highlight-background);
+    border-radius: 3px;
+  }
+
+  .reviews-list::-webkit-scrollbar-thumb {
+    background: var(--color-inactive-icon);
+    border-radius: 3px;
+  }
+
+  .reviews-list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-main);
   }
 </style>

@@ -1,6 +1,6 @@
 // 🌐 API 통신 서비스
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/'
 
 // API 요청 헬퍼 함수
 const apiRequest = async (endpoint, options = {}) => {
@@ -592,5 +592,173 @@ export const toggleCommentLike = async (postId, commentId) => {
       error: errorMessage,
       status: error.response?.status
     }
+  }
+}
+
+// 영화 검색
+export const searchMovies = async (query, page = 1) => {
+  try {
+    const queryParams = new URLSearchParams({
+      search: query,
+      page: page.toString()
+    })
+
+    const response = await apiRequest(
+      `/cinememory/movies/search/?${queryParams}`
+    )
+    return response
+  } catch (error) {
+    console.error('❌ searchMovies 오류:', error)
+    throw error
+  }
+}
+
+// 영화 상세 정보 조회
+export const getMovieDetail = async (movieId) => {
+  try {
+    const response = await apiRequest(`/cinememory/movies/${movieId}/`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  } catch (error) {
+    console.error('❌ getMovieDetail 오류:', error)
+    throw error
+  }
+}
+
+// 인물 상세 정보 조회
+export const getPersonDetail = async (personId) => {
+  try {
+    const response = await apiRequest(`/cinememory/movies/person/${personId}/`)
+    return response
+  } catch (error) {
+    console.error('❌ getPersonDetail 오류:', error)
+    throw error
+  }
+}
+
+// 영화 좋아요 토글
+export const toggleMovieLike = async (movieId) => {
+  try {
+    const response = await apiRequest(`/cinememory/movies/like/${movieId}/`, {
+      method: 'POST'
+    })
+    return {
+      success: true,
+      is_liked: response.is_liked,
+      like_count: response.like_count,
+      message: response.message
+    }
+  } catch (error) {
+    console.error('❌ toggleMovieLike 오류:', error)
+    return {
+      success: false,
+      error:
+        error.response?.data?.error || '좋아요 처리 중 오류가 발생했습니다.',
+      status: error.response?.status
+    }
+  }
+}
+
+// 인물 좋아요 토글
+export const togglePersonLike = async (personId) => {
+  try {
+    const response = await apiRequest(
+      `/cinememory/movies/person/like/${personId}/`,
+      {
+        method: 'POST'
+      }
+    )
+    return {
+      success: true,
+      is_liked: response.is_liked,
+      like_count: response.like_count,
+      message: response.message
+    }
+  } catch (error) {
+    console.error('❌ togglePersonLike 오류:', error)
+    return {
+      success: false,
+      error:
+        error.response?.data?.error || '좋아요 처리 중 오류가 발생했습니다.',
+      status: error.response?.status
+    }
+  }
+}
+
+// 영화 리뷰 작성
+export const createMovieReview = async (movieId, reviewData) => {
+  try {
+    const response = await apiRequest(`/cinememory/movies/review/${movieId}/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        content: reviewData.content,
+        rating: reviewData.rating
+      })
+    })
+    return response
+  } catch (error) {
+    console.error('❌ createMovieReview 오류:', error)
+    throw error
+  }
+}
+
+// 영화 리뷰 수정
+export const updateMovieReview = async (movieId, reviewId, reviewData) => {
+  try {
+    const response = await apiRequest(
+      `/movies/review/${movieId}/${reviewId}/`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
+          content: reviewData.content,
+          rating: reviewData.rating
+        })
+      }
+    )
+    return response
+  } catch (error) {
+    console.error('❌ updateMovieReview 오류:', error)
+    throw error
+  }
+}
+
+// 영화 리뷰 삭제
+export const deleteMovieReview = async (movieId, reviewId) => {
+  try {
+    const response = await apiRequest(
+      `/movies/review/${movieId}/${reviewId}/`,
+      {
+        method: 'DELETE'
+      }
+    )
+    return response
+  } catch (error) {
+    console.error('❌ deleteMovieReview 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 좋아요한 영화 목록
+export const getUserLikedMovies = async () => {
+  try {
+    const response = await apiRequest('/cinememory/movies/user/liked/')
+    return response
+  } catch (error) {
+    console.error('❌ getUserLikedMovies 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 작성한 리뷰 목록
+export const getUserReviews = async () => {
+  try {
+    const response = await apiRequest('/cinememory/movies/user/reviews/')
+    return response
+  } catch (error) {
+    console.error('❌ getUserReviews 오류:', error)
+    throw error
   }
 }

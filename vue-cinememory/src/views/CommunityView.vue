@@ -571,13 +571,13 @@
   }
 
   /* 아주 작은 화면 (320px 이하) */
-@media (max-width: 320px) {
-  .community-main {
-    padding-top: 95px;
+  @media (max-width: 320px) {
+    .community-main {
+      padding-top: 95px;
+    }
+
+    .community-header {
+      padding: 4px 12px;
+    }
   }
-  
-  .community-header {
-    padding: 4px 12px;
-  }
-}
 </style>
