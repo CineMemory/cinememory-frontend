@@ -324,35 +324,34 @@
   })
 
   const authorId = computed(() => {
-  const comment = props.comment
+    const comment = props.comment
 
+    // 1. author 객체에서 ID 추출
+    if (typeof comment.author === 'object' && comment.author?.id) {
+      return comment.author.id
+    }
 
-  // 1. author 객체에서 ID 추출
-  if (typeof comment.author === 'object' && comment.author?.id) {
-    return comment.author.id
-  }
+    // 2. user_id 필드에서 ID 추출 (Django API에서 주로 사용)
+    if (comment.user_id) {
+      return comment.user_id
+    }
 
-  // 2. user_id 필드에서 ID 추출 (Django API에서 주로 사용)
-  if (comment.user_id) {
-    return comment.user_id
-  }
+    // 3. user 필드에서 ID 추출
+    if (comment.user) {
+      return comment.user
+    }
 
-  // 3. user 필드에서 ID 추출
-  if (comment.user) {
-    return comment.user
-  }
+    // 4. user_pk 필드에서 ID 추출
+    if (comment.user_pk) {
+      return comment.user_pk
+    }
 
-  // 4. user_pk 필드에서 ID 추출
-  if (comment.user_pk) {
-    return comment.user_pk
-  }
-
-  // 5. author_id 필드에서 ID 추출
-  if (comment.author_id) {
-    return comment.author_id
-  }
-  return null
-})
+    // 5. author_id 필드에서 ID 추출
+    if (comment.author_id) {
+      return comment.author_id
+    }
+    return null
+  })
 
   const isAuthor = computed(() => {
     const isAuth = isAuthenticated.value
@@ -405,33 +404,34 @@
   }
 
   const isReplyAuthor = (reply) => {
-  if (!isAuthenticated.value || !user.value) return false
+    if (!isAuthenticated.value || !user.value) return false
 
-  // 대댓글 작성자 ID 추출
-  let replyAuthorId = null
+    // 대댓글 작성자 ID 추출
+    let replyAuthorId = null
 
-  if (typeof reply.author === 'object' && reply.author?.id) {
-    replyAuthorId = reply.author.id
-  } else if (reply.user_id) {  // 이 부분 추가!
-    replyAuthorId = reply.user_id
-  } else if (reply.user) {
-    replyAuthorId = reply.user
-  } else if (reply.user_pk) {
-    replyAuthorId = reply.user_pk
-  } else if (reply.author_id) {
-    replyAuthorId = reply.author_id
+    if (typeof reply.author === 'object' && reply.author?.id) {
+      replyAuthorId = reply.author.id
+    } else if (reply.user_id) {
+      // 이 부분 추가!
+      replyAuthorId = reply.user_id
+    } else if (reply.user) {
+      replyAuthorId = reply.user
+    } else if (reply.user_pk) {
+      replyAuthorId = reply.user_pk
+    } else if (reply.author_id) {
+      replyAuthorId = reply.author_id
+    }
+
+    if (!replyAuthorId) {
+      return false
+    }
+
+    // 타입을 통일해서 비교
+    const currentUserIdStr = String(user.value.id)
+    const replyAuthorIdStr = String(replyAuthorId)
+
+    return currentUserIdStr === replyAuthorIdStr
   }
-
-  if (!replyAuthorId) {
-    return false
-  }
-
-  // 타입을 통일해서 비교
-  const currentUserIdStr = String(user.value.id)
-  const replyAuthorIdStr = String(replyAuthorId)
-
-  return currentUserIdStr === replyAuthorIdStr
-}
 
   // 대댓글 수정 여부 확인
   const isReplyEdited = (reply) => {
