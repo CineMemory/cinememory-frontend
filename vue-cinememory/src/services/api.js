@@ -554,3 +554,35 @@ export const updateReply = async (postId, commentId, replyId, replyData) => {
     throw error
   }
 }
+
+// 댓글 좋아요 토글
+export const toggleCommentLike = async (postId, commentId) => {
+  try {
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/${commentId}/likes/`,
+      {
+        method: 'POST'
+      }
+    )
+
+    return {
+      success: true,
+      is_liked: response.is_liked,
+      like_count: response.like_count,
+      message: response.message
+    }
+  } catch (error) {
+    console.error('❌ toggleCommentLike 오류:', error)
+
+    const errorMessage =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      '댓글 좋아요 처리 중 오류가 발생했습니다.'
+
+    return {
+      success: false,
+      error: errorMessage,
+      status: error.response?.status
+    }
+  }
+}

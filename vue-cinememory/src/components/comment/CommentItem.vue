@@ -446,14 +446,20 @@
     }
 
     try {
-      // TODO: 댓글 좋아요 API 구현 필요
-      // 임시로 상태만 변경
-      props.comment.is_liked = !props.comment.is_liked
-      props.comment.like_count = props.comment.is_liked
-        ? (props.comment.like_count || 0) + 1
-        : Math.max(0, (props.comment.like_count || 0) - 1)
+      const result = await communityStore.toggleCommentLike(
+        props.postId,
+        commentId.value
+      )
+
+      if (result.success) {
+        // API 응답으로 상태 업데이트
+        props.comment.is_liked = result.is_liked
+        props.comment.like_count = result.like_count
+      } else {
+        alert('좋아요 처리에 실패했습니다.')
+      }
     } catch (error) {
-      console.error('❌ 댓글 좋아요 처리 중 오류:', error)
+      alert('좋아요 처리 중 오류가 발생했습니다.')
     }
   }
 
@@ -464,14 +470,20 @@
     }
 
     try {
-      // TODO: 대댓글 좋아요 API 구현 필요
-      // 임시로 상태만 변경
-      reply.is_liked = !reply.is_liked
-      reply.like_count = reply.is_liked
-        ? (reply.like_count || 0) + 1
-        : Math.max(0, (reply.like_count || 0) - 1)
+      const replyId = reply.comment_id || reply.id
+      const result = await communityStore.toggleCommentLike(
+        props.postId,
+        replyId
+      )
+
+      if (result.success) {
+        reply.is_liked = result.is_liked
+        reply.like_count = result.like_count
+      } else {
+        alert('좋아요 처리에 실패했습니다.')
+      }
     } catch (error) {
-      console.error('❌ 대댓글 좋아요 처리 중 오류:', error)
+      alert('좋아요 처리 중 오류가 발생했습니다.')
     }
   }
 

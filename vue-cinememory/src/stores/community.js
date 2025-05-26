@@ -547,8 +547,7 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
-  // ❤️ 좋아요 관련 액션
-  // ❤️ 좋아요 관련 액션 수정
+  // 좋아요 관련 액션
   const togglePostLike = async (postId) => {
     try {
       clearError()
@@ -651,7 +650,7 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
-  // 🔍 검색/필터 관련 액션
+  // 검색/필터 관련 액션
   const setSearchQuery = (query) => {
     searchQuery.value = query
   }
@@ -815,6 +814,44 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
+  // 댓글 좋아요 토글
+  const toggleCommentLike = async (postId, commentId) => {
+    try {
+      clearError()
+
+      const result = await communityAPI.toggleCommentLike(postId, commentId)
+
+      if (result.success) {
+        // 로컬 상태만 업데이트, 게시글 재로드 하지 않음
+        return result
+      } else {
+        return result
+      }
+    } catch (err) {
+      const errorMessage = '댓글 좋아요 처리에 실패했습니다.'
+      setError(errorMessage)
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  // 댓글 좋아요 상태 업데이트 헬퍼 함수
+  const updateCommentLikeStatus = (comments, commentId, isLiked, likeCount) => {
+    for (const comment of comments) {
+      if (
+        comment.id === parseInt(commentId) ||
+        comment.comment_id === parseInt(commentId)
+      ) {
+        comment.is_liked = isLiked
+        comment.like_count = likeCount
+        return
+      }
+      // 대댓글에서도 찾기
+      if (comment.replies && comment.replies.length > 0) {
+        updateCommentLikeStatus(comment.replies, commentId, isLiked, likeCount)
+      }
+    }
+  }
+
   return {
     // 상태
     posts,
@@ -884,6 +921,9 @@ export const useCommunityStore = defineStore('community', () => {
 
     // 댓글 액션에 updateComment 추가
     updateComment,
+
+    toggleCommentLike,
+    updateCommentLikeStatus,
 
     // 🔧 현재 게시글 초기화 함수 추가
     resetCurrentPost: () => {
