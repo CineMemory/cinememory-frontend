@@ -91,7 +91,7 @@
 
           <!-- 수정 버튼 (작성자 본인만) -->
           <BaseButton
-            v-if="isAuthor || true"
+            v-if="isAuthor"
             variant="ghost"
             size="small"
             class="comment-item__action"
@@ -102,7 +102,7 @@
 
           <!-- 삭제 버튼 (작성자 본인만) -->
           <BaseButton
-            v-if="isAuthor || true"
+            v-if="isAuthor"
             variant="ghost"
             size="small"
             class="comment-item__action comment-item__action--danger"
@@ -231,7 +231,7 @@
 
               <!-- 수정 (작성자 본인만) -->
               <BaseButton
-                v-if="isReplyAuthor(reply) || true"
+                v-if="isReplyAuthor(reply)"
                 variant="ghost"
                 size="small"
                 class="comment-item__reply-action"
@@ -242,7 +242,7 @@
 
               <!-- 삭제 (작성자 본인만) -->
               <BaseButton
-                v-if="isReplyAuthor(reply) || true"
+                v-if="isReplyAuthor(reply)"
                 variant="ghost"
                 size="small"
                 class="comment-item__reply-action comment-item__reply-action--danger"
@@ -324,45 +324,40 @@
   })
 
   const authorId = computed(() => {
-    const comment = props.comment
+  const comment = props.comment
 
-    // 다양한 경우의 작성자 ID 추출
-    if (typeof comment.author === 'object' && comment.author?.id) {
-      return comment.author.id
-    }
 
-    // 레거시: user 필드에서 ID 추출
-    if (comment.user) {
-      return comment.user
-    }
+  // 1. author 객체에서 ID 추출
+  if (typeof comment.author === 'object' && comment.author?.id) {
+    return comment.author.id
+  }
 
-    // 레거시: user_pk 필드에서 ID 추출
-    if (comment.user_pk) {
-      return comment.user_pk
-    }
+  // 2. user_id 필드에서 ID 추출 (Django API에서 주로 사용)
+  if (comment.user_id) {
+    return comment.user_id
+  }
 
-    // 레거시: author_id 필드에서 ID 추출
-    if (comment.author_id) {
-      return comment.author_id
-    }
+  // 3. user 필드에서 ID 추출
+  if (comment.user) {
+    return comment.user
+  }
 
-    console.log('⚠️ 댓글 작성자 ID를 찾을 수 없습니다:', comment)
-    return null
-  })
+  // 4. user_pk 필드에서 ID 추출
+  if (comment.user_pk) {
+    return comment.user_pk
+  }
+
+  // 5. author_id 필드에서 ID 추출
+  if (comment.author_id) {
+    return comment.author_id
+  }
+  return null
+})
 
   const isAuthor = computed(() => {
     const isAuth = isAuthenticated.value
     const currentUser = user.value
     const commentAuthorId = authorId.value
-
-    // 디버깅 로그
-    console.log('🔍 isAuthor 체크:', {
-      isAuthenticated: isAuth,
-      currentUser: currentUser,
-      currentUserId: currentUser?.id,
-      commentAuthorId: commentAuthorId,
-      comment: props.comment
-    })
 
     if (!isAuth || !currentUser || !commentAuthorId) {
       return false
@@ -372,15 +367,7 @@
     const currentUserIdStr = String(currentUser.id)
     const commentAuthorIdStr = String(commentAuthorId)
 
-    const result = currentUserIdStr === commentAuthorIdStr
-
-    console.log('🎯 isAuthor 결과:', {
-      currentUserIdStr,
-      commentAuthorIdStr,
-      result
-    })
-
-    return result
+    return currentUserIdStr === commentAuthorIdStr
   })
 
   // 수정 여부 확인 로직 교체
@@ -418,32 +405,33 @@
   }
 
   const isReplyAuthor = (reply) => {
-    if (!isAuthenticated.value || !user.value) return false
+  if (!isAuthenticated.value || !user.value) return false
 
-    // 대댓글 작성자 ID 추출
-    let replyAuthorId = null
+  // 대댓글 작성자 ID 추출
+  let replyAuthorId = null
 
-    if (typeof reply.author === 'object' && reply.author?.id) {
-      replyAuthorId = reply.author.id
-    } else if (reply.user) {
-      replyAuthorId = reply.user
-    } else if (reply.user_pk) {
-      replyAuthorId = reply.user_pk
-    } else if (reply.author_id) {
-      replyAuthorId = reply.author_id
-    }
-
-    if (!replyAuthorId) {
-      console.log('⚠️ 대댓글 작성자 ID를 찾을 수 없습니다:', reply)
-      return false
-    }
-
-    // 타입을 통일해서 비교
-    const currentUserIdStr = String(user.value.id)
-    const replyAuthorIdStr = String(replyAuthorId)
-
-    return currentUserIdStr === replyAuthorIdStr
+  if (typeof reply.author === 'object' && reply.author?.id) {
+    replyAuthorId = reply.author.id
+  } else if (reply.user_id) {  // 이 부분 추가!
+    replyAuthorId = reply.user_id
+  } else if (reply.user) {
+    replyAuthorId = reply.user
+  } else if (reply.user_pk) {
+    replyAuthorId = reply.user_pk
+  } else if (reply.author_id) {
+    replyAuthorId = reply.author_id
   }
+
+  if (!replyAuthorId) {
+    return false
+  }
+
+  // 타입을 통일해서 비교
+  const currentUserIdStr = String(user.value.id)
+  const replyAuthorIdStr = String(replyAuthorId)
+
+  return currentUserIdStr === replyAuthorIdStr
+}
 
   // 대댓글 수정 여부 확인
   const isReplyEdited = (reply) => {
@@ -459,7 +447,6 @@
 
     try {
       // TODO: 댓글 좋아요 API 구현 필요
-      console.log('💝 댓글 좋아요 토글:', commentId.value)
       // 임시로 상태만 변경
       props.comment.is_liked = !props.comment.is_liked
       props.comment.like_count = props.comment.is_liked
@@ -478,7 +465,6 @@
 
     try {
       // TODO: 대댓글 좋아요 API 구현 필요
-      console.log('💝 대댓글 좋아요 토글:', reply.comment_id || reply.id)
       // 임시로 상태만 변경
       reply.is_liked = !reply.is_liked
       reply.like_count = reply.is_liked
@@ -509,7 +495,6 @@
       )
 
       if (result.success) {
-        console.log('✅ 댓글 삭제 성공')
         emit('comment-deleted', commentId.value)
       } else {
         console.error('❌ 댓글 삭제 실패:', result.error)
@@ -531,20 +516,16 @@
       const result = await communityStore.deleteComment(replyId, props.postId)
 
       if (result.success) {
-        console.log('✅ 대댓글 삭제 성공')
         // 로컬에서 대댓글 제거 (스토어에서 전체 새로고침됨)
       } else {
-        console.error('❌ 대댓글 삭제 실패:', result.error)
         alert('답글 삭제에 실패했습니다.')
       }
     } catch (error) {
-      console.error('❌ 대댓글 삭제 중 오류:', error)
       alert('답글 삭제 중 오류가 발생했습니다.')
     }
   }
 
   const handleReplyCreated = (newReply) => {
-    console.log('✅ 새 답글 생성됨:', newReply)
     showReplyForm.value = false
     showReplies.value = true // 답글 작성 후 답글 목록 표시
     emit('reply-created', newReply, commentId.value)
