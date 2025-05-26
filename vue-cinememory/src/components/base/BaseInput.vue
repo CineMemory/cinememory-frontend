@@ -39,7 +39,9 @@
         @blur="handleBlur"
         @focus="handleFocus"
         @input="handleInput"
-        @keypress="handleKeypress" />
+        @keypress="handleKeypress"
+        @keydown="handleKeydown"
+        @keyup="handleKeyup" />
 
       <button
         v-if="clearable && inputValue && !disabled && !readonly"
@@ -133,6 +135,8 @@
     'focus',
     'input',
     'keypress',
+    'keydown',
+    'keyup',
     'clear'
   ])
 
@@ -159,6 +163,14 @@
 
   const handleKeypress = (event) => {
     emit('keypress', event)
+  }
+
+  const handleKeydown = (event) => {
+    emit('keydown', event)
+  }
+
+  const handleKeyup = (event) => {
+    emit('keyup', event)
   }
 
   const clearInput = () => {

@@ -197,26 +197,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: var(--border-radius-full);
-    background: none;
+    background: rgba(0, 0, 0, 0.1);
     border: none;
     cursor: pointer;
     color: inherit;
-    opacity: 0.7;
+    opacity: 0.8;
     transition: all 0.2s ease;
-    margin-left: 2px;
+    margin-left: 4px;
   }
 
   .base-tag__remove:hover {
     opacity: 1;
-    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--color-alert);
+    transform: scale(1.1);
   }
 
   .base-tag__remove svg {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5;
   }
 
   /* Hover effects for different variants */
