@@ -50,8 +50,6 @@ const authApiRequest = async (endpoint, options = {}) => {
     } else {
       // HTML 에러 페이지 등은 사용자에게 보여주지 않음
       const textData = await response.text()
-      console.log('📄 텍스트 응답:', textData?.substring(0, 200) + '...')
-
       if (textData.includes('<!DOCTYPE html>')) {
         data = { error: '서버에서 오류가 발생했습니다.' }
       } else {
@@ -212,13 +210,6 @@ export const deleteUserAccount = async (password) => {
     }
   } catch (error) {
     console.error('❌ 회원탈퇴 API 에러:', error)
-    console.log('📝 요청 실패 상세:', {
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      url: '/cinememory/accounts/me/delete/'
-    })
-
     // 에러를 다시 throw해서 호출하는 곳에서 처리할 수 있도록 함
     throw error
   }

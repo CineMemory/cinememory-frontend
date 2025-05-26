@@ -75,8 +75,6 @@ const apiRequest = async (endpoint, options = {}) => {
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   try {
-    console.log('📋 게시글 목록 요청:', { page, limit, sortBy })
-
     // 정렬 파라미터와 함께 API 요청
     const queryParams = new URLSearchParams({
       sort: sortBy,
@@ -116,13 +114,6 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
       next: null,
       previous: null
     }
-
-    console.log('✅ 게시글 목록 로드 성공:', {
-      sortBy,
-      count: transformedPosts.length,
-      firstPost: transformedPosts[0]?.title
-    })
-
     return result
   } catch (error) {
     console.error('❌ getPosts 오류:', error)
@@ -332,8 +323,6 @@ export const createReply = async (postId, commentId, replyData) => {
 
 // 댓글 삭제
 export const deleteComment = async (postId, commentId) => {
-  console.log('🗑️ deleteComment 호출됨:', { postId, commentId })
-
   try {
     const response = await apiRequest(
       `/cinememory/community/post/${postId}/comments/${commentId}/`,
@@ -341,8 +330,6 @@ export const deleteComment = async (postId, commentId) => {
         method: 'DELETE'
       }
     )
-
-    console.log('📤 댓글 삭제 완료')
     return response || null
   } catch (error) {
     console.error('❌ deleteComment 오류:', error)
