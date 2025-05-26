@@ -485,3 +485,47 @@ export const getCommunityHome = async () => {
     }
   }
 }
+
+// 댓글 수정
+export const updateComment = async (postId, commentId, commentData) => {
+  try {
+    const backendData = {
+      content: commentData.content
+    }
+
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/${commentId}/`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(backendData)
+      }
+    )
+
+    return response
+  } catch (error) {
+    console.error('❌ updateComment 오류:', error)
+    throw error
+  }
+}
+
+// 대댓글 수정
+export const updateReply = async (postId, commentId, replyId, replyData) => {
+  try {
+    const backendData = {
+      content: replyData.content
+    }
+
+    const response = await apiRequest(
+      `/cinememory/community/post/${postId}/comments/${commentId}/replies/${replyId}/`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(backendData)
+      }
+    )
+
+    return response
+  } catch (error) {
+    console.error('❌ updateReply 오류:', error)
+    throw error
+  }
+}

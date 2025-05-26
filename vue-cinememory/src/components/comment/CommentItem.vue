@@ -27,8 +27,37 @@
         </div>
 
         <!-- 댓글 텍스트 -->
-        <div class="comment-item__text">
+        <div
+          v-if="!isEditingComment"
+          class="comment-item__text">
           {{ comment.content }}
+        </div>
+
+        <!-- 댓글 수정 폼 -->
+        <div
+          v-if="isEditingComment"
+          class="comment-item__edit-form">
+          <BaseInput
+            v-model="editCommentValue"
+            type="textarea"
+            placeholder="댓글을 입력하세요..."
+            rows="3"
+            @keydown.ctrl.enter="saveCommentEdit"
+            @keydown.esc="cancelCommentEdit" />
+          <div class="comment-item__edit-actions">
+            <BaseButton
+              variant="primary"
+              size="small"
+              @click="saveCommentEdit">
+              저장
+            </BaseButton>
+            <BaseButton
+              variant="ghost"
+              size="small"
+              @click="cancelCommentEdit">
+              취소
+            </BaseButton>
+          </div>
         </div>
 
         <!-- 액션 버튼들 -->
@@ -60,9 +89,20 @@
             <span>답글</span>
           </BaseButton>
 
+          <!-- 수정 버튼 (작성자 본인만) -->
+          <BaseButton
+            v-if="isAuthor || true"
+            variant="ghost"
+            size="small"
+            class="comment-item__action"
+            @click="startEditComment">
+            <BaseIcon name="edit-3" />
+            <span>수정</span>
+          </BaseButton>
+
           <!-- 삭제 버튼 (작성자 본인만) -->
           <BaseButton
-            v-if="isAuthor"
+            v-if="isAuthor || true"
             variant="ghost"
             size="small"
             class="comment-item__action comment-item__action--danger"
@@ -131,8 +171,37 @@
             </div>
 
             <!-- 대댓글 텍스트 -->
-            <div class="comment-item__reply-text">
+            <div
+              v-if="editingReplyId !== (reply.comment_id || reply.id)"
+              class="comment-item__reply-text">
               {{ reply.content }}
+            </div>
+
+            <!-- 대댓글 수정 폼 -->
+            <div
+              v-if="editingReplyId === (reply.comment_id || reply.id)"
+              class="comment-item__reply-edit-form">
+              <BaseInput
+                v-model="editReplyValue"
+                type="textarea"
+                placeholder="답글을 입력하세요..."
+                rows="2"
+                @keydown.ctrl.enter="saveReplyEdit(reply)"
+                @keydown.esc="cancelReplyEdit" />
+              <div class="comment-item__reply-edit-actions">
+                <BaseButton
+                  variant="primary"
+                  size="small"
+                  @click="saveReplyEdit(reply)">
+                  저장
+                </BaseButton>
+                <BaseButton
+                  variant="ghost"
+                  size="small"
+                  @click="cancelReplyEdit">
+                  취소
+                </BaseButton>
+              </div>
             </div>
 
             <!-- 대댓글 액션 -->
@@ -154,14 +223,26 @@
                 </span>
               </BaseButton>
 
+              <!-- 수정 (작성자 본인만) -->
+              <BaseButton
+                v-if="isReplyAuthor(reply) || true"
+                variant="ghost"
+                size="small"
+                class="comment-item__reply-action"
+                @click="startEditReply(reply)">
+                <BaseIcon name="edit-3" />
+                <span>수정</span>
+              </BaseButton>
+
               <!-- 삭제 (작성자 본인만) -->
               <BaseButton
-                v-if="isReplyAuthor(reply)"
+                v-if="isReplyAuthor(reply) || true"
                 variant="ghost"
                 size="small"
                 class="comment-item__reply-action comment-item__reply-action--danger"
                 @click="deleteReply(reply)">
                 <BaseIcon name="trash-2" />
+                <span>삭제</span>
               </BaseButton>
             </div>
           </div>
@@ -191,6 +272,7 @@
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
+  import BaseInput from '@/components/base/BaseInput.vue'
 
   const props = defineProps({
     comment: {
@@ -211,6 +293,10 @@
   // 로컬 상태
   const showReplyForm = ref(false)
   const showReplies = ref(true) // 기본적으로 대댓글 표시
+  const isEditingComment = ref(false)
+  const editCommentValue = ref('')
+  const editingReplyId = ref(null)
+  const editReplyValue = ref('')
 
   // 계산된 속성들
   const commentId = computed(() => props.comment.comment_id || props.comment.id)
@@ -232,19 +318,63 @@
   })
 
   const authorId = computed(() => {
-    if (typeof props.comment.author === 'object' && props.comment.author?.id) {
-      return props.comment.author.id
+    const comment = props.comment
+
+    // 다양한 경우의 작성자 ID 추출
+    if (typeof comment.author === 'object' && comment.author?.id) {
+      return comment.author.id
     }
+
+    // 레거시: user 필드에서 ID 추출
+    if (comment.user) {
+      return comment.user
+    }
+
+    // 레거시: user_pk 필드에서 ID 추출
+    if (comment.user_pk) {
+      return comment.user_pk
+    }
+
+    // 레거시: author_id 필드에서 ID 추출
+    if (comment.author_id) {
+      return comment.author_id
+    }
+
+    console.log('⚠️ 댓글 작성자 ID를 찾을 수 없습니다:', comment)
     return null
   })
 
   const isAuthor = computed(() => {
-    return (
-      isAuthenticated.value &&
-      user.value &&
-      authorId.value &&
-      user.value.id === authorId.value
-    )
+    const isAuth = isAuthenticated.value
+    const currentUser = user.value
+    const commentAuthorId = authorId.value
+
+    // 디버깅 로그
+    console.log('🔍 isAuthor 체크:', {
+      isAuthenticated: isAuth,
+      currentUser: currentUser,
+      currentUserId: currentUser?.id,
+      commentAuthorId: commentAuthorId,
+      comment: props.comment
+    })
+
+    if (!isAuth || !currentUser || !commentAuthorId) {
+      return false
+    }
+
+    // 타입을 통일해서 비교 (둘 다 문자열로 변환)
+    const currentUserIdStr = String(currentUser.id)
+    const commentAuthorIdStr = String(commentAuthorId)
+
+    const result = currentUserIdStr === commentAuthorIdStr
+
+    console.log('🎯 isAuthor 결과:', {
+      currentUserIdStr,
+      commentAuthorIdStr,
+      result
+    })
+
+    return result
   })
 
   // 수정 여부 확인 로직 교체
@@ -276,34 +406,6 @@
     return count?.toString() || '0'
   }
 
-  // const formatTimeAgo = (dateString) => {
-  //   if (!dateString) return ''
-
-  //   const date = new Date(dateString)
-  //   const now = new Date()
-  //   const diffInMinutes = Math.floor((now - date) / (1000 * 60))
-
-  //   if (diffInMinutes < 1) {
-  //     return '방금 전'
-  //   } else if (diffInMinutes < 60) {
-  //     return `${diffInMinutes}분 전`
-  //   } else if (diffInMinutes < 1440) {
-  //     const hours = Math.floor(diffInMinutes / 60)
-  //     return `${hours}시간 전`
-  //   } else {
-  //     const days = Math.floor(diffInMinutes / 1440)
-  //     if (days < 30) {
-  //       return `${days}일 전`
-  //     } else {
-  //       return date.toLocaleDateString('ko-KR', {
-  //         year: 'numeric',
-  //         month: 'long',
-  //         day: 'numeric'
-  //       })
-  //     }
-  //   }
-  // }
-
   const getReplyAuthorName = (reply) => {
     if (typeof reply.author === 'object' && reply.author?.username) {
       return reply.author.username
@@ -318,10 +420,29 @@
   const isReplyAuthor = (reply) => {
     if (!isAuthenticated.value || !user.value) return false
 
+    // 대댓글 작성자 ID 추출
+    let replyAuthorId = null
+
     if (typeof reply.author === 'object' && reply.author?.id) {
-      return user.value.id === reply.author.id
+      replyAuthorId = reply.author.id
+    } else if (reply.user) {
+      replyAuthorId = reply.user
+    } else if (reply.user_pk) {
+      replyAuthorId = reply.user_pk
+    } else if (reply.author_id) {
+      replyAuthorId = reply.author_id
     }
-    return false
+
+    if (!replyAuthorId) {
+      console.log('⚠️ 대댓글 작성자 ID를 찾을 수 없습니다:', reply)
+      return false
+    }
+
+    // 타입을 통일해서 비교
+    const currentUserIdStr = String(user.value.id)
+    const replyAuthorIdStr = String(replyAuthorId)
+
+    return currentUserIdStr === replyAuthorIdStr
   }
 
   // 액션 함수들
@@ -423,6 +544,89 @@
     showReplies.value = true // 답글 작성 후 답글 목록 표시
     emit('reply-created', newReply, commentId.value)
   }
+
+  // 댓글 수정 시작
+  const startEditComment = () => {
+    isEditingComment.value = true
+    editCommentValue.value = props.comment.content
+  }
+
+  // 댓글 수정 취소
+  const cancelCommentEdit = () => {
+    isEditingComment.value = false
+    editCommentValue.value = ''
+  }
+
+  // 댓글 수정 저장
+  const saveCommentEdit = async () => {
+    if (!editCommentValue.value.trim()) {
+      alert('댓글 내용을 입력해주세요.')
+      return
+    }
+
+    try {
+      const result = await communityStore.updateComment(
+        commentId.value,
+        props.postId,
+        { content: editCommentValue.value.trim() }
+      )
+
+      if (result.success) {
+        props.comment.content = editCommentValue.value.trim()
+        props.comment.updated_at = new Date().toISOString()
+        isEditingComment.value = false
+        editCommentValue.value = ''
+        console.log('✅ 댓글 수정 성공')
+      } else {
+        console.error('❌ 댓글 수정 실패:', result.error)
+        alert('댓글 수정에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('❌ 댓글 수정 중 오류:', error)
+      alert('댓글 수정 중 오류가 발생했습니다.')
+    }
+  }
+
+  // 대댓글 수정 시작
+  const startEditReply = (reply) => {
+    editingReplyId.value = reply.comment_id || reply.id
+    editReplyValue.value = reply.content
+  }
+
+  // 대댓글 수정 취소
+  const cancelReplyEdit = () => {
+    editingReplyId.value = null
+    editReplyValue.value = ''
+  }
+
+  // 대댓글 수정 저장
+  const saveReplyEdit = async (reply) => {
+    if (!editReplyValue.value.trim()) {
+      alert('답글 내용을 입력해주세요.')
+      return
+    }
+
+    try {
+      const replyId = reply.comment_id || reply.id
+      const result = await communityStore.updateComment(replyId, props.postId, {
+        content: editReplyValue.value.trim()
+      })
+
+      if (result.success) {
+        reply.content = editReplyValue.value.trim()
+        reply.updated_at = new Date().toISOString()
+        editingReplyId.value = null
+        editReplyValue.value = ''
+        console.log('✅ 대댓글 수정 성공')
+      } else {
+        console.error('❌ 대댓글 수정 실패:', result.error)
+        alert('답글 수정에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('❌ 대댓글 수정 중 오류:', error)
+      alert('답글 수정 중 오류가 발생했습니다.')
+    }
+  }
 </script>
 
 <style scoped>
@@ -467,6 +671,30 @@
     color: var(--color-highlight-text);
   }
 
+  /* 댓글 수정 폼 */
+  .comment-item__edit-form {
+    margin-bottom: 12px;
+  }
+
+  .comment-item__edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  /* 대댓글 수정 폼 */
+  .comment-item__reply-edit-form {
+    margin-bottom: 8px;
+  }
+
+  .comment-item__reply-edit-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    justify-content: flex-end;
+  }
+
   .comment-item__edited {
     font-size: 11px;
     color: var(--color-inactive-text);
@@ -484,7 +712,6 @@
   .comment-item__actions {
     display: flex;
     align-items: center;
-    gap: 16px;
     margin-bottom: 12px;
   }
 
@@ -604,7 +831,6 @@
   .comment-item__reply-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
   }
 
   .comment-item__reply-action {
@@ -668,11 +894,11 @@
     }
 
     .comment-item__actions {
-      gap: 12px;
+      gap: 3px;
     }
 
     .comment-item__reply-actions {
-      gap: 8px;
+      gap: 2px;
     }
   }
 
@@ -688,7 +914,7 @@
 
     .comment-item__actions {
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 2px;
     }
   }
 </style>

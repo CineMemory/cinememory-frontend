@@ -769,6 +769,39 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
+  // 댓글 수정
+  const updateComment = async (commentId, postId, commentData) => {
+    try {
+      clearError()
+
+      const response = await communityAPI.updateComment(
+        postId,
+        commentId,
+        commentData
+      )
+
+      if (response.message) {
+        // 게시글을 다시 로드하여 최신 댓글 반영
+        await fetchPost(postId)
+
+        return {
+          success: true,
+          message: response.message,
+          updated_at: response.updated_at
+        }
+      } else {
+        return { success: true, comment: response }
+      }
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        '댓글 수정에 실패했습니다.'
+      setError(errorMessage)
+      return { success: false, error: errorMessage }
+    }
+  }
+
   return {
     // 상태
     posts,
@@ -835,6 +868,9 @@ export const useCommunityStore = defineStore('community', () => {
     addTagToFilter,
     removeTagFromFilter,
     toggleTagInFilter,
+
+    // 댓글 액션에 updateComment 추가
+    updateComment,
 
     // 🔧 현재 게시글 초기화 함수 추가
     resetCurrentPost: () => {
