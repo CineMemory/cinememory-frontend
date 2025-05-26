@@ -414,8 +414,10 @@ export const useCommunityStore = defineStore('community', () => {
           comment: {
             id: response.comment_id,
             content: response.content,
-            author: { username: response.author },
-            created_at: response.created_at
+            author: { id: response.user_id, username: response.author },
+            created_at: response.created_at,
+            updated_at: response.updated_at,
+            replies: response.replies || []
           }
         }
       } else {
@@ -478,8 +480,10 @@ export const useCommunityStore = defineStore('community', () => {
           reply: {
             id: response.comment_id,
             content: response.content,
-            author: { username: response.author },
-            created_at: response.created_at
+            author: { id: response.user_id, username: response.author },
+            created_at: response.created_at,
+            updated_at: response.updated_at,
+            parent_id: response.parent_id
           }
         }
       } else {
