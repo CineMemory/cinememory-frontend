@@ -156,11 +156,13 @@ export const useCommunityStore = defineStore('community', () => {
     }
   }
 
-  // 📝 게시글 관련 액션 (기존 코드 유지)
+  // 게시글 관련 액션 (기존 코드 유지)
   const fetchPosts = async (page = 1, limit = 10, sort = 'latest') => {
     try {
       isLoading.value = true
       clearError()
+
+      console.log('🔄 fetchPosts 호출:', { page, limit, sort })
 
       const response = await communityAPI.getPosts(page, limit, sort)
 
@@ -174,11 +176,18 @@ export const useCommunityStore = defineStore('community', () => {
       // 태그 필터 초기화
       currentTagFilter.value = null
 
+      console.log('✅ fetchPosts 성공:', {
+        sort,
+        postsCount: posts.value.length,
+        firstPostTitle: posts.value[0]?.title
+      })
+
       return { success: true }
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || '게시글을 불러오는데 실패했습니다.'
       setError(errorMessage)
+      console.error('❌ fetchPosts 실패:', err)
       return { success: false, error: errorMessage }
     } finally {
       isLoading.value = false

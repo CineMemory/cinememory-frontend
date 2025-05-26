@@ -214,8 +214,17 @@
 
   // 정렬 변경 처리
   const handleSortChanged = async () => {
-    console.log('정렬 변경됨:', sortBy.value)
-    await communityStore.fetchPosts(1, 10, sortBy.value)
+    // 로딩 중이면 요청하지 않음
+    if (isLoading.value) {
+      return
+    }
+
+    try {
+      await communityStore.fetchPosts(1, 10, sortBy.value)
+      console.log('✅ 정렬 완료:', sortBy.value)
+    } catch (error) {
+      console.error('❌ 정렬 중 오류:', error)
+    }
   }
 
   // 게시글 업데이트 처리

@@ -75,15 +75,53 @@ const apiRequest = async (endpoint, options = {}) => {
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   try {
-    // 먼저 커뮤니티 홈에서 게시글 가져오기
-    const homeData = await getCommunityHome()
+    console.log('📋 게시글 목록 요청:', { page, limit, sortBy })
+
+    // 정렬 파라미터와 함께 API 요청
+    const queryParams = new URLSearchParams({
+      sort: sortBy,
+      page: page.toString(),
+      limit: limit.toString()
+    })
+
+    const response = await apiRequest(`/cinememory/community/?${queryParams}`)
+
+    // 응답이 배열인 경우 (직접 게시글 목록)
+    const posts = Array.isArray(response) ? response : response.results || []
+
+    // 작성자 정보 변환
+    const transformedPosts = posts.map((post) => ({
+      id: post.id || post.post_id,
+      title: post.title || post.post_title,
+      content: post.content,
+      author: {
+        id: post.author?.id || post.author_id || post.user || post.user_pk,
+        username:
+          post.author?.username || post.author || post.username || '사용자'
+      },
+      like_count: post.like_count || 0,
+      comment_count: post.comment_count || 0,
+      is_liked: post.is_liked || false,
+      created_at: post.created_at,
+      updated_at: post.updated_at,
+      tags: Array.isArray(post.tags)
+        ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
+        : [],
+      view_count: post.view_count || 0
+    }))
 
     const result = {
-      results: homeData.data.recent_posts,
-      count: homeData.data.recent_posts.length,
+      results: transformedPosts,
+      count: transformedPosts.length,
       next: null,
       previous: null
     }
+
+    console.log('✅ 게시글 목록 로드 성공:', {
+      sortBy,
+      count: transformedPosts.length,
+      firstPost: transformedPosts[0]?.title
+    })
 
     return result
   } catch (error) {
