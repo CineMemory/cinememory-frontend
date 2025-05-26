@@ -291,7 +291,11 @@
   }
 
   const filterByTag = (tagName) => {
-    router.push({ name: 'Community', query: { tag: tagName } })
+    if (router.currentRoute.value.name !== 'Community') {
+      router.push({ name: 'Community', query: { tag: tagName } })
+    } else {
+      communityStore.addTagToFilter(tagName)
+    }
   }
 
   // 라이프사이클

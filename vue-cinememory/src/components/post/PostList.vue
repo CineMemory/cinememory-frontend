@@ -304,6 +304,14 @@
     max-width: none;
   }
 
+  .post-list__filter-sort-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--color-inactive-icon);
+    margin: 16px 0 8px 0;
+    border-radius: 1px;
+  }
+
   .post-list__sort {
     display: flex;
     justify-content: center;
