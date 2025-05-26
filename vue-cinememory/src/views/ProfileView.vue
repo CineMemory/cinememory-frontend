@@ -819,9 +819,23 @@
   }
 
   /* 회원 탈퇴 모달 */
+  .delete-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
   .delete-modal-content {
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
+    padding: 32px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .delete-modal-header {
