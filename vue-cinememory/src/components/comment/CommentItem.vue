@@ -168,6 +168,12 @@
               <time class="comment-item__reply-time">
                 {{ formatTimeAgo(reply.created_at) }}
               </time>
+              <!-- 대댓글 수정됨 표시 -->
+              <span
+                v-if="isReplyEdited(reply)"
+                class="comment-item__reply-edited">
+                (수정됨)
+              </span>
             </div>
 
             <!-- 대댓글 텍스트 -->
@@ -385,12 +391,6 @@
       5
     )
   })
-  // const isEdited = computed(() => {
-  //   return (
-  //     props.comment.updated_at &&
-  //     props.comment.created_at !== props.comment.updated_at
-  //   )
-  // })
 
   const replies = computed(() => props.comment.replies || [])
   const replyCount = computed(() => replies.value.length)
@@ -443,6 +443,11 @@
     const replyAuthorIdStr = String(replyAuthorId)
 
     return currentUserIdStr === replyAuthorIdStr
+  }
+
+  // 대댓글 수정 여부 확인
+  const isReplyEdited = (reply) => {
+    return isContentEdited(reply.created_at, reply.updated_at, 5)
   }
 
   // 액션 함수들
@@ -573,10 +578,9 @@
 
       if (result.success) {
         props.comment.content = editCommentValue.value.trim()
-        props.comment.updated_at = new Date().toISOString()
+        props.comment.updated_at = result.updated_at || new Date().toISOString()
         isEditingComment.value = false
         editCommentValue.value = ''
-        console.log('✅ 댓글 수정 성공')
       } else {
         console.error('❌ 댓글 수정 실패:', result.error)
         alert('댓글 수정에 실패했습니다.')
@@ -614,10 +618,9 @@
 
       if (result.success) {
         reply.content = editReplyValue.value.trim()
-        reply.updated_at = new Date().toISOString()
+        reply.updated_at = result.updated_at || new Date().toISOString()
         editingReplyId.value = null
         editReplyValue.value = ''
-        console.log('✅ 대댓글 수정 성공')
       } else {
         console.error('❌ 대댓글 수정 실패:', result.error)
         alert('답글 수정에 실패했습니다.')
@@ -697,6 +700,12 @@
 
   .comment-item__edited {
     font-size: 11px;
+    color: var(--color-inactive-text);
+    font-style: italic;
+  }
+
+  .comment-item__reply-edited {
+    font-size: 10px;
     color: var(--color-inactive-text);
     font-style: italic;
   }
