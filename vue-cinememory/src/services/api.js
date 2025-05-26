@@ -117,7 +117,7 @@ export const getPost = async (postId) => {
         content: response.content,
         // 🔧 작성자 정보 변환 로직 수정
         author: {
-          id: response.user || response.author_id || response.author?.id,
+          id: response.user || response.user_pk || response.author_id || response.author?.id || response.author?.user_pk,
           username:
             response.username ||
             response.author?.username ||
@@ -481,7 +481,7 @@ export const getCommunityHome = async () => {
             title: post.title || post.post_title,
             content: post.content,
             author: {
-              id: post.author?.id || post.author_id || post.user,
+              id: post.author?.id || post.author_id || post.user || post.user_pk || post.author?.user_pk,
               username:
                 post.author?.username ||
                 post.author ||
