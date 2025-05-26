@@ -67,11 +67,15 @@
         <template #footer>
           <div class="post-creator-preview__card-footer">
             <div class="post-creator-preview__stats">
-              <div class="post-creator-preview__stat">
+              <div
+                class="post-creator-preview__stat"
+                @click.prevent="handlePreviewLike">
                 <BaseIcon name="heart" />
                 <span>0</span>
               </div>
-              <div class="post-creator-preview__stat">
+              <div
+                class="post-creator-preview__stat"
+                @click.prevent="handlePreviewComment">
                 <BaseIcon name="message-circle" />
                 <span>0</span>
               </div>
@@ -81,7 +85,8 @@
               <BaseButton
                 variant="ghost"
                 size="small"
-                icon-left="share">
+                icon-left="share"
+                @click.prevent="handlePreviewShare">
                 공유
               </BaseButton>
             </div>
@@ -142,6 +147,19 @@
 
     return formatted
   })
+
+  // 미리보기 공유 버튼 클릭 처리
+  const handlePreviewShare = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    alert('실제 게시글을 작성한 후에 공유할 수 있습니다.')
+  }
+
+  const handlePreviewStat = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
 </script>
 
 <style scoped>
@@ -179,7 +197,22 @@
   }
 
   .post-creator-preview__card {
+    position: relative;
     margin-bottom: 0;
+    opacity: 0.95;
+  }
+
+  .post-creator-preview__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dashed var(--color-main-opacity-50);
+    border-radius: var(--border-radius-medium);
+    pointer-events: none;
+    z-index: 1;
   }
 
   .post-creator-preview__card-header {
@@ -261,6 +294,13 @@
     gap: 4px;
     font-size: 14px;
     color: var(--color-highlight-text);
+    cursor: default;
+    opacity: 0.8;
+  }
+
+  .post-creator-preview__actions .base-button:hover {
+    transform: none;
+    opacity: 0.9;
   }
 
   .post-creator-preview__stat svg {
@@ -272,6 +312,11 @@
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  .post-creator-preview__actions .base-button {
+    cursor: default;
+    opacity: 0.8;
   }
 
   .post-creator-preview__notice {
