@@ -23,6 +23,26 @@
           검색
         </BaseButton>
       </div>
+
+      <!-- 검색 상태 표시 및 초기화 버튼 -->
+      <div
+        v-if="searchValue.trim()"
+        class="post-list-filter__search-status">
+        <span>
+          <BaseIcon name="search" />
+          <span class="search-status-text">
+            검색 중: <strong>'{{ searchValue }}'</strong>
+          </span>
+        </span>
+        <BaseButton
+          variant="ghost"
+          size="small"
+          icon-left="x"
+          @click="handleSearchClear"
+          class="search-clear-btn">
+          검색 초기화
+        </BaseButton>
+      </div>
     </div>
 
     <!-- 태그 필터 -->
@@ -453,6 +473,29 @@
     height: auto;
     padding: 0 16px;
     border-radius: var(--border-radius-medium);
+  }
+
+  .post-list-filter__search-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    background: var(--color-card-background-opacity-50, #f5f5f7);
+    border-radius: var(--border-radius-medium, 8px);
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--color-highlight-text, #888);
+  }
+
+  .search-status-text strong {
+    color: var(--color-main, #3b82f6);
+    font-weight: 600;
+  }
+
+  .search-clear-btn {
+    margin-left: auto;
+    font-size: 13px;
+    padding: 2px 10px;
   }
 
   .post-list-filter__tags {
