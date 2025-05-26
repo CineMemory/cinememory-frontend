@@ -3,18 +3,20 @@
   <div class="post-list">
     <!-- 필터 및 정렬 헤더 -->
     <div class="post-list__header">
-      <div class="post-list__filters">
-        <PostListFilter
-          v-model:search="searchQuery"
-          v-model:selected-tags="selectedTags"
-          :tags="availableTags"
-          @filter-changed="handleFilterChanged" />
-      </div>
+      <div class="post-list__header-content">
+        <div class="post-list__filters">
+          <PostListFilter
+            v-model:search="searchQuery"
+            v-model:selected-tags="selectedTags"
+            :tags="availableTags"
+            @filter-changed="handleFilterChanged" />
+        </div>
 
-      <div class="post-list__sort">
-        <PostListSort
-          v-model="sortBy"
-          @sort-changed="handleSortChanged" />
+        <div class="post-list__sort">
+          <PostListSort
+            v-model="sortBy"
+            @sort-changed="handleSortChanged" />
+        </div>
       </div>
     </div>
 
@@ -262,88 +264,136 @@
 </script>
 
 <style scoped>
+  /* 개선된 PostList 스타일 */
   @import '@/assets/colors.css';
   @import '@/assets/fonts.css';
 
   .post-list {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
   }
 
+  /* 헤더 섹션 개선 - CommunityAnnouncements와 일치하도록 */
   .post-list__header {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 24px;
-    padding: 16px;
-    background-color: var(--color-card-background);
-    border-radius: var(--border-radius-large);
-    border: 1px solid var(--color-inactive-icon);
+    margin-bottom: 20px;
   }
 
+  .post-list__header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(
+      135deg,
+      var(--color-card-background) 0%,
+      var(--color-search-box) 100%
+    );
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--color-inactive-icon);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* 필터와 정렬 영역 레이아웃 개선 */
   .post-list__filters {
-    flex: 1;
+    width: 100%;
+    max-width: 600px;
   }
 
   .post-list__sort {
-    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  /* 로딩 상태 개선 */
   .post-list__loading {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    padding: 48px 16px;
+    padding: 60px 16px;
     color: var(--color-highlight-text);
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
   }
 
+  .post-list__loading p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  /* 에러 상태 개선 */
   .post-list__error {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    padding: 48px 16px;
-    color: var(--color-alert);
+    padding: 60px 16px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    border: 2px dashed var(--color-alert);
     text-align: center;
   }
 
   .post-list__error svg {
     width: 48px;
     height: 48px;
+    color: var(--color-alert);
   }
 
+  .post-list__error p {
+    font-size: 16px;
+    color: var(--color-alert);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* 빈 상태 개선 */
   .post-list__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 48px 16px;
-    color: var(--color-highlight-text);
+    gap: 20px;
+    padding: 80px 16px;
+    background: linear-gradient(
+      135deg,
+      var(--color-card-background) 0%,
+      var(--color-search-box) 100%
+    );
+    border-radius: var(--border-radius-large);
+    border: 2px dashed var(--color-inactive-icon);
     text-align: center;
   }
 
   .post-list__empty svg {
     width: 64px;
     height: 64px;
-    opacity: 0.5;
+    opacity: 0.6;
+    color: var(--color-highlight-text);
   }
 
   .post-list__empty h3 {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
     color: var(--color-text);
     margin: 0;
   }
 
   .post-list__empty p {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
+    color: var(--color-highlight-text);
+    line-height: 1.5;
   }
 
+  /* 콘텐츠 섹션 개선 */
   .post-list__content {
     display: flex;
     flex-direction: column;
@@ -356,52 +406,123 @@
     gap: 16px;
   }
 
+  /* 더 보기 버튼 개선 */
   .post-list__load-more {
     display: flex;
     justify-content: center;
-    padding: 24px 16px;
+    padding: 20px 0;
+    margin-top: 4px;
   }
 
-  /* 트랜지션 애니메이션 */
-  .post-list-enter-active,
-  .post-list-leave-active {
+  .post-list__load-more .base-button {
+    min-width: 200px;
+    height: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-button);
     transition: all 0.3s ease;
+  }
+
+  .post-list__load-more .base-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px var(--color-background-opacity-50);
+  }
+
+  /* 트랜지션 애니메이션 개선 */
+  .post-list-enter-active {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .post-list-leave-active {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .post-list-enter-from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.95);
   }
 
   .post-list-leave-to {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-30px) scale(0.95);
   }
 
   .post-list-move {
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
-  /* 반응형 디자인 */
+  /* 반응형 디자인 개선 */
   @media (min-width: 768px) {
-    .post-list__header {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .post-list__sort {
-      align-self: auto;
+    .post-list__header-content {
+      padding: 24px 32px;
+      gap: 20px;
     }
   }
 
-  @media (max-width: 768px) {
-    .post-list__header {
-      padding: 12px;
-      margin-bottom: 16px;
+  @media (min-width: 1024px) {
+    .post-list__header-content {
+      padding: 28px 40px;
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .post-list__header-content {
+      padding: 16px;
+      gap: 12px;
     }
 
     .post-list__items {
       gap: 12px;
+    }
+
+    .post-list__content {
+      gap: 12px;
+    }
+
+    .post-list__loading,
+    .post-list__error,
+    .post-list__empty {
+      padding: 40px 12px;
+    }
+
+    .post-list__empty h3 {
+      font-size: 20px;
+    }
+
+    .post-list__empty p {
+      font-size: 14px;
+    }
+
+    .post-list__load-more {
+      padding: 16px 0;
+    }
+
+    .post-list__load-more .base-button {
+      width: 100%;
+      min-width: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-list__header-content {
+      padding: 12px;
+      border-radius: var(--border-radius-medium);
+    }
+
+    .post-list__empty svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .post-list__empty h3 {
+      font-size: 18px;
+    }
+
+    .post-list__load-more .base-button {
+      height: 44px;
+      font-size: 15px;
     }
   }
 </style>

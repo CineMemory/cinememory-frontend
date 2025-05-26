@@ -3,13 +3,26 @@
   <div class="post-list-filter">
     <!-- 검색 입력 -->
     <div class="post-list-filter__search">
-      <BaseInput
-        v-model="searchValue"
-        placeholder="제목, 내용, 작성자로 검색..."
-        icon-left="search"
-        clearable
-        @input="handleSearchChange"
-        @clear="handleSearchClear" />
+      <div class="post-list-filter__search-header">
+        <span class="post-list-filter__search-label">게시글 검색</span>
+      </div>
+      <div class="post-list-filter__search-wrapper">
+        <BaseInput
+          v-model="searchValue"
+          placeholder="제목, 내용, 작성자로 검색..."
+          icon-left="search"
+          clearable
+          @keydown.enter="handleSearchSubmit"
+          @clear="handleSearchClear" />
+        <BaseButton
+          variant="primary"
+          size="medium"
+          icon-left="search"
+          :disabled="!searchValue.trim()"
+          @click="handleSearchSubmit">
+          검색
+        </BaseButton>
+      </div>
     </div>
 
     <!-- 태그 필터 -->
@@ -38,8 +51,9 @@
           @clear="clearTagInput" />
         <BaseButton
           variant="primary"
-          size="small"
+          size="medium"
           :disabled="!canAddTag"
+          icon-left="plus"
           @click="handleTagAdd">
           추가
         </BaseButton>
@@ -149,23 +163,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 활성 필터 요약 -->
-    <div
-      v-if="hasActiveFilters"
-      class="post-list-filter__summary">
-      <BaseIcon name="filter" />
-      <span class="post-list-filter__summary-text">
-        {{ filterSummaryText }}
-      </span>
-      <BaseButton
-        variant="ghost"
-        size="small"
-        icon-left="x"
-        @click="clearAllFilters">
-        전체 초기화
-      </BaseButton>
-    </div>
   </div>
 </template>
 
@@ -265,27 +262,11 @@
     ) // 태그 길이 제한
   })
 
-  const hasActiveFilters = computed(() => {
-    return searchValue.value.length > 0 || selectedTagsValue.value.length > 0
-  })
-
-  const filterSummaryText = computed(() => {
-    const parts = []
-
-    if (searchValue.value) {
-      parts.push(`검색: "${searchValue.value}"`)
+  const handleSearchSubmit = () => {
+    if (!searchValue.value.trim()) {
+      return
     }
-
-    if (selectedTagsValue.value.length > 0) {
-      parts.push(`태그: ${selectedTagsValue.value.length}개`)
-    }
-
-    return parts.join(', ')
-  })
-
-  // 검색 관련 함수
-  const handleSearchChange = () => {
-    emit('update:search', searchValue.value)
+    emit('update:search', searchValue.value.trim())
     emit('filter-changed')
   }
 
@@ -401,18 +382,6 @@
     emit('filter-changed')
   }
 
-  // 전체 필터 초기화
-  const clearAllFilters = () => {
-    searchValue.value = ''
-    selectedTagsValue.value = []
-    showAllTags.value = false
-    clearTagInput()
-
-    emit('update:search', '')
-    emit('update:selectedTags', [])
-    emit('filter-changed')
-  }
-
   // props 변경 감시
   watch(
     () => props.search,
@@ -452,6 +421,38 @@
 
   .post-list-filter__search {
     width: 100%;
+  }
+
+  .post-list-filter__search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .post-list-filter__search-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .post-list-filter__search-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .post-list-filter__search-wrapper .base-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-list-filter__search-wrapper .base-button {
+    flex-shrink: 0;
+    min-width: 80px;
+    height: auto;
+    padding: 0 16px;
+    border-radius: var(--border-radius-medium);
   }
 
   .post-list-filter__tags {
@@ -587,6 +588,17 @@
   @media (max-width: 768px) {
     .post-list-filter {
       gap: 12px;
+    }
+
+    .post-list-filter__search-wrapper {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .post-list-filter__search-wrapper.base-button {
+      width: 100%;
+      min-width: auto;
+      padding: 12px 16px;
     }
 
     .post-list-filter__tags-header {
