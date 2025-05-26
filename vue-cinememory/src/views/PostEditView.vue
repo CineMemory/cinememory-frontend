@@ -12,7 +12,7 @@
           @click="goBack">
           뒤로가기
         </BaseButton>
-        
+
         <!-- 제목 -->
         <div class="post-edit-view__title-section">
           <h1 class="post-edit-view__title">게시글 수정</h1>
@@ -105,11 +105,11 @@
 
   const canEdit = computed(() => {
     return (
-      isAuthenticated.value && 
-      user.value && 
-      post.value?.author && 
-      (user.value.user_pk === post.value.author.id || 
-       user.value.id === post.value.author.id)
+      isAuthenticated.value &&
+      user.value &&
+      post.value?.author &&
+      (user.value.user_pk === post.value.author.id ||
+        user.value.id === post.value.author.id)
     )
   })
 

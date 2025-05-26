@@ -220,46 +220,49 @@
 
   // 라이프사이클
   onMounted(async () => {
-  // 페이지 타이틀 설정
-  document.title = '커뮤니티 | 씨네메모리'
+    // 페이지 타이틀 설정
+    document.title = '커뮤니티 | 씨네메모리'
 
-  console.log('🚀 CommunityView 마운트됨')
+    console.log('🚀 CommunityView 마운트됨')
 
-  try {
-    // 🔧 쿼리 파라미터 확인
-    const tagQuery = route.query.tag
+    try {
+      // 🔧 쿼리 파라미터 확인
+      const tagQuery = route.query.tag
 
-    if (tagQuery) {
-      // 태그 필터링으로 시작
-      console.log('🏷️ 태그 쿼리 감지:', tagQuery)
-      const result = await communityStore.setTagFilter(tagQuery)
-      
-      if (!result.success) {
-        console.error('❌ 태그 필터링 실패, 일반 홈 로드')
-        await communityStore.fetchCommunityHome()
-      }
-    } else {
-      // 일반 커뮤니티 홈 로드
-      console.log('📡 커뮤니티 홈 데이터 로드 시작...')
-      const result = await communityStore.fetchCommunityHome()
+      if (tagQuery) {
+        // 태그 필터링으로 시작
+        console.log('🏷️ 태그 쿼리 감지:', tagQuery)
+        const result = await communityStore.setTagFilter(tagQuery)
 
-      if (result.success) {
-        console.log('✅ 커뮤니티 홈 데이터 로드 완료')
-        
-        // 🔍 디버깅: 홈 게시글 데이터 확인
-        console.log('🏠 홈 게시글 전체 데이터:', communityStore.posts)
-        if (communityStore.posts.length > 0) {
-          console.log('🏠 첫 번째 게시글:', communityStore.posts[0])
-          console.log('🏠 첫 번째 게시글 작성자:', communityStore.posts[0]?.author)
+        if (!result.success) {
+          console.error('❌ 태그 필터링 실패, 일반 홈 로드')
+          await communityStore.fetchCommunityHome()
         }
       } else {
-        console.error('❌ 커뮤니티 홈 데이터 로드 실패:', result.error)
+        // 일반 커뮤니티 홈 로드
+        console.log('📡 커뮤니티 홈 데이터 로드 시작...')
+        const result = await communityStore.fetchCommunityHome()
+
+        if (result.success) {
+          console.log('✅ 커뮤니티 홈 데이터 로드 완료')
+
+          // 🔍 디버깅: 홈 게시글 데이터 확인
+          console.log('🏠 홈 게시글 전체 데이터:', communityStore.posts)
+          if (communityStore.posts.length > 0) {
+            console.log('🏠 첫 번째 게시글:', communityStore.posts[0])
+            console.log(
+              '🏠 첫 번째 게시글 작성자:',
+              communityStore.posts[0]?.author
+            )
+          }
+        } else {
+          console.error('❌ 커뮤니티 홈 데이터 로드 실패:', result.error)
+        }
       }
+    } catch (error) {
+      console.error('❌ 커뮤니티 초기화 중 오류 발생:', error)
     }
-  } catch (error) {
-    console.error('❌ 커뮤니티 초기화 중 오류 발생:', error)
-  }
-})
+  })
 </script>
 
 <style scoped>

@@ -117,7 +117,12 @@ export const getPost = async (postId) => {
         content: response.content,
         // 🔧 작성자 정보 변환 로직 수정
         author: {
-          id: response.user || response.user_pk || response.author_id || response.author?.id || response.author?.user_pk,
+          id:
+            response.user ||
+            response.user_pk ||
+            response.author_id ||
+            response.author?.id ||
+            response.author?.user_pk,
           username:
             response.username ||
             response.author?.username ||
@@ -394,19 +399,22 @@ export const getPostsByTag = async (tagName) => {
 
   try {
     const encodedTagName = encodeURIComponent(tagName)
-    const response = await apiRequest(`/cinememory/community/tags/${encodedTagName}/posts/`)
+    const response = await apiRequest(
+      `/cinememory/community/tags/${encodedTagName}/posts/`
+    )
     console.log('📤 태그별 게시글 원본 응답:', response)
 
     // 🔧 작성자 정보 변환 추가
     if (response && response.posts) {
-      const transformedPosts = response.posts.map(post => ({
+      const transformedPosts = response.posts.map((post) => ({
         id: post.id,
         title: post.title,
         content: post.content,
         // 🔧 작성자 정보 변환
         author: {
           id: post.user || post.author_id || post.author?.id,
-          username: post.username || post.author?.username || post.author || 'Unknown'
+          username:
+            post.username || post.author?.username || post.author || 'Unknown'
         },
         like_count: post.like_count || 0,
         comment_count: post.comment_count || 0,
@@ -415,7 +423,7 @@ export const getPostsByTag = async (tagName) => {
         updated_at: post.updated_at,
         // 태그 정보 변환
         tags: Array.isArray(post.tags)
-          ? post.tags.map(tag => typeof tag === 'object' ? tag.name : tag)
+          ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
           : [],
         view_count: post.view_count || 0
       }))
@@ -481,7 +489,12 @@ export const getCommunityHome = async () => {
             title: post.title || post.post_title,
             content: post.content,
             author: {
-              id: post.author?.id || post.author_id || post.user || post.user_pk || post.author?.user_pk,
+              id:
+                post.author?.id ||
+                post.author_id ||
+                post.user ||
+                post.user_pk ||
+                post.author?.user_pk,
               username:
                 post.author?.username ||
                 post.author ||

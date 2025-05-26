@@ -64,18 +64,18 @@
 
       <!-- 태그들 -->
       <div
-  v-if="post.tags && post.tags.length > 0"
-  class="post-card__tags">
-  <BaseTag
-    v-for="(tag, index) in post.tags"
-    :key="index"
-    variant="secondary"
-    size="small"
-    clickable
-    @click="filterByTag(getTagName(tag))">
-    #{{ getTagName(tag) }}
-  </BaseTag>
-</div>
+        v-if="post.tags && post.tags.length > 0"
+        class="post-card__tags">
+        <BaseTag
+          v-for="(tag, index) in post.tags"
+          :key="index"
+          variant="secondary"
+          size="small"
+          clickable
+          @click="filterByTag(getTagName(tag))">
+          #{{ getTagName(tag) }}
+        </BaseTag>
+      </div>
     </div>
 
     <!-- 푸터 (액션 버튼들) -->
@@ -246,25 +246,25 @@
   }
 
   const getTagName = (tag) => {
-  // 태그가 객체인 경우와 문자열인 경우 모두 처리
-  if (typeof tag === 'object' && tag.name) {
-    return tag.name
+    // 태그가 객체인 경우와 문자열인 경우 모두 처리
+    if (typeof tag === 'object' && tag.name) {
+      return tag.name
+    }
+    return tag
   }
-  return tag
-}
 
-const filterByTag = async (tagName) => {
-  console.log('🏷️ 태그 클릭됨:', tagName)
-  
-  try {
-    // 🔧 스토어를 통해 태그 필터에 추가
-    communityStore.addTagToFilter(tagName)
-    
-    console.log('✅ 태그 필터에 추가됨:', tagName)
-  } catch (error) {
-    console.error('❌ 태그 필터 추가 오류:', error)
+  const filterByTag = async (tagName) => {
+    console.log('🏷️ 태그 클릭됨:', tagName)
+
+    try {
+      // 🔧 스토어를 통해 태그 필터에 추가
+      communityStore.addTagToFilter(tagName)
+
+      console.log('✅ 태그 필터에 추가됨:', tagName)
+    } catch (error) {
+      console.error('❌ 태그 필터 추가 오류:', error)
+    }
   }
-}
 
   const deletePost = async () => {
     if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) {

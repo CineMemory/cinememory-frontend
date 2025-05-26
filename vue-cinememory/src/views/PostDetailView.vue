@@ -191,57 +191,68 @@
   const error = computed(() => communityStore.error)
 
   const canEdit = computed(() => {
-  console.log('🔍 PostDetailView 권한 체크:', {
-    isAuthenticated: isAuthenticated.value,
-    currentUser: user.value,
-    post: post.value,
-    postAuthor: post.value?.author,
-    userIds: {
-      currentUserId: user.value?.id,
-      currentUserPk: user.value?.user_pk,
-      postAuthorId: post.value?.author?.id,
-      postAuthorUserId: post.value?.author?.user_id
+    console.log('🔍 PostDetailView 권한 체크:', {
+      isAuthenticated: isAuthenticated.value,
+      currentUser: user.value,
+      post: post.value,
+      postAuthor: post.value?.author,
+      userIds: {
+        currentUserId: user.value?.id,
+        currentUserPk: user.value?.user_pk,
+        postAuthorId: post.value?.author?.id,
+        postAuthorUserId: post.value?.author?.user_id
+      }
+    })
+
+    // 🔍 API 원본 응답 데이터 확인을 위한 추가 로그
+    if (post.value) {
+      console.log(
+        '🔍 게시글 원본 데이터 전체:',
+        JSON.stringify(post.value, null, 2)
+      )
+      console.log(
+        '🔍 게시글 작성자 원본 데이터:',
+        JSON.stringify(post.value.author, null, 2)
+      )
     }
+
+    if (!isAuthenticated.value || !user.value || !post.value?.author) {
+      console.log('❌ PostDetailView 기본 조건 실패')
+      return false
+    }
+
+    // 현재 사용자 정보
+    const currentUserId = user.value.id || user.value.user_pk || user.value.pk
+    const currentUsername = user.value.username
+
+    // 게시글 작성자 정보
+    const postAuthorId =
+      post.value.author.id ||
+      post.value.author.user_id ||
+      post.value.author.pk ||
+      post.value.author.user_pk
+    const postAuthorUsername = post.value.author.username
+
+    // ID가 있으면 ID로 비교, 없으면 username으로 비교
+    let isOwner = false
+    if (currentUserId && postAuthorId) {
+      isOwner = String(currentUserId) === String(postAuthorId)
+    } else if (currentUsername && postAuthorUsername) {
+      isOwner = currentUsername === postAuthorUsername
+    }
+
+    console.log('🔍 PostDetailView 상세 권한 체크:', {
+      currentUserId,
+      currentUsername,
+      postAuthorId,
+      postAuthorUsername,
+      isOwner,
+      comparisonMethod:
+        currentUserId && postAuthorId ? 'ID 비교' : 'Username 비교'
+    })
+
+    return isOwner
   })
-
-  // 🔍 API 원본 응답 데이터 확인을 위한 추가 로그
-  if (post.value) {
-    console.log('🔍 게시글 원본 데이터 전체:', JSON.stringify(post.value, null, 2))
-    console.log('🔍 게시글 작성자 원본 데이터:', JSON.stringify(post.value.author, null, 2))
-  }
-
-  if (!isAuthenticated.value || !user.value || !post.value?.author) {
-    console.log('❌ PostDetailView 기본 조건 실패')
-    return false
-  }
-
-  // 현재 사용자 정보
-  const currentUserId = user.value.id || user.value.user_pk || user.value.pk
-  const currentUsername = user.value.username
-  
-  // 게시글 작성자 정보
-  const postAuthorId = post.value.author.id || post.value.author.user_id || post.value.author.pk || post.value.author.user_pk
-  const postAuthorUsername = post.value.author.username
-
-  // ID가 있으면 ID로 비교, 없으면 username으로 비교
-  let isOwner = false
-  if (currentUserId && postAuthorId) {
-    isOwner = String(currentUserId) === String(postAuthorId)
-  } else if (currentUsername && postAuthorUsername) {
-    isOwner = currentUsername === postAuthorUsername
-  }
-
-  console.log('🔍 PostDetailView 상세 권한 체크:', {
-    currentUserId,
-    currentUsername,
-    postAuthorId,
-    postAuthorUsername,
-    isOwner,
-    comparisonMethod: currentUserId && postAuthorId ? 'ID 비교' : 'Username 비교'
-  })
-
-  return isOwner
-})
 
   // 라이프사이클
   onMounted(() => {

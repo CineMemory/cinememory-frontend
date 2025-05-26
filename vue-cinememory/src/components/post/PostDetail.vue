@@ -169,7 +169,7 @@
     const postAuthorId = props.post.author.id
 
     const isOwner = String(currentUserId) === String(postAuthorId)
-    
+
     console.log('🔍 PostDetail 권한 결과:', {
       currentUserId,
       postAuthorId,
