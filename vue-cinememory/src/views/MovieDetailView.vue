@@ -884,54 +884,53 @@
   }
 
   const submitReview = async () => {
-  if (!reviewContent.value.trim()) {
-    alert('리뷰 내용을 입력해주세요.')
-    return
-  }
-
-  if (reviewRating.value === 0) {
-    alert('별점을 선택해주세요.')
-    return
-  }
-
-  isSubmittingReview.value = true
-
-  try {
-    const reviewData = {
-      content: reviewContent.value.trim(),
-      rating: reviewRating.value
+    if (!reviewContent.value.trim()) {
+      alert('리뷰 내용을 입력해주세요.')
+      return
     }
 
-    // 수정 여부를 미리 저장
-    const isEditing = !!userReview.value
-    
-    let response
-    if (isEditing) {
-      // 리뷰 수정
-      response = await updateMovieReview(
-        movie.value.movie_id,
-        userReview.value.id,
-        reviewData
-      )
-    } else {
-      // 새 리뷰 작성
-      response = await createMovieReview(movie.value.movie_id, reviewData)
+    if (reviewRating.value === 0) {
+      alert('별점을 선택해주세요.')
+      return
     }
 
-    // 성공 시 영화 데이터 다시 로드
-    await loadMovie()
-    cancelWritingReview()
-    
-    // 올바른 메시지 표시
-    alert(isEditing ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.')
-    
-  } catch (err) {
-    console.error('리뷰 제출 실패:', err)
-    alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
-  } finally {
-    isSubmittingReview.value = false
+    isSubmittingReview.value = true
+
+    try {
+      const reviewData = {
+        content: reviewContent.value.trim(),
+        rating: reviewRating.value
+      }
+
+      // 수정 여부를 미리 저장
+      const isEditing = !!userReview.value
+
+      let response
+      if (isEditing) {
+        // 리뷰 수정
+        response = await updateMovieReview(
+          movie.value.movie_id,
+          userReview.value.id,
+          reviewData
+        )
+      } else {
+        // 새 리뷰 작성
+        response = await createMovieReview(movie.value.movie_id, reviewData)
+      }
+
+      // 성공 시 영화 데이터 다시 로드
+      await loadMovie()
+      cancelWritingReview()
+
+      // 올바른 메시지 표시
+      alert(isEditing ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.')
+    } catch (err) {
+      console.error('리뷰 제출 실패:', err)
+      alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
+    } finally {
+      isSubmittingReview.value = false
+    }
   }
-}
 
   const deleteReview = async () => {
     if (!userReview.value) return
@@ -1943,10 +1942,48 @@
 
   /* 사용자 평점 */
   .user-rating {
-    padding: 8px 12px;
-    background-color: var(--color-card-background);
-    border-radius: var(--border-radius-medium);
-    border: 1px solid var(--color-main-opacity-50);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-card-background);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    padding: 4px 10px;
+    border: 1px solid var(--color-main-opacity-20);
+    min-width: 100px;
+    min-height: 32px;
+    position: relative;
+  }
+  .user-rating .stars-display {
+    gap: 1px;
+    font-size: 13px;
+    background: none;
+    margin-right: 4px;
+    align-items: center;
+  }
+  .user-rating .star-item {
+    font-size: 13px;
+    margin: 0 0.5px;
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  .user-rating .rating-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-main);
+    margin-right: 2px;
+    letter-spacing: -0.5px;
+  }
+  .user-rating .rating-label {
+    font-size: 11px;
+    color: var(--color-highlight-text);
+    font-weight: 400;
+    margin-left: 1px;
+    line-height: 1.6;
+    padding: 0 2px;
+    letter-spacing: -0.2px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   /* OTT 시청 정보 */

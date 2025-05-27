@@ -142,17 +142,19 @@
             </p>
 
             <!-- 좋아요 버튼 -->
-            <div class="person-ratings">
+            <div class="person-ratings-bar">
               <button
                 @click="toggleLike"
                 :disabled="isTogglingLike"
                 class="like-btn"
                 :class="{ liked: isLiked, loading: isTogglingLike }">
-                <BaseIcon
-                  :name="isLiked ? 'heart' : 'heart'"
-                  class="like-icon" />
+                <BaseIcon :name="isLiked ? 'heart' : 'heart'" class="like-icon" />
                 <span class="like-count">{{ likeCount }}</span>
               </button>
+              <div class="person-rating-info" v-if="person.average_rating">
+                <span class="rating-value">{{ person.average_rating.toFixed(1) }}</span>
+                <span class="rating-label">사용자 ({{ person.review_count }})</span>
+              </div>
             </div>
 
             <!-- 통계 정보 추가 -->
@@ -407,7 +409,30 @@
   // 영화 출연작 (Django API 구조에 맞게)
   const movieCredits = computed(() => {
     if (!person.value?.movies) return []
-    return person.value.movies.sort(
+
+    // 중복 제거: movie_id 기준으로 중복을 제거하고, character_name이 있는 것을 우선
+    const uniqueMovies = person.value.movies.reduce((acc, current) => {
+      const movieId = current.movie?.id || current.id
+      const existing = acc.find(
+        (item) => (item.movie?.id || item.id) === movieId
+      )
+
+      if (!existing) {
+        // 새로운 영화면 추가
+        acc.push(current)
+      } else if (current.character_name && !existing.character_name) {
+        // 기존 항목에 character_name이 없고 현재 항목에 있다면 교체
+        const index = acc.findIndex(
+          (item) => (item.movie?.id || item.id) === movieId
+        )
+        acc[index] = current
+      }
+
+      return acc
+    }, [])
+
+    // 개봉일 순으로 정렬
+    return uniqueMovies.sort(
       (a, b) =>
         new Date(b.movie?.release_date || b.release_date) -
         new Date(a.movie?.release_date || a.release_date)
@@ -505,8 +530,6 @@
   }
 
   // 좋아요 토글
-  // 좋아요 토글
-  // 좋아요 토글
   const toggleLike = async () => {
     if (!authStore.isAuthenticated) {
       // authStore.openLoginModal('login') // 일단 주석 처리
@@ -567,6 +590,26 @@
 </script>
 
 <style scoped>
+  .person-ratings-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .person-rating-info {
+    font-size: 16px;
+    color: var(--color-highlight-text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .rating-value {
+    font-weight: 700;
+    color: var(--color-main);
+  }
+
   .person-ratings {
     display: flex;
     align-items: center;
