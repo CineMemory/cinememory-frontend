@@ -1,4 +1,4 @@
-<!-- 홈 검색 섹션 (간소화 완성버전) -->
+<!-- 홈 검색 섹션 (히어로용 간소화 버전) -->
 <template>
   <section class="home-search-section">
     <div class="home-search-section__container">
@@ -119,16 +119,13 @@
 <style scoped>
   .home-search-section {
     width: 100%;
-    padding: 80px 0;
     display: flex;
     justify-content: center;
-    background-color: var(--color-background);
   }
 
   .home-search-section__container {
     width: 100%;
-    max-width: 1200px; /* SearchResultView와 동일한 가로폭 */
-    padding: 0 24px;
+    max-width: 600px;
     display: flex;
     justify-content: center;
   }
@@ -137,34 +134,34 @@
   .home-search-section__search-box,
   .home-search-section__input-container {
     width: 100%;
-    max-width: 600px; /* 검색창 최대 가로폭 */
     display: flex;
     align-items: center;
-    height: 48px; /* 더 크게 */
-    background-color: var(--color-search-box);
-    border-radius: var(--border-radius-medium);
+    height: 56px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
     font-family: 'Pretendard-Regular', sans-serif;
-    transition:
-      border 0.2s,
-      background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
 
   .home-search-section__search-box {
-    border: 1px solid var(--color-inactive-icon);
-    padding: 0 16px;
-    gap: 12px;
+    border: 2px solid transparent;
+    padding: 0 20px;
+    gap: 16px;
     cursor: text;
   }
 
   .home-search-section__search-box:hover {
-    border-color: var(--border-color-focus);
-    background-color: var(--color-highlight-background);
+    border-color: var(--color-main);
+    box-shadow: 0 6px 25px rgba(255, 183, 0, 0.15);
+    transform: translateY(-2px);
   }
 
   .home-search-section__input-container {
-    border: 2px solid var(--border-color-focus);
-    padding: 0 16px;
-    gap: 12px;
+    border: 2px solid var(--color-main);
+    padding: 0 20px;
+    gap: 16px;
+    box-shadow: 0 6px 25px rgba(255, 183, 0, 0.2);
   }
 
   .home-search-section__input-wrapper {
@@ -172,7 +169,7 @@
     align-items: center;
     flex: 1;
     min-width: 0;
-    gap: 12px;
+    gap: 16px;
     overflow: hidden;
   }
 
@@ -191,7 +188,7 @@
   .home-search-section__icon {
     width: 24px;
     height: 24px;
-    color: var(--color-highlight-text);
+    color: var(--color-main);
     flex-shrink: 0;
   }
 
@@ -213,21 +210,23 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
-    border-radius: var(--border-radius-small);
+    padding: 10px;
+    border-radius: var(--border-radius-medium);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
     flex-shrink: 0;
   }
 
   .home-search-section__search-btn:hover {
     background-color: var(--color-main-opacity-20);
+    transform: scale(1.1);
   }
 
   .home-search-section__cancel-btn:hover {
     background-color: var(--color-background-opacity-50);
+    transform: scale(1.1);
   }
 
   .search-btn-icon {
@@ -244,17 +243,9 @@
 
   /* 반응형 */
   @media (max-width: 768px) {
-    .home-search-section {
-      padding: 60px 0;
-    }
-
-    .home-search-section__container {
-      padding: 0 16px;
-    }
-
     .home-search-section__search-box,
     .home-search-section__input-container {
-      height: 44px;
+      height: 52px;
     }
 
     .home-search-section__placeholder,
@@ -264,13 +255,11 @@
   }
 
   @media (max-width: 480px) {
-    .home-search-section {
-      padding: 50px 0;
-    }
-
     .home-search-section__search-box,
     .home-search-section__input-container {
-      height: 40px;
+      height: 48px;
+      padding: 0 16px;
+      gap: 12px;
     }
 
     .home-search-section__placeholder,
