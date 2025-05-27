@@ -753,6 +753,28 @@
     event.target.style.display = 'none'
   }
 
+  // 팔로우 상태 변경 처리 함수
+  const handleFollowChanged = (followData) => {
+    console.log('팔로우 상태 변경:', followData)
+
+    // 팔로우 상태 업데이트
+    userProfile.value.is_following = followData.isFollowing
+
+    // 팔로워 수 업데이트
+    if (followData.isFollowing) {
+      // 팔로우 했을 때 팔로워 수 증가
+      userProfile.value.followers_count += 1
+    } else {
+      // 언팔로우 했을 때 팔로워 수 감소
+      userProfile.value.followers_count = Math.max(
+        0,
+        userProfile.value.followers_count - 1
+      )
+    }
+
+    console.log('업데이트된 팔로워 수:', userProfile.value.followers_count)
+  }
+
   // 컴포넌트 마운트 시 실행
   onMounted(async () => {
     await loadUserProfile()

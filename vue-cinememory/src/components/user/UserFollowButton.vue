@@ -6,7 +6,7 @@
     <BaseSpinner
       v-if="loading"
       size="small" />
-    <span v-else>{{ isFollowing ? '팔로잉' : '팔로우' }}</span>
+    <span v-else>{{ isFollowing ? '팔로우 취소' : '팔로우' }}</span>
   </BaseButton>
 </template>
 
@@ -64,27 +64,37 @@
 
 <style scoped>
   .follow-button {
-    min-width: 80px;
+    min-width: 100px; /* 고정 너비로 통일 */
     height: 36px;
-  }
-
-  .following {
-    background: var(--color-card-background);
-    color: var(--color-text);
-    border: 1px solid var(--color-main);
+    font-weight: 600;
+    transition: all 0.2s ease;
   }
 
   .not-following {
     background: var(--color-main);
     color: var(--color-background);
+    border: 1px solid var(--color-main);
   }
 
-  .follow-button:hover.following {
-    background: var(--color-alert);
-    color: var(--color-text);
+  .not-following:hover {
+    background: var(--color-gold-dark);
+    border-color: var(--color-gold-dark);
   }
 
-  .follow-button:hover.following span::after {
-    content: ' 취소';
+  .following {
+    background: var(--color-alert); /* 항상 빨간색 */
+    color: white;
+    border: 1px solid var(--color-alert);
+  }
+
+  .following:hover {
+    background: var(--color-alert); /* hover해도 빨간색 유지 */
+    border-color: var(--color-alert);
+    opacity: 0.9; /* 살짝 투명도만 변경 */
+  }
+
+  .follow-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 </style>
