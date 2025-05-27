@@ -958,6 +958,8 @@
   const commentsError = ref('')
   const likedPostsError = ref('')
 
+  const hasImageChanged = ref(false)
+
   // 탭 상태
   const activeTab = ref('profile')
 
@@ -997,7 +999,7 @@
     return (
       editForm.value.username !== profile.value.username ||
       editForm.value.password.length > 0 ||
-      editForm.value.profileImage !== null
+      hasImageChanged.value
     )
   })
 
@@ -1015,6 +1017,14 @@
     if (isUsernameChanged.value) {
       return usernameCheckState.value.isAvailable === true
     }
+    // 비밀번호만 변경된 경우도 허용
+    if (
+      editForm.value.password.length > 7 &&
+      editForm.value.password.length < 20
+    ) {
+      return true
+    }
+
     // 닉네임이 변경되지 않은 경우는 다른 변경사항만 확인
     return hasChanges.value
   })
@@ -1147,6 +1157,8 @@
         profile.value.profile_image_url = `http://localhost:8000${response.user.profile_image_url}`
       }
 
+      hasImageChanged.value = true
+
       if (imageInput.value) {
         imageInput.value.value = ''
       }
@@ -1170,49 +1182,28 @@
     try {
       isUpdating.value = true
 
-      // 이미지가 있으면 FormData, 없으면 일반 객체 사용
-      if (editForm.value.profileImage) {
-        const formData = new FormData()
+      const updateData = {}
 
-        // 변경된 필드만 추가 (백엔드 필드명에 맞춤)
-        if (editForm.value.username !== profile.value.username) {
-          formData.append('username', editForm.value.username)
-        }
-
-        if (editForm.value.password) {
-          formData.append('password1', editForm.value.password)
-          formData.append('password2', editForm.value.password)
-        }
-
-        formData.append('profile_image', editForm.value.profileImage)
-
-        const response = await authAPI.updateUserProfile(formData)
-
-        if (response.user && response.user.profile_image_url) {
-          profile.value.profile_image_url = response.user.profile_image_url
-        }
-      } else {
-        // 이미지가 없으면 JSON으로 전송
-        const updateData = {}
-
-        if (editForm.value.username !== profile.value.username) {
-          updateData.username = editForm.value.username
-        }
-
-        if (editForm.value.password) {
-          updateData.password1 = editForm.value.password
-          updateData.password2 = editForm.value.password
-        }
-
-        const response = await authAPI.updateUserProfile(updateData)
+      if (editForm.value.username !== profile.value.username) {
+        updateData.username = editForm.value.username
       }
 
-      // 성공 시 프로필 다시 로드
+      if (editForm.value.password) {
+        updateData.password1 = editForm.value.password
+        updateData.password2 = editForm.value.password
+      }
+
+      if (Object.keys(updateData).length === 0) {
+        alert('변경된 내용이 없습니다.')
+        return
+      }
+
+      const response = await authAPI.updateUserProfile(updateData)
+
       await loadProfile()
 
       // 폼 초기화
       editForm.value.password = ''
-      editForm.value.profileImage = null
 
       alert('프로필이 성공적으로 수정되었습니다.')
     } catch (err) {
@@ -1313,7 +1304,6 @@
 
       const response = await getUserReviews()
       userReviews.value = response.reviews || []
-
     } catch (err) {
       console.error('❌ 사용자 리뷰 로드 실패:', err)
       reviewsError.value =
@@ -1421,7 +1411,6 @@
 
       const response = await getUserLikedActors()
       likedActors.value = response.liked_actors || []
-
     } catch (err) {
       console.error('❌ 좋아요한 배우 로드 실패:', err)
       actorsError.value =
@@ -1439,7 +1428,6 @@
 
       const response = await getUserLikedDirectors()
       likedDirectors.value = response.liked_directors || []
-
     } catch (err) {
       console.error('❌ 좋아요한 감독 로드 실패:', err)
       directorsError.value =
@@ -1457,7 +1445,6 @@
 
       const response = await getUserPosts()
       userPosts.value = response.posts || []
-
     } catch (err) {
       console.error('❌ 사용자 게시글 로드 실패:', err)
       postsError.value =
@@ -1475,7 +1462,6 @@
 
       const response = await getUserComments()
       userComments.value = response.comments || []
-
     } catch (err) {
       console.error('❌ 사용자 댓글 로드 실패:', err)
       commentsError.value =
