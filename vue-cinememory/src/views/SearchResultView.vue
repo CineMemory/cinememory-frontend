@@ -341,7 +341,6 @@
   }
 
   // 직업 번역 (Django API의 role 필드 기준)
-  // 직업 번역 (Django API의 role 필드 기준)
   const translateRole = (role) => {
     const roleMap = {
       Acting: '배우',
@@ -784,11 +783,12 @@
 
   .genre-tag {
     font-size: 12px;
-    color: var(--color-text);
-    background-color: var(--color-main-opacity-20);
+    color: var(--color-background);
+    background-color: var(--color-main);
     padding: 4px 8px;
     border-radius: var(--border-radius-small);
-    border: 1px solid var(--color-main-opacity-50);
+    font-weight: 600;
+    border: none;
   }
 
   /* 인물 결과 */

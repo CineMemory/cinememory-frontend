@@ -160,9 +160,9 @@
               class="movie-genres">
               <span
                 v-for="genre in movie.genres"
-                :key="genre.genre_id"
+                :key="genre.id"
                 class="genre-tag">
-                {{ genre.genre_name }}
+                {{ genre.name }}
               </span>
             </div>
 
@@ -1274,11 +1274,12 @@
 
   .genre-tag {
     font-size: 14px;
-    color: var(--color-text);
+    color: var(--color-background); /* 어두운 배경색으로 변경 */
     background-color: var(--color-main);
     padding: 6px 12px;
     border-radius: var(--border-radius-medium);
-    font-weight: 500;
+    font-weight: 600; /* 폰트 굵기 증가 */
+    border: none; /* 혹시 있을 테두리 제거 */
   }
 
   .movie-ratings {
