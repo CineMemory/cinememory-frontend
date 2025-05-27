@@ -219,38 +219,32 @@
             </div>
 
             <!-- OTT 시청 정보 -->
+            <!-- OTT 시청 정보 -->
             <div
-              v-if="
-                movie.watch_provider_details &&
-                movie.watch_provider_details.length > 0
-              "
+              v-if="movie.providers && movie.providers.length > 0"
               class="movie-watch-providers">
               <h3 class="section-title">시청 가능한 플랫폼</h3>
               <div class="watch-providers-list">
                 <div
-                  v-for="provider in movie.watch_provider_details"
-                  :key="`${provider.watch_provider.provider_id}-${provider.provider_type}`"
+                  v-for="provider in movie.providers"
+                  :key="`${provider.provider.id}-${provider.provider_type}`"
                   class="watch-provider-item">
                   <img
-                    :src="provider.watch_provider.logo_path"
-                    :alt="provider.watch_provider.provider_name"
+                    :src="`https://image.tmdb.org/t/p/w92${provider.provider.logo_path}`"
+                    :alt="provider.provider.name"
                     class="provider-logo" />
                   <div class="provider-info">
                     <span class="provider-name">{{
-                      provider.watch_provider.provider_name
+                      provider.provider.name
                     }}</span>
                     <span class="provider-type">{{
-                      provider.provider_type === 'flatrate'
-                        ? '스트리밍'
-                        : provider.provider_type === 'rent'
-                          ? '대여'
-                          : '구매'
+                      translateProviderType(provider.provider_type)
                     }}</span>
                     <span
                       v-if="provider.price"
-                      class="provider-price"
-                      >{{ provider.price }}</span
-                    >
+                      class="provider-price">
+                      {{ provider.price }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -274,7 +268,14 @@
                 :alt="actor.name"
                 class="cast-photo" />
               <div class="cast-info">
-                <span class="cast-name">{{ actor.name }}</span>
+                <span class="cast-name">{{
+                  actor.actor?.name || actor.name
+                }}</span>
+                <span
+                  v-if="actor.character_name"
+                  class="cast-character">
+                  {{ actor.character_name }}
+                </span>
               </div>
             </button>
           </div>
@@ -295,7 +296,7 @@
             <button
               v-for="director in movie.directors"
               :key="director.director_id"
-              @click="goToPersonDetail(director.director_id)"
+              @click="goToPersonDetail(director_id)"
               class="cast-item">
               <img
                 :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`"
@@ -578,9 +579,15 @@
   // 계산된 속성
   const displayedActors = computed(() => {
     if (!movie.value?.actors) return []
-    return showAllActors.value
-      ? movie.value.actors
-      : movie.value.actors.slice(0, 6)
+    // Django API 응답 구조에 맞게 처리
+    const actors = movie.value.actors.map((actor) => ({
+      actor_id: actor.actor?.id || actor.id,
+      name: actor.actor?.name || actor.name,
+      profile_path: actor.actor?.profile_path || actor.profile_path,
+      character_name: actor.character_name
+    }))
+
+    return showAllActors.value ? actors : actors.slice(0, 6)
   })
 
   const averageRating = computed(() => {
@@ -932,6 +939,15 @@
         cancelWritingReview()
       }
     }
+  }
+
+  const translateProviderType = (type) => {
+    const typeMap = {
+      flatrate: '스트리밍',
+      rent: '대여',
+      buy: '구매'
+    }
+    return typeMap[type] || type
   }
 
   // 모달이 열릴 때 키보드 이벤트 리스너 추가
@@ -1722,6 +1738,8 @@
   }
 
   .like-btn.liked .like-icon {
+    border-color: var(--color-alert);
+    background-color: var(--color-alert);
     color: var(--color-text);
   }
 

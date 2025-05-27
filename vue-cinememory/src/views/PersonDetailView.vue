@@ -15,7 +15,7 @@
 
         <!-- 페이지 제목 -->
         <h1 class="person-detail-header__title">
-          {{ person?.fields?.name || '인물 상세' }}
+          {{ person?.name || '인물 상세' }}
         </h1>
 
         <!-- 우측 액션들 -->
@@ -75,52 +75,105 @@
       </Transition>
     </header>
 
+    <!-- 로딩 상태 -->
+    <div
+      v-if="isLoading"
+      class="person-detail-loading">
+      <div class="loading-content">
+        <BaseIcon
+          name="user"
+          class="loading-icon spinning" />
+        <h2 class="loading-title">인물 정보를 불러오는 중...</h2>
+      </div>
+    </div>
+
+    <!-- 에러 상태 -->
+    <div
+      v-else-if="error"
+      class="person-detail-loading">
+      <div class="loading-content">
+        <BaseIcon
+          name="alert-circle"
+          class="loading-icon error" />
+        <h2 class="loading-title">오류가 발생했습니다</h2>
+        <p class="loading-subtitle">{{ error }}</p>
+        <div class="loading-actions">
+          <BaseButton
+            @click="loadPerson"
+            variant="primary"
+            class="loading-btn">
+            다시 시도
+          </BaseButton>
+          <BaseButton
+            @click="goBack"
+            variant="secondary"
+            class="loading-btn">
+            이전으로
+          </BaseButton>
+        </div>
+      </div>
+    </div>
+
     <!-- 메인 콘텐츠 -->
     <main
-      v-if="person"
+      v-else-if="person"
       class="person-detail-main">
       <div class="person-detail-container">
         <!-- 인물 히어로 섹션 -->
         <div class="person-hero">
           <img
-            :src="person.fields.profile_path"
-            :alt="person.fields.name"
+            :src="`https://image.tmdb.org/t/p/w500${person.profile_path}`"
+            :alt="person.name"
             class="person-photo" />
 
           <div class="person-info">
-            <h1 class="person-name">{{ person.fields.name }}</h1>
+            <h1 class="person-name">{{ person.name }}</h1>
             <p class="person-department">
-              {{ translateDepartment(person.fields.known_for_department) }}
+              {{ translateDepartment(person.role) }}
             </p>
+
+            <!-- 좋아요 버튼 -->
+            <div class="person-ratings">
+              <button
+                @click="toggleLike"
+                :disabled="isTogglingLike"
+                class="like-btn"
+                :class="{ liked: isLiked, loading: isTogglingLike }">
+                <BaseIcon
+                  :name="isLiked ? 'heart' : 'heart'"
+                  class="like-icon" />
+                <span class="like-count">{{ likeCount }}</span>
+              </button>
+            </div>
 
             <!-- 기본 정보 -->
             <div class="person-details">
               <div
-                v-if="person.fields.birthday"
+                v-if="person.birth_date"
                 class="detail-item">
                 <span class="detail-label">생년월일</span>
                 <span class="detail-value">
-                  {{ formatDate(person.fields.birthday) }}
+                  {{ formatDate(person.birth_date) }}
                   <span v-if="age > 0">({{ age }}세)</span>
                 </span>
               </div>
 
               <div
-                v-if="person.fields.deathday"
+                v-if="person.death_date"
                 class="detail-item">
                 <span class="detail-label">사망일</span>
                 <span class="detail-value">{{
-                  formatDate(person.fields.deathday)
+                  formatDate(person.death_date)
                 }}</span>
               </div>
 
               <!-- 인스타그램 링크 -->
               <div
-                v-if="person.fields.instagram_id"
+                v-if="person.instagram_username"
                 class="detail-item">
                 <span class="detail-label">인스타그램</span>
                 <a
-                  :href="`https://instagram.com/${person.fields.instagram_id}`"
+                  :href="`https://instagram.com/${person.instagram_username}`"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="instagram-link">
@@ -155,136 +208,90 @@
                       fill="url(#instagram-gradient)"
                       d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                   </svg>
-                  @{{ person.fields.instagram_id }}
+                  @{{ person.instagram_username }}
                 </a>
               </div>
             </div>
 
             <!-- 경력 소개 -->
             <div
-              v-if="person.fields.biography"
+              v-if="person.biography"
               class="person-biography">
               <h3 class="section-title">소개</h3>
-              <p class="biography-text">{{ person.fields.biography }}</p>
+              <p class="biography-text">{{ person.biography }}</p>
             </div>
           </div>
         </div>
 
-        <!-- 영화 출연 작품 (배우로서) -->
+        <!-- 영화 출연 작품 -->
         <div
-          v-if="movieCreditsAsCast.length > 0"
+          v-if="movieCredits.length > 0"
           class="person-filmography">
-          <h2 class="section-title">
-            출연 작품 ({{ movieCreditsAsCast.length }}편)
-          </h2>
+          <h2 class="section-title">출연 작품 ({{ movieCredits.length }}편)</h2>
           <div class="movies-grid">
             <div
-              v-for="movie in displayedMovieCreditsAsCast"
-              :key="`cast-${movie.movie_id}`"
-              @click="goToMovieDetail(movie.movie_id)"
+              v-for="movieCredit in displayedMovieCredits"
+              :key="`movie-${movieCredit.movie?.id || movieCredit.id}`"
+              @click="goToMovieDetail(movieCredit.movie?.id || movieCredit.id)"
               class="movie-card">
               <div class="movie-year">
-                {{ new Date(movie.release_date).getFullYear() }}
+                {{
+                  new Date(
+                    movieCredit.movie?.release_date || movieCredit.release_date
+                  ).getFullYear()
+                }}
               </div>
-              <h3 class="movie-title">{{ movie.title }}</h3>
+              <h3 class="movie-title">
+                {{ movieCredit.movie?.title || movieCredit.title }}
+              </h3>
               <p
-                v-if="movie.character"
+                v-if="movieCredit.character_name"
                 class="movie-character">
-                {{ movie.character }}
+                {{ movieCredit.character_name }}
               </p>
               <div
-                v-if="movie.popularity"
+                v-if="movieCredit.movie?.popularity || movieCredit.popularity"
                 class="movie-popularity">
-                인기도: {{ movie.popularity.toFixed(1) }}
+                인기도:
+                {{
+                  (
+                    movieCredit.movie?.popularity || movieCredit.popularity
+                  ).toFixed(1)
+                }}
               </div>
             </div>
           </div>
 
           <button
-            v-if="movieCreditsAsCast.length > 10 && !showAllCastMovies"
+            v-if="movieCredits.length > 10 && !showAllCastMovies"
             @click="showAllCastMovies = true"
             class="show-more-btn">
-            {{ movieCreditsAsCast.length - 10 }}편 더 보기
+            {{ movieCredits.length - 10 }}편 더 보기
           </button>
         </div>
 
-        <!-- 영화 제작 참여 작품 (스태프로서) -->
+        <!-- 리뷰 섹션 (간단히) -->
         <div
-          v-if="movieCreditsAsCrew.length > 0"
-          class="person-filmography">
-          <h2 class="section-title">
-            제작 참여 작품 ({{ movieCreditsAsCrew.length }}편)
-          </h2>
-          <div class="movies-grid">
-            <div
-              v-for="movie in displayedMovieCreditsAsCrew"
-              :key="`crew-${movie.movie_id}-${movie.job}`"
-              @click="goToMovieDetail(movie.movie_id)"
-              class="movie-card">
-              <div class="movie-year">
-                {{ new Date(movie.release_date).getFullYear() }}
-              </div>
-              <h3 class="movie-title">{{ movie.title }}</h3>
-              <p class="movie-job">{{ translateJob(movie.job) }}</p>
-              <p
-                v-if="movie.department"
-                class="movie-department">
-                {{ translateDepartment(movie.department) }}
-              </p>
-              <div
-                v-if="movie.popularity"
-                class="movie-popularity">
-                인기도: {{ movie.popularity.toFixed(1) }}
+          v-if="person.reviews && person.reviews.length > 0"
+          class="person-reviews-section">
+          <h2 class="section-title">최근 리뷰</h2>
+          <div
+            v-for="review in person.reviews.slice(0, 3)"
+            :key="review.id"
+            class="review-item">
+            <div class="review-header">
+              <span class="reviewer-name">{{ review.user }}</span>
+              <div class="review-rating">
+                <span class="rating-text">{{ review.rating }}점</span>
               </div>
             </div>
+            <p class="review-content">{{ review.content }}</p>
           </div>
-
-          <button
-            v-if="movieCreditsAsCrew.length > 10 && !showAllCrewMovies"
-            @click="showAllCrewMovies = true"
-            class="show-more-btn">
-            {{ movieCreditsAsCrew.length - 10 }}편 더 보기
-          </button>
-        </div>
-
-        <!-- TV 출연 작품 -->
-        <div
-          v-if="tvCredits.length > 0"
-          class="person-filmography">
-          <h2 class="section-title">TV 출연 작품 ({{ tvCredits.length }}편)</h2>
-          <div class="movies-grid">
-            <div
-              v-for="show in displayedTvCredits"
-              :key="`tv-${show.show_id}`"
-              class="movie-card tv-card">
-              <div class="movie-year">
-                {{ new Date(show.first_air_date).getFullYear() }}
-              </div>
-              <h3 class="movie-title">{{ show.name }}</h3>
-              <p
-                v-if="show.character"
-                class="movie-character">
-                {{ show.character }}
-              </p>
-              <div
-                v-if="show.popularity"
-                class="movie-popularity">
-                인기도: {{ show.popularity.toFixed(1) }}
-              </div>
-            </div>
-          </div>
-
-          <button
-            v-if="tvCredits.length > 10 && !showAllTvShows"
-            @click="showAllTvShows = true"
-            class="show-more-btn">
-            {{ tvCredits.length - 10 }}편 더 보기
-          </button>
         </div>
       </div>
     </main>
 
-    <!-- 로딩 또는 에러 상태 -->
+    <!-- 데이터 없음 상태 -->
     <div
       v-else
       class="person-detail-loading">
@@ -318,36 +325,43 @@
 <script setup>
   import { ref, computed, onMounted, nextTick } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+  import { useAuthStore } from '@/stores/auth'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import HeaderMenu from '@/components/layout/HeaderMenu.vue'
 
-  // 더미 데이터 import
-  import actorsData from '@/data/actors_fixtures.json'
-  import directorsData from '@/data/directors_fixtures.json'
+  // Django API 함수 import (더미데이터 제거)
+  import { getPersonDetail, togglePersonLike } from '@/services/api'
 
   const route = useRoute()
   const router = useRouter()
+  const authStore = useAuthStore()
 
   // 상태
   const person = ref(null)
+  const isLoading = ref(false)
+  const error = ref(null)
   const showAllCastMovies = ref(false)
   const showAllCrewMovies = ref(false)
-  const showAllTvShows = ref(false)
 
   // 검색 관련 상태
   const isSearchMode = ref(false)
   const newSearchQuery = ref('')
   const searchInput = ref(null)
 
+  // 좋아요 관련 상태
+  const isLiked = ref(false)
+  const likeCount = ref(0)
+  const isTogglingLike = ref(false)
+
   // 계산된 속성
   const age = computed(() => {
-    if (!person.value?.fields?.birthday) return 0
+    if (!person.value?.birth_date) return 0
 
-    const birthDate = new Date(person.value.fields.birthday)
+    const birthDate = new Date(person.value.birth_date)
     const today = new Date()
-    const deathDate = person.value.fields.deathday
-      ? new Date(person.value.fields.deathday)
+    const deathDate = person.value.death_date
+      ? new Date(person.value.death_date)
       : today
 
     let age = deathDate.getFullYear() - birthDate.getFullYear()
@@ -363,41 +377,20 @@
     return age
   })
 
-  const movieCreditsAsCast = computed(() => {
-    if (!person.value?.fields?.movie_credits_cast) return []
-    return person.value.fields.movie_credits_cast.sort(
-      (a, b) => new Date(b.release_date) - new Date(a.release_date)
+  // 영화 출연작 (Django API 구조에 맞게)
+  const movieCredits = computed(() => {
+    if (!person.value?.movies) return []
+    return person.value.movies.sort(
+      (a, b) =>
+        new Date(b.movie?.release_date || b.release_date) -
+        new Date(a.movie?.release_date || a.release_date)
     )
   })
 
-  const movieCreditsAsCrew = computed(() => {
-    if (!person.value?.fields?.movie_credits_crew) return []
-    return person.value.fields.movie_credits_crew.sort(
-      (a, b) => new Date(b.release_date) - new Date(a.release_date)
-    )
-  })
-
-  const tvCredits = computed(() => {
-    if (!person.value?.fields?.tv_credits) return []
-    return person.value.fields.tv_credits.sort(
-      (a, b) => new Date(b.first_air_date) - new Date(a.first_air_date)
-    )
-  })
-
-  const displayedMovieCreditsAsCast = computed(() => {
+  const displayedMovieCredits = computed(() => {
     return showAllCastMovies.value
-      ? movieCreditsAsCast.value
-      : movieCreditsAsCast.value.slice(0, 10)
-  })
-
-  const displayedMovieCreditsAsCrew = computed(() => {
-    return showAllCrewMovies.value
-      ? movieCreditsAsCrew.value
-      : movieCreditsAsCrew.value.slice(0, 10)
-  })
-
-  const displayedTvCredits = computed(() => {
-    return showAllTvShows.value ? tvCredits.value : tvCredits.value.slice(0, 10)
+      ? movieCredits.value
+      : movieCredits.value.slice(0, 10)
   })
 
   // 유틸리티 함수들
@@ -424,34 +417,11 @@
     return departmentMap[department] || department
   }
 
-  const translateJob = (job) => {
-    const jobMap = {
-      Director: '감독',
-      Producer: '제작자',
-      'Executive Producer': '총제작자',
-      Screenplay: '각본',
-      Writer: '작가',
-      Story: '원작',
-      'Director of Photography': '촬영감독',
-      'Camera Operator': '카메라맨',
-      Editor: '편집자',
-      Music: '음악',
-      'Original Music Composer': '음악감독',
-      Sound: '음향',
-      'Production Design': '프로덕션 디자인',
-      'Art Direction': '아트 디렉터',
-      'Set Decoration': '세트 장식',
-      'Costume Design': '의상 디자인',
-      'Makeup Artist': '메이크업 아티스트',
-      'Visual Effects': '시각효과',
-      'Special Effects': '특수효과'
-    }
-    return jobMap[job] || job
-  }
-
   // 네비게이션
   const goToMovieDetail = (movieId) => {
-    router.push({ name: 'MovieDetail', params: { id: movieId } })
+    // Django API에서는 movie.id 또는 직접 movieId 사용
+    const id = movieId || movie?.id
+    router.push({ name: 'MovieDetail', params: { id } })
   }
 
   const goBack = () => {
@@ -488,7 +458,6 @@
       searchInput.value?.focus()
       return
     }
-    // 검색 결과 페이지로 이동
     router.push({
       name: 'SearchResult',
       query: { q: query }
@@ -504,24 +473,52 @@
     }, 150)
   }
 
-  // 인물 데이터 로드
-  const loadPerson = () => {
-    const personId = parseInt(route.params.id)
-
-    // 배우 데이터에서 찾기
-    let foundPerson = actorsData.find((actor) => actor.pk === personId)
-
-    // 감독 데이터에서 찾기
-    if (!foundPerson) {
-      foundPerson = directorsData.find((director) => director.pk === personId)
+  // 좋아요 토글
+  const toggleLike = async () => {
+    if (!authStore.isAuthenticated) {
+      alert('로그인이 필요합니다.')
+      return
     }
 
-    if (foundPerson) {
-      person.value = foundPerson
-      console.log('✅ 인물 로드 성공:', foundPerson.fields.name)
-    } else {
-      console.error('❌ 인물을 찾을 수 없습니다:', personId)
-      person.value = null
+    if (isTogglingLike.value) return
+
+    isTogglingLike.value = true
+    try {
+      const result = await togglePersonLike(person.value.id)
+      if (result.success) {
+        isLiked.value = result.is_liked
+        likeCount.value = result.like_count
+      } else {
+        alert(result.error)
+      }
+    } catch (err) {
+      console.error('좋아요 토글 실패:', err)
+      alert('좋아요 처리 중 오류가 발생했습니다.')
+    } finally {
+      isTogglingLike.value = false
+    }
+  }
+
+  // 인물 데이터 로드 (Django API 사용)
+  const loadPerson = async () => {
+    const personId = parseInt(route.params.id)
+    isLoading.value = true
+    error.value = null
+
+    try {
+      const personData = await getPersonDetail(personId)
+      person.value = personData
+
+      // 좋아요 상태 설정
+      isLiked.value = personData.is_liked || false
+      likeCount.value = personData.like_count || 0
+
+      console.log('✅ 인물 로드 성공:', personData.name)
+    } catch (err) {
+      console.error('❌ 인물 로드 실패:', err)
+      error.value = err.response?.data?.error || '인물을 불러올 수 없습니다.'
+    } finally {
+      isLoading.value = false
     }
   }
 

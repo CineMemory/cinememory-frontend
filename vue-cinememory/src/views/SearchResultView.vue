@@ -129,10 +129,10 @@
             <div
               v-for="movie in movieResults"
               :key="movie.movie_id"
-              @click="goToMovieDetail(movie.movie_id)"
+              @click="goToMovieDetail(movie.id)"
               class="movie-item">
               <img
-                :src="movie.poster_path"
+                :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
                 :alt="movie.title"
                 class="movie-poster"
                 @error="handleImageError" />
@@ -163,9 +163,9 @@
                   class="movie-genres">
                   <span
                     v-for="genre in movie.genres.slice(0, 3)"
-                    :key="genre.genre_id"
+                    :key="genre.id"
                     class="genre-tag">
-                    {{ genre.genre_name }}
+                    {{ genre.name }}
                   </span>
                 </div>
               </div>
@@ -179,34 +179,36 @@
             <!-- 배우들 -->
             <div
               v-for="actor in searchResults.actors"
-              :key="`actor-${actor.actor_id}`"
-              @click="goToPersonDetail(actor.actor_id, true)"
+              :key="`actor-${actor.id}`"
+              @click="goToPersonDetail(actor.id)"
               class="person-item">
               <img
-                :src="actor.profile_path"
+                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
                 :alt="actor.name"
                 class="person-photo"
                 @error="handlePersonImageError" />
               <div class="person-info">
                 <h3 class="person-name">{{ actor.name }}</h3>
-                <span class="person-type">배우</span>
+                <span class="person-type">{{ translateRole(actor.role) }}</span>
               </div>
             </div>
 
             <!-- 감독들 -->
             <div
               v-for="director in searchResults.directors"
-              :key="`director-${director.director_id}`"
-              @click="goToPersonDetail(director.director_id, false)"
+              :key="`director-${director.id}`"
+              @click="goToPersonDetail(director.id)"
               class="person-item">
               <img
-                :src="director.profile_path"
+                :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`"
                 :alt="director.name"
                 class="person-photo"
                 @error="handlePersonImageError" />
               <div class="person-info">
                 <h3 class="person-name">{{ director.name }}</h3>
-                <span class="person-type">감독</span>
+                <span class="person-type">{{
+                  translateRole(director.role)
+                }}</span>
               </div>
             </div>
           </div>
@@ -317,7 +319,7 @@
       }
     } catch (err) {
       // 🔧 404 에러인 경우 (검색 결과 없음) 오류가 아닌 빈 결과로 처리
-      if (err.response?.status === 404) {
+      if (err.response?.status === 204 || err.response?.status === 404) {
         searchResults.value = { movies: [], actors: [], directors: [] }
         error.value = null // 에러 상태를 null로 설정
       } else {
@@ -339,12 +341,15 @@
   }
 
   // 직업 번역 (Django API의 role 필드 기준)
+  // 직업 번역 (Django API의 role 필드 기준)
   const translateRole = (role) => {
     const roleMap = {
       Acting: '배우',
       Directing: '감독',
       Writing: '각본가',
-      Production: '제작자'
+      Production: '제작자',
+      배우: '배우',
+      감독: '감독'
     }
     return roleMap[role] || role || '인물'
   }
@@ -355,7 +360,7 @@
     router.push({ name: 'MovieDetail', params: { id: movieId } })
   }
 
-  const goToPersonDetail = (personId, isActor = true) => {
+  const goToPersonDetail = (personId) => {
     console.log('👤 인물 상세로 이동:', personId)
     router.push({ name: 'PersonDetail', params: { id: personId } })
   }
@@ -1199,7 +1204,6 @@
     }
 
     .movie-date,
-
     .movie-overview {
       font-size: 12px;
     }

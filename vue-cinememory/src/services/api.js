@@ -709,7 +709,7 @@ export const createMovieReview = async (movieId, reviewData) => {
 export const updateMovieReview = async (movieId, reviewId, reviewData) => {
   try {
     const response = await apiRequest(
-      `/movies/review/${movieId}/${reviewId}/`,
+      `/cinememory/movies/review/${movieId}/${reviewId}/`, // 경로 수정
       {
         method: 'PUT',
         body: JSON.stringify({
@@ -729,7 +729,7 @@ export const updateMovieReview = async (movieId, reviewId, reviewData) => {
 export const deleteMovieReview = async (movieId, reviewId) => {
   try {
     const response = await apiRequest(
-      `/movies/review/${movieId}/${reviewId}/`,
+      `/cinememory/movies/review/${movieId}/${reviewId}/`, // 경로 수정
       {
         method: 'DELETE'
       }
