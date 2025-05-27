@@ -58,13 +58,13 @@
         v-if="post.tags && post.tags.length > 0"
         class="post-detail__tags">
         <BaseTag
-          v-for="tag in post.tags"
-          :key="tag"
+          v-for="(tag, index) in post.tags"
+          :key="getTagKey(tag, index)"
           variant="primary"
           size="small"
           clickable
-          @click="filterByTag(tag)">
-          #{{ tag }}
+          @click="filterByTag(getTagName(tag))">
+          #{{ getTagName(tag) }}
         </BaseTag>
       </div>
     </div>
@@ -229,7 +229,6 @@
 
   // 태그로 필터링하여 커뮤니티 페이지로 이동
   const filterByTag = (tagName) => {
-    // 태그를 선택한 상태로 커뮤니티 페이지로 이동
     router.push({
       name: 'Community',
       query: { tags: tagName }
@@ -284,6 +283,24 @@
       router.push({ name: 'UserProfile', params: { userId: postAuthorId } })
     }
   }
+
+  // 태그 이름 추출 함수
+const getTagName = (tag) => {
+  // 태그가 객체인 경우 (예: {"id": 3, "name": "이상해"})
+  if (typeof tag === 'object' && tag.name) {
+    return tag.name
+  }
+  // 태그가 문자열인 경우
+  return tag
+}
+
+// 태그 키 생성 함수 (v-for key용)
+const getTagKey = (tag, index) => {
+  if (typeof tag === 'object' && tag.id) {
+    return tag.id
+  }
+  return index
+}
 </script>
 
 <style scoped>
