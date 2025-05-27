@@ -74,7 +74,15 @@ const routes = [
       requireAuth: true // 로그인 필요한 페이지
     }
   },
-  // 검색 결과 페이지 (실제 SearchResultView 사용)
+  {
+    path: '/profile/:userId',
+    name: 'UserProfile',
+    component: () => import('@/views/UserProfileView.vue'),
+    meta: {
+      title: '사용자 프로필 | 씨네메모리',
+      requireAuth: false
+    }
+  },
   {
     path: '/search',
     name: 'SearchResult',
