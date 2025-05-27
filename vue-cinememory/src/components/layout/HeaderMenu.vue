@@ -36,6 +36,15 @@
 
           <!-- 메뉴 아이템들 -->
           <button
+            @click="goToHome"
+            class="header-menu__item">
+            <BaseIcon
+              name="home"
+              class="item-icon" />
+            <span>홈</span>
+          </button>
+
+          <button
             @click="goToProfile"
             class="header-menu__item">
             <BaseIcon

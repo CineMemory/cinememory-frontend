@@ -148,12 +148,20 @@
                 :disabled="isTogglingLike"
                 class="like-btn"
                 :class="{ liked: isLiked, loading: isTogglingLike }">
-                <BaseIcon :name="isLiked ? 'heart' : 'heart'" class="like-icon" />
+                <BaseIcon
+                  :name="isLiked ? 'heart' : 'heart'"
+                  class="like-icon" />
                 <span class="like-count">{{ likeCount }}</span>
               </button>
-              <div class="person-rating-info" v-if="person.average_rating">
-                <span class="rating-value">{{ person.average_rating.toFixed(1) }}</span>
-                <span class="rating-label">사용자 ({{ person.review_count }})</span>
+              <div
+                class="person-rating-info"
+                v-if="person.average_rating">
+                <span class="rating-value">{{
+                  person.average_rating.toFixed(1)
+                }}</span>
+                <span class="rating-label"
+                  >사용자 ({{ person.review_count }})</span
+                >
               </div>
             </div>
 
