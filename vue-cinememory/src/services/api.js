@@ -765,7 +765,12 @@ export const followUser = async (userId) => {
 
 // 다른 사용자 프로필 조회 (팔로우 정보 포함)
 export const getUserProfile = async (userId) => {
-  const response = await apiRequest(`/cinememory/accounts/${userId}/`, 'GET', null, true)
+  const response = await apiRequest(
+    `/cinememory/accounts/${userId}/`,
+    'GET',
+    null,
+    true
+  )
   return response
 }
 

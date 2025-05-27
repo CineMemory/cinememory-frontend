@@ -285,22 +285,22 @@
   }
 
   // 태그 이름 추출 함수
-const getTagName = (tag) => {
-  // 태그가 객체인 경우 (예: {"id": 3, "name": "이상해"})
-  if (typeof tag === 'object' && tag.name) {
-    return tag.name
+  const getTagName = (tag) => {
+    // 태그가 객체인 경우 (예: {"id": 3, "name": "이상해"})
+    if (typeof tag === 'object' && tag.name) {
+      return tag.name
+    }
+    // 태그가 문자열인 경우
+    return tag
   }
-  // 태그가 문자열인 경우
-  return tag
-}
 
-// 태그 키 생성 함수 (v-for key용)
-const getTagKey = (tag, index) => {
-  if (typeof tag === 'object' && tag.id) {
-    return tag.id
+  // 태그 키 생성 함수 (v-for key용)
+  const getTagKey = (tag, index) => {
+    if (typeof tag === 'object' && tag.id) {
+      return tag.id
+    }
+    return index
   }
-  return index
-}
 </script>
 
 <style scoped>

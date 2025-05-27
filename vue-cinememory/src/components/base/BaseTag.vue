@@ -91,13 +91,13 @@
 
   .base-tag {
     display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  border-radius: 6px; /* border-radius-full 대신 고정값 사용 */
-  font-weight: 500;
-  font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+    align-items: center;
+    gap: 4px;
+    border-radius: 6px; /* border-radius-full 대신 고정값 사용 */
+    font-weight: 500;
+    font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
+    white-space: nowrap;
+    transition: all 0.2s ease;
   }
 
   /* Variants */

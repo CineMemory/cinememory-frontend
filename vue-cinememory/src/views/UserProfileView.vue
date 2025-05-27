@@ -98,15 +98,14 @@
         <div class="profile-info-section">
           <div class="profile-avatar-container">
             <div class="profile-avatar">
-              <img
-                v-if="userProfile.profile_image_url"
-                :src="getFullImageUrl(userProfile.profile_image_url)"
-                :alt="userProfile.username + '의 프로필'"
-                class="avatar-image" />
-              <BaseIcon
-                v-else
-                name="user"
-                class="avatar-placeholder" />
+              <BaseAvatar
+                :username="userProfile.username"
+                :image-url="
+                  userProfile.profile_image_url
+                    ? getFullImageUrl(userProfile.profile_image_url)
+                    : null
+                "
+                size="large" />
             </div>
           </div>
 
@@ -552,6 +551,7 @@
   import BaseInput from '@/components/base/BaseInput.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseSpinner from '@/components/base/BaseSpinner.vue'
+  import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import UserFollowButton from '@/components/user/UserFollowButton.vue'
   import UserFollowStats from '@/components/user/UserFollowStats.vue'
   import { getUserProfile } from '@/services/api'
