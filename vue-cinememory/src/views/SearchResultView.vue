@@ -318,14 +318,23 @@
         activeTab.value = 'movies'
       }
     } catch (err) {
-      // 🔧 404 에러인 경우 (검색 결과 없음) 오류가 아닌 빈 결과로 처리
-      if (err.response?.status === 204 || err.response?.status === 404) {
+      // 검색 결과가 없는 경우 (404, 204) 또는 데이터베이스에 없는 경우
+      if (
+        err.response?.status === 404 ||
+        err.response?.status === 204 ||
+        err.response?.status === 400
+      ) {
         searchResults.value = { movies: [], actors: [], directors: [] }
-        error.value = null // 에러 상태를 null로 설정
-      } else {
+        error.value = null // 에러 상태를 null로 설정하여 "검색 결과 없음" 화면 표시
+      } else if (err.response?.status >= 500) {
         // 실제 서버 에러인 경우만 에러로 처리
         error.value =
-          err.response?.data?.error || '검색 중 오류가 발생했습니다.'
+          '서버에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.'
+        searchResults.value = { movies: [], actors: [], directors: [] }
+      } else {
+        // 기타 네트워크 오류 등
+        error.value =
+          '검색 중 문제가 발생했습니다. 네트워크 연결을 확인해주세요.'
         searchResults.value = { movies: [], actors: [], directors: [] }
       }
     } finally {

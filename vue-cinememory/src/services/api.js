@@ -41,16 +41,43 @@ const apiRequest = async (endpoint, options = {}) => {
     const contentType = response.headers.get('content-type')
     const isJson = contentType && contentType.includes('application/json')
 
-    const data = isJson ? await response.json() : await response.text()
+    let data
+    try {
+      data = isJson ? await response.json() : await response.text()
+    } catch (parseError) {
+      console.warn('⚠️ 응답 파싱 실패:', parseError)
+      data = ''
+    }
 
     console.log('📄 API 응답 데이터:', data)
 
     if (!response.ok) {
+      // 404이고 데이터가 비어있으면 검색 결과 없음으로 처리
+      if (response.status === 404 && (!data || data.trim() === '')) {
+        throw {
+          response: {
+            status: 404,
+            data: { message: '검색 결과가 없습니다' }
+          }
+        }
+      }
+
       throw {
         response: {
           status: response.status,
-          data: isJson ? data : { message: data }
+          data: isJson
+            ? data
+            : { message: data || '알 수 없는 오류가 발생했습니다' }
         }
+      }
+    }
+
+    // 빈 응답이면 기본 구조 반환 (검색 API용)
+    if (!data || (typeof data === 'string' && data.trim() === '')) {
+      return {
+        movies: [],
+        actors: [],
+        directors: []
       }
     }
 
@@ -606,9 +633,32 @@ export const searchMovies = async (query, page = 1) => {
     const response = await apiRequest(
       `/cinememory/movies/search/?${queryParams}`
     )
+
+    // 응답이 없거나 빈 경우 기본 구조 반환
+    if (!response || (typeof response === 'string' && response.trim() === '')) {
+      return {
+        movies: [],
+        actors: [],
+        directors: []
+      }
+    }
+
     return response
   } catch (error) {
     console.error('❌ searchMovies 오류:', error)
+
+    // JSON 파싱 에러인 경우 빈 결과 반환
+    if (
+      error.message &&
+      error.message.includes('Unexpected end of JSON input')
+    ) {
+      return {
+        movies: [],
+        actors: [],
+        directors: []
+      }
+    }
+
     throw error
   }
 }
