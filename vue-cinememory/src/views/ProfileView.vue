@@ -1,4 +1,4 @@
-<!-- 👤 마이페이지 -->
+<!-- 마이페이지 -->
 <template>
   <div class="profile-view">
     <!-- 헤더 -->
@@ -132,27 +132,15 @@
           v-if="activeTab === 'profile'"
           class="profile-info-section">
           <div class="profile-avatar-container">
-            <div
-              class="profile-avatar"
-              @click="openImageUpload"
-              :class="{ 'profile-avatar--clickable': true }">
-              <img
-                v-if="profile.profile_image_url"
-                :src="getFullImageUrl(profile.profile_image_url)"
-                :alt="profile.username + '의 프로필'"
-                class="avatar-image" />
-              <BaseIcon
-                v-else
-                name="user"
-                class="avatar-placeholder" />
-
-              <!-- 호버 시 카메라 오버레이 -->
-              <div class="avatar-overlay">
-                <BaseIcon
-                  name="camera"
-                  class="camera-overlay-icon" />
-                <span class="overlay-text">사진 변경</span>
-              </div>
+            <div class="profile-avatar">
+              <BaseAvatar
+                :username="profile.username"
+                :src="
+                  profile.profile_image_url
+                    ? getFullImageUrl(profile.profile_image_url)
+                    : null
+                "
+                size="large" />
             </div>
 
             <!-- 프로필 수정 탭에서만 보이는 편집 버튼 -->
@@ -174,11 +162,23 @@
           </div>
 
           <div class="profile-details">
-            <h2 class="username">{{ profile.username }}</h2>
-            <p class="birth-date">{{ formatBirthDate(profile.birth) }}</p>
-            <p class="join-date">
-              가입일: {{ formatJoinDate(profile.joined_at) }}
-            </p>
+            <div class="profile-main-info">
+              <h2 class="username">{{ profile.username }}</h2>
+              <p class="birth-date">{{ formatBirthDate(profile.birth) }}</p>
+              <p class="join-date">
+                가입일: {{ formatJoinDate(profile.joined_at) }}
+              </p>
+            </div>
+
+            <!-- 팔로우 통계 추가 -->
+            <div class="profile-stats-section">
+              <UserFollowStats
+                :followers-count="profile.followers_count || 0"
+                :following-count="profile.following_count || 0"
+                @show-followers="showFollowersModal"
+                @show-following="showFollowingModal"
+                class="follow-stats-compact" />
+            </div>
           </div>
         </div>
 
@@ -922,6 +922,8 @@
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseSpinner from '@/components/base/BaseSpinner.vue'
   import BaseModal from '@/components/base/BaseModal.vue'
+  import BaseAvatar from '@/components/base/BaseAvatar.vue'
+  import UserFollowStats from '@/components/user/UserFollowStats.vue'
 
   const router = useRouter()
   const { logout } = useAuth()
@@ -959,6 +961,9 @@
   const likedPostsError = ref('')
 
   const hasImageChanged = ref(false)
+
+  const showFollowModal = ref(false)
+  const followModalTab = ref('followers')
 
   // 탭 상태
   const activeTab = ref('profile')
@@ -1028,6 +1033,21 @@
     // 닉네임이 변경되지 않은 경우는 다른 변경사항만 확인
     return hasChanges.value
   })
+
+  // 팔로워/팔로잉 모달 함수들
+  const showFollowersModal = () => {
+    followModalTab.value = 'followers'
+    showFollowModal.value = true
+  }
+
+  const showFollowingModal = () => {
+    followModalTab.value = 'following'
+    showFollowModal.value = true
+  }
+
+  const closeFollowModal = () => {
+    showFollowModal.value = false
+  }
 
   // 프로필 정보 로드
   const loadProfile = async () => {
@@ -1153,8 +1173,8 @@
 
       const response = await authAPI.updateUserProfile(formData)
 
-      if (response.user && response.user.profile_image_url) {
-        profile.value.profile_image_url = `http://localhost:8000${response.user.profile_image_url}`
+      if (response.user && response.profile.profile_image_url) {
+        profile.value.profile_image_url = `http://localhost:8000${response.profile.profile_image_url}`
       }
 
       hasImageChanged.value = true
@@ -1753,6 +1773,29 @@
 
   .profile-details {
     flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .profile-main-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .profile-stats-section {
+    flex-shrink: 0;
+  }
+
+  .follow-stats-compact {
+    padding: 12px 16px;
+    background-color: var(--color-background-opacity-50);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-inactive-icon);
+    min-width: 120px;
   }
 
   .username {
@@ -1767,6 +1810,18 @@
     font-size: 14px;
     color: var(--color-highlight-text);
     margin: 4px 0;
+  }
+
+  .birth-date::before {
+    content: '🎂';
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  .join-date::before {
+    content: '📅';
+    font-size: 14px;
+    margin-right: 8px;
   }
 
   /* 프로필 수정 섹션 */
@@ -2596,6 +2651,15 @@
 
   /* 탭 네비게이션 반응형 개선 */
   @media (max-width: 768px) {
+    .profile-details {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .profile-stats-section {
+      align-self: center;
+    }
+
     .profile-container {
       padding: 16px;
       max-width: 100%; /* 모바일에서는 전체 너비 사용 */
