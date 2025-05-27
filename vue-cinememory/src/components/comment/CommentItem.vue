@@ -14,7 +14,11 @@
       <div class="comment-item__content">
         <!-- 작성자 정보 -->
         <div class="comment-item__header">
-          <span class="comment-item__author">{{ authorName }}</span>
+          <span
+            class="comment-item__author clickable-author"
+            @click="goToUserProfile"
+            >{{ authorName }}</span
+          >
           <time class="comment-item__time">
             {{ formatTimeAgo(comment.created_at) }}
           </time>
@@ -162,7 +166,9 @@
           <div class="comment-item__reply-content">
             <!-- 대댓글 헤더 -->
             <div class="comment-item__reply-header">
-              <span class="comment-item__reply-author">
+              <span
+                class="comment-item__reply-author clickable-author"
+                @click="goToReplyUserProfile(reply)">
                 {{ getReplyAuthorName(reply) }}
               </span>
               <time class="comment-item__reply-time">
@@ -271,14 +277,18 @@
 
 <script setup>
   import { ref, computed } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useAuth } from '@/composables/useAuth'
   import { useCommunityStore } from '@/stores/community'
   import { isContentEdited, formatTimeAgo } from '@/utils/dateUtils'
+  import { getUserByUsername } from '@/services/api'
   import CommentForm from './CommentForm.vue'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseInput from '@/components/base/BaseInput.vue'
+
+  const router = useRouter()
 
   const props = defineProps({
     comment: {
@@ -381,6 +391,94 @@
   const replies = computed(() => props.comment.replies || [])
   const replyCount = computed(() => replies.value.length)
   const hasReplies = computed(() => replyCount.value > 0)
+
+  const goToUserProfile = async () => {
+    const currentUserId = user.value?.id
+    const currentUsername = user.value?.username
+
+    // authorId가 있으면 기존 방식 사용
+    if (authorId.value) {
+      if (
+        currentUserId &&
+        parseInt(authorId.value) === parseInt(currentUserId)
+      ) {
+        router.push({ name: 'MyProfile' })
+      } else {
+        router.push({ name: 'UserProfile', params: { userId: authorId.value } })
+      }
+      return
+    }
+
+    // authorId가 없으면 username으로 조회
+    const commentAuthorUsername = authorName.value
+
+    if (!commentAuthorUsername || commentAuthorUsername === 'Unknown') {
+      console.log('❌ 댓글 작성자 username이 없습니다')
+      return
+    }
+
+    // 본인인지 확인
+    if (currentUsername && commentAuthorUsername === currentUsername) {
+      console.log('✅ 본인 프로필로 이동')
+      router.push({ name: 'MyProfile' })
+      return
+    }
+
+    // 다른 사용자인 경우 username으로 사용자 정보 조회
+    try {
+      const userData = await getUserByUsername(commentAuthorUsername)
+
+      if (userData && userData.id) {
+        console.log('✅ 다른 사용자 프로필로 이동:', userData.id)
+        router.push({ name: 'UserProfile', params: { userId: userData.id } })
+      } else {
+        alert('사용자 프로필을 찾을 수 없습니다.')
+      }
+    } catch (error) {
+      console.error('❌ 사용자 조회 실패:', error)
+      alert('사용자 프로필을 찾을 수 없습니다.')
+    }
+  }
+
+  const goToReplyUserProfile = (reply) => {
+    const currentUserId = user.value?.id
+    let replyAuthorId = null
+
+    if (typeof reply.author === 'object' && reply.author?.id) {
+      replyAuthorId = reply.author.id
+    } else if (reply.user_id) {
+      replyAuthorId = reply.user_id
+    } else if (reply.user) {
+      replyAuthorId = reply.user
+    } else if (reply.user_pk) {
+      replyAuthorId = reply.user_pk
+    } else if (reply.author_id) {
+      replyAuthorId = reply.author_id
+    }
+
+    console.log('🔍 CommentItem goToReplyUserProfile 호출:', {
+      currentUserId,
+      replyAuthorId,
+      reply
+    })
+
+    if (replyAuthorId) {
+      // 본인인 경우 자신의 프로필 페이지로
+      if (
+        currentUserId &&
+        parseInt(replyAuthorId) === parseInt(currentUserId)
+      ) {
+        console.log('✅ 본인 프로필로 이동')
+        router.push({ name: 'MyProfile' })
+      } else {
+        // 다른 사용자인 경우 해당 사용자 프로필로
+        console.log('✅ 다른 사용자 프로필로 이동:', replyAuthorId)
+        router.push({ name: 'UserProfile', params: { userId: replyAuthorId } })
+      }
+    } else {
+      console.log('❌ replyAuthorId가 없습니다')
+    }
+  }
 
   // 유틸리티 함수들
   const formatCount = (count) => {
@@ -883,6 +981,15 @@
 
   .reply-list-move {
     transition: transform 0.3s ease;
+  }
+
+  .clickable-author {
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .clickable-author:hover {
+    color: var(--color-main) !important;
   }
 
   /* 반응형 */

@@ -119,11 +119,6 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
       id: post.id || post.post_id,
       title: post.title || post.post_title,
       content: post.content,
-      author: {
-        id: post.author?.id || post.author_id || post.user || post.user_pk,
-        username:
-          post.author?.username || post.author || post.username || '사용자'
-      },
       like_count: post.like_count || 0,
       comment_count: post.comment_count || 0,
       is_liked: post.is_liked || false,
@@ -162,20 +157,6 @@ export const getPost = async (postId) => {
         post_id: response.id || parseInt(postId),
         post_title: response.title || response.post_title,
         content: response.content,
-        // 🔧 작성자 정보 변환 로직 수정
-        author: {
-          id:
-            response.user ||
-            response.user_pk ||
-            response.author_id ||
-            response.author?.id ||
-            response.author?.user_pk,
-          username:
-            response.username ||
-            response.author?.username ||
-            response.author ||
-            'Unknown'
-        },
         like_count: response.like_count || 0,
         comment_count: response.comment_count || 0,
         is_liked: response.is_liked || false,
@@ -922,24 +903,32 @@ export const getUserLikedPosts = async () => {
 
 // 팔로우/언팔로우 토글
 export const followUser = async (userId) => {
-  const response = await api.post(`/accounts/${userId}/follow/`)
-  return response.data
+  const response = await apiRequest(`/accounts/${userId}/follow/`, {
+    method: 'POST'
+  })
+  return response
 }
 
 // 다른 사용자 프로필 조회 (팔로우 정보 포함)
 export const getUserProfile = async (userId) => {
-  const response = await api.get(`/accounts/${userId}/`)
-  return response.data
+  const response = await apiRequest(`/accounts/${userId}/`)
+  return response
 }
 
 // 팔로워 목록 조회
 export const getFollowers = async (userId) => {
-  const response = await api.get(`/accounts/${userId}/followers/`)
-  return response.data
+  const response = await apiRequest(`/accounts/${userId}/followers/`)
+  return response
 }
 
 // 팔로잉 목록 조회
 export const getFollowing = async (userId) => {
-  const response = await api.get(`/accounts/${userId}/following/`)
-  return response.data
+  const response = await apiRequest(`/accounts/${userId}/following/`)
+  return response
+}
+
+// username으로 사용자 조회
+export const getUserByUsername = async (username) => {
+  const response = await apiRequest(`/accounts/username/${username}/`)
+  return response
 }

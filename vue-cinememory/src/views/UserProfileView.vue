@@ -555,9 +555,6 @@
   import UserFollowButton from '@/components/user/UserFollowButton.vue'
   import UserFollowStats from '@/components/user/UserFollowStats.vue'
   import { getUserProfile } from '@/services/api'
-
-  import UserFollowButton from '@/components/user/UserFollowButton.vue'
-  import UserFollowStats from '@/components/user/UserFollowStats.vue'
   import UserFollowModal from '@/components/user/UserFollowModal.vue'
 
   const router = useRouter()

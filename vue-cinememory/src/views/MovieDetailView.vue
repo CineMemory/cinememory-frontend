@@ -465,9 +465,11 @@
                     :alt="review.user_profile.username"
                     class="reviewer-avatar" />
                   <div class="reviewer-details">
-                    <span class="reviewer-name">{{
-                      review.user_profile?.username || review.user
-                    }}</span>
+                    <span
+                      class="reviewer-name clickable-author"
+                      @click="goToReviewerProfile(review)"
+                      >{{ review.user_profile?.username || review.user }}</span
+                    >
                     <div class="review-rating">
                       <div class="stars-display small">
                         <span
@@ -1054,6 +1056,25 @@
     return typeMap[type] || type
   }
 
+  const goToReviewerProfile = (review) => {
+    let reviewerId = null
+
+    if (review.user_profile?.id) {
+      reviewerId = review.user_profile.id
+    } else if (review.user_id) {
+      reviewerId = review.user_id
+    } else if (review.user) {
+      // user가 문자열이 아닌 ID인 경우
+      if (typeof review.user === 'number') {
+        reviewerId = review.user
+      }
+    }
+
+    if (reviewerId) {
+      router.push({ name: 'UserProfile', params: { userId: reviewerId } })
+    }
+  }
+
   // 모달이 열릴 때 키보드 이벤트 리스너 추가
   watch(showTrailerModal, (newValue) => {
     if (newValue) {
@@ -1079,8 +1100,6 @@
   onMounted(() => {
     loadMovie()
   })
-
-  // loadMovie 함수에서 디버깅 추가
 </script>
 
 <style scoped>
@@ -2449,6 +2468,15 @@
   .no-reviews p {
     font-size: 14px;
     margin: 0;
+  }
+
+  .clickable-author {
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .clickable-author:hover {
+    color: var(--color-main) !important;
   }
 
   /* 반응형 */

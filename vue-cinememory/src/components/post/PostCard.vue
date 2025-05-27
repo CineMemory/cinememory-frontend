@@ -8,7 +8,11 @@
           :username="authorName"
           size="sm" />
         <div class="post-card__author-info">
-          <span class="post-card__author-name">{{ authorName }}</span>
+          <span
+            class="post-card__author-name clickable-author"
+            @click="goToUserProfile"
+            >{{ authorName }}</span
+          >
           <time class="post-card__created-time">
             {{ formatTimeAgo(post.created_at) }}
           </time>
@@ -287,6 +291,23 @@
       alert('게시글 삭제 중 오류가 발생했습니다.')
     }
   }
+
+  const goToUserProfile = () => {
+    const currentUserId = user.value?.id
+
+    if (authorId.value) {
+      // 본인인 경우 자신의 프로필 페이지로
+      if (
+        currentUserId &&
+        parseInt(authorId.value) === parseInt(currentUserId)
+      ) {
+        router.push({ name: 'MyProfile' })
+      } else {
+        // 다른 사용자인 경우 해당 사용자 프로필로
+        router.push({ name: 'UserProfile', params: { userId: authorId.value } })
+      }
+    }
+  }
 </script>
 
 <style scoped>
@@ -441,6 +462,15 @@
   .post-card__edited svg {
     width: 14px;
     height: 14px;
+  }
+
+  .clickable-author {
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .clickable-author:hover {
+    color: var(--color-main) !important;
   }
 
   /* 반응형 */

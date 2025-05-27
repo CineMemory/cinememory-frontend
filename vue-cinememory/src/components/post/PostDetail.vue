@@ -9,7 +9,9 @@
             :username="post.author?.username || 'Unknown'"
             size="medium" />
           <div class="post-detail__author-info">
-            <h4 class="post-detail__author-name">
+            <h4
+              class="post-detail__author-name clickable-author"
+              @click="goToAuthorProfile">
               {{ post.author?.username || 'Unknown' }}
             </h4>
             <div class="post-detail__date-info">
@@ -107,6 +109,7 @@
   import { useCommunityStore } from '@/stores/community'
   import { isContentEdited } from '@/utils/dateUtils'
   import { useAuth } from '@/composables/useAuth'
+  import { getUserByUsername } from '@/services/api'
   import BaseAvatar from '@/components/base/BaseAvatar.vue'
   import BaseTag from '@/components/base/BaseTag.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
@@ -265,6 +268,52 @@
 
     emit('post-updated', updatedPost)
   }
+
+  const goToAuthorProfile = async () => {
+  const currentUserId = user.value?.id
+  const currentUsername = user.value?.username
+  let postAuthorUsername = null
+  
+  // 작성자 username 추출
+  if (props.post?.author?.username) {
+    postAuthorUsername = props.post.author.username
+  }
+  
+  console.log('🔍 PostDetail goToAuthorProfile 호출:', {
+    currentUserId,
+    currentUsername,
+    postAuthorUsername
+  })
+  
+  if (!postAuthorUsername) {
+    console.log('❌ 작성자 username이 없습니다')
+    return
+  }
+  
+  // 본인인지 확인
+  if (currentUsername && postAuthorUsername === currentUsername) {
+    console.log('✅ 본인 프로필로 이동')
+    router.push({ name: 'MyProfile' })
+    return
+  }
+  
+  // 다른 사용자인 경우 username으로 사용자 정보 조회
+  try {
+    console.log('🔍 username으로 사용자 조회:', postAuthorUsername)
+    const userData = await getUserByUsername(postAuthorUsername)
+    
+    if (userData && userData.id) {
+      console.log('✅ 다른 사용자 프로필로 이동:', userData.id)
+      router.push({ name: 'UserProfile', params: { userId: userData.id } })
+    } else {
+      console.log('❌ 사용자 데이터에 ID가 없습니다')
+      alert('사용자 프로필을 찾을 수 없습니다.')
+    }
+  } catch (error) {
+    console.error('❌ 사용자 조회 실패:', error)
+    alert('사용자 프로필을 찾을 수 없습니다.')
+  }
+}
 </script>
 
 <style scoped>
@@ -361,6 +410,15 @@
     padding: 16px;
     background-color: var(--color-search-box);
     border-radius: var(--border-radius-medium);
+  }
+
+  .clickable-author {
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .clickable-author:hover {
+    color: var(--color-main) !important;
   }
 
   /* 모바일 최적화 */
