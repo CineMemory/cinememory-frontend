@@ -1328,7 +1328,13 @@
     // 🔧 탭을 즉시 변경
     activeTab.value = tab
 
-    // 데이터가 없는 경우에만 추가 로드 (백업용)
+    // 🔧 URL에 현재 탭 정보 저장
+    router.replace({
+      name: 'MyProfile',
+      query: { tab: tab }
+    })
+
+    // 데이터 로드는 백그라운드에서
     setTimeout(() => {
       if (
         tab === 'liked-movies' &&
@@ -1515,7 +1521,25 @@
   onMounted(async () => {
     await loadProfile()
 
-    // 🔧 모든 탭의 데이터를 병렬로 미리 로드
+    // URL 쿼리에서 탭 정보 복원
+    const savedTab = router.currentRoute.value.query.tab
+    if (
+      savedTab &&
+      [
+        'profile',
+        'liked-movies',
+        'reviews',
+        'liked-actors',
+        'liked-directors',
+        'my-posts',
+        'my-comments',
+        'liked-posts'
+      ].includes(savedTab)
+    ) {
+      activeTab.value = savedTab
+    }
+
+    // 모든 탭의 데이터를 병렬로 미리 로드
     Promise.all([
       loadLikedMovies(),
       loadUserReviews(),
@@ -1526,7 +1550,6 @@
       loadLikedPosts()
     ]).catch((error) => {
       console.warn('일부 데이터 로드 실패:', error)
-      // 에러가 발생해도 페이지는 정상 동작하도록 함
     })
   })
 
