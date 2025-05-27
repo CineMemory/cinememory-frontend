@@ -72,6 +72,7 @@
         v-else-if="currentStep === 4"
         :analysis-status="analysisStatus"
         :random-movie="randomMovie"
+        @complete="handleAnalysisComplete"
         @retry="generateRecommendations" />
 
       <!-- 5단계: 완료 -->
@@ -110,6 +111,7 @@
   import OnboardingAnalysis from './OnboardingAnalysis.vue'
   import OnboardingComplete from './OnboardingComplete.vue'
   import BaseButton from '../base/BaseButton.vue'
+  import { useAuthStore } from '@/stores/auth'
 
   export default {
     name: 'OnboardingContainer',
@@ -378,7 +380,17 @@
         }
       },
 
-      // GPT 추천 생성
+      handleAnalysisComplete() {
+        // 사용자 정보 업데이트
+        if (this.authStore.user) {
+          this.authStore.setUser({
+            ...this.authStore.user,
+            onboarding_completed: true
+          })
+        }
+
+        this.currentStep = 5
+      },
       // GPT 추천 생성
       async generateRecommendations() {
         this.analysisStatus = 'analyzing'
@@ -390,14 +402,28 @@
 
           // 🔍 디버깅 추가
           console.log('🔍 GPT 추천 응답 전체:', response)
-          console.log('🔍 recommended_movies:', response?.recommended_movies)
-          console.log('🔍 taste_summary:', response?.taste_summary)
+          console.log(
+            '🔍 recommended_movies 타입:',
+            typeof response?.recommended_movies
+          )
+          console.log(
+            '🔍 recommended_movies 내용:',
+            response?.recommended_movies
+          )
 
-          // 안전한 접근
-          this.recommendations = response?.recommended_movies || []
-          this.tasteAnalysis = response?.taste_summary || ''
+          // 안전한 데이터 처리
+          if (response && typeof response === 'object') {
+            this.recommendations = Array.isArray(response.recommended_movies)
+              ? response.recommended_movies
+              : []
+            this.tasteAnalysis = response.taste_summary || ''
+
+            console.log('✅ 최종 recommendations:', this.recommendations)
+            console.log('✅ 최종 tasteAnalysis:', this.tasteAnalysis)
+          }
+
           this.analysisStatus = 'completed'
-          this.currentStep = 5
+          // currentStep = 5는 handleAnalysisComplete에서 처리
         } catch (error) {
           console.error('GPT 추천 생성 실패:', error)
           this.analysisStatus = 'error'
@@ -446,6 +472,14 @@
 
       // 타임라인으로 이동
       goToTimeline() {
+        // 사용자 정보 업데이트 (안전장치)
+        if (this.authStore.user) {
+          this.authStore.setUser({
+            ...this.authStore.user,
+            onboarding_completed: true
+          })
+        }
+
         this.$router.push('/timeline')
       }
     }

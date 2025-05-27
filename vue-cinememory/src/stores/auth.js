@@ -180,7 +180,8 @@ export const useAuthStore = defineStore('auth', () => {
       setUserExtended({
         id: user.id,
         username: user.username,
-        birth: user.birth
+        birth: user.birth,
+        onboarding_completed: user.onboarding_completed || false
       })
 
       return {

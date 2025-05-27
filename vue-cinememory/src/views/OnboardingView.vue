@@ -49,6 +49,11 @@
           내 타임라인 보기
         </BaseButton>
         <BaseButton
+          @click="goHome"
+          variant="secondary">
+          홈으로 이동
+        </BaseButton>
+        <BaseButton
           @click="showRetakeOption = true"
           variant="secondary">
           다시 분석하기
@@ -59,6 +64,7 @@
     <!-- 다시 분석 확인 모달 -->
     <BaseModal
       v-if="showRetakeOption"
+      :modal-value="showRetakeOption"
       title="취향 분석 다시 하기"
       @close="showRetakeOption = false">
       <div class="retake-modal-content">
@@ -91,6 +97,7 @@
 
 <script>
   import { useAuth } from '@/composables/useAuth'
+  import { useAuthStore } from '@/stores/auth'
   import onboardingApi from '@/services/onboardingApi'
   import OnboardingContainer from '@/components/onboarding/OnboardingContainer.vue'
   import BaseSpinner from '@/components/base/BaseSpinner.vue'
@@ -170,12 +177,36 @@
 
       // 홈으로 이동
       goHome() {
-        this.$router.push('/')
+        console.log('🏠 홈으로 이동 시도')
+        try {
+          this.$router.push('/')
+        } catch (error) {
+          console.error('홈 이동 실패:', error)
+        }
       },
 
       // 타임라인으로 이동
       goToTimeline() {
-        this.$router.push('/timeline')
+        console.log('🎬 타임라인으로 이동 시도')
+        console.log('👤 현재 사용자:', this.user)
+        console.log('✅ 온보딩 완료 상태:', this.user?.onboarding_completed)
+
+        // 🔥 authStore 사용해서 사용자 정보 업데이트
+        const authStore = useAuthStore()
+        if (authStore.user) {
+          const updatedUser = {
+            ...authStore.user,
+            onboarding_completed: true
+          }
+          authStore.setUser(updatedUser)
+          console.log('✅ 사용자 정보 업데이트 완료:', updatedUser)
+        }
+
+        try {
+          this.$router.push('/timeline')
+        } catch (error) {
+          console.error('타임라인 이동 실패:', error)
+        }
       },
 
       // 온보딩 재시작 (기존 데이터 초기화)

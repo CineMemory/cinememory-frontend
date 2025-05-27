@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/timeline',
     name: 'Timeline',
-    component: () => import('@/views/DummyView.vue'),
+    component: () => import('@/views/TimelineView.vue'),
     meta: {
       title: '나의 시네마틱 여정 | 씨네메모리',
       requireAuth: true,
@@ -167,12 +167,9 @@ router.beforeEach(async (to, from, next) => {
   // 온보딩 완료 체크 - 타임라인만 체크 (마이페이지는 제외)
   if (
     authStore.isAuthenticated &&
-    !authStore.user?.onboarding_completed &&
-    to.name !== 'Onboarding' &&
-    to.name !== 'Auth' &&
-    to.name === 'Timeline'
+    to.name === 'Timeline' &&
+    !authStore.user?.onboarding_completed
   ) {
-    // 타임라인만 체크
     console.log('📝 온보딩이 필요합니다.')
     next({ name: 'Onboarding' })
     return

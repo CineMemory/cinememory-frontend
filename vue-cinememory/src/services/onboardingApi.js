@@ -6,7 +6,7 @@ const onboardingApi = {
   async getOnboardingStatus() {
     try {
       const response = await api.get('/accounts/onboarding/status/')
-      return response.data
+      return response
     } catch (error) {
       console.error('온보딩 상태 조회 실패:', error)
       throw error
@@ -42,7 +42,7 @@ const onboardingApi = {
           movie_ids: movieIds
         }
       )
-      return response.data
+      return response
     } catch (error) {
       console.error('재밌게 본 영화 저장 실패:', error)
       throw error
@@ -81,7 +81,7 @@ const onboardingApi = {
           movie_ids: movieIds
         }
       )
-      return response.data
+      return response
     } catch (error) {
       console.error('관심있는 영화 저장 실패:', error)
       throw error
@@ -109,7 +109,7 @@ const onboardingApi = {
           genre_ids: genreIds
         }
       )
-      return response.data
+      return response
     } catch (error) {
       console.error('제외할 장르 저장 실패:', error)
       throw error
@@ -117,12 +117,16 @@ const onboardingApi = {
   },
 
   // 4단계: GPT 추천 생성
+  // 4단계: GPT 추천 생성
   async generateGPTRecommendations() {
     try {
       const response = await api.post(
         '/cinememory/accounts/onboarding/step4/generate/'
       )
-      return response.data
+      console.log('🔍 onboardingApi GPT 응답:', response) // 추가
+
+      // api.js에서 이미 data를 반환하므로 response가 곧 data
+      return response
     } catch (error) {
       console.error('GPT 추천 생성 실패:', error)
       throw error
@@ -135,7 +139,7 @@ const onboardingApi = {
       const response = await api.get(
         '/cinememory/accounts/onboarding/movies/random/'
       )
-      return response.data
+      return response
     } catch (error) {
       console.error('랜덤 영화 조회 실패:', error)
       throw error
@@ -146,7 +150,7 @@ const onboardingApi = {
   async getUserRecommendations() {
     try {
       const response = await api.get('/cinememory/accounts/recommendations/')
-      return response.data
+      return response
     } catch (error) {
       console.error('사용자 추천 결과 조회 실패:', error)
       throw error
@@ -154,12 +158,16 @@ const onboardingApi = {
   },
 
   // 추천 결과 재생성
+  // 추천 결과 재생성
   async regenerateRecommendations() {
     try {
       const response = await api.post(
         '/cinememory/accounts/recommendations/regenerate/'
       )
-      return response.data
+      console.log('🔍 onboardingApi 재생성 응답:', response) // 추가
+
+      // api.js에서 이미 data를 반환하므로 response가 곧 data
+      return response
     } catch (error) {
       console.error('추천 재생성 실패:', error)
       throw error

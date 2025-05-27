@@ -120,24 +120,6 @@
           영화 둘러보기
         </BaseButton>
       </div>
-
-      <div class="secondary-actions">
-        <BaseButton
-          variant="outline"
-          @click="$emit('regenerate')"
-          class="regenerate-button">
-          <BaseIcon name="refresh-cw" />
-          추천 다시 받기
-        </BaseButton>
-
-        <BaseButton
-          variant="outline"
-          @click="shareResults"
-          class="share-button">
-          <BaseIcon name="share-2" />
-          결과 공유하기
-        </BaseButton>
-      </div>
     </div>
 
     <!-- 다음 단계 안내 -->
