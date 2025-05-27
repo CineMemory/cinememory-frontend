@@ -783,12 +783,12 @@
 
   .genre-tag {
     font-size: 12px;
-    color: var(--color-background);
-    background-color: var(--color-main);
+    color: var(--color-text);
+    background-color: rgba(255, 183, 0, 0.15);
     padding: 4px 8px;
     border-radius: var(--border-radius-small);
-    font-weight: 600;
-    border: none;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
   }
 
   /* 인물 결과 */

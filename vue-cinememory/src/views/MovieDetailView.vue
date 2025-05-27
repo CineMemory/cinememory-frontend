@@ -222,30 +222,35 @@
             <!-- OTT 시청 정보 -->
             <!-- OTT 시청 정보 -->
             <div
-              v-if="movie.providers && movie.providers.length > 0"
+              v-if="groupedProviders && groupedProviders.length > 0"
               class="movie-watch-providers">
               <h3 class="section-title">시청 가능한 플랫폼</h3>
               <div class="watch-providers-list">
                 <div
-                  v-for="provider in movie.providers"
-                  :key="`${provider.provider.id}-${provider.provider_type}`"
+                  v-for="providerGroup in groupedProviders"
+                  :key="providerGroup.provider.id"
                   class="watch-provider-item">
                   <img
-                    :src="`https://image.tmdb.org/t/p/w92${provider.provider.logo_path}`"
-                    :alt="provider.provider.name"
+                    :src="`https://image.tmdb.org/t/p/w92${providerGroup.provider.logo_path}`"
+                    :alt="providerGroup.provider.name"
                     class="provider-logo" />
                   <div class="provider-info">
                     <span class="provider-name">{{
-                      provider.provider.name
+                      providerGroup.provider.name
                     }}</span>
-                    <span class="provider-type">{{
-                      translateProviderType(provider.provider_type)
-                    }}</span>
-                    <span
-                      v-if="provider.price"
-                      class="provider-price">
-                      {{ provider.price }}
-                    </span>
+                    <div class="provider-types">
+                      <span
+                        v-for="type in providerGroup.types"
+                        :key="type.provider_type"
+                        class="provider-type-tag">
+                        {{ translateProviderType(type.provider_type) }}
+                        <span
+                          v-if="type.price"
+                          class="provider-price"
+                          >{{ type.price }}</span
+                        >
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -623,6 +628,42 @@
       console.error('컬렉션 정보 파싱 에러:', error)
       return null
     }
+  })
+
+  const groupedProviders = computed(() => {
+    if (!movie.value?.providers) return []
+
+    // 플랫폼명으로 그룹화
+    const providerGroups = new Map()
+
+    movie.value.providers.forEach((provider) => {
+      const providerName = provider.provider.name
+
+      if (!providerGroups.has(providerName)) {
+        providerGroups.set(providerName, {
+          provider: provider.provider,
+          types: []
+        })
+      }
+
+      // 중복 타입 제거하면서 추가 (provider_type이 있는 것만)
+      const existingTypes = providerGroups.get(providerName).types
+      if (
+        provider.provider_type &&
+        !existingTypes.some((t) => t.provider_type === provider.provider_type)
+      ) {
+        existingTypes.push({
+          provider_type: provider.provider_type,
+          price: provider.price,
+          display_priority: provider.display_priority || 999
+        })
+      }
+    })
+
+    // 타입이 있는 플랫폼만 반환
+    return Array.from(providerGroups.values()).filter(
+      (group) => group.types.length > 0
+    )
   })
 
   // 별점 표시 함수
@@ -1303,12 +1344,17 @@
 
   .genre-tag {
     font-size: 14px;
-    color: var(--color-background); /* 어두운 배경색으로 변경 */
-    background-color: var(--color-main);
+    color: var(--color-text);
+    background-color: rgba(255, 183, 0, 0.15); /* 투명한 노란색 */
     padding: 6px 12px;
     border-radius: var(--border-radius-medium);
-    font-weight: 600; /* 폰트 굵기 증가 */
-    border: none; /* 혹시 있을 테두리 제거 */
+    font-weight: 500;
+    backdrop-filter: blur(4px); /* 고급스러운 블러 효과 */
+    transition: all 0.2s ease;
+  }
+
+  .genre-tag:hover {
+    background-color: rgba(255, 183, 0, 0.25);
   }
 
   .movie-ratings {
@@ -1885,10 +1931,33 @@
     color: var(--color-highlight-text);
   }
 
-  .provider-price {
-    font-size: 12px;
-    color: var(--color-main);
+  .provider-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .provider-type-tag {
+    font-size: 11px;
+    color: var(--color-text);
+    background-color: rgba(255, 183, 0, 0.15); /* 투명한 노란색 */
+    padding: 3px 8px;
+    border-radius: var(--border-radius-small);
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(4px); /* 고급스러운 블러 효과 */
+  }
+
+  .provider-price {
+    font-size: 10px;
+    color: var(--color-main);
+    background-color: rgba(255, 183, 0, 0.2);
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 600;
   }
 
   /* 리뷰 섹션 */
