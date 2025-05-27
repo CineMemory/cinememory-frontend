@@ -35,31 +35,6 @@
           required
           class="auth-form__input"
           @input="handleUsernameInput" />
-
-        <!-- 닉네임 확인 상태 표시 -->
-        <div class="username-status">
-          <div
-            v-if="usernameCheckState.isChecking"
-            class="username-status__checking">
-            <BaseIcon
-              name="loader"
-              class="spinner" />
-          </div>
-          <div
-            v-else-if="usernameCheckState.isAvailable === true"
-            class="username-status__available">
-            <BaseIcon
-              name="check"
-              class="check-icon" />
-          </div>
-          <div
-            v-else-if="usernameCheckState.isAvailable === false"
-            class="username-status__unavailable">
-            <BaseIcon
-              name="x"
-              class="x-icon" />
-          </div>
-        </div>
       </div>
 
       <!-- 사용자명 관련 메시지 -->
@@ -323,6 +298,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
   }
 
   .auth-form__error {
@@ -358,6 +334,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
   }
 
   .auth-form__label {
@@ -370,47 +347,14 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   .auth-form__input {
-    width: 100%;
-    padding-right: 40px; /* 아이콘 공간 확보 */
-  }
-
-  .username-status {
-    position: absolute;
-    right: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .username-status__checking .spinner {
-    width: 16px;
-    height: 16px;
-    color: var(--color-highlight-text);
-    animation: spin 1s linear infinite;
-  }
-
-  .username-status__available .check-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-success);
-  }
-
-  .username-status__unavailable .x-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-alert);
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .auth-form__field-error {
