@@ -596,15 +596,38 @@
   // 계산된 속성
   const displayedActors = computed(() => {
     if (!movie.value?.actors) return []
-    // Django API 응답 구조에 맞게 처리
-    const actors = movie.value.actors.map((actor) => ({
-      actor_id: actor.actor?.id || actor.id,
-      name: actor.actor?.name || actor.name,
-      profile_path: actor.actor?.profile_path || actor.profile_path,
-      character_name: actor.character_name
-    }))
 
-    return showAllActors.value ? actors : actors.slice(0, 6)
+    // 중복 제거 + character_name 필터링
+    const uniqueActors = movie.value.actors.reduce((acc, actor) => {
+      const actorId = actor.actor?.id || actor.id
+      const existing = acc.find((item) => item.actor_id === actorId)
+
+      // character_name이 있는 경우만 처리
+      if (actor.character_name && actor.character_name.trim() !== '') {
+        if (!existing) {
+          // 새로운 배우면 추가
+          acc.push({
+            actor_id: actorId,
+            name: actor.actor?.name || actor.name,
+            profile_path: actor.actor?.profile_path || actor.profile_path,
+            character_name: actor.character_name
+          })
+        } else if (!existing.character_name) {
+          // 기존 항목에 character_name이 없다면 교체
+          const index = acc.findIndex((item) => item.actor_id === actorId)
+          acc[index] = {
+            actor_id: actorId,
+            name: actor.actor?.name || actor.name,
+            profile_path: actor.actor?.profile_path || actor.profile_path,
+            character_name: actor.character_name
+          }
+        }
+      }
+
+      return acc
+    }, [])
+
+    return showAllActors.value ? uniqueActors : uniqueActors.slice(0, 6)
   })
 
   const averageRating = computed(() => {
