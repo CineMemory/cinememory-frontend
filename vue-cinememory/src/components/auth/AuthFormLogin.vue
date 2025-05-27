@@ -98,10 +98,14 @@
 
     clearError()
 
-    const result = await login({
-      username: formData.value.username.trim(),
-      password: formData.value.password
-    })
+    // redirect: false 옵션 추가하여 현재 페이지 유지
+    const result = await login(
+      {
+        username: formData.value.username.trim(),
+        password: formData.value.password
+      },
+      { redirect: false }
+    )
 
     if (result.success) {
       emit('success')

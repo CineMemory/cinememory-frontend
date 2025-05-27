@@ -15,15 +15,13 @@ export const useAuth = () => {
   const error = computed(() => authStore.error)
 
   // 로그인
-  const login = async (credentials) => {
+  const login = async (credentials, options = {}) => {
     const result = await authStore.login(credentials)
-
     if (result.success) {
-      console.log('✅ 로그인 성공:', authStore.user.username)
-      // 로그인 성공 시 홈으로 리다이렉트 (또는 이전 페이지)
-      router.push({ name: 'Home' })
+      if (options.redirect !== false) {
+        router.push({ name: 'Home' })
+      }
     }
-
     return result
   }
 

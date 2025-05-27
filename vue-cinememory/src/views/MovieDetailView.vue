@@ -343,25 +343,33 @@
               </button>
             </div>
 
-            <!-- 별점 선택 -->
+            <!-- 별점 입력 (새로운 스타일로 대체) -->
             <div class="rating-input">
               <label class="rating-input-label">별점</label>
-              <div class="stars-input">
+              <div class="stars-rating">
                 <button
-                  v-for="rating in [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]"
-                  :key="rating"
-                  @click="setRating(rating)"
-                  @mouseenter="setHoveredRating(rating)"
+                  v-for="star in 5"
+                  :key="star"
+                  type="button"
+                  @click="setRating(star)"
+                  @mouseenter="setHoveredRating(star)"
                   @mouseleave="clearHoveredRating"
-                  class="star-btn"
+                  class="star-button"
                   :class="{
-                    active: reviewRating >= rating,
-                    hovered: hoveredRating >= rating
+                    filled: star <= (hoveredRating || reviewRating),
+                    hovered: star <= hoveredRating
                   }">
                   ⭐
                 </button>
               </div>
-              <span class="rating-display">{{ reviewRating }}점</span>
+              <div class="rating-feedback">
+                <span class="rating-display">{{ reviewRating }}점</span>
+                <span
+                  v-if="reviewRating > 0"
+                  class="rating-text">
+                  {{ getRatingText(reviewRating) }}
+                </span>
+              </div>
             </div>
 
             <!-- 리뷰 내용 -->
@@ -676,6 +684,18 @@
     })
   }
 
+  // 별점에 따른 텍스트 변환
+  const getRatingText = (rating) => {
+    const ratingTexts = {
+      1: '별로예요',
+      2: '그저 그래요',
+      3: '보통이에요',
+      4: '좋아요',
+      5: '최고에요!'
+    }
+    return ratingTexts[rating] || ''
+  }
+
   // 유틸리티 함수들
   const formatDate = (dateStr) => {
     if (!dateStr) return ''
@@ -809,8 +829,6 @@
             review.user === authStore.user?.username
         )
       }
-
-      console.log('✅ 영화 로드 성공:', movieData.title)
     } catch (err) {
       console.error('❌ 영화 로드 실패:', err)
       error.value = err.response?.data?.error || '영화를 불러올 수 없습니다.'
@@ -936,6 +954,7 @@
   // 별점 관련 함수들
   const setRating = (rating) => {
     reviewRating.value = rating
+    clearHoveredRating()
   }
 
   const setHoveredRating = (rating) => {
@@ -1855,6 +1874,55 @@
     transform-origin: left center;
   }
 
+  .star-half {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 2px;
+    transition: transform 0.1s;
+    filter: grayscale(100%);
+    opacity: 0.4;
+    position: relative;
+    overflow: hidden;
+    width: 16px; /* 별의 절반 너비 */
+  }
+
+  .star-half-left {
+    clip-path: polygon(
+      0% 0%,
+      50% 0%,
+      50% 100%,
+      0% 100%
+    ); /* 왼쪽 절반만 보이기 */
+  }
+
+  .star-half-right {
+    clip-path: polygon(
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%
+    ); /* 오른쪽 절반만 보이기 */
+    margin-left: -16px; /* 왼쪽 반과 겹치게 */
+  }
+
+  .star-half:hover {
+    transform: scale(1.05);
+  }
+
+  .star-half.active,
+  .star-half.hovered {
+    filter: none;
+    opacity: 1;
+    color: var(--color-main);
+  }
+
+  /* 전체 별 컨테이너 호버 효과 */
+  .star-container:hover .star-half {
+    transform: scale(1.05);
+  }
+
   .star-item {
     font-size: 16px;
     filter: grayscale(100%);
@@ -2013,7 +2081,7 @@
     color: var(--color-text);
   }
 
-  /* 별점 입력 */
+  /* 별점 입력 (새로운 스타일로 대체) */
   .rating-input {
     margin-bottom: 20px;
   }
@@ -2026,38 +2094,57 @@
     margin-bottom: 8px;
   }
 
-  .stars-input {
+  .stars-rating {
     display: flex;
     gap: 4px;
     margin-bottom: 8px;
   }
 
-  .star-btn {
+  .star-button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 28px;
     padding: 4px;
-    transition: transform 0.1s;
+    transition: all 0.2s ease;
     filter: grayscale(100%);
-    opacity: 0.4;
+    opacity: 0.3;
+    transform-origin: center;
   }
 
-  .star-btn:hover {
+  .star-button:hover {
     transform: scale(1.1);
   }
 
-  .star-btn.active,
-  .star-btn.hovered {
+  .star-button.filled {
     filter: none;
     opacity: 1;
     color: var(--color-main);
   }
 
+  .star-button.hovered {
+    filter: none;
+    opacity: 1;
+    color: var(--color-main);
+    transform: scale(1.1);
+  }
+
+  .rating-feedback {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
   .rating-display {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-main);
+  }
+
+  .rating-text {
+    font-size: 14px;
+    color: var(--color-highlight-text);
+    font-style: italic;
   }
 
   /* 리뷰 내용 입력 */
@@ -2375,6 +2462,11 @@
 
     .stars-input {
       justify-content: center;
+    }
+
+    .starts-container {
+      position: relative;
+      display: flex;
     }
 
     .form-actions {
