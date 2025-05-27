@@ -341,9 +341,12 @@
   }
 
   // 직업 번역 (Django API의 role 필드 기준)
+  // 직업 번역 (Django API의 role 필드 기준)
   const translateRole = (role) => {
     const roleMap = {
+      Actor: '배우',
       Acting: '배우',
+      Director: '감독',
       Directing: '감독',
       Writing: '각본가',
       Production: '제작자',
