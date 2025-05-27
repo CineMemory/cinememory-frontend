@@ -16,6 +16,17 @@ const tmdbApi = axios.create({
 
 // TMDB API 서비스 객체
 export const tmdbService = {
+  // 🎬 영화 상세 정보 조회
+  getMovieDetails: async (movieId) => {
+    try {
+      const response = await tmdbApi.get(`/movie/${movieId}`)
+      return response.data
+    } catch (error) {
+      console.error('영화 상세 정보 조회 오류:', error)
+      throw error
+    }
+  },
+
   // 🔍 영화 검색
   searchMovies: async (query, page = 1) => {
     try {
