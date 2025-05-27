@@ -149,7 +149,8 @@
               </span>
               <span
                 v-if="movie.status"
-                class="movie-status">
+                class="movie-status"
+                :style="getStatusStyle(translateStatus(movie.status))">
                 {{ translateStatus(movie.status) }}
               </span>
             </div>
@@ -658,6 +659,28 @@
       Canceled: '취소됨'
     }
     return statusMap[status] || status
+  }
+
+  const getStatusStyle = (status) => {
+    const statusColors = {
+      Released: '#5d7c47', // 초록색 (개봉)
+      개봉: '#5d7c47',
+      'Post Production': 'var(--color-main)', // 노란색 (후반 작업)
+      '후반 작업': 'var(--color-main)',
+      'In Production': '#a0442c', // 주황색 (제작 중)
+      '제작 중': '#a0442c',
+      Planned: 'var(--color-inactive-text)', // 회색 (기획 중)
+      '기획 중': 'var(--color-inactive-text)',
+      Canceled: 'var(--color-alert)', // 빨간색 (취소)
+      취소됨: 'var(--color-alert)'
+    }
+
+    return {
+      color: statusColors[status] || 'var(--color-highlight-text)',
+      backgroundColor: 'var(--color-card-background)', // 다른 메타데이터와 동일한 배경
+      padding: '4px 12px',
+      borderRadius: 'var(--border-radius-small)'
+    }
   }
 
   // 네비게이션
@@ -1256,10 +1279,16 @@
   }
 
   .movie-date,
-  .movie-runtime,
-  .movie-status {
+  .movie-runtime {
     font-size: 16px;
     color: var(--color-highlight-text);
+    background-color: var(--color-card-background);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-small);
+  }
+
+  .movie-status {
+    font-size: 16px;
     background-color: var(--color-card-background);
     padding: 4px 12px;
     border-radius: var(--border-radius-small);
