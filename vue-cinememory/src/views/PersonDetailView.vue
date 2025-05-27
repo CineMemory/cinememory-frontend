@@ -505,10 +505,12 @@
   }
 
   // 좋아요 토글
+  // 좋아요 토글
+  // 좋아요 토글
   const toggleLike = async () => {
     if (!authStore.isAuthenticated) {
-      // 로그인 모달 열기
-      authStore.openLoginModal('login')
+      // authStore.openLoginModal('login') // 일단 주석 처리
+      alert('로그인이 필요합니다.') // 임시로 alert 사용
       return
     }
 
@@ -516,7 +518,7 @@
 
     isTogglingLike.value = true
     try {
-      const result = await toggleMovieLike(movie.value.movie_id)
+      const result = await togglePersonLike(person.value.id) // 올바른 함수 사용
       if (result.success) {
         isLiked.value = result.is_liked
         likeCount.value = result.like_count
