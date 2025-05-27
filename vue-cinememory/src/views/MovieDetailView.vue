@@ -302,20 +302,24 @@
           v-if="movie.directors && movie.directors.length > 0"
           class="movie-cast-section">
           <h2 class="section-title">감독</h2>
-          <div class="cast-list">
-            <button
+          <div class="cast-grid">
+            <div
               v-for="director in movie.directors"
               :key="director.director_id"
-              @click="goToPersonDetail(director_id)"
-              class="cast-item">
-              <img
-                :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`"
-                :alt="director.name"
-                class="cast-photo" />
-              <div class="cast-info">
-                <span class="cast-name">{{ director.name }}</span>
+              @click="goToPersonDetail(director.director_id || director.id)"
+              class="cast-card">
+              <div class="cast-photo-container">
+                <img
+                  :src="`https://image.tmdb.org/t/p/w185${director.profile_path}`"
+                  :alt="director.name"
+                  class="cast-photo"
+                  @error="handleCastImageError" />
               </div>
-            </button>
+              <div class="cast-info">
+                <h4 class="cast-name">{{ director.name }}</h4>
+                <p class="cast-character director-role">감독</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -752,9 +756,15 @@
 
   // 네비게이션
   const goToPersonDetail = (personId) => {
+    if (!personId) {
+      console.error('❌ 인물 ID가 없습니다:', personId)
+      alert('해당 인물의 정보를 찾을 수 없습니다.')
+      return
+    }
+
+    console.log('👤 인물 상세로 이동:', personId)
     router.push({ name: 'PersonDetail', params: { id: personId } })
   }
-
   const goBack = () => {
     if (window.history.length > 1) {
       router.go(-1)

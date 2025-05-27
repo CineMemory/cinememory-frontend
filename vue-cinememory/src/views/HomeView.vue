@@ -16,25 +16,93 @@
 
       <!-- 인증 영역 (우상단) -->
       <div class="home-header__auth">
-        <!-- 로그인된 상태 -->
+        <!-- 로그인된 사용자 -->
         <div
           v-if="isAuthenticated"
           class="home-header__user">
-          <button
-            @click="goToProfile"
-            class="home-header__user-btn">
-            <BaseIcon
-              name="user"
-              class="user-icon" />
-            <span class="user-name">{{ user.username }}</span>
-          </button>
-          <BaseButton
-            @click="handleLogout"
-            variant="secondary"
-            size="small"
-            class="home-header__logout-btn">
-            로그아웃
-          </BaseButton>
+          <!-- 사용자 버튼 (드롭다운 토글) -->
+          <div class="user-dropdown">
+            <button
+              @click="toggleUserMenu"
+              class="home-header__user-btn">
+              <BaseIcon
+                name="user"
+                class="user-icon" />
+              <span class="user-name">{{ user.username }}</span>
+              <BaseIcon
+                name="chevron-down"
+                class="dropdown-icon"
+                :class="{ 'dropdown-icon--open': isUserMenuOpen }" />
+            </button>
+
+            <!-- 사용자 드롭다운 메뉴 -->
+            <Transition name="user-dropdown">
+              <div
+                v-if="isUserMenuOpen"
+                class="user-dropdown__menu"
+                @click.stop>
+                <!-- 사용자 정보 -->
+                <div class="user-dropdown__info">
+                  <BaseIcon
+                    name="user"
+                    class="user-avatar" />
+                  <div class="user-details">
+                    <span class="user-name-large">{{ user.username }}</span>
+                    <span class="user-greeting">안녕하세요!</span>
+                  </div>
+                </div>
+
+                <!-- 구분선 -->
+                <div class="user-dropdown__divider"></div>
+
+                <!-- 메뉴 아이템들 -->
+                <button
+                  @click="goToProfile"
+                  class="user-dropdown__item">
+                  <BaseIcon
+                    name="user"
+                    class="item-icon" />
+                  <span>마이페이지</span>
+                </button>
+
+                <button
+                  @click="goToTimeline"
+                  class="user-dropdown__item">
+                  <BaseIcon
+                    name="calendar"
+                    class="item-icon" />
+                  <span>나의 시네마틱 여정</span>
+                </button>
+
+                <button
+                  @click="goToCommunity"
+                  class="user-dropdown__item">
+                  <BaseIcon
+                    name="message-circle"
+                    class="item-icon" />
+                  <span>커뮤니티</span>
+                </button>
+
+                <!-- 구분선 -->
+                <div class="user-dropdown__divider"></div>
+
+                <button
+                  @click="handleLogout"
+                  class="user-dropdown__item user-dropdown__item--danger">
+                  <BaseIcon
+                    name="log-out"
+                    class="item-icon" />
+                  <span>로그아웃</span>
+                </button>
+              </div>
+            </Transition>
+
+            <!-- 백드롭 (메뉴 외부 클릭 시 닫기) -->
+            <div
+              v-if="isUserMenuOpen"
+              class="user-dropdown__backdrop"
+              @click="closeUserMenu"></div>
+          </div>
         </div>
 
         <!-- 로그인되지 않은 상태 -->
@@ -116,15 +184,11 @@
   // 인증 모달 상태
   const isAuthModalOpen = ref(false)
   const isLoginMode = ref(true)
+  const isUserMenuOpen = ref(false)
 
   // 홈으로 이동
   const goHome = () => {
     router.push({ name: 'Home' })
-  }
-
-  // 프로필로 이동
-  const goToProfile = () => {
-    router.push({ name: 'MyProfile' })
   }
 
   // 로그인 모달 열기
@@ -154,10 +218,39 @@
     isAuthModalOpen.value = false
   }
 
+  // 사용자 메뉴 토글
+  const toggleUserMenu = () => {
+    isUserMenuOpen.value = !isUserMenuOpen.value
+  }
+
+  // 사용자 메뉴 닫기
+  const closeUserMenu = () => {
+    isUserMenuOpen.value = false
+  }
+
+  // 프로필로 이동
+  const goToProfile = () => {
+    router.push({ name: 'MyProfile' })
+    closeUserMenu()
+  }
+
+  // 타임라인으로 이동
+  const goToTimeline = () => {
+    router.push({ name: 'Timeline' })
+    closeUserMenu()
+  }
+
+  // 커뮤니티로 이동
+  const goToCommunity = () => {
+    router.push({ name: 'Community' })
+    closeUserMenu()
+  }
+
   // 로그아웃
   const handleLogout = async () => {
     if (confirm('로그아웃 하시겠습니까?')) {
       await logout()
+      closeUserMenu()
     }
   }
 </script>
@@ -279,6 +372,11 @@
     gap: 8px;
   }
 
+  /* 사용자 드롭다운 */
+  .user-dropdown {
+    position: relative;
+  }
+
   .home-header__user-btn {
     display: flex;
     align-items: center;
@@ -296,19 +394,130 @@
     background-color: var(--color-highlight-background);
   }
 
-  .user-icon {
-    width: 20px;
-    height: 20px;
+  .dropdown-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-highlight-text);
+    transition: transform 0.2s;
+  }
+
+  .dropdown-icon--open {
+    transform: rotate(180deg);
+  }
+
+  /* 드롭다운 메뉴 */
+  .user-dropdown__menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    width: 280px;
+    background-color: var(--color-card-background);
+    border: 1px solid var(--color-inactive-icon);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-modal);
+    padding: 16px;
+    z-index: 1000;
+  }
+
+  /* 사용자 정보 */
+  .user-dropdown__info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
     color: var(--color-main);
+    flex-shrink: 0;
   }
 
-  .user-name {
+  .user-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .user-name-large {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 2px;
+  }
+
+  .user-greeting {
+    display: block;
+    font-size: 13px;
+    color: var(--color-highlight-text);
+  }
+
+  /* 구분선 */
+  .user-dropdown__divider {
+    height: 1px;
+    background-color: var(--color-inactive-icon);
+    margin: 12px 0;
+  }
+
+  /* 메뉴 아이템 */
+  .user-dropdown__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    border-radius: var(--border-radius-medium);
+    transition: background-color 0.2s;
     font-size: 14px;
-    font-weight: 500;
+    text-align: left;
+    font-family: 'Pretendard-Regular', sans-serif;
   }
 
-  .home-header__logout-btn {
-    margin-left: 8px;
+  .user-dropdown__item:hover {
+    background-color: var(--color-highlight-background);
+  }
+
+  .user-dropdown__item--danger {
+    color: var(--color-alert);
+  }
+
+  .user-dropdown__item--danger:hover {
+    background-color: rgba(255, 56, 56, 0.1);
+  }
+
+  .item-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* 백드롭 */
+  .user-dropdown__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: transparent;
+  }
+
+  /* 트랜지션 */
+  .user-dropdown-enter-active,
+  .user-dropdown-leave-active {
+    transition: all 0.2s ease;
+  }
+
+  .user-dropdown-enter-from,
+  .user-dropdown-leave-to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
   }
 
   /* 게스트 사용자 */
@@ -355,6 +564,11 @@
     .home-main {
       padding-top: 56px; /* 70px → 56px로 줄임 */
     }
+
+    .user-dropdown__menu {
+      width: 260px;
+      right: -16px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -385,6 +599,15 @@
 
     .auth-modal-content {
       padding: 0;
+    }
+
+    .dropdown-icon {
+      display: none; /* 모바일에서는 드롭다운 아이콘 숨김 */
+    }
+
+    .user-dropdown__menu {
+      width: 240px;
+      right: -20px;
     }
   }
 </style>

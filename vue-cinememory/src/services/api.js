@@ -812,3 +812,110 @@ export const getUserReviews = async () => {
     throw error
   }
 }
+
+// 사용자가 좋아요한 배우 목록
+export const getUserLikedActors = async () => {
+  try {
+    const response = await apiRequest('/cinememory/movies/user/liked-actors/')
+    return response
+  } catch (error) {
+    console.error('❌ getUserLikedActors 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 좋아요한 감독 목록
+export const getUserLikedDirectors = async () => {
+  try {
+    const response = await apiRequest(
+      '/cinememory/movies/user/liked-directors/'
+    )
+    return response
+  } catch (error) {
+    console.error('❌ getUserLikedDirectors 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 작성한 게시글 목록
+export const getUserPosts = async () => {
+  try {
+    const response = await apiRequest('/cinememory/community/user/posts/')
+
+    // 게시글 데이터 변환
+    const transformedPosts = Array.isArray(response.posts)
+      ? response.posts.map((post) => ({
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          author: {
+            id: post.user_id || post.user,
+            username: post.username || '사용자'
+          },
+          like_count: post.like_count || 0,
+          comment_count: post.comment_count || 0,
+          is_liked: post.is_liked || false,
+          created_at: post.created_at,
+          updated_at: post.updated_at,
+          tags: Array.isArray(post.tags)
+            ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
+            : []
+        }))
+      : []
+
+    return {
+      posts: transformedPosts,
+      count: response.count || transformedPosts.length
+    }
+  } catch (error) {
+    console.error('❌ getUserPosts 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 작성한 댓글 목록
+export const getUserComments = async () => {
+  try {
+    const response = await apiRequest('/cinememory/community/user/comments/')
+    return response
+  } catch (error) {
+    console.error('❌ getUserComments 오류:', error)
+    throw error
+  }
+}
+
+// 사용자가 좋아요한 게시글 목록
+export const getUserLikedPosts = async () => {
+  try {
+    const response = await apiRequest('/cinememory/community/user/liked-posts/')
+
+    // 게시글 데이터 변환
+    const transformedPosts = Array.isArray(response.liked_posts)
+      ? response.liked_posts.map((post) => ({
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          author: {
+            id: post.user_id || post.user,
+            username: post.username || '사용자'
+          },
+          like_count: post.like_count || 0,
+          comment_count: post.comment_count || 0,
+          is_liked: true, // 좋아요한 게시글이므로 항상 true
+          created_at: post.created_at,
+          updated_at: post.updated_at,
+          tags: Array.isArray(post.tags)
+            ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
+            : []
+        }))
+      : []
+
+    return {
+      liked_posts: transformedPosts,
+      count: response.count || transformedPosts.length
+    }
+  } catch (error) {
+    console.error('❌ getUserLikedPosts 오류:', error)
+    throw error
+  }
+}
