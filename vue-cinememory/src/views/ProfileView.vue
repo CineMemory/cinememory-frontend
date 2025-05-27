@@ -394,6 +394,7 @@
           </div>
 
           <!-- 내 리뷰 목록 -->
+          <!-- 내 리뷰 목록 -->
           <div
             v-else-if="userReviews.length > 0"
             class="user-reviews-section">
@@ -406,13 +407,16 @@
                 <div class="review-header">
                   <div class="movie-info-compact">
                     <img
-                      v-if="review.movie?.poster_path"
-                      :src="`https://image.tmdb.org/t/p/w92${review.movie.poster_path}`"
-                      :alt="review.movie.title"
-                      class="review-movie-poster" />
+                      v-if="review.movie_info?.poster_path"
+                      :src="`https://image.tmdb.org/t/p/w92${review.movie_info.poster_path}`"
+                      :alt="review.movie_info.title"
+                      class="review-movie-poster"
+                      @click="goToMovieDetail(review.movie_info.id)" />
                     <div class="movie-details">
-                      <h4 class="review-movie-title">
-                        {{ review.movie?.title || '영화 제목 없음' }}
+                      <h4
+                        class="review-movie-title"
+                        @click="goToMovieDetail(review.movie_info?.id)">
+                        {{ review.movie_info?.title || '영화 제목' }}
                       </h4>
                       <div class="review-rating">
                         <div class="stars-display">
@@ -1276,18 +1280,8 @@
     try {
       isLoadingMovies.value = true
       moviesError.value = ''
-
       const response = await getUserLikedMovies()
       likedMovies.value = response.liked_movies || []
-
-      // 🔍 데이터 구조 확인
-      console.log('🎬 좋아요한 영화 전체 응답:', response)
-      console.log('🎬 좋아요한 영화 배열:', likedMovies.value)
-      if (likedMovies.value.length > 0) {
-        console.log('🎬 첫 번째 영화 구조:', likedMovies.value[0])
-      }
-
-      console.log('✅ 좋아요한 영화 로드 성공:', likedMovies.value.length)
     } catch (err) {
       console.error('❌ 좋아요한 영화 로드 실패:', err)
       moviesError.value =
@@ -2234,13 +2228,13 @@
     font-weight: 600;
     color: var(--color-text);
     margin: 0 0 8px 0;
-    cursor: default;
+    cursor: pointer;
     transition: color 0.2s;
     line-height: 1.3;
   }
 
   .review-movie-title:hover {
-    color: var(--color-main-opacity-50);
+    color: var(--color-main);
   }
 
   .review-rating {
