@@ -185,17 +185,13 @@
               <div
                 v-if="averageRating > 0"
                 class="rating-item user-rating">
-                <div class="stars-display">
-                  <span
-                    v-for="(star, index) in getStarDisplay(averageRating)"
-                    :key="index"
-                    class="star-item"
-                    :class="star">
-                    ⭐
-                  </span>
-                </div>
-                <span class="rating-value">{{ averageRating.toFixed(1) }}</span>
-                <span class="rating-label">사용자 ({{ reviewCount }})</span>
+                <BaseIcon
+                  name="users"
+                  class="rating-icon" />
+                <span class="rating-value"
+                  >{{ averageRating.toFixed(1) }}점</span
+                >
+                <span class="rating-label">평균 · {{ reviewCount }}명</span>
               </div>
 
               <!-- 좋아요 버튼 -->
@@ -1946,44 +1942,27 @@
     align-items: center;
     gap: 8px;
     background: var(--color-card-background);
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-    padding: 4px 10px;
+    border-radius: var(--border-radius-medium);
+    padding: 8px 12px;
     border: 1px solid var(--color-main-opacity-20);
-    min-width: 100px;
-    min-height: 32px;
-    position: relative;
   }
-  .user-rating .stars-display {
-    gap: 1px;
-    font-size: 13px;
-    background: none;
-    margin-right: 4px;
-    align-items: center;
-  }
-  .user-rating .star-item {
-    font-size: 13px;
-    margin: 0 0.5px;
-    filter: grayscale(0%);
-    opacity: 1;
-  }
-  .user-rating .rating-value {
-    font-size: 15px;
-    font-weight: 700;
+
+  .user-rating .rating-icon {
+    width: 18px;
+    height: 18px;
     color: var(--color-main);
-    margin-right: 2px;
-    letter-spacing: -0.5px;
   }
+
+  .user-rating .rating-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
   .user-rating .rating-label {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--color-highlight-text);
-    font-weight: 400;
-    margin-left: 1px;
-    line-height: 1.6;
-    padding: 0 2px;
-    letter-spacing: -0.2px;
-    display: inline-block;
-    vertical-align: middle;
+    font-weight: 500;
   }
 
   /* OTT 시청 정보 */
