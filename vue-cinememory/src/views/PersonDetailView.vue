@@ -93,9 +93,18 @@
       class="person-detail-loading">
       <div class="loading-content">
         <BaseIcon
-          name="alert-circle"
-          class="loading-icon error" />
-        <h2 class="loading-title">오류가 발생했습니다</h2>
+          :name="
+            error.includes('추가되지 않았습니다') ? 'info' : 'alert-circle'
+          "
+          class="loading-icon"
+          :class="error.includes('추가되지 않았습니다') ? 'info' : 'error'" />
+        <h2 class="loading-title">
+          {{
+            error.includes('추가되지 않았습니다')
+              ? '정보 준비 중'
+              : '오류가 발생했습니다'
+          }}
+        </h2>
         <p class="loading-subtitle">{{ error }}</p>
         <div class="loading-actions">
           <BaseButton
@@ -512,11 +521,15 @@
       // 좋아요 상태 설정
       isLiked.value = personData.is_liked || false
       likeCount.value = personData.like_count || 0
-
-      console.log('✅ 인물 로드 성공:', personData.name)
     } catch (err) {
-      console.error('❌ 인물 로드 실패:', err)
-      error.value = err.response?.data?.error || '인물을 불러올 수 없습니다.'
+      if (err.response?.status === 404) {
+        error.value =
+          '아직 해당 인물의 상세 정보가 추가되지 않았습니다. 곧 업데이트될 예정입니다.'
+      } else {
+        error.value =
+          err.response?.data?.error ||
+          '인물 정보를 불러오는 중 오류가 발생했습니다.'
+      }
     } finally {
       isLoading.value = false
     }
@@ -748,6 +761,10 @@
     height: 64px;
     color: var(--color-inactive-icon);
     margin-bottom: 24px;
+  }
+
+  .loading-icon.info {
+    color: var(--color-main);
   }
 
   .loading-title {
