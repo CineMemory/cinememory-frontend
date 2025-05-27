@@ -9,10 +9,19 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref(localStorage.getItem('token'))
   const isLoading = ref(false)
   const error = ref(null)
+  const showLoginModal = ref(false)
+  const loginModalMode = ref('login')
 
   // 계산된 속성
   const isAuthenticated = computed(() => !!token.value && !!user.value)
   const isGuest = computed(() => !isAuthenticated.value)
+  const openLoginModal = (mode = 'login') => {
+    loginModalMode.value = mode
+    showLoginModal.value = true
+  }
+  const closeLoginModal = () => {
+    showLoginModal.value = false
+  }
 
   // 토큰 설정
   const setToken = (newToken) => {
@@ -314,6 +323,11 @@ export const useAuthStore = defineStore('auth', () => {
     fetchUser,
     initialize,
     clearError,
+
+    showLoginModal,
+    loginModalMode,
+    openLoginModal,
+    closeLoginModal,
 
     // 내부 유틸리티 (필요시 사용)
     setUser: setUserExtended,

@@ -822,7 +822,7 @@
   // 좋아요 토글
   const toggleLike = async () => {
     if (!authStore.isAuthenticated) {
-      alert('로그인이 필요합니다.')
+      authStore.openLoginModal()
       return
     }
 

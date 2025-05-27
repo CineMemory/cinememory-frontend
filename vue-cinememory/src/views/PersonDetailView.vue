@@ -155,6 +155,24 @@
               </button>
             </div>
 
+            <!-- 통계 정보 추가 -->
+            <div class="person-stats">
+              <div class="stat-item">
+                <span class="stat-label">출연작</span>
+                <span class="stat-value">{{ movieCredits.length }}편</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">좋아요</span>
+                <span class="stat-value">{{ likeCount }}</span>
+              </div>
+              <div
+                v-if="person.review_count"
+                class="stat-item">
+                <span class="stat-label">리뷰</span>
+                <span class="stat-value">{{ person.review_count }}</span>
+              </div>
+            </div>
+
             <!-- 기본 정보 -->
             <div class="person-details">
               <div
@@ -409,12 +427,16 @@
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
   }
 
-  const translateDepartment = (department) => {
-    const departmentMap = {
+  const translateDepartment = (role) => {
+    const roleMap = {
+      Actor: '배우',
       Acting: '배우',
+      Director: '감독',
       Directing: '감독',
-      Writing: '각본',
-      Production: '제작',
+      Writer: '각본가',
+      Writing: '각본가',
+      Producer: '제작자',
+      Production: '제작자',
       Camera: '촬영',
       Editing: '편집',
       Sound: '음향',
@@ -423,7 +445,7 @@
       'Visual Effects': '시각효과',
       Crew: '스태프'
     }
-    return departmentMap[department] || department
+    return roleMap[role] || role
   }
 
   // 네비게이션
@@ -485,7 +507,8 @@
   // 좋아요 토글
   const toggleLike = async () => {
     if (!authStore.isAuthenticated) {
-      alert('로그인이 필요합니다.')
+      // 로그인 모달 열기
+      authStore.openLoginModal('login')
       return
     }
 
@@ -493,7 +516,7 @@
 
     isTogglingLike.value = true
     try {
-      const result = await togglePersonLike(person.value.id)
+      const result = await toggleMovieLike(movie.value.movie_id)
       if (result.success) {
         isLiked.value = result.is_liked
         likeCount.value = result.like_count
@@ -542,6 +565,93 @@
 </script>
 
 <style scoped>
+  .person-ratings {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .person-ratings .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px solid var(--color-inactive-icon);
+    color: var(--color-text);
+    padding: 10px 16px;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .person-ratings .like-btn:hover {
+    border-color: var(--color-main);
+    background-color: var(--color-main-opacity-20);
+  }
+
+  .person-ratings .like-btn.liked {
+    border-color: var(--color-alert);
+    background-color: var(--color-alert);
+    color: var(--color-text);
+  }
+
+  .person-ratings .like-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .person-ratings .like-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  .person-ratings .like-count {
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .person-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-inactive-icon);
+    border-bottom: 1px solid var(--color-inactive-icon);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--color-highlight-text);
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 18px;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* 반응형 */
+  @media (max-width: 480px) {
+    .person-stats {
+      gap: 16px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+    }
+  }
   .person-detail-view {
     min-height: 100vh;
     background-color: var(--color-background);
