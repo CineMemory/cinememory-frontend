@@ -946,9 +946,6 @@
       // 성공 시 영화 데이터 다시 로드
       await loadMovie()
       cancelWritingReview()
-
-      // 올바른 메시지 표시
-      alert(isEditing ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.')
     } catch (err) {
       console.error('리뷰 제출 실패:', err)
       alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
