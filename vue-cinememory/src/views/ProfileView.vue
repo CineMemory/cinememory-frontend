@@ -330,8 +330,8 @@
             <div class="movies-grid">
               <div
                 v-for="movie in likedMovies"
-                :key="movie.movie_id"
-                @click="goToMovieDetail(movie.movie_id)"
+                :key="movie.id"
+                @click="goToMovieDetail(movie.id)"
                 class="movie-card">
                 <img
                   :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
@@ -409,13 +409,10 @@
                       v-if="review.movie?.poster_path"
                       :src="`https://image.tmdb.org/t/p/w92${review.movie.poster_path}`"
                       :alt="review.movie.title"
-                      class="review-movie-poster"
-                      @click="goToMovieDetail(review.movie.movie_id)" />
+                      class="review-movie-poster" />
                     <div class="movie-details">
-                      <h4
-                        class="review-movie-title"
-                        @click="goToMovieDetail(review.movie?.movie_id)">
-                        {{ review.movie?.title || '영화 제목' }}
+                      <h4 class="review-movie-title">
+                        {{ review.movie?.title || '영화 제목 없음' }}
                       </h4>
                       <div class="review-rating">
                         <div class="stars-display">
@@ -1283,6 +1280,13 @@
       const response = await getUserLikedMovies()
       likedMovies.value = response.liked_movies || []
 
+      // 🔍 데이터 구조 확인
+      console.log('🎬 좋아요한 영화 전체 응답:', response)
+      console.log('🎬 좋아요한 영화 배열:', likedMovies.value)
+      if (likedMovies.value.length > 0) {
+        console.log('🎬 첫 번째 영화 구조:', likedMovies.value[0])
+      }
+
       console.log('✅ 좋아요한 영화 로드 성공:', likedMovies.value.length)
     } catch (err) {
       console.error('❌ 좋아요한 영화 로드 실패:', err)
@@ -1301,6 +1305,13 @@
 
       const response = await getUserReviews()
       userReviews.value = response.reviews || []
+
+      // 🔍 데이터 구조 확인
+      console.log('📝 리뷰 전체 응답:', response)
+      console.log('📝 리뷰 배열:', userReviews.value)
+      if (userReviews.value.length > 0) {
+        console.log('📝 첫 번째 리뷰 구조:', userReviews.value[0])
+      }
 
       console.log('✅ 사용자 리뷰 로드 성공:', userReviews.value.length)
     } catch (err) {
@@ -2200,13 +2211,13 @@
     font-weight: 600;
     color: var(--color-text);
     margin: 0 0 8px 0;
-    cursor: pointer;
+    cursor: default;
     transition: color 0.2s;
     line-height: 1.3;
   }
 
   .review-movie-title:hover {
-    color: var(--color-main);
+    color: var(--color-main-opacity-50);
   }
 
   .review-rating {
