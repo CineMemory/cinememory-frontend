@@ -2273,7 +2273,14 @@
   .form-actions {
     display: flex;
     gap: 12px;
+    justify-content: flex-end;
+    align-items: center;
     flex-wrap: wrap;
+  }
+
+  .form-actions button {
+    flex-shrink: 0;
+    min-width: 80px;
   }
 
   .submit-btn {
@@ -2564,11 +2571,15 @@
     }
 
     .form-actions {
-      flex-direction: column;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: space-between;
     }
 
     .form-actions button {
-      width: 100%;
+      flex: 1;
+      max-width: 120px;
     }
 
     .reviewer-info {
@@ -2704,6 +2715,15 @@
 
     .cast-character {
       font-size: 10px;
+    }
+
+    .form-actions {
+      gap: 6px;
+    }
+
+    .form-actions button {
+      font-size: 14px;
+      padding: 8px 12px;
     }
   }
 
