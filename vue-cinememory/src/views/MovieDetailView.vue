@@ -1057,21 +1057,15 @@
   }
 
   const goToReviewerProfile = (review) => {
-    let reviewerId = null
-
-    if (review.user_profile?.id) {
-      reviewerId = review.user_profile.id
-    } else if (review.user_id) {
-      reviewerId = review.user_id
-    } else if (review.user) {
-      // user가 문자열이 아닌 ID인 경우
-      if (typeof review.user === 'number') {
-        reviewerId = review.user
-      }
-    }
+    const currentUserId = authStore.user?.id
+    const reviewerId = review.user_profile?.id // 이제 바로 접근 가능
 
     if (reviewerId) {
-      router.push({ name: 'UserProfile', params: { userId: reviewerId } })
+      if (currentUserId && parseInt(reviewerId) === parseInt(currentUserId)) {
+        router.push({ name: 'MyProfile' })
+      } else {
+        router.push({ name: 'UserProfile', params: { userId: reviewerId } })
+      }
     }
   }
 

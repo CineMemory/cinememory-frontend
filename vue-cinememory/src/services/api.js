@@ -102,7 +102,6 @@ const apiRequest = async (endpoint, options = {}) => {
 // 게시글 목록 조회
 export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
   try {
-    // 정렬 파라미터와 함께 API 요청
     const queryParams = new URLSearchParams({
       sort: sortBy,
       page: page.toString(),
@@ -110,29 +109,11 @@ export const getPosts = async (page = 1, limit = 10, sortBy = 'latest') => {
     })
 
     const response = await apiRequest(`/cinememory/community/?${queryParams}`)
-
-    // 응답이 배열인 경우 (직접 게시글 목록)
     const posts = Array.isArray(response) ? response : response.results || []
 
-    // 작성자 정보 변환
-    const transformedPosts = posts.map((post) => ({
-      id: post.id || post.post_id,
-      title: post.title || post.post_title,
-      content: post.content,
-      like_count: post.like_count || 0,
-      comment_count: post.comment_count || 0,
-      is_liked: post.is_liked || false,
-      created_at: post.created_at,
-      updated_at: post.updated_at,
-      tags: Array.isArray(post.tags)
-        ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
-        : [],
-      view_count: post.view_count || 0
-    }))
-
     const result = {
-      results: transformedPosts,
-      count: transformedPosts.length,
+      results: posts,
+      count: posts.length,
       next: null,
       previous: null
     }
@@ -147,65 +128,14 @@ export const getPost = async (postId) => {
   try {
     const response = await apiRequest(`/cinememory/community/post/${postId}/`)
 
-    // Django API 응답 구조에 맞춰 변환
-    let result
     if (response.status === 'success' || response.data) {
-      result = response
+      return response
     } else {
-      // 응답이 직접 게시글 데이터인 경우 - 데이터 변환 적용
-      const transformedPost = {
-        post_id: response.id || parseInt(postId),
-        post_title: response.title || response.post_title,
-        content: response.content,
-        like_count: response.like_count || 0,
-        comment_count: response.comment_count || 0,
-        is_liked: response.is_liked || false,
-        created_at: response.created_at,
-        updated_at: response.updated_at,
-        // 태그 처리: 객체 배열을 문자열 배열로 변환
-        tags: Array.isArray(response.tags)
-          ? response.tags.map((tag) =>
-              typeof tag === 'object' ? tag.name : tag
-            )
-          : [],
-        // 댓글 변환 로직 추가
-        comments: Array.isArray(response.comments)
-          ? response.comments.map((comment) => ({
-              ...comment,
-              // 댓글 작성자 정보도 변환
-              author: {
-                id: comment.user || comment.author_id || comment.author?.id,
-                username:
-                  comment.username ||
-                  comment.author?.username ||
-                  comment.author ||
-                  'Unknown'
-              },
-              // 대댓글 작성자 정보도 변환
-              replies: Array.isArray(comment.replies)
-                ? comment.replies.map((reply) => ({
-                    ...reply,
-                    author: {
-                      id: reply.user || reply.author_id || reply.author?.id,
-                      username:
-                        reply.username ||
-                        reply.author?.username ||
-                        reply.author ||
-                        'Unknown'
-                    }
-                  }))
-                : []
-            }))
-          : []
-      }
-
-      result = {
+      return {
         status: 'success',
-        data: transformedPost
+        data: response
       }
     }
-
-    return result
   } catch (error) {
     console.error('❌ getPost 오류:', error)
     throw error
@@ -403,12 +333,6 @@ export const getPostsByTag = async (tagName) => {
         id: post.id,
         title: post.title,
         content: post.content,
-        // 🔧 작성자 정보 변환
-        author: {
-          id: post.user || post.author_id || post.author?.id,
-          username:
-            post.username || post.author?.username || post.author || 'Unknown'
-        },
         like_count: post.like_count || 0,
         comment_count: post.comment_count || 0,
         is_liked: post.is_liked || false,
@@ -467,47 +391,13 @@ export const getCommunityHome = async () => {
   try {
     const response = await apiRequest('/cinememory/community/')
 
-    // Django의 post_list 응답을 Vue가 기대하는 형식으로 변환
-    const transformedPosts = Array.isArray(response)
-      ? response.map((post) => {
-          return {
-            id: post.id || post.post_id,
-            title: post.title || post.post_title,
-            content: post.content,
-            author: {
-              id:
-                post.author?.id ||
-                post.author_id ||
-                post.user ||
-                post.user_pk ||
-                post.author?.user_pk,
-              username:
-                post.author?.username ||
-                post.author ||
-                post.username ||
-                '사용자'
-            },
-            like_count: post.like_count || 0,
-            comment_count: post.comment_count || 0, // Django에서 제공하는 comment_count 사용
-            is_liked: post.is_liked || false,
-            created_at: post.created_at,
-            updated_at: post.updated_at,
-            // 태그 처리: 객체 배열을 문자열 배열로 변환
-            tags: Array.isArray(post.tags)
-              ? post.tags.map((tag) =>
-                  typeof tag === 'object' ? tag.name : tag
-                )
-              : [],
-            view_count: post.view_count || 0
-          }
-        })
-      : []
+    const posts = Array.isArray(response) ? response : response.results || []
 
     const result = {
       status: 'success',
       data: {
-        recent_posts: transformedPosts,
-        popular_tags: [] // 현재 Django에서 태그 데이터가 없으므로 빈 배열
+        recent_posts: posts,
+        popular_tags: []
       }
     }
 
@@ -823,30 +713,11 @@ export const getUserPosts = async () => {
   try {
     const response = await apiRequest('/cinememory/community/user/posts/')
 
-    // 게시글 데이터 변환
-    const transformedPosts = Array.isArray(response.posts)
-      ? response.posts.map((post) => ({
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          author: {
-            id: post.user_id || post.user,
-            username: post.username || '사용자'
-          },
-          like_count: post.like_count || 0,
-          comment_count: post.comment_count || 0,
-          is_liked: post.is_liked || false,
-          created_at: post.created_at,
-          updated_at: post.updated_at,
-          tags: Array.isArray(post.tags)
-            ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
-            : []
-        }))
-      : []
+    const posts = Array.isArray(response.posts) ? response.posts : []
 
     return {
-      posts: transformedPosts,
-      count: response.count || transformedPosts.length
+      posts: posts,
+      count: response.count || posts.length
     }
   } catch (error) {
     console.error('❌ getUserPosts 오류:', error)
@@ -870,30 +741,13 @@ export const getUserLikedPosts = async () => {
   try {
     const response = await apiRequest('/cinememory/community/user/liked-posts/')
 
-    // 게시글 데이터 변환
-    const transformedPosts = Array.isArray(response.liked_posts)
-      ? response.liked_posts.map((post) => ({
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          author: {
-            id: post.user_id || post.user,
-            username: post.username || '사용자'
-          },
-          like_count: post.like_count || 0,
-          comment_count: post.comment_count || 0,
-          is_liked: true, // 좋아요한 게시글이므로 항상 true
-          created_at: post.created_at,
-          updated_at: post.updated_at,
-          tags: Array.isArray(post.tags)
-            ? post.tags.map((tag) => (typeof tag === 'object' ? tag.name : tag))
-            : []
-        }))
+    const posts = Array.isArray(response.liked_posts)
+      ? response.liked_posts
       : []
 
     return {
-      liked_posts: transformedPosts,
-      count: response.count || transformedPosts.length
+      liked_posts: posts,
+      count: response.count || posts.length
     }
   } catch (error) {
     console.error('❌ getUserLikedPosts 오류:', error)

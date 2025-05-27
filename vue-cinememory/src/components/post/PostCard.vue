@@ -220,10 +220,40 @@
 
   // 액션 함수들
   const goToPost = () => {
-    const postId = props.post.id || props.post.post_id
+    console.log('🔍 PostCard 전체 props.post:', props.post)
+    console.log(
+      '🔍 PostCard props.post의 모든 키:',
+      Object.keys(props.post || {})
+    )
+
+    // 모든 가능한 ID 필드 확인 (pk 추가)
+    console.log('🔍 props.post.id:', props.post.id)
+    console.log('🔍 props.post.post_id:', props.post.post_id)
+    console.log('🔍 props.post.pk:', props.post.pk)
+
+    // ID 우선순위: id > pk > post_id 순으로 확인
+    const postId = props.post.id || props.post.pk || props.post.post_id
+    console.log('🔍 PostCard에서 최종 postId:', postId)
+
+    if (!postId) {
+      console.error('❌ postId가 없습니다!')
+      console.error(
+        '❌ props.post 전체 데이터:',
+        JSON.stringify(props.post, null, 2)
+      )
+      return
+    }
+
+    // postId를 문자열로 변환해서 라우터로 전달
+    const postIdStr = String(postId)
+    console.log('✅ PostDetail로 이동 시도:', {
+      name: 'PostDetail',
+      params: { id: postIdStr }
+    })
+
     router.push({
       name: 'PostDetail',
-      params: { id: postId }
+      params: { id: postIdStr }
     })
   }
 
@@ -235,7 +265,7 @@
     }
 
     try {
-      const postId = props.post.id || props.post.post_id
+      const postId = props.post.id || props.post.pk || props.post.post_id
       const result = await communityStore.togglePostLike(postId)
 
       if (result.success) {
@@ -276,7 +306,7 @@
     }
 
     try {
-      const postId = props.post.id || props.post.post_id
+      const postId = props.post.id || props.post.pk || props.post.post_id
       const result = await communityStore.deletePost(postId)
 
       if (result.success) {

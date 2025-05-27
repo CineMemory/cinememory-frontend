@@ -318,49 +318,11 @@
   const commentId = computed(() => props.comment.comment_id || props.comment.id)
 
   const authorName = computed(() => {
-    // 새로운 API 구조: author가 객체 {id, username}
-    if (
-      typeof props.comment.author === 'object' &&
-      props.comment.author?.username
-    ) {
-      return props.comment.author.username
-    }
-    // 레거시: author가 문자열
-    if (typeof props.comment.author === 'string') {
-      return props.comment.author
-    }
-    // 작성자 정보가 없는 경우에만 Unknown 표시
-    return 'Unknown'
+    return props.comment.author?.username || 'Unknown'
   })
 
   const authorId = computed(() => {
-    const comment = props.comment
-
-    // 1. author 객체에서 ID 추출
-    if (typeof comment.author === 'object' && comment.author?.id) {
-      return comment.author.id
-    }
-
-    // 2. user_id 필드에서 ID 추출 (Django API에서 주로 사용)
-    if (comment.user_id) {
-      return comment.user_id
-    }
-
-    // 3. user 필드에서 ID 추출
-    if (comment.user) {
-      return comment.user
-    }
-
-    // 4. user_pk 필드에서 ID 추출
-    if (comment.user_pk) {
-      return comment.user_pk
-    }
-
-    // 5. author_id 필드에서 ID 추출
-    if (comment.author_id) {
-      return comment.author_id
-    }
-    return null
+    return props.comment.author?.id
   })
 
   const isAuthor = computed(() => {

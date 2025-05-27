@@ -75,7 +75,7 @@
         <!-- 댓글 섹션 -->
         <div class="post-detail-view__comments">
           <CommentSection
-            :post-id="post?.id || post?.post_id"
+            :post-id="String(post?.id || route.params.id)"
             :on-login-required="openLoginModal" />
         </div>
       </div>
@@ -268,29 +268,31 @@
   )
 
   // 게시글 로드
+  // 게시글 로드
   const loadPost = async () => {
-    const postId = String(route.params.id)
-    console.log('상세 페이지 postId:', postId)
+    console.log('🔍 PostDetailView route.params:', route.params)
+    console.log('🔍 PostDetailView route.params.id:', route.params.id)
+    console.log('🔍 PostDetailView route 전체:', route)
 
-    if (!postId) {
+    const postId = route.params.id
+    console.log('PostDetailView 원본 postId:', postId)
+
+    // postId가 없거나 undefined인 경우 체크
+    if (!postId || postId === 'undefined' || postId === undefined) {
+      console.error('❌ PostDetailView: postId가 유효하지 않습니다:', postId)
       router.push({ name: 'Community' })
       return
     }
 
-    const result = await communityStore.fetchPost(postId)
+    // postId를 문자열로 변환
+    const postIdStr = String(postId)
+    console.log('PostDetailView 최종 postId:', postIdStr)
+
+    const result = await communityStore.fetchPost(postIdStr)
     console.log('fetchPost 결과:', result)
 
     if (result.success && result.post) {
-      // 🔍 디버깅: 상세 게시글 데이터 확인
-      console.log('📄 상세 게시글 전체 데이터:', result.post)
-      console.log('📄 상세 게시글 작성자:', result.post?.author)
-      console.log('📄 댓글 전체 데이터:', communityStore.comments)
       if (communityStore.comments.length > 0) {
-        console.log('📄 첫 번째 댓글:', communityStore.comments[0])
-        console.log(
-          '📄 첫 번째 댓글 작성자:',
-          communityStore.comments[0]?.author
-        )
       }
 
       // 페이지 타이틀 설정
