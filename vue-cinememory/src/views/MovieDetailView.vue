@@ -1804,32 +1804,26 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: none;
+    background: transparent !important; /* 모든 상태에서 투명 */
     border: 2px solid var(--color-inactive-icon);
-    color: var(--color-text);
+    color: #fff; /* 숫자, 아이콘 모두 밝게 */
     padding: 8px 16px;
     border-radius: var(--border-radius-medium);
     cursor: pointer;
     font-size: 14px;
     font-family: 'Pretendard-Regular', sans-serif;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
   }
 
   .like-btn:hover {
     border-color: var(--color-main);
-    background-color: var(--color-main-opacity-20);
+    /* 배경색 없음 */
   }
 
   .like-btn.liked {
     border-color: var(--color-alert);
-    background-color: var(--color-alert);
-    color: var(--color-text);
-  }
-
-  .like-btn.liked .like-icon {
-    border-color: var(--color-alert);
-    background-color: var(--color-alert);
-    color: var(--color-text);
+    /* 배경색 없음 */
+    color: #fff;
   }
 
   .like-btn:disabled {
@@ -1840,12 +1834,12 @@
   .like-icon {
     width: 18px;
     height: 18px;
-    color: var(--color-inactive-icon);
+    color: #fff; /* 아이콘도 밝게 */
     transition: color 0.2s;
   }
 
   .like-btn.liked .like-icon {
-    color: var(--color-text);
+    color: #ff4b5c; /* 좋아요 눌렀을 때만 포인트 컬러 */
   }
 
   .like-count {
@@ -2589,5 +2583,31 @@
       font-size: 14px;
       padding: 10px 12px;
     }
+  }
+
+  .person-ratings .like-btn {
+    background: transparent !important;
+    border: 1px solid var(--color-inactive-icon);
+    color: #fff;
+    /* ...기타 동일... */
+  }
+
+  .person-ratings .like-btn:hover {
+    border-color: var(--color-main);
+    /* 배경 없음 */
+  }
+
+  .person-ratings .like-btn.liked {
+    border-color: var(--color-alert);
+    /* 배경 없음 */
+    color: #fff;
+  }
+
+  .person-ratings .like-icon {
+    color: #fff;
+  }
+
+  .person-ratings .like-btn.liked .like-icon {
+    color: #ff4b5c;
   }
 </style>

@@ -598,6 +598,44 @@
 </script>
 
 <style scoped>
+  .person-ratings-bar .like-btn,
+  .like-btn {
+    background: transparent !important;
+    border: 1.5px solid var(--color-inactive-icon);
+    color: #fff !important;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    transition: all 0.2s;
+    box-shadow: none;
+  }
+
+  .person-ratings-bar .like-btn:hover,
+  .like-btn:hover {
+    border-color: var(--color-main);
+    background: transparent !important;
+  }
+
+  .person-ratings-bar .like-btn.liked,
+  .like-btn.liked {
+    border-color: var(--color-alert);
+    background: transparent !important;
+    color: #fff !important;
+  }
+
+  .person-ratings-bar .like-icon,
+  .like-btn .like-icon {
+    color: #fff !important;
+    transition: color 0.2s;
+  }
+
+  .person-ratings-bar .like-btn.liked .like-icon,
+  .like-btn.liked .like-icon {
+    color: #ff4b5c !important;
+  }
+
   .person-ratings-bar {
     display: flex;
     align-items: center;
@@ -628,15 +666,17 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: none;
-    border: 2px solid var(--color-inactive-icon);
+    background: var(--color-card-background);
+    border: 1px solid var(--color-inactive-icon);
     color: var(--color-text);
-    padding: 10px 16px;
+    padding: 8px 16px;
     border-radius: var(--border-radius-medium);
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     transition: all 0.2s ease;
+    min-width: 80px;
+    justify-content: center;
   }
 
   .person-ratings .like-btn:hover {
@@ -644,9 +684,17 @@
     background-color: var(--color-main-opacity-20);
   }
 
+  .person-ratings .like-btn:hover .like-icon {
+    color: var(--color-main);
+  }
+
   .person-ratings .like-btn.liked {
     border-color: var(--color-alert);
     background-color: var(--color-alert);
+    color: var(--color-text);
+  }
+
+  .person-ratings .like-btn.liked .like-icon {
     color: var(--color-text);
   }
 
@@ -656,15 +704,15 @@
   }
 
   .person-ratings .like-icon {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
+    width: 16px;
+    height: 16px;
+    color: var(--color-inactive-icon);
+    transition: color 0.2s ease;
   }
 
   .person-ratings .like-count {
     font-weight: 600;
-    min-width: 20px;
-    text-align: center;
+    font-size: 14px;
   }
 
   .person-stats {
