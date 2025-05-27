@@ -91,50 +91,44 @@
 
   .base-tag {
     display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    border-radius: var(--border-radius-full);
-    font-weight: 500;
-    font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
-    white-space: nowrap;
-    transition: all 0.2s ease;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px; /* border-radius-full 대신 고정값 사용 */
+  font-weight: 500;
+  font-family: 'Pretendard-Regular', 'Pretendard', sans-serif;
+  white-space: nowrap;
+  transition: all 0.2s ease;
   }
 
   /* Variants */
   .base-tag--primary {
     background-color: var(--color-main-opacity-20);
     color: var(--color-main);
-    border: 1px solid var(--color-main-opacity-50);
   }
 
   .base-tag--secondary {
     background-color: var(--color-card-background);
     color: var(--color-highlight-text);
-    border: 1px solid var(--color-inactive-icon);
   }
 
   .base-tag--success {
     background-color: rgba(143, 173, 136, 0.2);
     color: var(--color-rating-good-text);
-    border: 1px solid var(--color-rating-good-text);
   }
 
   .base-tag--warning {
     background-color: var(--color-main-opacity-20);
     color: var(--color-main);
-    border: 1px solid var(--color-main);
   }
 
   .base-tag--error {
     background-color: rgba(255, 56, 56, 0.2);
     color: var(--color-alert);
-    border: 1px solid var(--color-alert);
   }
 
   .base-tag--info {
     background-color: var(--color-card-background-opacity-80);
     color: var(--color-text);
-    border: 1px solid var(--color-highlight-text);
   }
 
   /* Sizes */
@@ -221,15 +215,12 @@
     stroke-width: 2.5;
   }
 
-  /* Hover effects for different variants */
   .base-tag--primary.base-tag--clickable:hover {
     background-color: var(--color-main-opacity-50);
-    border-color: var(--color-main);
   }
 
   .base-tag--secondary.base-tag--clickable:hover {
     background-color: var(--color-search-box);
-    border-color: var(--color-highlight-text);
   }
 
   .base-tag--success.base-tag--clickable:hover {
