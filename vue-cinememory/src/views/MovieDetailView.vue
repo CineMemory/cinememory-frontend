@@ -280,10 +280,12 @@
             </button>
           </div>
           <button
-            v-if="movie.actors.length > 6 && !showAllActors"
-            @click="showAllActors = true"
+            v-if="movie.actors.length > 6"
+            @click="showAllActors = !showAllActors"
             class="show-more-btn">
-            {{ movie.actors.length - 6 }}명 더 보기
+            {{
+              showAllActors ? '접기' : `${movie.actors.length - 6}명 더 보기`
+            }}
           </button>
         </div>
 
