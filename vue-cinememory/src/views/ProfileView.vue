@@ -1314,24 +1314,55 @@
 
   // 탭 변경 시 데이터 로드
   const handleTabChange = (tab) => {
+    // 🔧 탭을 즉시 변경
     activeTab.value = tab
 
-    // 각 탭에 맞는 데이터 로드
-    if (tab === 'liked-movies' && likedMovies.value.length === 0) {
-      loadLikedMovies()
-    } else if (tab === 'reviews' && userReviews.value.length === 0) {
-      loadUserReviews()
-    } else if (tab === 'liked-actors' && likedActors.value.length === 0) {
-      loadLikedActors()
-    } else if (tab === 'liked-directors' && likedDirectors.value.length === 0) {
-      loadLikedDirectors()
-    } else if (tab === 'my-posts' && userPosts.value.length === 0) {
-      loadUserPosts()
-    } else if (tab === 'my-comments' && userComments.value.length === 0) {
-      loadUserComments()
-    } else if (tab === 'liked-posts' && likedPosts.value.length === 0) {
-      loadLikedPosts()
-    }
+    // 데이터가 없는 경우에만 추가 로드 (백업용)
+    setTimeout(() => {
+      if (
+        tab === 'liked-movies' &&
+        likedMovies.value.length === 0 &&
+        !isLoadingMovies.value
+      ) {
+        loadLikedMovies()
+      } else if (
+        tab === 'reviews' &&
+        userReviews.value.length === 0 &&
+        !isLoadingReviews.value
+      ) {
+        loadUserReviews()
+      } else if (
+        tab === 'liked-actors' &&
+        likedActors.value.length === 0 &&
+        !isLoadingActors.value
+      ) {
+        loadLikedActors()
+      } else if (
+        tab === 'liked-directors' &&
+        likedDirectors.value.length === 0 &&
+        !isLoadingDirectors.value
+      ) {
+        loadLikedDirectors()
+      } else if (
+        tab === 'my-posts' &&
+        userPosts.value.length === 0 &&
+        !isLoadingPosts.value
+      ) {
+        loadUserPosts()
+      } else if (
+        tab === 'my-comments' &&
+        userComments.value.length === 0 &&
+        !isLoadingComments.value
+      ) {
+        loadUserComments()
+      } else if (
+        tab === 'liked-posts' &&
+        likedPosts.value.length === 0 &&
+        !isLoadingLikedPosts.value
+      ) {
+        loadLikedPosts()
+      }
+    }, 0)
   }
 
   // 영화 상세로 이동
@@ -1470,8 +1501,22 @@
   }
 
   // 컴포넌트 마운트 시 프로필 로드
-  onMounted(() => {
-    loadProfile()
+  onMounted(async () => {
+    await loadProfile()
+
+    // 🔧 모든 탭의 데이터를 병렬로 미리 로드
+    Promise.all([
+      loadLikedMovies(),
+      loadUserReviews(),
+      loadLikedActors(),
+      loadLikedDirectors(),
+      loadUserPosts(),
+      loadUserComments(),
+      loadLikedPosts()
+    ]).catch((error) => {
+      console.warn('일부 데이터 로드 실패:', error)
+      // 에러가 발생해도 페이지는 정상 동작하도록 함
+    })
   })
 
   // 컴포넌트 언마운트 시 타이머 정리
