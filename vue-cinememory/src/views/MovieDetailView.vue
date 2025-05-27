@@ -259,27 +259,33 @@
           v-if="movie.actors && movie.actors.length > 0"
           class="movie-cast-section">
           <h2 class="section-title">출연진</h2>
-          <div class="cast-list">
-            <button
+          <div class="cast-grid">
+            <div
               v-for="actor in displayedActors"
               :key="actor.actor_id"
               @click="goToPersonDetail(actor.actor_id)"
-              class="cast-item">
-              <img
-                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-                :alt="actor.name"
-                class="cast-photo" />
+              class="cast-card">
+              <div class="cast-photo-container">
+                <img
+                  :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+                  :alt="actor.name"
+                  class="cast-photo"
+                  @error="handleCastImageError" />
+              </div>
               <div class="cast-info">
-                <span class="cast-name">{{
-                  actor.actor?.name || actor.name
-                }}</span>
-                <span
+                <h4 class="cast-name">{{ actor.actor?.name || actor.name }}</h4>
+                <p
                   v-if="actor.character_name"
                   class="cast-character">
                   {{ actor.character_name }}
-                </span>
+                </p>
+                <p
+                  v-else
+                  class="cast-character no-character">
+                  출연
+                </p>
               </div>
-            </button>
+            </div>
           </div>
           <button
             v-if="movie.actors.length > 6"
@@ -683,6 +689,17 @@
       5: '최고에요!'
     }
     return ratingTexts[rating] || ''
+  }
+
+  // 출연진 이미지 에러 처리
+  const handleCastImageError = (event) => {
+    event.target.style.backgroundColor = 'var(--color-inactive-icon)'
+    event.target.style.display = 'flex'
+    event.target.style.alignItems = 'center'
+    event.target.style.justifyContent = 'center'
+    event.target.innerHTML = '👤'
+    event.target.style.fontSize = '24px'
+    event.target.style.border = '3px solid var(--color-inactive-icon)'
   }
 
   // 유틸리티 함수들
@@ -1434,6 +1451,34 @@
     margin-bottom: 40px;
   }
 
+  .cast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .cast-card {
+    background: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+
+  .cast-card:hover {
+    background-color: var(--color-highlight-background);
+    border-color: var(--color-main-opacity-50);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .cast-card:hover .cast-photo {
+    border-color: var(--color-main);
+  }
+
   .cast-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -1459,30 +1504,53 @@
   }
 
   .cast-photo {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 50%;
-    flex-shrink: 0;
+    border: 3px solid var(--color-inactive-icon);
+    transition: border-color 0.2s ease;
+    background-color: var(--color-inactive-icon);
   }
 
   .cast-info {
-    flex: 1;
-    min-width: 0;
+    min-height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
   }
 
   .cast-name {
-    display: block;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 2px;
+    margin: 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .cast-character {
-    display: block;
     font-size: 12px;
     color: var(--color-highlight-text);
+    margin: 0;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .cast-character.no-character {
+    color: var(--color-inactive-text);
+    font-style: italic;
   }
 
   .show-more-btn {
@@ -2518,6 +2586,28 @@
     .like-btn {
       align-self: flex-start;
     }
+
+    .cast-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 16px;
+    }
+
+    .cast-card {
+      padding: 12px;
+    }
+
+    .cast-photo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .cast-name {
+      font-size: 13px;
+    }
+
+    .cast-character {
+      font-size: 11px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -2582,6 +2672,28 @@
     .content-textarea {
       font-size: 14px;
       padding: 10px 12px;
+    }
+
+    .cast-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+    }
+
+    .cast-card {
+      padding: 10px;
+    }
+
+    .cast-photo {
+      width: 50px;
+      height: 50px;
+    }
+
+    .cast-name {
+      font-size: 12px;
+    }
+
+    .cast-character {
+      font-size: 10px;
     }
   }
 
