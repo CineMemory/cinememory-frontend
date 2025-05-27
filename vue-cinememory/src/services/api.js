@@ -793,3 +793,21 @@ export const getUserByUsername = async (username) => {
   )
   return response
 }
+
+// onboardingApi.js에서 사용할 수 있도록 apiRequest를 default export
+const api = {
+  get: (url) => apiRequest(url, { method: 'GET' }),
+  post: (url, data) =>
+    apiRequest(url, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }),
+  put: (url, data) =>
+    apiRequest(url, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+  delete: (url) => apiRequest(url, { method: 'DELETE' })
+}
+
+export default api

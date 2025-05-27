@@ -520,6 +520,372 @@
     <polygon
       v-if="name === 'video'"
       points="23 7 16 12 23 17 23 7" />
+
+    <!-- Compass Icon (모험) -->
+    <circle
+      v-if="name === 'compass'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <polygon
+      v-if="name === 'compass'"
+      points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+
+    <!-- Eye Off Icon (공포) -->
+    <path
+      v-if="name === 'eye-off'"
+      d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94L6.06 6.06" />
+    <path
+      v-if="name === 'eye-off'"
+      d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19l-6.72-6.72" />
+    <path
+      v-if="name === 'eye-off'"
+      d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+    <line
+      v-if="name === 'eye-off'"
+      x1="1"
+      y1="1"
+      x2="23"
+      y2="23" />
+
+    <!-- Zap Icon (액션) -->
+    <polygon
+      v-if="name === 'zap'"
+      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+
+    <!-- Laugh Icon (코미디) -->
+    <circle
+      v-if="name === 'laugh'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <path
+      v-if="name === 'laugh'"
+      d="M8 14s1.5 2 4 2 4-2 4-2" />
+    <line
+      v-if="name === 'laugh'"
+      x1="9"
+      y1="9"
+      x2="9.01"
+      y2="9" />
+    <line
+      v-if="name === 'laugh'"
+      x1="15"
+      y1="9"
+      x2="15.01"
+      y2="9" />
+
+    <!-- Sunrise Icon (서부) -->
+    <path
+      v-if="name === 'sunrise'"
+      d="M17 18a5 5 0 0 0-10 0" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="12"
+      y1="2"
+      x2="12"
+      y2="9" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="4.22"
+      y1="10.22"
+      x2="5.64"
+      y2="11.64" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="1"
+      y1="18"
+      x2="3"
+      y2="18" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="21"
+      y1="18"
+      x2="23"
+      y2="18" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="18.36"
+      y1="11.64"
+      x2="19.78"
+      y2="10.22" />
+    <line
+      v-if="name === 'sunrise'"
+      x1="23"
+      y1="22"
+      x2="1"
+      y2="22" />
+    <polyline
+      v-if="name === 'sunrise'"
+      points="8 6 12 2 16 6" />
+
+    <!-- File Text Icon (다큐멘터리) -->
+    <path
+      v-if="name === 'file-text'"
+      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline
+      v-if="name === 'file-text'"
+      points="14 2 14 8 20 8" />
+    <line
+      v-if="name === 'file-text'"
+      x1="16"
+      y1="13"
+      x2="8"
+      y2="13" />
+    <line
+      v-if="name === 'file-text'"
+      x1="16"
+      y1="17"
+      x2="8"
+      y2="17" />
+    <polyline
+      v-if="name === 'file-text'"
+      points="10 9 9 9 8 9" />
+
+    <!-- CPU Icon (SF) -->
+    <rect
+      v-if="name === 'cpu'"
+      x="4"
+      y="4"
+      width="16"
+      height="16"
+      rx="2"
+      ry="2" />
+    <rect
+      v-if="name === 'cpu'"
+      x="9"
+      y="9"
+      width="6"
+      height="6" />
+    <line
+      v-if="name === 'cpu'"
+      x1="9"
+      y1="1"
+      x2="9"
+      y2="4" />
+    <line
+      v-if="name === 'cpu'"
+      x1="15"
+      y1="1"
+      x2="15"
+      y2="4" />
+    <line
+      v-if="name === 'cpu'"
+      x1="9"
+      y1="20"
+      x2="9"
+      y2="23" />
+    <line
+      v-if="name === 'cpu'"
+      x1="15"
+      y1="20"
+      x2="15"
+      y2="23" />
+    <line
+      v-if="name === 'cpu'"
+      x1="20"
+      y1="9"
+      x2="23"
+      y2="9" />
+    <line
+      v-if="name === 'cpu'"
+      x1="20"
+      y1="14"
+      x2="23"
+      y2="14" />
+    <line
+      v-if="name === 'cpu'"
+      x1="1"
+      y1="9"
+      x2="4"
+      y2="9" />
+    <line
+      v-if="name === 'cpu'"
+      x1="1"
+      y1="14"
+      x2="4"
+      y2="14" />
+
+    <!-- Music Icon (음악) -->
+    <path
+      v-if="name === 'music'"
+      d="M9 18V5l12-2v13" />
+    <circle
+      v-if="name === 'music'"
+      cx="6"
+      cy="18"
+      r="3" />
+    <circle
+      v-if="name === 'music'"
+      cx="18"
+      cy="16"
+      r="3" />
+
+    <!-- Target Icon (전쟁) -->
+    <circle
+      v-if="name === 'target'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <circle
+      v-if="name === 'target'"
+      cx="12"
+      cy="12"
+      r="6" />
+    <circle
+      v-if="name === 'target'"
+      cx="12"
+      cy="12"
+      r="2" />
+
+    <!-- TV Icon (TV영화) -->
+    <rect
+      v-if="name === 'tv'"
+      x="2"
+      y="3"
+      width="20"
+      height="14"
+      rx="2"
+      ry="2" />
+    <line
+      v-if="name === 'tv'"
+      x1="8"
+      y1="21"
+      x2="16"
+      y2="21" />
+    <line
+      v-if="name === 'tv'"
+      x1="12"
+      y1="17"
+      x2="12"
+      y2="21" />
+
+    <!-- Film Icon (기본 영화 아이콘) -->
+    <rect
+      v-if="name === 'film'"
+      x="2"
+      y="3"
+      width="20"
+      height="18"
+      rx="2"
+      ry="2" />
+    <line
+      v-if="name === 'film'"
+      x1="7"
+      y1="3"
+      x2="7"
+      y2="21" />
+    <line
+      v-if="name === 'film'"
+      x1="17"
+      y1="3"
+      x2="17"
+      y2="21" />
+    <line
+      v-if="name === 'film'"
+      x1="2"
+      y1="9"
+      x2="22"
+      y2="9" />
+    <line
+      v-if="name === 'film'"
+      x1="2"
+      y1="15"
+      x2="22"
+      y2="15" />
+
+    <!-- Mouse Pointer Icon -->
+    <path
+      v-if="name === 'mouse-pointer'"
+      d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
+    <path
+      v-if="name === 'mouse-pointer'"
+      d="M13 13l6 6" />
+
+    <!-- Check Circle Icon -->
+    <path
+      v-if="name === 'check-circle'"
+      d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline
+      v-if="name === 'check-circle'"
+      points="22 4 12 14.01 9 11.01" />
+
+    <!-- X Circle Icon -->
+    <circle
+      v-if="name === 'x-circle'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <line
+      v-if="name === 'x-circle'"
+      x1="15"
+      y1="9"
+      x2="9"
+      y2="15" />
+    <line
+      v-if="name === 'x-circle'"
+      x1="9"
+      y1="9"
+      x2="15"
+      y2="15" />
+
+    <!-- Play Circle Icon -->
+    <circle
+      v-if="name === 'play-circle'"
+      cx="12"
+      cy="12"
+      r="10" />
+    <polygon
+      v-if="name === 'play-circle'"
+      points="10 8 16 12 10 16 10 8" />
+
+    <!-- Brain Icon -->
+    <path
+      v-if="name === 'brain'"
+      d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-5 0V6a2.5 2.5 0 0 1 2.5-2.5z" />
+    <path
+      v-if="name === 'brain'"
+      d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 5 0V6a2.5 2.5 0 0 0-2.5-2.5z" />
+
+    <!-- Refresh CW Icon -->
+    <polyline
+      v-if="name === 'refresh-cw'"
+      points="23 4 23 10 17 10" />
+    <polyline
+      v-if="name === 'refresh-cw'"
+      points="1 20 1 14 7 14" />
+    <path
+      v-if="name === 'refresh-cw'"
+      d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" />
+
+    <!-- Share 2 Icon -->
+    <circle
+      v-if="name === 'share-2'"
+      cx="18"
+      cy="5"
+      r="3" />
+    <circle
+      v-if="name === 'share-2'"
+      cx="6"
+      cy="12"
+      r="3" />
+    <circle
+      v-if="name === 'share-2'"
+      cx="18"
+      cy="19"
+      r="3" />
+    <line
+      v-if="name === 'share-2'"
+      x1="8.59"
+      y1="13.51"
+      x2="15.42"
+      y2="17.49" />
+    <line
+      v-if="name === 'share-2'"
+      x1="15.41"
+      y1="6.51"
+      x2="8.59"
+      y2="10.49" />
   </svg>
 </template>
 

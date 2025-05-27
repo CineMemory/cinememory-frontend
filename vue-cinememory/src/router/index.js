@@ -11,6 +11,15 @@ const routes = [
       title: '씨네메모리 - 당신의 인생을 영화로'
     }
   },
+  {
+    path: '/onboarding',
+    name: 'Onboarding',
+    component: () => import('@/views/OnboardingView.vue'),
+    meta: {
+      title: '취향 분석 | 씨네메모리',
+      requireAuth: true
+    }
+  },
   // 인증 페이지
   {
     path: '/auth',
@@ -62,7 +71,8 @@ const routes = [
     component: () => import('@/views/DummyView.vue'),
     meta: {
       title: '나의 시네마틱 여정 | 씨네메모리',
-      requireAuth: true // 로그인 필요한 페이지
+      requireAuth: true,
+      requireOnboarding: true
     }
   },
   {
@@ -125,6 +135,7 @@ const router = createRouter({
 })
 
 // 인증 가드
+// 인증 가드
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
 
@@ -150,6 +161,20 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireGuest && authStore.isAuthenticated) {
     console.log('👤 이미 로그인된 사용자입니다.')
     next({ name: 'Home' })
+    return
+  }
+
+  // 온보딩 완료 체크 - 타임라인만 체크 (마이페이지는 제외)
+  if (
+    authStore.isAuthenticated &&
+    !authStore.user?.onboarding_completed &&
+    to.name !== 'Onboarding' &&
+    to.name !== 'Auth' &&
+    to.name === 'Timeline'
+  ) {
+    // 타임라인만 체크
+    console.log('📝 온보딩이 필요합니다.')
+    next({ name: 'Onboarding' })
     return
   }
 
