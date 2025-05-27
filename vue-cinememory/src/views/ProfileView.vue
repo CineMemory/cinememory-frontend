@@ -1113,29 +1113,50 @@
   }
 
   // 이미지 선택 처리
-  const handleImageSelect = (event) => {
+  const handleImageSelect = async (event) => {
     const file = event.target.files[0]
-    if (file) {
-      // 이미지 파일 검증
-      if (!file.type.startsWith('image/')) {
-        alert('이미지 파일만 업로드 가능합니다.')
-        return
-      }
+    if (!file) return
 
-      // 파일 크기 검증 (5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('파일 크기는 5MB 이하여야 합니다.')
-        return
-      }
+    // 이미지 파일 검증
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.')
+      return
+    }
 
-      editForm.value.profileImage = file
+    // 파일 크기 검증 (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('파일 크기는 5MB 이하여야 합니다.')
+      return
+    }
 
-      // 미리보기 업데이트
+    try {
+      isUpdating.value = true
+
       const reader = new FileReader()
       reader.onload = (e) => {
         profile.value.profile_image_url = e.target.result
       }
       reader.readAsDataURL(file)
+
+      const formData = new FormData()
+      formData.append('profile_image', file)
+
+      const response = await authAPI.updateUserProfile(formData)
+
+      if (response.user && response.user.profile_image_url) {
+        profile.value.profile_image_url = `http://localhost:8000${response.user.profile_image_url}`
+      }
+
+      if (imageInput.value) {
+        imageInput.value.value = ''
+      }
+    } catch (err) {
+      console.error('❌ 프로필 이미지 업로드 실패:', err)
+      alert('프로필 이미지 업로드에 실패했습니다.')
+
+      await loadProfile()
+    } finally {
+      isUpdating.value = false
     }
   }
 
@@ -1151,8 +1172,6 @@
 
       // 이미지가 있으면 FormData, 없으면 일반 객체 사용
       if (editForm.value.profileImage) {
-        console.log('🖼️ 이미지 업로드 시도:', editForm.value.profileImage)
-
         const formData = new FormData()
 
         // 변경된 필드만 추가 (백엔드 필드명에 맞춤)
@@ -1168,9 +1187,7 @@
         formData.append('profile_image', editForm.value.profileImage)
 
         const response = await authAPI.updateUserProfile(formData)
-        console.log('✅ 업데이트 응답:', response)
 
-        // 🔧 프로필 이미지 즉시 업데이트
         if (response.user && response.user.profile_image_url) {
           profile.value.profile_image_url = response.user.profile_image_url
         }
@@ -1187,13 +1204,10 @@
           updateData.password2 = editForm.value.password
         }
 
-        console.log('📤 전송할 JSON 데이터:', updateData)
         const response = await authAPI.updateUserProfile(updateData)
-        console.log('✅ 업데이트 응답:', response)
       }
 
       // 성공 시 프로필 다시 로드
-      console.log('🔄 프로필 정보 다시 로드...')
       await loadProfile()
 
       // 폼 초기화
@@ -1300,14 +1314,6 @@
       const response = await getUserReviews()
       userReviews.value = response.reviews || []
 
-      // 🔍 데이터 구조 확인
-      console.log('📝 리뷰 전체 응답:', response)
-      console.log('📝 리뷰 배열:', userReviews.value)
-      if (userReviews.value.length > 0) {
-        console.log('📝 첫 번째 리뷰 구조:', userReviews.value[0])
-      }
-
-      console.log('✅ 사용자 리뷰 로드 성공:', userReviews.value.length)
     } catch (err) {
       console.error('❌ 사용자 리뷰 로드 실패:', err)
       reviewsError.value =
@@ -1416,7 +1422,6 @@
       const response = await getUserLikedActors()
       likedActors.value = response.liked_actors || []
 
-      console.log('✅ 좋아요한 배우 로드 성공:', likedActors.value.length)
     } catch (err) {
       console.error('❌ 좋아요한 배우 로드 실패:', err)
       actorsError.value =
@@ -1435,7 +1440,6 @@
       const response = await getUserLikedDirectors()
       likedDirectors.value = response.liked_directors || []
 
-      console.log('✅ 좋아요한 감독 로드 성공:', likedDirectors.value.length)
     } catch (err) {
       console.error('❌ 좋아요한 감독 로드 실패:', err)
       directorsError.value =
@@ -1454,7 +1458,6 @@
       const response = await getUserPosts()
       userPosts.value = response.posts || []
 
-      console.log('✅ 사용자 게시글 로드 성공:', userPosts.value.length)
     } catch (err) {
       console.error('❌ 사용자 게시글 로드 실패:', err)
       postsError.value =
@@ -1473,7 +1476,6 @@
       const response = await getUserComments()
       userComments.value = response.comments || []
 
-      console.log('✅ 사용자 댓글 로드 성공:', userComments.value.length)
     } catch (err) {
       console.error('❌ 사용자 댓글 로드 실패:', err)
       commentsError.value =
