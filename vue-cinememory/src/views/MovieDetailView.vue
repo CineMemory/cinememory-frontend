@@ -423,13 +423,6 @@
             class="user-review">
             <div class="review-header">
               <h4>내 리뷰</h4>
-              <div class="review-actions">
-                <button
-                  @click="startWritingReview"
-                  class="edit-review-btn">
-                  수정
-                </button>
-              </div>
             </div>
             <div class="review-rating">
               <div class="stars-display">
@@ -891,50 +884,54 @@
   }
 
   const submitReview = async () => {
-    if (!reviewContent.value.trim()) {
-      alert('리뷰 내용을 입력해주세요.')
-      return
-    }
-
-    if (reviewRating.value === 0) {
-      alert('별점을 선택해주세요.')
-      return
-    }
-
-    isSubmittingReview.value = true
-
-    try {
-      const reviewData = {
-        content: reviewContent.value.trim(),
-        rating: reviewRating.value
-      }
-
-      let response
-      if (userReview.value) {
-        // 리뷰 수정
-        response = await updateMovieReview(
-          movie.value.movie_id,
-          userReview.value.id,
-          reviewData
-        )
-      } else {
-        // 새 리뷰 작성
-        response = await createMovieReview(movie.value.movie_id, reviewData)
-      }
-
-      // 성공 시 영화 데이터 다시 로드
-      await loadMovie()
-      cancelWritingReview()
-      alert(
-        userReview.value ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.'
-      )
-    } catch (err) {
-      console.error('리뷰 제출 실패:', err)
-      alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
-    } finally {
-      isSubmittingReview.value = false
-    }
+  if (!reviewContent.value.trim()) {
+    alert('리뷰 내용을 입력해주세요.')
+    return
   }
+
+  if (reviewRating.value === 0) {
+    alert('별점을 선택해주세요.')
+    return
+  }
+
+  isSubmittingReview.value = true
+
+  try {
+    const reviewData = {
+      content: reviewContent.value.trim(),
+      rating: reviewRating.value
+    }
+
+    // 수정 여부를 미리 저장
+    const isEditing = !!userReview.value
+    
+    let response
+    if (isEditing) {
+      // 리뷰 수정
+      response = await updateMovieReview(
+        movie.value.movie_id,
+        userReview.value.id,
+        reviewData
+      )
+    } else {
+      // 새 리뷰 작성
+      response = await createMovieReview(movie.value.movie_id, reviewData)
+    }
+
+    // 성공 시 영화 데이터 다시 로드
+    await loadMovie()
+    cancelWritingReview()
+    
+    // 올바른 메시지 표시
+    alert(isEditing ? '리뷰가 수정되었습니다.' : '리뷰가 작성되었습니다.')
+    
+  } catch (err) {
+    console.error('리뷰 제출 실패:', err)
+    alert(err.response?.data?.error || '리뷰 처리 중 오류가 발생했습니다.')
+  } finally {
+    isSubmittingReview.value = false
+  }
+}
 
   const deleteReview = async () => {
     if (!userReview.value) return
@@ -2136,13 +2133,13 @@
   }
 
   .rating-display {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--color-main);
   }
 
   .rating-text {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-highlight-text);
     font-style: italic;
   }
@@ -2192,10 +2189,15 @@
   }
 
   .submit-btn {
-    min-width: 120px;
+    min-width: 64px;
+    max-width: 100px;
+    width: auto;
   }
 
   .delete-btn {
+    min-width: 64px;
+    max-width: 100px;
+    width: auto;
     background-color: var(--color-alert);
     border-color: var(--color-alert);
   }
@@ -2206,7 +2208,9 @@
   }
 
   .cancel-btn {
-    min-width: 80px;
+    min-width: 64px;
+    max-width: 100px;
+    width: auto;
   }
 
   /* 내 리뷰 표시 */
@@ -2216,6 +2220,7 @@
     border-radius: var(--border-radius-large);
     margin-bottom: 32px;
     border-left: 4px solid var(--color-main);
+    font-size: 16px;
   }
 
   .user-review .review-header {
@@ -2265,6 +2270,7 @@
     padding: 20px;
     border-radius: var(--border-radius-large);
     margin-bottom: 16px;
+    font-size: 16px;
   }
 
   .review-item .review-header {
@@ -2313,14 +2319,14 @@
   }
 
   .review-content {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text);
     line-height: 1.6;
     margin: 0 0 8px 0;
   }
 
   .review-date {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-highlight-text);
   }
 
