@@ -95,12 +95,13 @@
         </div>
 
         <!-- 프로필 정보 섹션 (모든 탭에서 공통 표시) -->
+        <!-- 프로필 정보 섹션 -->
         <div class="profile-info-section">
           <div class="profile-avatar-container">
             <div class="profile-avatar">
               <BaseAvatar
                 :username="userProfile.username"
-                :image-url="
+                :src="
                   userProfile.profile_image_url
                     ? getFullImageUrl(userProfile.profile_image_url)
                     : null
@@ -110,40 +111,39 @@
           </div>
 
           <div class="profile-details">
-            <h2 class="username">{{ userProfile.username }}</h2>
-            <p class="birth-date">{{ formatBirthDate(userProfile.birth) }}</p>
-            <p class="join-date">
-              가입일: {{ formatJoinDate(userProfile.joined_at) }}
-            </p>
-
-            <!-- 팔로우 통계 추가 -->
-            <UserFollowStats
-              :followers-count="userProfile.followers_count"
-              :following-count="userProfile.following_count"
-              @show-followers="showFollowersModal"
-              @show-following="showFollowingModal"
-              class="follow-stats-section" />
-
-            <!-- 팔로우 버튼 수정 -->
-            <!-- 팔로우 버튼 - 본인 프로필이 아닐 때만 표시 -->
-            <div
-              v-if="!isOwnProfile"
-              class="follow-section">
-              <UserFollowButton
-                :user-id="parseInt(userProfile.user_id)"
-                :initial-follow-state="userProfile.is_following"
-                @follow-changed="handleFollowChanged" />
+            <div class="profile-main-info">
+              <h2 class="username">{{ userProfile.username }}</h2>
+              <p class="birth-date">{{ formatBirthDate(userProfile.birth) }}</p>
+              <p class="join-date">
+                가입일: {{ formatJoinDate(userProfile.joined_at) }}
+              </p>
             </div>
 
-            <!-- 본인 프로필일 때는 프로필 편집 버튼 -->
-            <div
-              v-else
-              class="follow-section">
-              <BaseButton
-                @click="goToMyProfile"
-                variant="primary">
-                프로필 편집
-              </BaseButton>
+            <div class="profile-stats-and-actions">
+              <!-- 팔로우 통계를 우측으로 이동 -->
+              <UserFollowStats
+                :followers-count="userProfile.followers_count"
+                :following-count="userProfile.following_count"
+                @show-followers="showFollowersModal"
+                @show-following="showFollowingModal"
+                class="follow-stats-compact" />
+
+              <!-- 팔로우 버튼 또는 프로필 편집 버튼 -->
+              <div class="action-buttons">
+                <div v-if="!isOwnProfile">
+                  <UserFollowButton
+                    :user-id="parseInt(userProfile.user_id)"
+                    :initial-follow-state="userProfile.is_following"
+                    @follow-changed="handleFollowChanged" />
+                </div>
+                <div v-else>
+                  <BaseButton
+                    @click="goToMyProfile"
+                    variant="primary">
+                    프로필 편집
+                  </BaseButton>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -809,28 +809,40 @@
   /* 프로필 정보 섹션 */
   .profile-info-section {
     display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 24px;
-    background-color: var(--color-card-background);
+    align-items: flex-start;
+    gap: 24px;
+    padding: 32px;
+    background: linear-gradient(
+      135deg,
+      var(--color-card-background) 0%,
+      var(--color-highlight-background) 100%
+    );
     border-radius: var(--border-radius-large);
     margin-bottom: 24px;
+    border: 1px solid var(--color-inactive-icon);
     transition: all 0.3s ease;
   }
 
   .profile-avatar-container {
     position: relative;
+    flex-shrink: 0;
+  }
+
+  .profile-avatar:hover {
+    transform: scale(1.05);
   }
 
   .profile-avatar {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: var(--border-radius-full);
     overflow: hidden;
     background-color: var(--color-highlight-background);
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 3px solid var(--color-main-opacity-20);
+    transition: transform 0.3s ease;
   }
 
   .avatar-image {
@@ -847,32 +859,85 @@
 
   .profile-details {
     flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .profile-main-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .username {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     color: var(--color-text);
-    margin: 0 0 8px 0;
+    margin: 0;
+    letter-spacing: -0.5px;
   }
 
   .birth-date,
   .join-date {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-highlight-text);
-    margin: 4px 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .birth-date::before {
+    content: '🎂';
+    font-size: 14px;
+  }
+
+  .join-date::before {
+    content: '📅';
+    font-size: 14px;
   }
 
   .follow-section {
-    margin-top: 16px;
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
 
   .follow-stats-section {
-    margin: 12px 0;
+    margin: 16px 0;
+    padding: 16px;
+    background-color: var(--color-background-opacity-50);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-inactive-icon);
   }
 
   .follow-btn {
     min-width: 120px;
+  }
+
+  .profile-stats-and-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .follow-stats-compact {
+    padding: 12px 16px;
+    background-color: var(--color-background-opacity-50);
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-inactive-icon);
+    min-width: 120px;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
   }
 
   /* 탭 네비게이션 */
@@ -1359,6 +1424,16 @@
     .profile-container {
       padding: 16px;
       max-width: 100%;
+    }
+
+    .profile-details {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .profile-stats-and-actions {
+      align-items: center;
+      width: 100%;
     }
 
     .profile-tabs {

@@ -757,7 +757,7 @@ export const getUserLikedPosts = async () => {
 
 // 팔로우/언팔로우 토글
 export const followUser = async (userId) => {
-  const response = await apiRequest(`/accounts/${userId}/follow/`, {
+  const response = await apiRequest(`/cinememory/accounts/${userId}/follow/`, {
     method: 'POST'
   })
   return response
@@ -776,18 +776,20 @@ export const getUserProfile = async (userId) => {
 
 // 팔로워 목록 조회
 export const getFollowers = async (userId) => {
-  const response = await apiRequest(`/accounts/${userId}/followers/`)
+  const response = await apiRequest(`/cinememory/accounts/${userId}/followers/`)
   return response
 }
 
 // 팔로잉 목록 조회
 export const getFollowing = async (userId) => {
-  const response = await apiRequest(`/accounts/${userId}/following/`)
+  const response = await apiRequest(`/cinememory/accounts/${userId}/following/`)
   return response
 }
 
 // username으로 사용자 조회
 export const getUserByUsername = async (username) => {
-  const response = await apiRequest(`/accounts/username/${username}/`)
+  const response = await apiRequest(
+    `/cinememory/accounts/username/${username}/`
+  )
   return response
 }
