@@ -202,6 +202,7 @@
 
   .base-input__wrapper {
     position: relative;
+    width: 100%;
   }
 
   .base-input__field {

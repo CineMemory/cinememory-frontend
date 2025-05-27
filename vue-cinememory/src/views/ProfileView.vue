@@ -129,18 +129,32 @@
 
         <!-- 프로필 정보 섹션 (모든 탭에서 공통 표시) -->
         <div class="profile-info-section">
+          <!-- 기존 프로필 아바타 부분을 다음으로 교체 -->
           <div class="profile-avatar-container">
-            <div class="profile-avatar">
+            <div
+              class="profile-avatar"
+              @click="openImageUpload"
+              :class="{ 'profile-avatar--clickable': true }">
               <img
                 v-if="profile.profile_image_url"
-                :src="profile.profile_image_url"
+                :src="getFullImageUrl(profile.profile_image_url)"
                 :alt="profile.username + '의 프로필'"
                 class="avatar-image" />
               <BaseIcon
                 v-else
                 name="user"
                 class="avatar-placeholder" />
+
+              <!-- 호버 시 카메라 오버레이 -->
+              <div class="avatar-overlay">
+                <BaseIcon
+                  name="camera"
+                  class="camera-overlay-icon" />
+                <span class="overlay-text">사진 변경</span>
+              </div>
             </div>
+
+            <!-- 프로필 수정 탭에서만 보이는 편집 버튼 (기존 유지) -->
             <button
               v-if="activeTab === 'profile'"
               @click="openImageUpload"
@@ -149,6 +163,7 @@
                 name="camera"
                 class="camera-icon" />
             </button>
+
             <input
               ref="imageInput"
               type="file"
@@ -1011,11 +1026,12 @@
       const data = await authAPI.getUserProfile()
 
       profile.value = {
-        user_id: data.user_id,
+        user_id: data.id || data.user_id,
         username: data.username,
         birth: data.birth,
         profile_image_url: data.profile_image_url,
-        joined_at: data.joined_at
+        joined_at:
+          data.date_joined || data.joined_at || new Date().toISOString() // 가입일 fallback 추가
       }
 
       // 수정 폼 초기값 설정
@@ -1149,14 +1165,13 @@
 
         formData.append('profile_image', editForm.value.profileImage)
 
-        // FormData 내용 확인
-        console.log('📤 전송할 FormData:')
-        for (let [key, value] of formData.entries()) {
-          console.log(`  ${key}:`, value)
-        }
-
         const response = await authAPI.updateUserProfile(formData)
         console.log('✅ 업데이트 응답:', response)
+
+        // 🔧 프로필 이미지 즉시 업데이트
+        if (response.user && response.user.profile_image_url) {
+          profile.value.profile_image_url = response.user.profile_image_url
+        }
       } else {
         // 이미지가 없으면 JSON으로 전송
         const updateData = {}
@@ -1190,6 +1205,19 @@
     } finally {
       isUpdating.value = false
     }
+  }
+
+  // 이미지 URL을 완전한 URL로 변환하는 함수
+  const getFullImageUrl = (imageUrl) => {
+    if (!imageUrl) return ''
+
+    // 이미 완전한 URL인 경우
+    if (imageUrl.startsWith('http')) {
+      return imageUrl
+    }
+
+    // 상대 경로인 경우 베이스 URL 추가
+    return `http://localhost:8000${imageUrl}`
   }
 
   // 회원 탈퇴 모달 열기
@@ -1235,12 +1263,16 @@
     return date.toLocaleDateString('ko-KR')
   }
 
+  // 날짜 포맷팅 (기존 함수 교체)
   const formatJoinDate = (dateString) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString('ko-KR')
+    if (!dateString) return '정보 없음'
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString('ko-KR')
+    } catch (error) {
+      return '정보 없음'
+    }
   }
-
   // 좋아요한 영화 목록 로드
   const loadLikedMovies = async () => {
     try {
@@ -1507,20 +1539,78 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .profile-avatar--clickable {
+    cursor: pointer;
+  }
+
+  .profile-avatar--clickable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 183, 0, 0.3);
   }
 
   .avatar-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.3s ease;
+  }
+
+  .profile-avatar--clickable:hover .avatar-image {
+    filter: brightness(0.7);
   }
 
   .avatar-placeholder {
     width: 40px;
     height: 40px;
     color: var(--color-inactive-icon);
+    transition: all 0.3s ease;
   }
 
+  .profile-avatar--clickable:hover .avatar-placeholder {
+    color: var(--color-main);
+    transform: scale(1.1);
+  }
+
+  /* 아바타 오버레이 */
+  .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    gap: 4px;
+  }
+
+  .profile-avatar--clickable:hover .avatar-overlay {
+    opacity: 1;
+  }
+
+  .camera-overlay-icon {
+    width: 20px;
+    height: 20px;
+    color: white;
+  }
+
+  .overlay-text {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* 기존 편집 버튼 스타일 유지 */
   .avatar-edit-btn {
     position: absolute;
     bottom: -4px;
@@ -1535,6 +1625,7 @@
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s;
+    z-index: 2;
   }
 
   .avatar-edit-btn:hover {
@@ -1545,6 +1636,53 @@
     width: 16px;
     height: 16px;
     color: var(--color-background);
+  }
+
+  /* 반응형에서 아바타 크기 조정 */
+  @media (max-width: 768px) {
+    .profile-avatar {
+      width: 70px;
+      height: 70px;
+    }
+    .avatar-placeholder {
+      width: 35px;
+      height: 35px;
+    }
+    .camera-overlay-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .overlay-text {
+      font-size: 9px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+    }
+    .avatar-placeholder {
+      width: 30px;
+      height: 30px;
+    }
+    .camera-overlay-icon {
+      width: 16px;
+      height: 16px;
+    }
+    .overlay-text {
+      font-size: 8px;
+    }
+    .avatar-edit-btn {
+      width: 28px;
+      height: 28px;
+      bottom: -2px;
+      right: -2px;
+    }
+    .camera-icon {
+      width: 14px;
+      height: 14px;
+    }
   }
 
   .hidden-input {
@@ -1615,10 +1753,12 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   .username-input-container .form-input {
-    padding-right: 40px; /* 아이콘 공간 확보 */
+    width: 100%;
+    min-width: 300px;
   }
 
   .username-status {
@@ -1785,31 +1925,31 @@
   /* 프로필 탭 네비게이션 */
   .profile-tabs {
     display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 4열 그리드로 변경 */
-  background-color: var(--color-card-background);
-  border-radius: var(--border-radius-large);
-  margin-bottom: 24px;
-  padding: 4px;
-  gap: 4px;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드로 변경 */
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius-large);
+    margin-bottom: 24px;
+    padding: 4px;
+    gap: 4px;
   }
 
   .profile-tab {
     display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;  /* 8px → 6px로 줄임 */
-  padding: 10px 8px;  /* 12px 16px → 10px 8px로 조정 */
-  background: none;
-  border: none;
-  border-radius: var(--border-radius-medium);
-  cursor: pointer;
-  font-size: 13px;  /* 14px → 13px로 조정 */
-  font-weight: 500;
-  color: var(--color-highlight-text);
-  transition: all 0.2s ease;
-  font-family: 'Pretendard-Regular', sans-serif;
-  text-align: center;
-  white-space: nowrap;  /* 텍스트 줄바꿈 방지 */
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* 8px → 6px로 줄임 */
+    padding: 10px 8px; /* 12px 16px → 10px 8px로 조정 */
+    background: none;
+    border: none;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    font-size: 13px; /* 14px → 13px로 조정 */
+    font-weight: 500;
+    color: var(--color-highlight-text);
+    transition: all 0.2s ease;
+    font-family: 'Pretendard-Regular', sans-serif;
+    text-align: center;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   }
 
   .profile-tab:hover {
@@ -2396,21 +2536,21 @@
   @media (max-width: 768px) {
     .profile-container {
       padding: 16px;
-      max-width: 100%;  /* 모바일에서는 전체 너비 사용 */
+      max-width: 100%; /* 모바일에서는 전체 너비 사용 */
     }
-    
+
     .profile-tabs {
-      grid-template-columns: repeat(2, 1fr);  /* 모바일에서는 2열 */
+      grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2열 */
       gap: 3px;
     }
-    
+
     .profile-tab {
       font-size: 12px;
       padding: 8px 6px;
-      flex-direction: column;  /* 모바일에서는 세로 배치 */
+      flex-direction: column; /* 모바일에서는 세로 배치 */
       gap: 4px;
     }
-    
+
     .tab-icon {
       width: 14px;
       height: 14px;
@@ -2421,19 +2561,23 @@
     .profile-container {
       padding: 12px;
     }
-    
+
     .profile-tabs {
       grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .profile-tab {
       font-size: 11px;
       padding: 6px 4px;
     }
-    
+
     .tab-icon {
       width: 12px;
       height: 12px;
+    }
+
+    .username-input-container .form-input {
+      min-width: 250px;
     }
   }
 

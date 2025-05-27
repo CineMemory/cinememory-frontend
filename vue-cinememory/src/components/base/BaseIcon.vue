@@ -499,6 +499,27 @@
       cx="12"
       cy="17"
       r="0.01" />
+
+    <!-- Thumb Up Icon (비율 개선) -->
+    <path
+      v-if="name === 'thumb-up'"
+      d="M7 10V5a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v5" />
+    <path
+      v-if="name === 'thumb-up'"
+      d="M7 10h-2a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-2" />
+
+    <!-- Video Icon -->
+    <rect
+      v-if="name === 'video'"
+      x="2"
+      y="7"
+      width="15"
+      height="10"
+      rx="2"
+      ry="2" />
+    <polygon
+      v-if="name === 'video'"
+      points="23 7 16 12 23 17 23 7" />
   </svg>
 </template>
 
