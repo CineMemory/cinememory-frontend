@@ -117,14 +117,33 @@
               가입일: {{ formatJoinDate(userProfile.joined_at) }}
             </p>
 
-            <!-- 팔로우 버튼 (나중에 구현) -->
-            <div class="follow-section">
+            <!-- 팔로우 통계 추가 -->
+            <UserFollowStats
+              :followers-count="userProfile.followers_count"
+              :following-count="userProfile.following_count"
+              @show-followers="showFollowersModal"
+              @show-following="showFollowingModal"
+              class="follow-stats-section" />
+
+            <!-- 팔로우 버튼 수정 -->
+            <!-- 팔로우 버튼 - 본인 프로필이 아닐 때만 표시 -->
+            <div
+              v-if="!isOwnProfile"
+              class="follow-section">
+              <UserFollowButton
+                :user-id="parseInt(userProfile.user_id)"
+                :initial-follow-state="userProfile.is_following"
+                @follow-changed="handleFollowChanged" />
+            </div>
+
+            <!-- 본인 프로필일 때는 프로필 편집 버튼 -->
+            <div
+              v-else
+              class="follow-section">
               <BaseButton
-                @click="toggleFollow"
-                :variant="isFollowing ? 'secondary' : 'primary'"
-                :disabled="isFollowLoading"
-                class="follow-btn">
-                {{ isFollowing ? '팔로우 취소' : '팔로우' }}
+                @click="goToMyProfile"
+                variant="primary">
+                프로필 편집
               </BaseButton>
             </div>
           </div>
@@ -510,6 +529,15 @@
           </div>
         </div>
       </div>
+      <!-- 팔로우 모달 -->
+      <UserFollowModal
+        :show="showFollowModal"
+        :user-id="parseInt(userProfile.user_id)"
+        :initial-tab="followModalTab"
+        :followers-count="userProfile.followers_count"
+        :following-count="userProfile.following_count"
+        @close="closeFollowModal"
+        @follow-changed="handleFollowChanged" />
     </div>
   </div>
 </template>
@@ -517,19 +545,35 @@
 <script setup>
   import { ref, computed, onMounted } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
+  import { useAuthStore } from '@/stores/auth'
 
   import PageHeader from '@/components/layout/PageHeader.vue'
   import BaseButton from '@/components/base/BaseButton.vue'
   import BaseInput from '@/components/base/BaseInput.vue'
   import BaseIcon from '@/components/base/BaseIcon.vue'
   import BaseSpinner from '@/components/base/BaseSpinner.vue'
+  import UserFollowButton from '@/components/user/UserFollowButton.vue'
+  import UserFollowStats from '@/components/user/UserFollowStats.vue'
+  import { getUserProfile } from '@/services/api'
+
+  import UserFollowButton from '@/components/user/UserFollowButton.vue'
+  import UserFollowStats from '@/components/user/UserFollowStats.vue'
+  import UserFollowModal from '@/components/user/UserFollowModal.vue'
 
   const router = useRouter()
   const route = useRoute()
+  const authStore = useAuthStore()
 
   // 상태
   const isLoading = ref(true)
   const error = ref('')
+  const showFollowModal = ref(false)
+  const followModalTab = ref('followers')
+
+  // 계산된 속성
+  const isOwnProfile = computed(() => {
+    return authStore.user && authStore.user.id === parseInt(route.params.userId)
+  })
 
   // 다른 사용자 프로필 정보
   const userProfile = ref({
@@ -537,7 +581,10 @@
     username: '',
     birth: '',
     profile_image_url: '',
-    joined_at: ''
+    joined_at: '',
+    followers_count: 0,
+    following_count: 0,
+    is_following: false
   })
 
   // 탭별 데이터
@@ -561,7 +608,7 @@
   const directorsError = ref('')
   const postsError = ref('')
 
-  // 팔로우 관련 (나중에 구현)
+  // 팔로우 관련
   const isFollowing = ref(false)
   const isFollowLoading = ref(false)
 
@@ -580,19 +627,21 @@
         return
       }
 
-      // TODO: API 호출 구현
-      // const data = await getUserProfile(userId)
-
-      // 임시 데이터 (나중에 실제 API로 교체)
+      // 실제 API 호출
+      const data = await getUserProfile(userId)
       userProfile.value = {
-        user_id: userId,
-        username: `사용자${userId}`,
-        birth: '1990-01-01',
-        profile_image_url: '',
-        joined_at: '2024-01-01'
+        user_id: data.id,
+        username: data.username,
+        birth: data.birth,
+        profile_image_url: data.profile_image_url,
+        joined_at: data.date_joined || '2024-01-01', // Django User 모델의 date_joined 필드
+        followers_count: data.followers_count || 0,
+        following_count: data.following_count || 0,
+        is_following: data.is_following || false
       }
 
-      console.log('✅ 사용자 프로필 로드 성공:', userProfile.value)
+      // 팔로우 상태 동기화
+      isFollowing.value = data.is_following || false
     } catch (err) {
       console.error('프로필 로드 실패:', err)
       error.value =
@@ -600,6 +649,25 @@
     } finally {
       isLoading.value = false
     }
+  }
+
+  // 팔로워/팔로잉 모달 표시 함수들 추가
+  const showFollowersModal = () => {
+    followModalTab.value = 'followers'
+    showFollowModal.value = true
+  }
+
+  const showFollowingModal = () => {
+    followModalTab.value = 'following'
+    showFollowModal.value = true
+  }
+
+  const closeFollowModal = () => {
+    showFollowModal.value = false
+  }
+
+  const goToMyProfile = () => {
+    router.push({ name: 'Profile' })
   }
 
   // 탭 변경 처리
@@ -623,8 +691,6 @@
   const loadLikedActors = () => console.log('좋아요한 배우 로드 (미구현)')
   const loadLikedDirectors = () => console.log('좋아요한 감독 로드 (미구현)')
   const loadUserPosts = () => console.log('사용자 게시글 로드 (미구현)')
-
-  const toggleFollow = () => console.log('팔로우/언팔로우 (미구현)')
 
   // 네비게이션 함수들
   const goToMovieDetail = (movieId) => {
@@ -802,6 +868,10 @@
 
   .follow-section {
     margin-top: 16px;
+  }
+
+  .follow-stats-section {
+    margin: 12px 0;
   }
 
   .follow-btn {

@@ -919,3 +919,27 @@ export const getUserLikedPosts = async () => {
     throw error
   }
 }
+
+// 팔로우/언팔로우 토글
+export const followUser = async (userId) => {
+  const response = await api.post(`/accounts/${userId}/follow/`)
+  return response.data
+}
+
+// 다른 사용자 프로필 조회 (팔로우 정보 포함)
+export const getUserProfile = async (userId) => {
+  const response = await api.get(`/accounts/${userId}/`)
+  return response.data
+}
+
+// 팔로워 목록 조회
+export const getFollowers = async (userId) => {
+  const response = await api.get(`/accounts/${userId}/followers/`)
+  return response.data
+}
+
+// 팔로잉 목록 조회
+export const getFollowing = async (userId) => {
+  const response = await api.get(`/accounts/${userId}/following/`)
+  return response.data
+}
