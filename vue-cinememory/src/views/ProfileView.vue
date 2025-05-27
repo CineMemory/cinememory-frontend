@@ -127,9 +127,10 @@
           </button>
         </div>
 
-        <!-- 프로필 정보 섹션 (모든 탭에서 공통 표시) -->
-        <div class="profile-info-section">
-          <!-- 기존 프로필 아바타 부분을 다음으로 교체 -->
+        <!-- 프로필 정보 섹션 (프로필 탭에서만 표시) -->
+        <div
+          v-if="activeTab === 'profile'"
+          class="profile-info-section">
           <div class="profile-avatar-container">
             <div
               class="profile-avatar"
@@ -154,7 +155,7 @@
               </div>
             </div>
 
-            <!-- 프로필 수정 탭에서만 보이는 편집 버튼 (기존 유지) -->
+            <!-- 프로필 수정 탭에서만 보이는 편집 버튼 -->
             <button
               v-if="activeTab === 'profile'"
               @click="openImageUpload"
