@@ -1,6 +1,6 @@
 // 🌐 API 통신 서비스
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/'
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
 
 // API 요청 헬퍼 함수
 const apiRequest = async (endpoint, options = {}) => {
