@@ -9,14 +9,14 @@ const timelineApi = {
     try {
       // 온보딩에서 생성된 추천 결과를 가져옴
       const recommendations = await onboardingApi.getUserRecommendations()
-      
+
       if (!recommendations || !recommendations.movies) {
         throw new Error('추천 영화 데이터가 없습니다.')
       }
 
       // 타임라인 형태로 데이터 변환
       const timelineData = await this.transformToTimelineData(recommendations)
-      
+
       return timelineData
     } catch (error) {
       console.error('타임라인 데이터 조회 실패:', error)
@@ -27,10 +27,10 @@ const timelineApi = {
   // 추천 데이터를 타임라인 형태로 변환
   async transformToTimelineData(recommendations) {
     const { taste_summary, movies } = recommendations
-    
+
     // 나이별로 영화를 정렬
     const sortedMovies = movies.sort((a, b) => a.target_age - b.target_age)
-    
+
     // 각 영화에 대해 TMDB 데이터 가져오기
     const enrichedMovies = await Promise.all(
       sortedMovies.map(async (movie, index) => {
@@ -78,8 +78,8 @@ const timelineApi = {
       items: enrichedMovies,
       totalItems: enrichedMovies.length,
       ageRange: {
-        min: Math.min(...enrichedMovies.map(item => item.age)),
-        max: Math.max(...enrichedMovies.map(item => item.age))
+        min: Math.min(...enrichedMovies.map((item) => item.age)),
+        max: Math.max(...enrichedMovies.map((item) => item.age))
       }
     }
   },
@@ -92,7 +92,7 @@ const timelineApi = {
       //   movie_id: movieId
       // })
       // return response
-      
+
       // 현재는 로컬 상태로만 처리
       return { success: true, movieId }
     } catch (error) {
@@ -105,7 +105,8 @@ const timelineApi = {
   async regenerateTimeline() {
     try {
       const newRecommendations = await onboardingApi.regenerateRecommendations()
-      const timelineData = await this.transformToTimelineData(newRecommendations)
+      const timelineData =
+        await this.transformToTimelineData(newRecommendations)
       return timelineData
     } catch (error) {
       console.error('타임라인 재생성 실패:', error)
@@ -114,4 +115,4 @@ const timelineApi = {
   }
 }
 
-export default timelineApi 
+export default timelineApi

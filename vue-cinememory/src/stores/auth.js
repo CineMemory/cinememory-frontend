@@ -119,7 +119,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // 🔍 닉네임 중복 확인
+  // 닉네임 중복 확인
   const checkUsernameAvailability = async (username) => {
     try {
       clearError()
@@ -141,13 +141,44 @@ export const useAuthStore = defineStore('auth', () => {
       let errorMessage = '닉네임 확인에 실패했습니다.'
 
       if (err.response?.data?.error) {
-        errorMessage = err.response.data.error
+        const errorData = err.response.data.error
+        // HTML 응답인 경우 필터링
+        if (
+          typeof errorData === 'string' &&
+          errorData.includes('<!DOCTYPE html>')
+        ) {
+          errorMessage = '사용자명 확인 서비스가 일시적으로 중단되었습니다.'
+        } else {
+          errorMessage = errorData
+        }
       } else if (err.response?.data?.message) {
-        errorMessage = err.response.data.message
+        const messageData = err.response.data.message
+        // HTML 응답인 경우 필터링
+        if (
+          typeof messageData === 'string' &&
+          messageData.includes('<!DOCTYPE html>')
+        ) {
+          errorMessage = '사용자명 확인 서비스가 일시적으로 중단되었습니다.'
+        } else {
+          errorMessage = messageData
+        }
       } else if (err.message) {
-        errorMessage = err.message
+        // 일반 에러 메시지도 HTML 체크
+        if (
+          typeof err.message === 'string' &&
+          err.message.includes('<!DOCTYPE html>')
+        ) {
+          errorMessage = '사용자명 확인 서비스가 일시적으로 중단되었습니다.'
+        } else {
+          errorMessage = err.message
+        }
       } else if (typeof err === 'string') {
-        errorMessage = err
+        // 문자열 에러도 HTML 체크
+        if (err.includes('<!DOCTYPE html>')) {
+          errorMessage = '사용자명 확인 서비스가 일시적으로 중단되었습니다.'
+        } else {
+          errorMessage = err
+        }
       }
 
       console.log('📝 파싱된 에러 메시지:', errorMessage)
