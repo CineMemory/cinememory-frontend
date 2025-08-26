@@ -201,7 +201,7 @@ TMDB_API_KEY=your_tmdb_api_key
 DEBUG=True
 ```
 
-## 📡 API 문서
+## API 문서
 
 ### 인증 API
 - `POST /api/auth/login/`: 로그인
